@@ -2,12 +2,29 @@
 @import "yet-another-react-lightbox/styles.css";
 
 @theme {
+  /* Primary – forest green: nature, trust, health */
   --color-primary: #1a5632;
   --color-primary-light: #2d7a4a;
   --color-primary-dark: #0f3d22;
-  --color-accent: #c8a951;
-  --color-accent-light: #ddc56e;
-  --color-surface: #fafaf7;
-  --color-surface-alt: #f0efe8;
+  /* Accent – warm gold: quality, premium */
+  --color-accent: #b8954a;
+  --color-accent-light: #d4b96a;
+  /* Surfaces – warm off-whites */
+  --color-surface: #fafaf8;
+  --color-surface-alt: #f5f4f0;
+  /* Neutrals */
+  --color-muted: #6b7280;
+  --color-muted-light: #9ca3af;
+  /* Water accent – subtle blue for product/water associations */
+  --color-water: #4a7c8c;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Refined base styles */
+html {
+  scroll-behavior: smooth;
+}
+body {
+  color: #1f2937;
+  letter-spacing: 0.01em;
 }

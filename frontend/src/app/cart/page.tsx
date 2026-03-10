@@ -9,12 +9,16 @@ export default function CartPage() {
   const { cart, loading, lastError, clearError } = useCart();
 
   if (loading && !cart) {
-    return <p className="py-16 text-center text-gray-500">Warenkorb wird geladen…</p>;
+    return (
+      <div className="mx-auto max-w-7xl px-4 py-16 text-center text-gray-500 sm:px-6 lg:px-8">
+        Warenkorb wird geladen…
+      </div>
+    );
   }
 
   if (!cart || cart.items.length === 0) {
     return (
-      <div className="py-16 text-center">
+      <div className="mx-auto max-w-7xl px-4 py-16 text-center sm:px-6 lg:px-8">
         <h1 className="text-2xl font-bold text-gray-900">Ihr Warenkorb ist leer</h1>
         <Link
           href="/shop"
@@ -32,7 +36,7 @@ export default function CartPage() {
       : "0,00 €";
 
   return (
-    <>
+    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <h1 className="mb-8 text-3xl font-bold text-gray-900">Warenkorb</h1>
 
       {lastError && (
@@ -76,6 +80,6 @@ export default function CartPage() {
           Zur Kasse
         </a>
       </div>
-    </>
+    </div>
   );
 }

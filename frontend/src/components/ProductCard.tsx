@@ -11,7 +11,7 @@ export function ProductCard({ product }: { product: Product }) {
   return (
     <Link
       href={`/product/${product.slug}`}
-      className="group overflow-hidden rounded-xl border border-gray-200 bg-white transition hover:shadow-lg"
+      className="group block overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition hover:border-gray-200 hover:shadow-md"
     >
       <div className="aspect-square overflow-hidden bg-surface-alt">
         {product.images[0] ? (
@@ -21,15 +21,17 @@ export function ProductCard({ product }: { product: Product }) {
             width={400}
             height={400}
             unoptimized
-            className="h-full w-full object-cover transition group-hover:scale-105"
+            className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
           />
         ) : (
           <div className="flex h-full items-center justify-center text-gray-400">Kein Bild</div>
         )}
       </div>
-      <div className="p-4">
-        <h3 className="font-semibold text-gray-900 group-hover:text-primary">{product.name}</h3>
-        <p className="mt-1 text-lg font-bold text-primary">{price}</p>
+      <div className="p-6">
+        <h3 className="font-semibold text-gray-900 transition group-hover:text-primary">
+          {product.name}
+        </h3>
+        <p className="mt-2 text-lg font-bold text-primary">{price}</p>
       </div>
     </Link>
   );

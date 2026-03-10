@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
@@ -19,13 +20,25 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${inter.className} bg-surface text-gray-900 antialiased`}>
         <CartProvider>
           <Header />
-          <main className="mx-auto min-h-screen max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+          <main className="min-h-screen">
             <AnimateOnScroll variant="fade-up">
               {children}
             </AnimateOnScroll>
           </main>
-          <footer className="border-t border-gray-200 bg-white py-8 text-center text-sm text-gray-500">
-            &copy; {new Date().getFullYear()} Öfflinger. Alle Rechte vorbehalten.
+          <footer className="border-t border-gray-200 bg-white">
+            <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+              <div className="flex flex-col items-center gap-6 sm:flex-row sm:justify-between">
+                <p className="text-sm text-gray-500">
+                  &copy; {new Date().getFullYear()} Öfflinger. Alle Rechte vorbehalten.
+                </p>
+                <Link
+                  href="/shop"
+                  className="text-sm font-medium text-primary transition hover:text-primary-light"
+                >
+                  Zum Shop
+                </Link>
+              </div>
+            </div>
           </footer>
         </CartProvider>
       </body>

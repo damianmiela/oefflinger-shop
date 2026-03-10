@@ -30,8 +30,9 @@ export default async function ProductPage({ params }: Props) {
       : "Preis auf Anfrage";
 
   return (
-    <div className="grid gap-12 lg:grid-cols-2">
-      <div className="aspect-square overflow-hidden rounded-xl bg-surface-alt">
+    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <div className="grid gap-12 lg:grid-cols-2">
+        <div className="aspect-square overflow-hidden rounded-xl bg-surface-alt">
         {product.images[0] ? (
           <ClickableImage
             src={product.images[0].src}
@@ -44,9 +45,9 @@ export default async function ProductPage({ params }: Props) {
         ) : (
           <div className="flex h-full items-center justify-center text-gray-400">Kein Bild</div>
         )}
-      </div>
+        </div>
 
-      <div className="flex flex-col justify-center">
+        <div className="flex flex-col justify-center">
         <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
         <p className="mt-2 text-2xl font-semibold text-primary">{priceDisplay}</p>
 
@@ -74,6 +75,7 @@ export default async function ProductPage({ params }: Props) {
             dangerouslySetInnerHTML={{ __html: product.description }}
           />
         )}
+        </div>
       </div>
     </div>
   );
