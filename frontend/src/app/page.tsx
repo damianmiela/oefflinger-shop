@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getProducts } from "@/lib/woo/api";
 import { ProductCard } from "@/components/ProductCard";
+import { AnimateChildren } from "@/components/AnimateChildren";
 import type { Product } from "@/types";
 
 export default async function HomePage() {
@@ -32,11 +33,14 @@ export default async function HomePage() {
       {products.length > 0 && (
         <section className="py-12">
           <h2 className="mb-8 text-center text-2xl font-bold text-gray-800">Unsere Bestseller</h2>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <AnimateChildren
+            className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            stagger={80}
+          >
             {products.slice(0, 6).map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
-          </div>
+          </AnimateChildren>
         </section>
       )}
 

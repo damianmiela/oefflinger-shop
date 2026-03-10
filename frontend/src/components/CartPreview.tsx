@@ -1,0 +1,130 @@
+"use client";
+
+import { useState, useRef, useCallback } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { slugFromPermalink } from "@/lib/woo/utils";
+import { buildCheckoutUrl } from "@/lib/woo/checkout";
+import { useCart } from "@/context/CartContext";
+import type { CartItemData } from "@/types";
+
+const HOVER_DELAY_MS = 300;
+
+function CartPreviewItem({ item }: { item: CartItemData }) {
+  const slug = slugFromPermalink(item.permalink);
+  const lineTotal =
+    Number(item.totals.line_total) > 0
+      ? `${(Number(item.totals.line_total) / 100).toFixed(2)} ${item.totals.currency_symbol}`
+      : "";
+
+  const content = (
+    <div className="flex items-center gap-3 py-2">
+      <div className="h-10 w-10 shrink-0 overflow-hidden rounded bg-surface-alt">
+        {item.images[0] ? (
+          <Image
+            src={item.images[0].src}
+            alt={item.images[0].alt || item.name}
+            width={40}
+            height={40}
+            unoptimized
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center text-[10px] text-gray-400">
+            —
+          </div>
+        )}
+      </div>
+      <div className="min-w-0 flex-1">
+        <p className="truncate text-sm font-medium text-gray-900">{item.name}</p>
+        <p className="text-xs text-gray-500">
+          {item.quantity} × {lineTotal}
+        </p>
+      </div>
+    </div>
+  );
+
+  if (slug) {
+    return (
+      <Link href={`/product/${slug}`} className="block transition hover:bg-gray-50">
+        {content}
+      </Link>
+    );
+  }
+  return <div className="block">{content}</div>;
+}
+
+export function CartPreview() {
+  const { cart } = useCart();
+  const [visible, setVisible] = useState(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const show = useCallback(() => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => setVisible(true), HOVER_DELAY_MS);
+  }, []);
+
+  const hide = useCallback(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    setVisible(false);
+  }, []);
+
+  const itemCount = cart?.items_count ?? 0;
+  const totalPrice =
+    cart && Number(cart.totals.total_price) > 0
+      ? `${(Number(cart.totals.total_price) / 100).toFixed(2)} ${cart.totals.currency_symbol}`
+      : null;
+
+  return (
+    <div
+      ref={containerRef}
+      className="relative"
+      onMouseEnter={show}
+      onMouseLeave={hide}
+    >
+      <Link
+        href="/cart"
+        className="relative text-sm font-medium text-gray-700 transition hover:text-primary"
+      >
+        Warenkorb
+        {itemCount > 0 && (
+          <span className="absolute -top-2 -right-4 flex h-5 w-5 items-center justify-center rounded-full bg-accent text-xs font-bold text-white">
+            {itemCount}
+          </span>
+        )}
+      </Link>
+
+      {visible && itemCount > 0 && (
+        <div
+          className="absolute right-0 top-full z-50 mt-2 w-80 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg"
+          onMouseEnter={show}
+          onMouseLeave={hide}
+        >
+          <div className="border-b border-gray-100 px-4 py-3">
+            <p className="text-sm font-semibold text-gray-900">Warenkorb-Vorschau</p>
+          </div>
+          <div className="max-h-64 overflow-y-auto px-4">
+            {cart?.items.map((item) => (
+              <CartPreviewItem key={item.key} item={item} />
+            ))}
+          </div>
+          <div className="border-t border-gray-100 px-4 py-3">
+            <p className="mb-2 text-sm font-semibold text-gray-900">
+              Gesamt: {totalPrice}
+            </p>
+            <Link
+              href={buildCheckoutUrl(cart!.items)}
+              className="block w-full rounded-lg bg-primary py-2 text-center text-sm font-semibold text-white transition hover:bg-primary-light"
+            >
+              Zur Kasse
+            </Link>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

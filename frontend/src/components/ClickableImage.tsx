@@ -10,6 +10,8 @@ interface ClickableImageProps {
   width: number;
   height: number;
   className?: string;
+  /** Set for LCP image (above the fold, e.g. product page hero) */
+  priority?: boolean;
 }
 
 export function ClickableImage({
@@ -18,6 +20,7 @@ export function ClickableImage({
   width,
   height,
   className = "",
+  priority = false,
 }: ClickableImageProps) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
@@ -35,6 +38,7 @@ export function ClickableImage({
           width={width}
           height={height}
           unoptimized
+          priority={priority}
           className={`h-full w-full object-cover transition hover:opacity-95 ${className}`}
         />
       </button>

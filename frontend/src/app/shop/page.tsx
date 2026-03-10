@@ -1,5 +1,6 @@
 import { getProducts } from "@/lib/woo/api";
 import { ProductCard } from "@/components/ProductCard";
+import { AnimateChildren } from "@/components/AnimateChildren";
 import type { Product } from "@/types";
 
 export const metadata = {
@@ -20,11 +21,14 @@ export default async function ShopPage() {
       <h1 className="mb-8 text-3xl font-bold text-gray-900">Alle Produkte</h1>
 
       {products.length > 0 ? (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <AnimateChildren
+          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          stagger={60}
+        >
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
-        </div>
+        </AnimateChildren>
       ) : (
         <div className="rounded-lg border border-dashed border-gray-300 py-16 text-center">
           <p className="text-gray-500">
