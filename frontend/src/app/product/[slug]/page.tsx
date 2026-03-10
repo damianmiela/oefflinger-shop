@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import { getProductBySlug } from "@/lib/woo/api";
 import { AddToCartButton } from "./AddToCartButton";
+import { StockStatus } from "./StockStatus";
+import { ClickableImage } from "@/components/ClickableImage";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -32,13 +33,12 @@ export default async function ProductPage({ params }: Props) {
     <div className="grid gap-12 lg:grid-cols-2">
       <div className="aspect-square overflow-hidden rounded-xl bg-surface-alt">
         {product.images[0] ? (
-          <Image
+          <ClickableImage
             src={product.images[0].src}
             alt={product.images[0].alt || product.name}
             width={600}
             height={600}
-            unoptimized
-            className="h-full w-full object-cover"
+            className="h-full w-full rounded-xl"
           />
         ) : (
           <div className="flex h-full items-center justify-center text-gray-400">Kein Bild</div>
@@ -57,7 +57,10 @@ export default async function ProductPage({ params }: Props) {
         )}
 
         {product.is_purchasable && (product.is_in_stock || product.is_on_backorder) && (
-          <AddToCartButton productId={product.id} />
+          <>
+            <StockStatus product={product} />
+            <AddToCartButton product={product} />
+          </>
         )}
 
         {!product.is_in_stock && !product.is_on_backorder && (

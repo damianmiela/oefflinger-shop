@@ -14,6 +14,13 @@ export interface ProductPrice {
   currency_symbol: string;
 }
 
+export interface QuantityLimits {
+  minimum: number;
+  maximum: number;
+  multiple_of: number;
+  editable: boolean;
+}
+
 export interface Product {
   id: number;
   name: string;
@@ -28,6 +35,8 @@ export interface Product {
   is_on_backorder?: boolean;
   is_purchasable: boolean;
   permalink: string;
+  quantity_limits?: QuantityLimits;
+  low_stock_remaining?: number | null;
 }
 
 export interface CartItemData {
@@ -37,8 +46,10 @@ export interface CartItemData {
   name: string;
   short_description: string;
   sku: string;
+  permalink?: string;
   images: ProductImage[];
   prices: ProductPrice;
+  quantity_limits?: QuantityLimits;
   totals: {
     line_subtotal: string;
     line_total: string;

@@ -6,7 +6,7 @@ import { CartItem } from "@/components/CartItem";
 import { buildCheckoutUrl } from "@/lib/woo/checkout";
 
 export default function CartPage() {
-  const { cart, loading } = useCart();
+  const { cart, loading, lastError, clearError } = useCart();
 
   if (loading && !cart) {
     return <p className="py-16 text-center text-gray-500">Warenkorb wird geladen…</p>;
@@ -34,6 +34,22 @@ export default function CartPage() {
   return (
     <>
       <h1 className="mb-8 text-3xl font-bold text-gray-900">Warenkorb</h1>
+
+      {lastError && (
+        <div
+          className="mb-6 flex items-center justify-between rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800"
+          role="alert"
+        >
+          <span>{lastError.message.replace(/^WooCommerce Store API error: /, "")}</span>
+          <button
+            onClick={clearError}
+            className="text-amber-600 hover:text-amber-800"
+            aria-label="Schließen"
+          >
+            &times;
+          </button>
+        </div>
+      )}
 
       <div className="divide-y divide-gray-200 rounded-xl border border-gray-200 bg-white">
         {cart.items.map((item) => (
