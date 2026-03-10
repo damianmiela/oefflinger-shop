@@ -1,0 +1,12 @@
+---
+description: Always commit changes after making edits
+alwaysApply: true
+---
+
+# Git Commit Rule
+
+After completing a set of related edits, always create a git commit with a clear, descriptive message.
+
+- Commit when a logical unit of work is done (feature, fix, refactor)
+- Use conventional commit style: `type(scope): message` (e.g. `fix(woo): add stock quantity to product API`)
+- Keep commits focused; avoid mixing unrelated changes

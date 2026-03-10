@@ -37,6 +37,8 @@ export interface Product {
   permalink: string;
   quantity_limits?: QuantityLimits;
   low_stock_remaining?: number | null;
+  /** Stock quantity when manage_stock is enabled (Store API may return this) */
+  stock_quantity?: number | null;
 }
 
 export interface CartItemData {

@@ -8,8 +8,13 @@ export function AddToCartButton({ product }: { product: Product }) {
   const { addItem, loading, lastError, clearError } = useCart();
   const [added, setAdded] = useState(false);
 
-  const max = product.quantity_limits?.maximum ?? product.low_stock_remaining ?? 9999;
-  const effectiveMax = typeof max === "number" && max < 9999 ? max : 9999;
+  const maxFromLimits = product.quantity_limits?.maximum;
+  const maxFromLowStock = product.low_stock_remaining;
+  const maxFromStock = product.stock_quantity;
+  const candidates = [maxFromLimits, maxFromLowStock, maxFromStock].filter(
+    (n): n is number => typeof n === "number" && n >= 0
+  );
+  const effectiveMax = candidates.length > 0 ? Math.min(...candidates, 9999) : 9999;
 
   const [quantity, setQuantity] = useState(1);
 
