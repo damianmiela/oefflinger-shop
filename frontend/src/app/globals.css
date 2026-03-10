@@ -2,21 +2,19 @@
 @import "yet-another-react-lightbox/styles.css";
 
 @theme {
-  /* Primary – forest green: nature, trust, health */
-  --color-primary: #1a5632;
-  --color-primary-light: #2d7a4a;
-  --color-primary-dark: #0f3d22;
+  /* Primary – deep blue: water, trust, clarity, Rheinland-Pfalz */
+  --color-primary: #1e5f74;
+  --color-primary-light: #2d7a94;
+  --color-primary-dark: #0f3d4a;
   /* Accent – warm gold: quality, premium */
   --color-accent: #b8954a;
   --color-accent-light: #d4b96a;
-  /* Surfaces – warm off-whites */
-  --color-surface: #fafaf8;
-  --color-surface-alt: #f5f4f0;
+  /* Surfaces – cool off-whites */
+  --color-surface: #f8fafb;
+  --color-surface-alt: #f0f4f6;
   /* Neutrals */
   --color-muted: #6b7280;
   --color-muted-light: #9ca3af;
-  /* Water accent – subtle blue for product/water associations */
-  --color-water: #4a7c8c;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 

@@ -25,15 +25,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               {children}
             </AnimateOnScroll>
           </main>
-          <footer className="border-t border-gray-200 bg-white">
+          <footer className="border-t border-gray-200 bg-primary-dark">
             <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
               <div className="flex flex-col items-center gap-6 sm:flex-row sm:justify-between">
-                <p className="text-sm text-gray-500">
-                  &copy; {new Date().getFullYear()} Öfflinger. Alle Rechte vorbehalten.
+                <p className="text-sm text-white/80">
+                  &copy; {new Date().getFullYear()} Öfflinger · Rheinland-Pfalz, Deutschland
                 </p>
                 <Link
                   href="/shop"
-                  className="text-sm font-medium text-primary transition hover:text-primary-light"
+                  className="text-sm font-medium text-white transition hover:text-white/90"
                 >
                   Zum Shop
                 </Link>

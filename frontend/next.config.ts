@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
         port: "4001",
         pathname: "/wp-content/uploads/**",
       },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        pathname: "/**",
+      },
     ],
   },
 };
