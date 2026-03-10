@@ -48,10 +48,12 @@ export default async function ProductPage({ params }: Props) {
         <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
         <p className="mt-2 text-2xl font-semibold text-primary">{priceDisplay}</p>
 
-        <div
-          className="prose prose-gray mt-6 max-w-none"
-          dangerouslySetInnerHTML={{ __html: product.description }}
-        />
+        {product.short_description && (
+          <div
+            className="prose prose-gray mt-6 max-w-none text-gray-600"
+            dangerouslySetInnerHTML={{ __html: product.short_description }}
+          />
+        )}
 
         {product.is_purchasable && (product.is_in_stock || product.is_on_backorder) && (
           <AddToCartButton productId={product.id} />
@@ -59,6 +61,13 @@ export default async function ProductPage({ params }: Props) {
 
         {!product.is_in_stock && !product.is_on_backorder && (
           <p className="mt-6 text-sm text-red-600">Derzeit nicht auf Lager.</p>
+        )}
+
+        {product.description && (
+          <div
+            className="prose prose-gray mt-10 max-w-none border-t border-gray-200 pt-8"
+            dangerouslySetInnerHTML={{ __html: product.description }}
+          />
         )}
       </div>
     </div>

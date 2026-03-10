@@ -12,6 +12,11 @@ until $WP db check >/dev/null 2>&1; do
     sleep 3
 done
 
+echo "[setup] Fixing uploads directory permissions (enables product image uploads)..."
+mkdir -p /var/www/html/wp-content/uploads
+chown -R www-data:www-data /var/www/html/wp-content/uploads
+chmod -R 775 /var/www/html/wp-content/uploads
+
 if ! $WP core is-installed 2>/dev/null; then
     echo "[setup] Running WordPress core install..."
     $WP core install \
