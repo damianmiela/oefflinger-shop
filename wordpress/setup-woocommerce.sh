@@ -2,6 +2,10 @@
 
 WP="wp --allow-root --path=/var/www/html"
 
+echo "[setup] Installing CORS mu-plugin for headless frontend..."
+mkdir -p /var/www/html/wp-content/mu-plugins
+cp /usr/src/wordpress/wp-content/mu-plugins/cors-api.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
+
 echo "[setup] Waiting for WordPress files and database connection..."
 
 until $WP db check >/dev/null 2>&1; do
