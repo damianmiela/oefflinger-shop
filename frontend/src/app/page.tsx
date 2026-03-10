@@ -229,8 +229,8 @@ export default async function HomePage() {
           <h2 className="text-center text-3xl font-bold tracking-tight text-primary-dark sm:text-4xl">
             Warum Öfflinger?
           </h2>
-          <div className="mx-auto mt-16 grid max-w-5xl gap-10 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="rounded-2xl bg-white p-8 shadow-sm transition hover:shadow-md">
+          <div className="mx-auto mt-16 grid max-w-5xl gap-10 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="flex flex-col items-center rounded-2xl bg-white p-8 text-center shadow-sm transition hover:shadow-md">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
                 <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
@@ -254,7 +254,7 @@ export default async function HomePage() {
               </p>
             </div>
 
-            <div className="rounded-2xl bg-white p-8 shadow-sm transition hover:shadow-md">
+            <div className="flex flex-col items-center rounded-2xl bg-white p-8 text-center shadow-sm transition hover:shadow-md">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
                 <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
@@ -271,24 +271,7 @@ export default async function HomePage() {
               </p>
             </div>
 
-            <div className="rounded-2xl bg-white p-8 shadow-sm transition hover:shadow-md">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                  />
-                </svg>
-              </div>
-              <h3 className="mt-6 text-lg font-semibold text-gray-900">Transparenz</h3>
-              <p className="mt-2 text-gray-600">
-                Offene Kommunikation über Herstellung und Inhaltsstoffe.
-              </p>
-            </div>
-
-            <div className="rounded-2xl bg-white p-8 shadow-sm transition hover:shadow-md">
+            <div className="flex flex-col items-center rounded-2xl bg-white p-8 text-center shadow-sm transition hover:shadow-md">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
                 <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
