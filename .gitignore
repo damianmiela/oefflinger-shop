@@ -2,6 +2,9 @@
 .env
 frontend/.env.local
 
+# Documentation (local only)
+_docs/
+
 # Node
 node_modules/
 frontend/node_modules/
