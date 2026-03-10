@@ -20,6 +20,7 @@ export function ProductCard({ product }: { product: Product }) {
             alt={product.images[0].alt || product.name}
             width={400}
             height={400}
+            unoptimized
             className="h-full w-full object-cover transition group-hover:scale-105"
           />
         ) : (

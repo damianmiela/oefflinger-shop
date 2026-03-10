@@ -37,6 +37,7 @@ export default async function ProductPage({ params }: Props) {
             alt={product.images[0].alt || product.name}
             width={600}
             height={600}
+            unoptimized
             className="h-full w-full object-cover"
           />
         ) : (

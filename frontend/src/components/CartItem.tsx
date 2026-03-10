@@ -21,6 +21,7 @@ export function CartItem({ item }: { item: CartItemData }) {
             alt={item.images[0].alt || item.name}
             width={64}
             height={64}
+            unoptimized
             className="h-full w-full object-cover"
           />
         ) : (
