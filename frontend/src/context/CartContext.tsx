@@ -56,18 +56,30 @@ export function CartProvider({ children }: { children: ReactNode }) {
     async (productId: number, quantity: number = 1) => {
       setLoading(true);
       try {
-        const { data, token } = await wooApi.addToCart(
-          productId,
-          quantity,
-          getStoredToken(),
-        );
-        setCart(data);
-        if (token) storeToken(token);
+        const existingItem = cart?.items.find((i) => i.id === productId);
+        if (existingItem) {
+          const newQty = existingItem.quantity + quantity;
+          const { data, token } = await wooApi.updateCartItem(
+            existingItem.key,
+            newQty,
+            getStoredToken(),
+          );
+          setCart(data);
+          if (token) storeToken(token);
+        } else {
+          const { data, token } = await wooApi.addToCart(
+            productId,
+            quantity,
+            getStoredToken(),
+          );
+          setCart(data);
+          if (token) storeToken(token);
+        }
       } finally {
         setLoading(false);
       }
     },
-    [],
+    [cart?.items],
   );
 
   const removeItem = useCallback(async (itemKey: string) => {

@@ -52,7 +52,14 @@ async function cartApiFetch<T>(
   });
 
   if (!res.ok) {
-    throw new Error(`WooCommerce Store API error: ${res.status} ${res.statusText}`);
+    let message = `${res.status} ${res.statusText}`;
+    try {
+      const errBody = (await res.json()) as { message?: string; code?: string };
+      if (errBody?.message) message = errBody.message;
+    } catch {
+      // ignore parse errors
+    }
+    throw new Error(`WooCommerce Store API error: ${message}`);
   }
 
   const data = (await res.json()) as T;
