@@ -1,0 +1,30 @@
+# Environment variables (contains passwords)
+.env
+frontend/.env.local
+
+# Node
+node_modules/
+frontend/node_modules/
+frontend/.next/
+
+# WordPress uploads & plugins (managed by Docker)
+wordpress/wp-content/
+
+# Docker volumes
+db_data/
+wp_data/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
