@@ -1,25 +1,35 @@
 #!/bin/bash
 
-echo "[setup] Waiting for WordPress to become ready..."
+WP="wp --allow-root --path=/var/www/html"
 
-until wp core is-installed --allow-root --path=/var/www/html 2>/dev/null; do
-    sleep 5
+echo "[setup] Waiting for WordPress files and database connection..."
+
+until $WP db check >/dev/null 2>&1; do
+    sleep 3
 done
+
+if ! $WP core is-installed 2>/dev/null; then
+    echo "[setup] Running WordPress core install..."
+    $WP core install \
+        --url="${WP_URL:-http://localhost:4001}" \
+        --title="Öfflinger" \
+        --admin_user="${WP_ADMIN_USER:-admin}" \
+        --admin_password="${WP_ADMIN_PASSWORD:-admin}" \
+        --admin_email="${WP_ADMIN_EMAIL:-admin@oefflinger.de}" \
+        --skip-email
+fi
 
 echo "[setup] WordPress is installed. Checking WooCommerce..."
 
-if ! wp plugin is-installed woocommerce --allow-root --path=/var/www/html 2>/dev/null; then
+if ! $WP plugin is-installed woocommerce 2>/dev/null; then
     echo "[setup] Installing WooCommerce..."
-    wp plugin install woocommerce --activate --allow-root --path=/var/www/html
+    $WP plugin install woocommerce --activate
 else
     echo "[setup] WooCommerce already installed. Ensuring it is active..."
-    wp plugin activate woocommerce --allow-root --path=/var/www/html 2>/dev/null || true
+    $WP plugin activate woocommerce 2>/dev/null || true
 fi
 
 echo "[setup] Setting permalink structure..."
-wp rewrite structure '/%postname%/' --hard --allow-root --path=/var/www/html 2>/dev/null || true
-
-echo "[setup] Enabling pretty permalinks for REST API..."
-wp option update permalink_structure '/%postname%/' --allow-root --path=/var/www/html 2>/dev/null || true
+$WP rewrite structure '/%postname%/' --hard 2>/dev/null || true
 
 echo "[setup] WooCommerce setup complete."
