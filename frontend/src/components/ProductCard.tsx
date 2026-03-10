@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Product } from "@/types";
 
 export function ProductCard({ product }: { product: Product }) {
@@ -14,9 +15,11 @@ export function ProductCard({ product }: { product: Product }) {
     >
       <div className="aspect-square overflow-hidden bg-surface-alt">
         {product.images[0] ? (
-          <img
+          <Image
             src={product.images[0].src}
             alt={product.images[0].alt || product.name}
+            width={400}
+            height={400}
             className="h-full w-full object-cover transition group-hover:scale-105"
           />
         ) : (

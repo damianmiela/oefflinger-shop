@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useCart } from "@/context/CartContext";
 import type { CartItemData } from "@/types";
 
@@ -15,9 +16,11 @@ export function CartItem({ item }: { item: CartItemData }) {
     <div className="flex items-center gap-4 p-4">
       <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-surface-alt">
         {item.images[0] ? (
-          <img
+          <Image
             src={item.images[0].src}
             alt={item.images[0].alt || item.name}
+            width={64}
+            height={64}
             className="h-full w-full object-cover"
           />
         ) : (

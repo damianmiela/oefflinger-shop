@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { getProducts } from "@/lib/woo/api";
 import { ProductCard } from "@/components/ProductCard";
+import type { Product } from "@/types";
 
 export default async function HomePage() {
-  let products = [];
+  let products: Product[] = [];
   try {
     products = await getProducts();
   } catch {

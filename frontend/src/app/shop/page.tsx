@@ -1,5 +1,6 @@
 import { getProducts } from "@/lib/woo/api";
 import { ProductCard } from "@/components/ProductCard";
+import type { Product } from "@/types";
 
 export const metadata = {
   title: "Shop – Öfflinger",
@@ -7,7 +8,7 @@ export const metadata = {
 };
 
 export default async function ShopPage() {
-  let products = [];
+  let products: Product[] = [];
   try {
     products = await getProducts();
   } catch {

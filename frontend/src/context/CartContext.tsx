@@ -29,12 +29,6 @@ function getStoredToken(): string | undefined {
   return localStorage.getItem(CART_TOKEN_KEY) ?? undefined;
 }
 
-function storeToken(token: string) {
-  if (typeof window !== "undefined") {
-    localStorage.setItem(CART_TOKEN_KEY, token);
-  }
-}
-
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<Cart | null>(null);
   const [loading, setLoading] = useState(false);
