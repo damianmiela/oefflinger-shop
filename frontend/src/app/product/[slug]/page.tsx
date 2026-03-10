@@ -53,11 +53,11 @@ export default async function ProductPage({ params }: Props) {
           dangerouslySetInnerHTML={{ __html: product.description }}
         />
 
-        {product.is_purchasable && product.stock_status === "instock" && (
+        {product.is_purchasable && (product.is_in_stock || product.is_on_backorder) && (
           <AddToCartButton productId={product.id} />
         )}
 
-        {product.stock_status !== "instock" && (
+        {!product.is_in_stock && !product.is_on_backorder && (
           <p className="mt-6 text-sm text-red-600">Derzeit nicht auf Lager.</p>
         )}
       </div>

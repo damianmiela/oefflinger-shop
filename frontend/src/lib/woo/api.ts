@@ -31,6 +31,35 @@ async function storeApiFetch<T>(
   return res.json() as Promise<T>;
 }
 
+/** Cart endpoints return Cart-Token in response headers - use cartApiFetch for those */
+async function cartApiFetch<T>(
+  endpoint: string,
+  options: RequestInit & { token?: string } = {},
+): Promise<{ data: T; token?: string }> {
+  const { token, ...fetchOptions } = options;
+  const base = getBaseUrl();
+  const url = `${base}${endpoint}`;
+
+  const headers: HeadersInit = {
+    "Content-Type": "application/json",
+    ...(token && { "Cart-Token": token }),
+    ...options.headers,
+  };
+
+  const res = await fetch(url, {
+    ...fetchOptions,
+    headers,
+  });
+
+  if (!res.ok) {
+    throw new Error(`WooCommerce Store API error: ${res.status} ${res.statusText}`);
+  }
+
+  const data = (await res.json()) as T;
+  const newToken = res.headers.get("Cart-Token") ?? undefined;
+  return { data, token: newToken };
+}
+
 export async function getProducts(): Promise<Product[]> {
   return storeApiFetch<Product[]>("/products");
 }
@@ -40,26 +69,18 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   return products[0] ?? null;
 }
 
-export async function getCart(cartToken?: string): Promise<Cart> {
-  const headers: HeadersInit = {};
-  if (cartToken) {
-    headers["Cart-Token"] = cartToken;
-  }
-  return storeApiFetch<Cart>("/cart", { headers });
+export async function getCart(cartToken?: string): Promise<{ data: Cart; token?: string }> {
+  return cartApiFetch<Cart>("/cart", { token: cartToken });
 }
 
 export async function addToCart(
   productId: number,
   quantity: number = 1,
   cartToken?: string,
-): Promise<Cart> {
-  const headers: HeadersInit = {};
-  if (cartToken) {
-    headers["Cart-Token"] = cartToken;
-  }
-  return storeApiFetch<Cart>("/cart/add-item", {
+): Promise<{ data: Cart; token?: string }> {
+  return cartApiFetch<Cart>("/cart/add-item", {
     method: "POST",
-    headers,
+    token: cartToken,
     body: JSON.stringify({ id: productId, quantity }),
   });
 }
@@ -67,14 +88,10 @@ export async function addToCart(
 export async function removeFromCart(
   itemKey: string,
   cartToken?: string,
-): Promise<Cart> {
-  const headers: HeadersInit = {};
-  if (cartToken) {
-    headers["Cart-Token"] = cartToken;
-  }
-  return storeApiFetch<Cart>("/cart/remove-item", {
+): Promise<{ data: Cart; token?: string }> {
+  return cartApiFetch<Cart>("/cart/remove-item", {
     method: "POST",
-    headers,
+    token: cartToken,
     body: JSON.stringify({ key: itemKey }),
   });
 }
@@ -83,14 +100,10 @@ export async function updateCartItem(
   itemKey: string,
   quantity: number,
   cartToken?: string,
-): Promise<Cart> {
-  const headers: HeadersInit = {};
-  if (cartToken) {
-    headers["Cart-Token"] = cartToken;
-  }
-  return storeApiFetch<Cart>("/cart/update-item", {
+): Promise<{ data: Cart; token?: string }> {
+  return cartApiFetch<Cart>("/cart/update-item", {
     method: "POST",
-    headers,
+    token: cartToken,
     body: JSON.stringify({ key: itemKey, quantity }),
   });
 }

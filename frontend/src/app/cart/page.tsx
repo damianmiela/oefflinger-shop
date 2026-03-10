@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { CartItem } from "@/components/CartItem";
+import { buildCheckoutUrl } from "@/lib/woo/checkout";
 
 export default function CartPage() {
   const { cart, loading } = useCart();
@@ -52,13 +53,12 @@ export default function CartPage() {
         >
           Weiter einkaufen
         </Link>
-        <button
-          disabled
-          className="rounded-lg bg-accent px-6 py-3 font-semibold text-white opacity-60"
-          title="Checkout wird in einer späteren Phase implementiert"
+        <a
+          href={buildCheckoutUrl(cart.items)}
+          className="rounded-lg bg-accent px-6 py-3 font-semibold text-white transition hover:bg-accent-light"
         >
           Zur Kasse
-        </button>
+        </a>
       </div>
     </>
   );

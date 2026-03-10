@@ -45,6 +45,7 @@ services:
       - "4000:3000"
     environment:
       - NEXT_PUBLIC_WP_API_URL=http://localhost:4001/wp-json
+      - NEXT_PUBLIC_WP_URL=http://localhost:4001
       - NEXT_PUBLIC_WC_STORE_API=http://localhost:4001/wp-json/wc/store/v1
       - WP_INTERNAL_URL=http://wordpress/wp-json
       - WC_INTERNAL_STORE_URL=http://wordpress/wp-json/wc/store/v1

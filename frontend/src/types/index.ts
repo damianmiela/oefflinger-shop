@@ -24,7 +24,8 @@ export interface Product {
   prices: ProductPrice;
   images: ProductImage[];
   categories: { id: number; name: string; slug: string }[];
-  stock_status: "instock" | "outofstock" | "onbackorder";
+  is_in_stock: boolean;
+  is_on_backorder?: boolean;
   is_purchasable: boolean;
   permalink: string;
 }

@@ -29,6 +29,12 @@ function getStoredToken(): string | undefined {
   return localStorage.getItem(CART_TOKEN_KEY) ?? undefined;
 }
 
+function storeToken(token: string): void {
+  if (typeof window !== "undefined") {
+    localStorage.setItem(CART_TOKEN_KEY, token);
+  }
+}
+
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<Cart | null>(null);
   const [loading, setLoading] = useState(false);
@@ -36,8 +42,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const refreshCart = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await wooApi.getCart(getStoredToken());
+      const { data, token } = await wooApi.getCart(getStoredToken());
       setCart(data);
+      if (token) storeToken(token);
     } catch {
       // Cart may not be available yet (WooCommerce still setting up)
     } finally {
@@ -49,8 +56,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
     async (productId: number, quantity: number = 1) => {
       setLoading(true);
       try {
-        const data = await wooApi.addToCart(productId, quantity, getStoredToken());
+        const { data, token } = await wooApi.addToCart(
+          productId,
+          quantity,
+          getStoredToken(),
+        );
         setCart(data);
+        if (token) storeToken(token);
       } finally {
         setLoading(false);
       }
@@ -61,8 +73,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const removeItem = useCallback(async (itemKey: string) => {
     setLoading(true);
     try {
-      const data = await wooApi.removeFromCart(itemKey, getStoredToken());
+      const { data, token } = await wooApi.removeFromCart(
+        itemKey,
+        getStoredToken(),
+      );
       setCart(data);
+      if (token) storeToken(token);
     } finally {
       setLoading(false);
     }
@@ -71,8 +87,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const updateItem = useCallback(async (itemKey: string, quantity: number) => {
     setLoading(true);
     try {
-      const data = await wooApi.updateCartItem(itemKey, quantity, getStoredToken());
+      const { data, token } = await wooApi.updateCartItem(
+        itemKey,
+        quantity,
+        getStoredToken(),
+      );
       setCart(data);
+      if (token) storeToken(token);
     } finally {
       setLoading(false);
     }
