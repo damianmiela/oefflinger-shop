@@ -13,6 +13,12 @@ export function Header() {
 
         <nav className="flex items-center gap-6">
           <Link
+            href="/produkte"
+            className="text-sm font-medium text-gray-700 transition hover:text-primary"
+          >
+            Produkte
+          </Link>
+          <Link
             href="/shop"
             className="text-sm font-medium text-gray-700 transition hover:text-primary"
           >

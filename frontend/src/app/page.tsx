@@ -56,7 +56,7 @@ export default async function HomePage() {
               </p>
               <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
                 <Link
-                  href="/shop"
+                  href="/produkte"
                   className="w-full rounded-lg bg-white px-8 py-4 text-center font-semibold text-primary-dark transition hover:bg-gray-100 sm:w-auto"
                 >
                   Produkte entdecken
