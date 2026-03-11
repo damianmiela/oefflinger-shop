@@ -29,7 +29,7 @@ export const COLLOIDAL_METALS: ColloidalMetal[] = [
     tagline: "Spurenelement für den Stoffwechsel",
     description:
       "Chrom ist ein essentielles Spurenelement, das in der Natur in verschiedenen Verbindungen vorkommt. Kolloidales Chrom wird traditionell geschätzt. Das Metall hat eine charakteristische silbergraue bis bläuliche Färbung.",
-    uses: ["Stoffwechsel", "Energiehaushalt"],
+    uses: ["Stoffwechsel", "Energie"],
   },
   {
     id: "eisen",
@@ -51,7 +51,7 @@ export const COLLOIDAL_METALS: ColloidalMetal[] = [
     tagline: "Edelmetall mit langer Tradition",
     description:
       "Gold wird seit jeher als Edelmetall geschätzt. Kolloidales Gold besteht aus winzigen Goldpartikeln in destilliertem Wasser. Es hat eine charakteristische goldene bis bernsteinfarbene Färbung und wird traditionell in der Naturheilkunde verwendet.",
-    uses: ["Traditionelle Anwendung", "Hautpflege"],
+    uses: ["Traditionelle Anwendung", "Haut"],
   },
   {
     id: "kobalt",
@@ -95,7 +95,7 @@ export const COLLOIDAL_METALS: ColloidalMetal[] = [
     tagline: "Spurenelement für Enzyme",
     description:
       "Molybdän ist ein essentielles Spurenelement und Bestandteil verschiedener Enzyme. Kolloidales Molybdän hat eine graue bis silbergraue Färbung. Es wird traditionell in der Naturheilkunde verwendet.",
-    uses: ["Enzymfunktion", "Stoffwechsel"],
+    uses: ["Enzyme", "Stoffwechsel"],
   },
   {
     id: "nickel",
@@ -117,7 +117,7 @@ export const COLLOIDAL_METALS: ColloidalMetal[] = [
     tagline: "Das bekannteste kolloidale Metall",
     description:
       "Kolloidales Silber ist das bekannteste kolloidale Metall. Es besteht aus winzigen Silberpartikeln in destilliertem Wasser und hat eine charakteristische hellgraue bis gelbliche Färbung. Silber wird seit langem in der Naturheilkunde traditionell verwendet.",
-    uses: ["Hautpflege", "Mundhygiene", "Traditionelle Anwendung"],
+    uses: ["Haut", "Mundhygiene", "Traditionelle Anwendung"],
   },
   {
     id: "silizium",
@@ -175,3 +175,8 @@ export const COLLOIDAL_METALS: ColloidalMetal[] = [
     uses: ["Traditionelle Anwendung"],
   },
 ];
+
+/** All unique uses across metals, sorted for display */
+export const ALL_USES = Array.from(
+  new Set(COLLOIDAL_METALS.flatMap((m) => m.uses ?? [])),
+).sort();
