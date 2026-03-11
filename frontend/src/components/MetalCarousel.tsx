@@ -64,49 +64,8 @@ export function MetalCarousel({ metals }: MetalCarouselProps) {
         </div>
       </div>
 
-      {/* Right: Uses + main content */}
-      <div className="flex min-w-0 flex-1 flex-col gap-6 lg:flex-row">
-        {/* Uses list */}
-        <div className="flex shrink-0 flex-col gap-4 lg:w-52">
-          <p className="text-sm font-medium uppercase tracking-widest text-primary">
-            Anwendungsbereiche
-          </p>
-          <div className="flex flex-wrap gap-2 lg:flex-col">
-            {ALL_USES.map((use) => {
-              const isHighlightedByMetal = highlightedUses.includes(use);
-              const isSelected = selectedUse === use;
-              const metalCount = getMetalsForUse(metals, use).length;
-              return (
-                <button
-                  key={use}
-                  type="button"
-                  onClick={() =>
-                    setSelectedUse((prev) => (prev === use ? null : use))
-                  }
-                  className={`flex items-center justify-between gap-2 rounded-xl px-4 py-2.5 text-left text-sm transition lg:w-full ${
-                    isSelected
-                      ? "bg-primary text-white shadow-md"
-                      : isHighlightedByMetal
-                        ? "bg-primary/15 ring-2 ring-primary/40"
-                        : "bg-white text-gray-700 shadow-sm hover:bg-gray-50 hover:shadow"
-                  }`}
-                >
-                  <span className="font-medium">{use}</span>
-                  <span
-                    className={`rounded-full px-2 py-0.5 text-xs ${
-                      isSelected ? "bg-white/30" : "bg-gray-200/80"
-                    }`}
-                  >
-                    {metalCount}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Main content – visual + description */}
-        <div className="min-w-0 flex-1">
+      {/* Center: Main content – visual + description */}
+      <div className="min-w-0 flex-1">
           <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg">
             <div
               className="relative aspect-[2/1] overflow-hidden sm:aspect-[21/9]"
@@ -176,6 +135,49 @@ export function MetalCarousel({ metals }: MetalCarouselProps) {
               )}
             </div>
           </div>
+        </div>
+
+      {/* Right: Uses */}
+      <div className="flex shrink-0 flex-col gap-4 lg:w-52">
+        <p className="text-sm font-medium uppercase tracking-widest text-primary">
+          Anwendungsbereiche
+        </p>
+        <div className="flex flex-wrap gap-2 lg:flex-col">
+          {ALL_USES.map((use) => {
+            const isHighlightedByMetal = highlightedUses.includes(use);
+            const isSelected = selectedUse === use;
+            const metalIdsWithUse = getMetalsForUse(metals, use);
+            const currentMetalHasUse = selectedMetal?.uses?.includes(use);
+            return (
+              <button
+                key={use}
+                type="button"
+                onClick={() => {
+                  const newSelectedUse = selectedUse === use ? null : use;
+                  setSelectedUse(newSelectedUse);
+                  if (newSelectedUse && !currentMetalHasUse && metalIdsWithUse[0]) {
+                    setSelectedMetalId(metalIdsWithUse[0]);
+                  }
+                }}
+                className={`flex items-center justify-between gap-2 rounded-xl px-4 py-2.5 text-left text-sm transition lg:w-full ${
+                  isSelected
+                    ? "bg-primary text-white shadow-md"
+                    : isHighlightedByMetal
+                      ? "bg-primary/15 ring-2 ring-primary/40"
+                      : "bg-white text-gray-700 shadow-sm hover:bg-gray-50 hover:shadow"
+                }`}
+              >
+                <span className="font-medium">{use}</span>
+                <span
+                  className={`rounded-full px-2 py-0.5 text-xs ${
+                    isSelected ? "bg-white/30" : "bg-gray-200/80"
+                  }`}
+                >
+                  {metalIdsWithUse.length}
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>
