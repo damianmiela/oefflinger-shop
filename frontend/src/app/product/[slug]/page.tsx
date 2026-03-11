@@ -3,6 +3,7 @@ import { getProductBySlug } from "@/lib/woo/api";
 import { AddToCartButton } from "./AddToCartButton";
 import { StockStatus } from "./StockStatus";
 import { ClickableImage } from "@/components/ClickableImage";
+import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -32,6 +33,7 @@ export default async function ProductPage({ params }: Props) {
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="grid gap-12 lg:grid-cols-2">
+        <AnimateOnScroll variant="fade-up">
         <div className="aspect-square overflow-hidden rounded-xl bg-surface-alt">
         {product.images[0] ? (
           <ClickableImage
@@ -46,7 +48,9 @@ export default async function ProductPage({ params }: Props) {
           <div className="flex h-full items-center justify-center text-gray-400">Kein Bild</div>
         )}
         </div>
+        </AnimateOnScroll>
 
+        <AnimateOnScroll variant="fade-up">
         <div className="flex flex-col justify-center">
         <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
         <p className="mt-2 text-2xl font-semibold text-primary">{priceDisplay}</p>
@@ -76,6 +80,7 @@ export default async function ProductPage({ params }: Props) {
           />
         )}
         </div>
+        </AnimateOnScroll>
       </div>
     </div>
   );

@@ -17,7 +17,12 @@ export interface ColloidalMetal {
   description: string;
   /** Optional: traditional uses (neutral phrasing) */
   uses?: string[];
+  /** Link to product in shop – replace when products are added */
+  productLink?: string;
 }
+
+/** Replace with actual product slug when products are in shop */
+const PLACEHOLDER_PRODUCT = "/product/test-product";
 
 export const COLLOIDAL_METALS: ColloidalMetal[] = [
   {
@@ -30,6 +35,7 @@ export const COLLOIDAL_METALS: ColloidalMetal[] = [
     description:
       "Chrom ist ein essentielles Spurenelement, das in der Natur in verschiedenen Verbindungen vorkommt. Kolloidales Chrom wird traditionell geschätzt. Das Metall hat eine charakteristische silbergraue bis bläuliche Färbung.",
     uses: ["Stoffwechsel", "Energie"],
+    productLink: PLACEHOLDER_PRODUCT,
   },
   {
     id: "eisen",
@@ -41,6 +47,7 @@ export const COLLOIDAL_METALS: ColloidalMetal[] = [
     description:
       "Eisen ist eines der wichtigsten Spurenelemente und spielt eine zentrale Rolle bei der Sauerstoffversorgung des Körpers. Kolloidales Eisen wird in der Naturheilkunde traditionell verwendet. Das Metall zeigt eine typische grau-metallische bis rötliche Färbung.",
     uses: ["Blutbildung", "Energie", "Sauerstofftransport"],
+    productLink: PLACEHOLDER_PRODUCT,
   },
   {
     id: "gold",
@@ -52,6 +59,7 @@ export const COLLOIDAL_METALS: ColloidalMetal[] = [
     description:
       "Gold wird seit jeher als Edelmetall geschätzt. Kolloidales Gold besteht aus winzigen Goldpartikeln in destilliertem Wasser. Es hat eine charakteristische goldene bis bernsteinfarbene Färbung und wird traditionell in der Naturheilkunde verwendet.",
     uses: ["Traditionelle Anwendung", "Haut"],
+    productLink: PLACEHOLDER_PRODUCT,
   },
   {
     id: "kobalt",
@@ -63,6 +71,7 @@ export const COLLOIDAL_METALS: ColloidalMetal[] = [
     description:
       "Kobalt ist ein Bestandteil von Vitamin B12 und damit wichtig für verschiedene Stoffwechselprozesse. Kolloidales Kobalt hat eine typische blaugraue metallische Färbung. Es wird traditionell geschätzt.",
     uses: ["Stoffwechsel", "Energie"],
+    productLink: PLACEHOLDER_PRODUCT,
   },
   {
     id: "kupfer",
@@ -74,6 +83,7 @@ export const COLLOIDAL_METALS: ColloidalMetal[] = [
     description:
       "Kupfer ist ein essentielles Spurenelement und Bestandteil vieler Enzyme. Es unterstützt unter anderem den Eisenstoffwechsel und die Bindegewebsbildung. Kolloidales Kupfer hat die charakteristische kupferrote Färbung.",
     uses: ["Enzyme", "Bindegewebe", "Eisenstoffwechsel"],
+    productLink: PLACEHOLDER_PRODUCT,
   },
   {
     id: "magnesium",
@@ -85,6 +95,7 @@ export const COLLOIDAL_METALS: ColloidalMetal[] = [
     description:
       "Magnesium ist ein lebenswichtiges Mineral, das an über 300 enzymatischen Reaktionen beteiligt ist. Kolloidales Magnesium hat eine silberweiße metallische Erscheinung. Es wird traditionell für Muskeln, Nerven und Knochen geschätzt.",
     uses: ["Muskelfunktion", "Nervensystem", "Knochen"],
+    productLink: PLACEHOLDER_PRODUCT,
   },
   {
     id: "molybdän",
@@ -96,6 +107,7 @@ export const COLLOIDAL_METALS: ColloidalMetal[] = [
     description:
       "Molybdän ist ein essentielles Spurenelement und Bestandteil verschiedener Enzyme. Kolloidales Molybdän hat eine graue bis silbergraue Färbung. Es wird traditionell in der Naturheilkunde verwendet.",
     uses: ["Enzyme", "Stoffwechsel"],
+    productLink: PLACEHOLDER_PRODUCT,
   },
   {
     id: "nickel",
@@ -107,6 +119,7 @@ export const COLLOIDAL_METALS: ColloidalMetal[] = [
     description:
       "Nickel kommt als Spurenelement in vielen Lebensmitteln vor. Kolloidales Nickel hat eine silbrig-weiße, leicht goldene Färbung. Es wird traditionell geschätzt – bei bekannter Nickelallergie sollte auf die Anwendung verzichtet werden.",
     uses: ["Traditionelle Anwendung"],
+    productLink: PLACEHOLDER_PRODUCT,
   },
   {
     id: "silber",
@@ -118,6 +131,7 @@ export const COLLOIDAL_METALS: ColloidalMetal[] = [
     description:
       "Kolloidales Silber ist das bekannteste kolloidale Metall. Es besteht aus winzigen Silberpartikeln in destilliertem Wasser und hat eine charakteristische hellgraue bis gelbliche Färbung. Silber wird seit langem in der Naturheilkunde traditionell verwendet.",
     uses: ["Haut", "Mundhygiene", "Traditionelle Anwendung"],
+    productLink: PLACEHOLDER_PRODUCT,
   },
   {
     id: "silizium",
@@ -129,6 +143,7 @@ export const COLLOIDAL_METALS: ColloidalMetal[] = [
     description:
       "Silizium ist nach Sauerstoff das häufigste Element der Erdkruste. Kolloidales Silizium wird traditionell für Haut, Haare und Nägel geschätzt. Das Halbmetall hat eine graue, metallisch glänzende Erscheinung.",
     uses: ["Haut", "Haare", "Bindegewebe"],
+    productLink: PLACEHOLDER_PRODUCT,
   },
   {
     id: "tantal",
@@ -140,6 +155,7 @@ export const COLLOIDAL_METALS: ColloidalMetal[] = [
     description:
       "Tantal ist ein seltenes, korrosionsbeständiges Metall mit einer charakteristischen grau-bläulichen Färbung. Kolloidales Tantal wird in der Naturheilkunde traditionell verwendet.",
     uses: ["Traditionelle Anwendung"],
+    productLink: PLACEHOLDER_PRODUCT,
   },
   {
     id: "vanadium",
@@ -151,6 +167,7 @@ export const COLLOIDAL_METALS: ColloidalMetal[] = [
     description:
       "Vanadium kommt als Spurenelement in verschiedenen Lebensmitteln vor. Kolloidales Vanadium hat eine graue bis silbergraue Färbung. Es wird traditionell geschätzt.",
     uses: ["Stoffwechsel", "Traditionelle Anwendung"],
+    productLink: PLACEHOLDER_PRODUCT,
   },
   {
     id: "zink",
@@ -162,6 +179,7 @@ export const COLLOIDAL_METALS: ColloidalMetal[] = [
     description:
       "Zink ist ein essentielles Spurenelement und an zahlreichen Körperfunktionen beteiligt. Kolloidales Zink hat eine bläulich-weiße metallische Färbung. Es wird traditionell für Immunsystem, Haut und Wundheilung geschätzt.",
     uses: ["Immunsystem", "Haut", "Wundheilung"],
+    productLink: PLACEHOLDER_PRODUCT,
   },
   {
     id: "zinn",
@@ -173,10 +191,17 @@ export const COLLOIDAL_METALS: ColloidalMetal[] = [
     description:
       "Zinn ist ein weiches, silberweiß glänzendes Metall. Kolloidales Zinn wird traditionell in der Naturheilkunde verwendet. Es hat eine charakteristische silbrige Färbung.",
     uses: ["Traditionelle Anwendung"],
+    productLink: PLACEHOLDER_PRODUCT,
   },
 ];
 
-/** All unique uses across metals, sorted for display */
-export const ALL_USES = Array.from(
-  new Set(COLLOIDAL_METALS.flatMap((m) => m.uses ?? [])),
-).sort();
+/** All unique uses across metals, sorted by metal count (most first) */
+export function getSortedUses(metals: ColloidalMetal[]): string[] {
+  const counts: Record<string, number> = {};
+  for (const m of metals) {
+    for (const u of m.uses ?? []) {
+      counts[u] = (counts[u] ?? 0) + 1;
+    }
+  }
+  return Object.keys(counts).sort((a, b) => (counts[b] ?? 0) - (counts[a] ?? 0));
+}

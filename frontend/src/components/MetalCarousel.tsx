@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Link from "next/link";
 import type { ColloidalMetal } from "@/data/colloidal-metals";
-import { ALL_USES } from "@/data/colloidal-metals";
+import { getSortedUses } from "@/data/colloidal-metals";
 
 interface MetalCarouselProps {
   metals: ColloidalMetal[];
@@ -24,6 +25,7 @@ export function MetalCarousel({ metals }: MetalCarouselProps) {
   }, [metals, selectedUse]);
 
   const highlightedUses = selectedMetal?.uses ?? [];
+  const sortedUses = useMemo(() => getSortedUses(metals), [metals]);
 
   return (
     <div className="flex flex-col gap-8 lg:flex-row lg:items-stretch">
@@ -133,6 +135,14 @@ export function MetalCarousel({ metals }: MetalCarouselProps) {
                   </div>
                 </div>
               )}
+              {selectedMetal.productLink && (
+                <Link
+                  href={selectedMetal.productLink}
+                  className="mt-6 inline-block rounded-lg bg-primary px-6 py-3 font-semibold text-white transition hover:bg-primary-light"
+                >
+                  Zum Produkt im Shop
+                </Link>
+              )}
             </div>
           </div>
         </div>
@@ -143,7 +153,7 @@ export function MetalCarousel({ metals }: MetalCarouselProps) {
           Anwendungsbereiche
         </p>
         <div className="flex flex-wrap gap-2 lg:flex-col">
-          {ALL_USES.map((use) => {
+          {sortedUses.map((use) => {
             const isHighlightedByMetal = highlightedUses.includes(use);
             const isSelected = selectedUse === use;
             const metalIdsWithUse = getMetalsForUse(metals, use);

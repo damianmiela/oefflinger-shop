@@ -4,7 +4,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
 import { Header } from "@/components/Header";
-import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,9 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <CartProvider>
           <Header />
           <main className="min-h-screen">
-            <AnimateOnScroll variant="fade-up">
-              {children}
-            </AnimateOnScroll>
+            {children}
           </main>
           <footer className="border-t border-gray-200 bg-primary-dark">
             <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">

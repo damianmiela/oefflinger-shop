@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { CartItem } from "@/components/CartItem";
 import { buildCheckoutUrl } from "@/lib/woo/checkout";
+import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 
 export default function CartPage() {
   const { cart, loading, lastError, clearError } = useCart();
@@ -19,13 +20,15 @@ export default function CartPage() {
   if (!cart || cart.items.length === 0) {
     return (
       <div className="mx-auto max-w-7xl px-4 py-16 text-center sm:px-6 lg:px-8">
-        <h1 className="text-2xl font-bold text-gray-900">Ihr Warenkorb ist leer</h1>
-        <Link
-          href="/shop"
-          className="mt-6 inline-block rounded-lg bg-primary px-6 py-3 text-white transition hover:bg-primary-light"
-        >
-          Weiter einkaufen
-        </Link>
+        <AnimateOnScroll variant="fade-up">
+          <h1 className="text-2xl font-bold text-gray-900">Ihr Warenkorb ist leer</h1>
+          <Link
+            href="/shop"
+            className="mt-6 inline-block rounded-lg bg-primary px-6 py-3 text-white transition hover:bg-primary-light"
+          >
+            Weiter einkaufen
+          </Link>
+        </AnimateOnScroll>
       </div>
     );
   }
@@ -37,9 +40,12 @@ export default function CartPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <h1 className="mb-8 text-3xl font-bold text-gray-900">Warenkorb</h1>
+      <AnimateOnScroll variant="fade-up">
+        <h1 className="mb-8 text-3xl font-bold text-gray-900">Warenkorb</h1>
+      </AnimateOnScroll>
 
       {lastError && (
+        <AnimateOnScroll variant="fade-up">
         <div
           className="mb-6 flex items-center justify-between rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800"
           role="alert"
@@ -53,8 +59,10 @@ export default function CartPage() {
             &times;
           </button>
         </div>
+        </AnimateOnScroll>
       )}
 
+      <AnimateOnScroll variant="fade-up">
       <div className="divide-y divide-gray-200 rounded-xl border border-gray-200 bg-white">
         {cart.items.map((item) => (
           <CartItem key={item.key} item={item} />
@@ -80,6 +88,7 @@ export default function CartPage() {
           Zur Kasse
         </a>
       </div>
+      </AnimateOnScroll>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { getProducts } from "@/lib/woo/api";
 import { ProductCard } from "@/components/ProductCard";
 import { AnimateChildren } from "@/components/AnimateChildren";
+import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 import type { Product } from "@/types";
 
 export const metadata = {
@@ -18,7 +19,9 @@ export default async function ShopPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <h1 className="mb-8 text-3xl font-bold text-gray-900">Alle Produkte</h1>
+      <AnimateOnScroll variant="fade-up">
+        <h1 className="mb-8 text-3xl font-bold text-gray-900">Alle Produkte</h1>
+      </AnimateOnScroll>
 
       {products.length > 0 ? (
         <AnimateChildren
@@ -30,6 +33,7 @@ export default async function ShopPage() {
           ))}
         </AnimateChildren>
       ) : (
+        <AnimateOnScroll variant="fade-up">
         <div className="rounded-lg border border-dashed border-gray-300 py-16 text-center">
           <p className="text-gray-500">
             Noch keine Produkte vorhanden. Fügen Sie Produkte im WordPress-Admin hinzu.
@@ -43,6 +47,7 @@ export default async function ShopPage() {
             WordPress Admin &rarr;
           </a>
         </div>
+        </AnimateOnScroll>
       )}
     </div>
   );

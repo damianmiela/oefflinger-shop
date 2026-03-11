@@ -3,6 +3,7 @@ import Image from "next/image";
 import { getProducts } from "@/lib/woo/api";
 import { ProductCard } from "@/components/ProductCard";
 import { AnimateChildren } from "@/components/AnimateChildren";
+import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 import type { Product } from "@/types";
 
 const SECTION_CLASS = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8";
@@ -27,6 +28,7 @@ export default async function HomePage() {
   return (
     <>
       {/* Hero with background image */}
+      <AnimateOnScroll variant="fade-up">
       <section className="relative overflow-hidden py-24 sm:py-32 lg:py-40">
         <div className="absolute inset-0">
           <Image
@@ -62,7 +64,7 @@ export default async function HomePage() {
                   Produkte entdecken
                 </Link>
                 <Link
-                  href="#was-ist-kolloidales-wasser"
+                  href="/produkte"
                   className="w-full rounded-lg border border-white/50 bg-white/10 px-8 py-4 text-center font-medium text-white backdrop-blur transition hover:bg-white/20 sm:w-auto"
                 >
                   Mehr erfahren
@@ -72,8 +74,10 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+      </AnimateOnScroll>
 
       {/* What is colloidal water – with image */}
+      <AnimateOnScroll variant="fade-up">
       <section
         id="was-ist-kolloidales-wasser"
         className="border-t border-gray-100 bg-white py-20 sm:py-28"
@@ -117,8 +121,10 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+      </AnimateOnScroll>
 
       {/* Applications of colloidal water */}
+      <AnimateOnScroll variant="fade-up">
       <section className="border-t border-gray-100 bg-surface-alt py-20 sm:py-28">
         <div className={SECTION_CLASS}>
           <h2 className="text-center text-3xl font-bold tracking-tight text-primary-dark sm:text-4xl">
@@ -127,7 +133,7 @@ export default async function HomePage() {
           <p className="mx-auto mt-4 max-w-2xl text-center text-gray-600">
             Kolloidales Wasser wird traditionell in verschiedenen Bereichen eingesetzt.
           </p>
-          <div className="mx-auto mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <AnimateChildren className="mx-auto mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3" stagger={80}>
             <div className="flex gap-4 rounded-2xl bg-white p-6 shadow-sm">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
                 <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -184,11 +190,13 @@ export default async function HomePage() {
                 </p>
               </div>
             </div>
-          </div>
+          </AnimateChildren>
         </div>
       </section>
+      </AnimateOnScroll>
 
       {/* From Rheinland-Pfalz – local feel with image */}
+      <AnimateOnScroll variant="fade-up">
       <section className="border-t border-gray-100 bg-white py-20 sm:py-28">
         <div className={SECTION_CLASS}>
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
@@ -222,14 +230,16 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+      </AnimateOnScroll>
 
       {/* Why Öfflinger */}
+      <AnimateOnScroll variant="fade-up">
       <section className="border-t border-gray-100 bg-surface-alt py-20 sm:py-28">
         <div className={SECTION_CLASS}>
           <h2 className="text-center text-3xl font-bold tracking-tight text-primary-dark sm:text-4xl">
             Warum Öfflinger?
           </h2>
-          <div className="mx-auto mt-16 grid max-w-5xl gap-10 sm:grid-cols-2 lg:grid-cols-3">
+          <AnimateChildren className="mx-auto mt-16 grid max-w-5xl gap-10 sm:grid-cols-2 lg:grid-cols-3" stagger={80}>
             <div className="flex flex-col items-center rounded-2xl bg-white p-8 text-center shadow-sm transition hover:shadow-md">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
                 <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -293,12 +303,14 @@ export default async function HomePage() {
                 Produktion in Rheinland-Pfalz — kurze Wege, regionale Wurzeln.
               </p>
             </div>
-          </div>
+          </AnimateChildren>
         </div>
       </section>
+      </AnimateOnScroll>
 
       {/* Featured products */}
       {products.length > 0 && (
+        <AnimateOnScroll variant="fade-up">
         <section className="border-t border-gray-100 bg-white py-20 sm:py-28">
           <div className={SECTION_CLASS}>
             <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
@@ -322,9 +334,11 @@ export default async function HomePage() {
             </AnimateChildren>
           </div>
         </section>
+        </AnimateOnScroll>
       )}
 
       {products.length === 0 && (
+        <AnimateOnScroll variant="fade-up">
         <section className="border-t border-gray-100 bg-surface-alt py-20">
           <div className={SECTION_CLASS}>
             <div className="rounded-2xl border border-dashed border-gray-300 bg-white py-16 text-center">
@@ -340,9 +354,11 @@ export default async function HomePage() {
             </div>
           </div>
         </section>
+        </AnimateOnScroll>
       )}
 
       {/* CTA */}
+      <AnimateOnScroll variant="fade-up">
       <section className="border-t border-gray-100 bg-primary-dark py-20 sm:py-24">
         <div className={SECTION_CLASS}>
           <div className="mx-auto max-w-2xl text-center">
@@ -361,6 +377,7 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+      </AnimateOnScroll>
     </>
   );
 }

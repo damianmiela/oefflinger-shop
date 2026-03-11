@@ -1,0 +1,46 @@
+---
+description: Scroll-reveal animations and lazy loading on subpages
+globs: frontend/src/app/**/page.tsx
+alwaysApply: false
+---
+
+# Scroll-Reveal & Lazy Load on Subpages
+
+## 1. Scroll-Reveal (Primary)
+
+Wrap each section in `AnimateOnScroll` so content reveals as the user scrolls down. Do NOT wrap the entire page in one animation — each section should animate independently when it enters the viewport.
+
+```tsx
+import { AnimateOnScroll } from "@/components/AnimateOnScroll";
+
+export default function Page() {
+  return (
+    <div>
+      <AnimateOnScroll variant="fade-up">
+        <section>...</section>
+      </AnimateOnScroll>
+      <AnimateOnScroll variant="fade-up">
+        <section>...</section>
+      </AnimateOnScroll>
+    </div>
+  );
+}
+```
+
+For grids/cards, use `AnimateChildren` for staggered child animation:
+```tsx
+<AnimateChildren className="grid ..." stagger={80}>
+  {items.map((item) => <Card key={item.id} {...item} />)}
+</AnimateChildren>
+```
+
+## 2. Code-Split Heavy Components
+
+Use `next/dynamic` for large components (carousels, charts) so they load only when the page is visited:
+
+```tsx
+const HeavyComponent = dynamic(
+  () => import("@/components/HeavyComponent").then((m) => ({ default: m.HeavyComponent })),
+  { ssr: true, loading: () => <div className="min-h-[200px] animate-pulse rounded-xl bg-surface-alt" /> }
+);
+```
