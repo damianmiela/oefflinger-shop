@@ -13,8 +13,10 @@ export interface ColloidalMetal {
   gradientTo: string;
   /** Short tagline */
   tagline: string;
-  /** Full description */
+  /** Short description (shown in carousel) */
   description: string;
+  /** Long description (shown on metal detail page) */
+  longDescription?: string;
   /** Optional: traditional uses (neutral phrasing) */
   uses?: string[];
   /** Link to product in shop – replace when products are added */
@@ -33,8 +35,30 @@ export const COLLOIDAL_METALS: ColloidalMetal[] = [
     gradientTo: "#6b7fa8",
     tagline: "Spurenelement für den Stoffwechsel",
     description:
-      "Chrom ist ein essentielles Spurenelement, das in der Natur in verschiedenen Verbindungen vorkommt. Kolloidales Chrom wird traditionell geschätzt. Das Metall hat eine charakteristische silbergraue bis bläuliche Färbung.",
-    uses: ["Stoffwechsel", "Energie"],
+      "Kolloidales Chrom ist ein essentielles Spurenelement, das eine wichtige Rolle im Stoffwechsel spielt. Es unterstützt die Regulierung des Blutzuckerspiegels, fördert die Insulinsensitivität und kann dadurch Heißhunger auf Süßes reduzieren. Chrom beteiligt sich außerdem am Stoffwechsel von Kohlenhydraten, Fetten und Proteinen und kann zur Stabilisierung des Cholesterinspiegels beitragen. Darüber hinaus besitzt kolloidales Chrom antioxidative Eigenschaften, unterstützt die Knochengesundheit und kann den Energiehaushalt sowie die körperliche Leistungsfähigkeit positiv beeinflussen.",
+    longDescription: `Kolloidales Chrom ist ein Spurenelement, das für zahlreiche Stoffwechselprozesse im Körper von Bedeutung ist. Besonders bekannt ist seine Rolle bei der Unterstützung des Insulinstoffwechsels und der Regulierung des Blutzuckerspiegels. Durch eine verbesserte Insulinsensitivität können Zellen Glukose effizienter aufnehmen, wodurch starke Schwankungen des Blutzuckerspiegels reduziert werden können. Dies kann dazu beitragen, Heißhunger auf Süßigkeiten zu verringern und den Energiehaushalt stabil zu halten.
+
+Chrom ist außerdem am Stoffwechsel von Kohlenhydraten, Fetten und Proteinen beteiligt. Dadurch unterstützt es den Energiestoffwechsel und kann die Verwertung von Nährstoffen im Körper verbessern.
+
+Ein weiterer wichtiger Bereich ist die Regulation des Cholesterinspiegels. Chrom beeinflusst Enzyme des Fettstoffwechsels und kann dazu beitragen, das Gleichgewicht zwischen HDL- („gutem“) und LDL-Cholesterin („schlechtem“) zu fördern. Zusätzlich besitzt kolloidales Chrom antioxidative Eigenschaften, die helfen können, freie Radikale zu neutralisieren und oxidativen Stress zu reduzieren.
+
+Auch für die Knochengesundheit spielt Chrom eine Rolle. Es kann die Aktivität des Hormons Osteocalcin unterstützen, welches für die Einlagerung von Calcium in die Knochen verantwortlich ist und somit zur Knochenstärke beitragen kann.
+
+Darüber hinaus kann kolloidales Chrom die körperliche Leistungsfähigkeit unterstützen. Durch eine stabilere Energieproduktion und eine effizientere Nutzung von Nährstoffen können Ausdauer und Belastbarkeit verbessert werden. Ebenso kann es den Transport von Glukose und Aminosäuren in Muskelzellen fördern und dadurch den Muskelaufbau unterstützen.
+
+Chrom kann außerdem einen Einfluss auf die Stimmung und das allgemeine Wohlbefinden haben, da es an der Regulation wichtiger Neurotransmitter wie Serotonin und Dopamin beteiligt sein kann.
+
+Durch die kolloidale Form werden Chrompartikel in einer Form bereitgestellt, die eine mögliche bessere Aufnahme und Verwertung im Körper unterstützen kann.`,
+    uses: [
+      "Energie & Stoffwechsel",
+      "Blutzuckerbalance",
+      "Cholesterinspiegel",
+      "Knochenstärke",
+      "Muskelaufbau",
+      "Gewichtsmanagement",
+      "Antioxidativer Schutz",
+      "Stimmung & Wohlbefinden",
+    ],
     productLink: PLACEHOLDER_PRODUCT,
   },
   {
@@ -194,6 +218,11 @@ export const COLLOIDAL_METALS: ColloidalMetal[] = [
     productLink: PLACEHOLDER_PRODUCT,
   },
 ];
+
+/** Get metal by id, or undefined if not found */
+export function getMetalById(id: string): ColloidalMetal | undefined {
+  return COLLOIDAL_METALS.find((m) => m.id === id);
+}
 
 /** All unique uses across metals, sorted by metal count (most first) */
 export function getSortedUses(metals: ColloidalMetal[]): string[] {

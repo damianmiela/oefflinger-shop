@@ -135,14 +135,22 @@ export function MetalCarousel({ metals }: MetalCarouselProps) {
                   </div>
                 </div>
               )}
-              {selectedMetal.productLink && (
+              <div className="mt-6 flex flex-wrap gap-3">
                 <Link
-                  href={selectedMetal.productLink}
-                  className="mt-6 inline-block rounded-lg bg-primary px-6 py-3 font-semibold text-white transition hover:bg-primary-light"
+                  href={`/produkte/${selectedMetal.id}`}
+                  className="inline-block rounded-lg border border-primary bg-white px-6 py-3 font-semibold text-primary transition hover:bg-primary/5"
                 >
-                  Zum Produkt im Shop
+                  Mehr erfahren
                 </Link>
-              )}
+                {selectedMetal.productLink && (
+                  <Link
+                    href={selectedMetal.productLink}
+                    className="inline-block rounded-lg bg-primary px-6 py-3 font-semibold text-white transition hover:bg-primary-light"
+                  >
+                    Zum Produkt im Shop
+                  </Link>
+                )}
+              </div>
             </div>
           </div>
         </div>
