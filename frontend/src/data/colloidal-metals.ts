@@ -105,8 +105,36 @@ Kolloidales Eisen stellt dieses wichtige Spurenelement in einer speziellen Form 
     gradientTo: "#b8962e",
     tagline: "Edelmetall mit langer Tradition",
     description:
-      "Gold wird seit jeher als Edelmetall geschätzt. Kolloidales Gold besteht aus winzigen Goldpartikeln in destilliertem Wasser. Es hat eine charakteristische goldene bis bernsteinfarbene Färbung und wird traditionell in der Naturheilkunde verwendet.",
-    uses: ["Traditionelle Anwendung", "Haut"],
+      "Kolloidales Gold wird seit Jahrhunderten in verschiedenen Kulturen geschätzt und mit geistigem Wohlbefinden, Harmonie und Weisheit in Verbindung gebracht. Viele Menschen nutzen es, um ihre mentale Leistungsfähigkeit und Lebensqualität zu unterstützen. Kolloidales Gold kann mit positiven Effekten auf Konzentration, Stimmung und geistige Klarheit verbunden sein. Es wird zudem mit einer möglichen Unterstützung des Stoffwechsels, der Hormonbalance sowie der Hautgesundheit in Verbindung gebracht. Durch seine kolloidale Form wird Gold in einer speziellen Struktur bereitgestellt, die eine mögliche Aufnahme und Nutzung im Körper unterstützen kann.",
+    longDescription: `Kolloidales Gold
+
+Kolloidales Gold hat eine lange Geschichte und wurde bereits in verschiedenen Kulturen und von historischen Persönlichkeiten untersucht und geschätzt. Es wird häufig mit Eigenschaften wie Harmonie, geistiger Klarheit und Weisheit in Verbindung gebracht.
+
+Viele Menschen interessieren sich heute für kolloidales Gold als Ergänzung zur Unterstützung ihres geistigen Wohlbefindens und ihrer mentalen Leistungsfähigkeit. Es wird angenommen, dass kolloidales Gold auf verschiedene Weise mit dem Gehirn interagieren kann und dadurch Prozesse wie Konzentration, Aufmerksamkeit, Gedächtnis und Lernfähigkeit beeinflusst.
+
+Ein möglicher Wirkmechanismus wird in der Unterstützung der neuronalen Kommunikation im Gehirn gesehen. Dadurch könnte die geistige Leistungsfähigkeit verbessert und die kognitive Aktivität gesteigert werden. Einige Anwender berichten von mehr geistiger Klarheit, höherer Konzentrationsfähigkeit und einer verbesserten Problemlösungskompetenz.
+
+Darüber hinaus wird kolloidales Gold mit einer positiven Wirkung auf die Stimmung und das emotionale Gleichgewicht in Verbindung gebracht. Es könnte dazu beitragen, Stress und innere Unruhe zu reduzieren und das allgemeine Wohlbefinden zu fördern.
+
+Kolloidales Gold wird außerdem mit verjüngenden Eigenschaften für die Haut in Verbindung gebracht. Es kann möglicherweise die Kollagenproduktion unterstützen und so zur Elastizität und Festigkeit der Haut beitragen.
+
+Zusätzlich wird kolloidales Gold mit der Aktivierung von Enzymprozessen im Stoffwechsel in Verbindung gebracht. Enzyme spielen eine wichtige Rolle bei zahlreichen biochemischen Reaktionen im Körper, darunter die Energieproduktion, die Verarbeitung von Nährstoffen sowie Entgiftungsprozesse.
+
+Auch eine mögliche Unterstützung der hormonellen Balance wird diskutiert, da kolloidales Gold die Aktivität hormonproduzierender Drüsen beeinflussen könnte.
+
+Ein weiterer Bereich ist die Förderung von Kreativität und Sensibilität. Es wird angenommen, dass kolloidales Gold die Wahrnehmung sowie kreative Denkprozesse unterstützen kann.
+
+Darüber hinaus wird kolloidales Gold mit einer möglichen Unterstützung der körperlichen Regeneration und antioxidativen Schutzmechanismen in Verbindung gebracht.`,
+    uses: [
+      "Gehirn & Konzentration",
+      "Stimmung & Wohlbefinden",
+      "Energie & Stoffwechsel",
+      "Haut & Haare",
+      "Hormonbalance",
+      "Kreativität",
+      "Regeneration",
+      "Antioxidativer Schutz",
+    ],
     productLink: PLACEHOLDER_PRODUCT,
   },
   {
