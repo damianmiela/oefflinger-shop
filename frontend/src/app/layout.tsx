@@ -25,16 +25,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <footer className="border-t border-gray-200 bg-primary-dark">
             <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
               <div className="flex flex-col items-center gap-6 sm:flex-row sm:justify-between">
-                <p className="text-sm text-white/80">
-                  &copy; {new Date().getFullYear()} Öfflinger · Rheinland-Pfalz, Deutschland
-                </p>
+                <div className="text-center sm:text-left">
+                  <p className="text-sm text-white/80">
+                    &copy; {new Date().getFullYear()} Öfflinger
+                  </p>
+                  <p className="mt-1 text-sm text-white/70">
+                    Musterstraße 1, 12345 Oberöfflingen, Deutschland
+                  </p>
+                </div>
                 <nav className="flex flex-wrap items-center justify-center gap-6">
-                  <Link
-                    href="/shop"
-                    className="text-sm font-medium text-white transition hover:text-white/90"
-                  >
-                    Zum Shop
-                  </Link>
                   <Link
                     href="/impressum"
                     className="text-sm font-medium text-white/80 transition hover:text-white"

@@ -55,17 +55,8 @@ export default async function MetalDetailPage({ params }: Props) {
           sizes="100vw"
           priority
         />
-        <div className="absolute inset-0 bg-black/30" aria-hidden />
-        <div
-          className="absolute inset-0 opacity-40"
-          style={{
-            background:
-              "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.3) 45%, rgba(255,255,255,0.15) 50%, transparent 55%)",
-          }}
-          aria-hidden
-        />
-        <div className="relative z-10 flex w-full flex-col justify-end px-4 pb-12 pt-24 sm:px-6 sm:pb-16 sm:pt-28 lg:px-8">
-          <div className="mx-auto w-full max-w-7xl">
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/85 via-black/50 to-transparent px-4 pb-12 pt-28 sm:px-6 sm:pb-16 sm:pt-36 lg:px-8">
+          <div className="relative z-10 mx-auto max-w-7xl">
             <h1 className="text-4xl font-bold tracking-tight text-white drop-shadow-lg sm:text-5xl">
               Kolloidales {metal.name}
             </h1>

@@ -86,19 +86,7 @@ export function MetalCarousel({ metals }: MetalCarouselProps) {
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 66vw"
               />
-              <div
-                className="absolute inset-0 bg-black/30"
-                aria-hidden
-              />
-              <div
-                className="absolute inset-0 opacity-40"
-                style={{
-                  background:
-                    "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.3) 45%, rgba(255,255,255,0.15) 50%, transparent 55%)",
-                }}
-                aria-hidden
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 to-transparent p-6">
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/85 via-black/50 to-transparent p-8 pt-16">
                 <h2 className="text-3xl font-bold tracking-tight text-white drop-shadow-lg sm:text-4xl">
                   Kolloidales {selectedMetal.name}
                 </h2>
