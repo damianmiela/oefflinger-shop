@@ -145,8 +145,34 @@ Darüber hinaus wird kolloidales Gold mit einer möglichen Unterstützung der k�
     gradientTo: "#2d6b7a",
     tagline: "Spurenelement für Vitamin B12",
     description:
-      "Kobalt ist ein Bestandteil von Vitamin B12 und damit wichtig für verschiedene Stoffwechselprozesse. Kolloidales Kobalt hat eine typische blaugraue metallische Färbung. Es wird traditionell geschätzt.",
-    uses: ["Stoffwechsel", "Energie"],
+      "Kolloidales Kobalt ist ein essentielles Spurenelement, das eine wichtige Rolle in verschiedenen Stoffwechselprozessen des Körpers spielt. Besonders bekannt ist seine Beteiligung an der Bildung roter Blutkörperchen, die für den Sauerstofftransport im Körper verantwortlich sind. Darüber hinaus wird Kobalt mit einer möglichen Unterstützung der Gehirnfunktion, der Energieproduktion sowie des Nervensystems in Verbindung gebracht. Es kann zur geistigen Klarheit beitragen und das allgemeine Wohlbefinden unterstützen. Durch die kolloidale Form wird Kobalt in einer Struktur bereitgestellt, die eine mögliche Aufnahme und Verwertung im Körper unterstützen kann.",
+    longDescription: `Kolloidales Kobalt
+
+Kobalt ist ein Spurenelement, das in kleinen Mengen im Körper vorkommt, jedoch eine wichtige Rolle für zahlreiche biologische Prozesse spielt. Besonders bedeutend ist seine Beteiligung an der Bildung roter Blutkörperchen, die für den Transport von Sauerstoff im Körper verantwortlich sind. Eine ausreichende Versorgung mit Kobalt kann daher zur Unterstützung der Sauerstoffversorgung der Zellen beitragen.
+
+Durch diese Funktion kann Kobalt auch eine Rolle bei der Energieproduktion im Körper spielen und dabei helfen, Müdigkeit und Erschöpfung zu reduzieren.
+
+Kobalt wird außerdem mit einer möglichen Unterstützung des Nervensystems und der Gehirnfunktion in Verbindung gebracht. Es kann dazu beitragen, Nervenzellen zu schützen und die neuronale Aktivität im Gehirn zu unterstützen. Dadurch könnten Konzentration, geistige Klarheit und kognitive Leistungsfähigkeit positiv beeinflusst werden.
+
+Darüber hinaus wird angenommen, dass Kobalt Einfluss auf Wahrnehmung und Stimmung nehmen kann, da es möglicherweise an der Regulation von Neurotransmittern beteiligt ist. Dies kann zur emotionalen Balance und zum allgemeinen Wohlbefinden beitragen.
+
+Kobalt kann außerdem eine Rolle im Hormonhaushalt spielen, da es an Prozessen beteiligt sein kann, die die Produktion und Regulation von Hormonen beeinflussen.
+
+Ein weiterer möglicher Wirkbereich liegt im Stoffwechsel bestimmter Substanzen, beispielsweise bei der Umwandlung von Homocystein sowie bei der Aktivierung von Folsäure, die für verschiedene Stoffwechselprozesse wichtig ist.
+
+Darüber hinaus wird kolloidales Kobalt mit möglichen entzündungshemmenden Eigenschaften in Verbindung gebracht und könnte bei allergischen Reaktionen wie Heuschnupfen unterstützend wirken.
+
+Durch seine kolloidale Form wird Kobalt in einer speziellen Struktur bereitgestellt, die eine mögliche Aufnahme und Verwertung im Körper unterstützen kann.`,
+    uses: [
+      "Energie & Stoffwechsel",
+      "Gehirn & Konzentration",
+      "Stimmung & Wohlbefinden",
+      "Hormonbalance",
+      "Immunsystem",
+      "Haut & Haare",
+      "Allergien",
+      "Eisenmangel",
+    ],
     productLink: PLACEHOLDER_PRODUCT,
   },
   {
