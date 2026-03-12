@@ -298,8 +298,34 @@ Kolloidales Molybdän stellt dieses Spurenelement in einer Form bereit, die eine
     gradientTo: "#6b6b6b",
     tagline: "Spurenelement in minimalen Mengen",
     description:
-      "Nickel kommt als Spurenelement in vielen Lebensmitteln vor. Kolloidales Nickel hat eine silbrig-weiße, leicht goldene Färbung. Es wird traditionell geschätzt – bei bekannter Nickelallergie sollte auf die Anwendung verzichtet werden.",
-    uses: ["Traditionelle Anwendung"],
+      "Kolloidales Nickel ist ein Spurenelement, das im Körper an verschiedenen enzymatischen und biochemischen Prozessen beteiligt sein kann. Es wird vermutet, dass Nickel die Aktivität bestimmter Enzyme unterstützt, die für den Stoffwechsel, die Energieproduktion und andere wichtige Funktionen im Organismus verantwortlich sind. Darüber hinaus kann Nickel zur Unterstützung der Zellgesundheit beitragen und möglicherweise antioxidative Eigenschaften besitzen, die helfen können, freie Radikale zu neutralisieren und Zellschäden zu reduzieren. Durch seine kolloidale Form wird Nickel in einer Struktur bereitgestellt, die eine mögliche Aufnahme und Verwertung im Körper unterstützen kann.",
+    longDescription: `Kolloidales Nickel
+
+Nickel ist ein Spurenelement, das in geringen Mengen im Körper vorkommen kann und an verschiedenen biochemischen Prozessen beteiligt ist. Es wird angenommen, dass Nickel als Cofaktor bestimmter Enzyme fungieren kann, die wichtige Stoffwechselreaktionen im Körper unterstützen.
+
+Eine mögliche Rolle von Nickel liegt in der Unterstützung der Zellgesundheit. Es kann an Enzymen beteiligt sein, die bei der Reparatur von DNA-Schäden eine Rolle spielen und so zur Aufrechterhaltung der genetischen Integrität der Zellen beitragen.
+
+Darüber hinaus unterstützt Nickel verschiedene enzymatische Stoffwechselprozesse, die für die Umwandlung von Nährstoffen sowie für die Energieproduktion im Körper wichtig sind. Diese enzymatischen Reaktionen tragen dazu bei, dass der Körper Energie effizient nutzen kann.
+
+Nickel wird außerdem mit einer möglichen Unterstützung des Immunsystems in Verbindung gebracht. Es kann die Aktivität bestimmter Immunzellen beeinflussen und zur Regulation von Entzündungsprozessen beitragen, die eine wichtige Rolle bei der Immunantwort spielen.
+
+Ein weiterer möglicher Wirkbereich betrifft die Bildung und Erhaltung von Gewebe, einschließlich Haut, Haaren und Nägeln. Nickel kann an enzymatischen Prozessen beteiligt sein, die die Produktion von Kollagen und Keratin unterstützen.
+
+Auch das Nervensystem kann von Nickel beeinflusst werden, da es möglicherweise an neurologischen Prozessen beteiligt ist, die für Kommunikation und Signalübertragung zwischen Nervenzellen wichtig sind.
+
+Darüber hinaus wird Nickel mit der Regulation des Energiestoffwechsels sowie mit Prozessen in Verbindung gebracht, die die Funktion der Schilddrüse und die hormonelle Regulation beeinflussen können.
+
+Kolloidales Nickel stellt dieses Spurenelement in einer Form bereit, die eine mögliche Aufnahme und Nutzung im Körper unterstützen kann.`,
+    uses: [
+      "Energie & Stoffwechsel",
+      "Immunsystem",
+      "Gehirn & Konzentration",
+      "Stimmung & Wohlbefinden",
+      "Hormonbalance",
+      "Haut & Haare",
+      "Antioxidativer Schutz",
+      "Blutzucker",
+    ],
     productLink: PLACEHOLDER_PRODUCT,
   },
   {
