@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import type { ColloidalMetal } from "@/data/colloidal-metals";
-import { getSortedUses } from "@/data/colloidal-metals";
+import { getSortedUses, getMetalAccentColor } from "@/data/colloidal-metals";
 
 interface MetalCarouselProps {
   metals: ColloidalMetal[];
@@ -57,7 +57,7 @@ export function MetalCarousel({ metals }: MetalCarouselProps) {
               >
                 <span
                   className="h-3 w-3 shrink-0 rounded-full"
-                  style={{ backgroundColor: metal.color }}
+                  style={{ backgroundColor: getMetalAccentColor(metal) }}
                 />
                 <span className="font-medium">{metal.name}</span>
               </button>
@@ -125,8 +125,8 @@ export function MetalCarousel({ metals }: MetalCarouselProps) {
                         key={use}
                         className="rounded-full px-4 py-1.5 text-sm font-medium"
                         style={{
-                          backgroundColor: `${selectedMetal.color}20`,
-                          color: selectedMetal.color,
+                          backgroundColor: `${getMetalAccentColor(selectedMetal)}20`,
+                          color: getMetalAccentColor(selectedMetal),
                         }}
                       >
                         {use}

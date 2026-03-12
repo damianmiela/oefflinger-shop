@@ -6,9 +6,7 @@
 export interface ColloidalMetal {
   id: string;
   name: string;
-  /** Primary hex color for visual representation */
-  color: string;
-  /** Gradient from-to for metallic effect */
+  /** Gradient from-to for metallic effect. Accent color (dots, pills) is derived from gradientTo. */
   gradientFrom: string;
   gradientTo: string;
   /** Short tagline */
@@ -30,7 +28,6 @@ export const COLLOIDAL_METALS: ColloidalMetal[] = [
   {
     id: "chrom",
     name: "Chrom",
-    color: "#8b9dc3",
     gradientFrom: "#b8c6db",
     gradientTo: "#5f7c9a",
     tagline: "Spurenelement für den Stoffwechsel",
@@ -62,7 +59,6 @@ Durch die kolloidale Form werden Chrompartikel in einer Form bereitgestellt, die
   {
     id: "eisen",
     name: "Eisen",
-    color: "#b87333",
     gradientFrom: "#8f8f8f",
     gradientTo: "#3f3f3f",
     tagline: "Zentrales Element für Blut und Energie",
@@ -97,7 +93,6 @@ Kolloidales Eisen stellt dieses wichtige Spurenelement in einer speziellen Form 
   {
     id: "gold",
     name: "Gold",
-    color: "#d4af37",
     gradientFrom: "#f7d774",
     gradientTo: "#c59b1d",
     tagline: "Edelmetall mit langer Tradition",
@@ -136,7 +131,6 @@ Darüber hinaus wird kolloidales Gold mit einer möglichen Unterstützung der k�
   {
     id: "kobalt",
     name: "Kobalt",
-    color: "#4a90a4",
     gradientFrom: "#5fa8d3",
     gradientTo: "#1f4e79",
     tagline: "Spurenelement für Vitamin B12",
@@ -173,7 +167,6 @@ Durch seine kolloidale Form wird Kobalt in einer speziellen Struktur bereitgeste
   {
     id: "kupfer",
     name: "Kupfer",
-    color: "#b87333",
     gradientFrom: "#e09b4c",
     gradientTo: "#9a4d1a",
     tagline: "Essentiell für Enzyme und Bindegewebe",
@@ -209,7 +202,6 @@ Darüber hinaus wird kolloidales Kupfer mit möglichen positiven Effekten auf Ha
   {
     id: "magnesium",
     name: "Magnesium",
-    color: "#c0c0c0",
     gradientFrom: "#e6e6e6",
     gradientTo: "#9b9b9b",
     tagline: "Mineral für Muskeln und Nerven",
@@ -247,7 +239,6 @@ Kolloidales Magnesium stellt dieses wichtige Mineral in einer Form bereit, die e
   {
     id: "molybdan",
     name: "Molybdän",
-    color: "#6b7b8a",
     gradientFrom: "#9aa0a6",
     gradientTo: "#3c4043",
     tagline: "Spurenelement für Enzyme",
@@ -288,7 +279,6 @@ Kolloidales Molybdän stellt dieses Spurenelement in einer Form bereit, die eine
   {
     id: "nickel",
     name: "Nickel",
-    color: "#8b8b8b",
     gradientFrom: "#cfd8dc",
     gradientTo: "#6b7c86",
     tagline: "Spurenelement in minimalen Mengen",
@@ -326,7 +316,6 @@ Kolloidales Nickel stellt dieses Spurenelement in einer Form bereit, die eine m�
   {
     id: "silber",
     name: "Silber",
-    color: "#c0c0c0",
     gradientFrom: "#f2f2f2",
     gradientTo: "#b3b3b3",
     tagline: "Das bekannteste kolloidale Metall",
@@ -358,7 +347,6 @@ Durch seine kolloidale Form wird Silber in einer Struktur bereitgestellt, die ei
   {
     id: "silizium",
     name: "Silizium",
-    color: "#708090",
     gradientFrom: "#9fb3c8",
     gradientTo: "#4c647d",
     tagline: "Element für Haut, Haare und Bindegewebe",
@@ -395,7 +383,6 @@ Kolloidales Silizium stellt dieses Spurenelement in einer Form bereit, die eine 
   {
     id: "tantal",
     name: "Tantal",
-    color: "#5c6b7a",
     gradientFrom: "#6b7f8f",
     gradientTo: "#2f3e4b",
     tagline: "Seltenes Metall mit besonderen Eigenschaften",
@@ -433,7 +420,6 @@ Kolloidales Tantal stellt dieses Element in einer Form bereit, die eine möglich
   {
     id: "vanadium",
     name: "Vanadium",
-    color: "#6b7b8a",
     gradientFrom: "#8bbf9f",
     gradientTo: "#3d7a63",
     tagline: "Spurenelement für den Stoffwechsel",
@@ -474,7 +460,6 @@ Kolloidales Vanadium stellt dieses Spurenelement in einer Form bereit, die eine 
   {
     id: "zink",
     name: "Zink",
-    color: "#7d8b99",
     gradientFrom: "#b0bec5",
     gradientTo: "#546e7a",
     tagline: "Essentiell für Immunsystem und Haut",
@@ -514,7 +499,6 @@ Kolloidales Zink stellt dieses Spurenelement in einer Form bereit, die eine mög
   {
     id: "zinn",
     name: "Zinn",
-    color: "#a8a8a8",
     gradientFrom: "#d1d1d1",
     gradientTo: "#7a7a7a",
     tagline: "Weiches Metall mit langer Geschichte",
@@ -555,6 +539,11 @@ Kolloidales Zinn stellt dieses Spurenelement in einer Form bereit, die eine mög
     productLink: PLACEHOLDER_PRODUCT,
   },
 ];
+
+/** Accent color for dots, pills, etc. Derived from gradient (single source of truth). */
+export function getMetalAccentColor(metal: ColloidalMetal): string {
+  return metal.gradientTo;
+}
 
 /** Get metal by id, or undefined if not found */
 export function getMetalById(id: string): ColloidalMetal | undefined {

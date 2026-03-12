@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getMetalById, COLLOIDAL_METALS } from "@/data/colloidal-metals";
+import { getMetalById, COLLOIDAL_METALS, getMetalAccentColor } from "@/data/colloidal-metals";
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 
 interface Props {
@@ -102,10 +102,10 @@ export default async function MetalDetailPage({ params }: Props) {
                     <span
                       key={use}
                       className="rounded-full px-4 py-2 text-sm font-medium"
-                      style={{
-                        backgroundColor: `${metal.color}20`,
-                        color: metal.color,
-                      }}
+                        style={{
+                          backgroundColor: `${getMetalAccentColor(metal)}20`,
+                          color: getMetalAccentColor(metal),
+                        }}
                     >
                       {use}
                     </span>
