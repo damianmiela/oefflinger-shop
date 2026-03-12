@@ -8,9 +8,9 @@ import { Header } from "@/components/Header";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Öfflinger – Kolloidales Wasser",
+  title: "Öfflinger – Kolloidale Metalle",
   description:
-    "Hochwertige Kolloide aus eigener Produktion für Ihre Gesundheit und Ihr Wohlbefinden.",
+    "Kolloidales Eisen, Gold, Silber, Zink und weitere Metalle aus eigener Produktion in Oberöfflingen, Rheinland-Pfalz.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
