@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { getProductBySlug } from "@/lib/woo/api";
 import { AddToCartButton } from "./AddToCartButton";
 import { StockStatus } from "./StockStatus";
-import { ClickableImage } from "@/components/ClickableImage";
+import { ProductImageGallery } from "@/components/ProductImageGallery";
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 
 interface Props {
@@ -34,20 +34,11 @@ export default async function ProductPage({ params }: Props) {
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="grid gap-12 lg:grid-cols-2">
         <AnimateOnScroll variant="fade-up">
-        <div className="aspect-square overflow-hidden rounded-xl bg-surface-alt">
-        {product.images[0] ? (
-          <ClickableImage
-            src={product.images[0].src}
-            alt={product.images[0].alt || product.name}
-            width={600}
-            height={600}
-            priority
-            className="h-full w-full rounded-xl"
-          />
-        ) : (
-          <div className="flex h-full items-center justify-center text-gray-400">Kein Bild</div>
-        )}
-        </div>
+        <ProductImageGallery
+          images={product.images}
+          productName={product.name}
+          priority
+        />
         </AnimateOnScroll>
 
         <AnimateOnScroll variant="fade-up">
