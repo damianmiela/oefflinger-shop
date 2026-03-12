@@ -250,7 +250,7 @@ Kolloidales Magnesium stellt dieses wichtige Mineral in einer Form bereit, die e
     productLink: PLACEHOLDER_PRODUCT,
   },
   {
-    id: "molybdän",
+    id: "molybdan",
     name: "Molybdän",
     color: "#6b7b8a",
     gradientFrom: "#8a9aa8",
