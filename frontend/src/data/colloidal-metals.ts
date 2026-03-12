@@ -69,8 +69,32 @@ Durch die kolloidale Form werden Chrompartikel in einer Form bereitgestellt, die
     gradientTo: "#8b5a2b",
     tagline: "Zentrales Element für Blut und Energie",
     description:
-      "Eisen ist eines der wichtigsten Spurenelemente und spielt eine zentrale Rolle bei der Sauerstoffversorgung des Körpers. Kolloidales Eisen wird in der Naturheilkunde traditionell verwendet. Das Metall zeigt eine typische grau-metallische bis rötliche Färbung.",
-    uses: ["Blutbildung", "Energie", "Sauerstofftransport"],
+      "Kolloidales Eisen ist ein essentielles Spurenelement, das eine zentrale Rolle im Sauerstofftransport und im Energiestoffwechsel spielt. Es ist ein wichtiger Bestandteil des Hämoglobins und sorgt dafür, dass Sauerstoff effizient durch den Körper transportiert wird. Dadurch unterstützt Eisen die Energieproduktion in den Zellen, fördert die körperliche Leistungsfähigkeit und kann Müdigkeit reduzieren. Zusätzlich trägt Eisen zur Unterstützung des Immunsystems, der kognitiven Funktionen sowie zur Bildung neuer Zellen bei. Durch die kolloidale Form wird Eisen in einer Form bereitgestellt, die eine mögliche bessere Aufnahme und Verwertung im Körper unterstützen kann.",
+    longDescription: `Kolloidales Eisen
+
+Eisen ist ein lebenswichtiges Spurenelement und spielt eine zentrale Rolle in zahlreichen biologischen Prozessen des Körpers. Eine der wichtigsten Funktionen von Eisen ist seine Beteiligung am Sauerstofftransport im Blut. Als Bestandteil des Hämoglobins ermöglicht Eisen den Transport von Sauerstoff zu den Zellen und unterstützt damit die Energieproduktion im Körper.
+
+Eine ausreichende Versorgung mit Eisen kann dazu beitragen, die Energieproduktion in den Mitochondrien zu unterstützen und die körperliche Leistungsfähigkeit zu verbessern. Durch eine bessere Sauerstoffversorgung der Zellen können Ausdauer, Muskelarbeit und allgemeine Belastbarkeit positiv beeinflusst werden.
+
+Eisen ist außerdem entscheidend für die Bildung roter Blutkörperchen. Ein ausreichender Eisenspiegel unterstützt den Körper dabei, den Sauerstofftransport im Blut aufrechtzuerhalten und kann helfen, Symptome eines Eisenmangels zu reduzieren.
+
+Darüber hinaus spielt Eisen eine wichtige Rolle für das Immunsystem. Es ist an der Bildung von Immunzellen beteiligt und unterstützt die Fähigkeit des Körpers, sich gegen Krankheitserreger und Infektionen zu verteidigen.
+
+Auch die kognitive Funktion kann durch Eisen beeinflusst werden. Eine ausreichende Eisenversorgung ist wichtig für die normale Funktion von Gehirn und Nervensystem und kann Konzentration, Gedächtnis und Lernfähigkeit unterstützen.
+
+Zusätzlich kann Eisen zur Gesundheit von Haut, Haaren und Nägeln beitragen, da ein Eisenmangel mit trockener Haut, Haarausfall und brüchigen Nägeln verbunden sein kann.
+
+Kolloidales Eisen stellt dieses wichtige Spurenelement in einer speziellen Form bereit, die eine mögliche bessere Aufnahme und Verwertung im Körper unterstützen kann.`,
+    uses: [
+      "Energie & Stoffwechsel",
+      "Immunsystem",
+      "Gehirn & Konzentration",
+      "Haut & Haare",
+      "Muskelaufbau",
+      "Schwangerschaft & Entwicklung",
+      "Eisenmangel",
+      "Verdauung & Wohlbefinden",
+    ],
     productLink: PLACEHOLDER_PRODUCT,
   },
   {
