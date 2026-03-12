@@ -370,8 +370,33 @@ Durch seine kolloidale Form wird Silber in einer Struktur bereitgestellt, die ei
     gradientTo: "#556677",
     tagline: "Element für Haut, Haare und Bindegewebe",
     description:
-      "Silizium ist nach Sauerstoff das häufigste Element der Erdkruste. Kolloidales Silizium wird traditionell für Haut, Haare und Nägel geschätzt. Das Halbmetall hat eine graue, metallisch glänzende Erscheinung.",
-    uses: ["Haut", "Haare", "Bindegewebe"],
+      "Kolloidales Silizium ist ein natürlich vorkommendes Spurenelement, das eine wichtige Rolle für verschiedene Strukturen im menschlichen Körper spielen kann. Es ist ein Bestandteil von Knochen, Knorpeln und Bindegewebe und trägt zur Stabilität und Elastizität dieser Gewebe bei. Silizium wird außerdem mit der Unterstützung der Kollagenproduktion in Verbindung gebracht, die für gesunde Haut, Haare und Nägel wichtig ist. Zusätzlich kann es zur Knochen- und Gelenkgesundheit beitragen sowie die Aufnahme bestimmter Mineralstoffe unterstützen. Durch seine kolloidale Form wird Silizium in einer Struktur bereitgestellt, die eine mögliche Aufnahme und Verwertung im Körper unterstützen kann.",
+    longDescription: `Kolloidales Silizium
+
+Silizium ist ein natürlich vorkommendes Element, das im menschlichen Körper eine wichtige Rolle für verschiedene strukturelle Gewebe spielt. Es ist ein Bestandteil von Knochen, Knorpeln und Bindegewebe und trägt zur Stabilität und Festigkeit dieser Gewebe bei.
+
+Ein zentraler Wirkbereich von Silizium liegt in der Unterstützung der Kollagenbildung. Kollagen ist ein strukturelles Protein, das für die Elastizität und Festigkeit von Haut, Haaren, Nägeln sowie Bindegewebe verantwortlich ist. Eine ausreichende Versorgung mit Silizium kann dazu beitragen, die Bildung und Stabilität von Kollagenfasern zu unterstützen.
+
+Darüber hinaus kann Silizium zur Gesundheit von Gelenken und Knorpeln beitragen, da es an Prozessen beteiligt ist, die für die Struktur und Flexibilität dieser Gewebe wichtig sind.
+
+Silizium wird außerdem mit der Knochengesundheit in Verbindung gebracht. Es kann die Knochenmineraldichte unterstützen und spielt eine Rolle bei der Aufnahme und Verwertung von Mineralstoffen wie Calcium.
+
+Ein weiterer möglicher Wirkbereich betrifft die Unterstützung der Haut-, Haar- und Nagelgesundheit. Durch seine Rolle bei der Kollagenbildung kann Silizium zur Struktur und Elastizität der Haut sowie zur Stabilität von Haaren und Nägeln beitragen.
+
+Zusätzlich wird Silizium mit einer möglichen Entgiftungsfunktion in Verbindung gebracht, da es Schwermetalle und andere Substanzen im Körper binden und deren Ausscheidung unterstützen könnte.
+
+Darüber hinaus kann Silizium die Aufnahme wichtiger Mineralstoffe wie Calcium, Magnesium und Zink unterstützen und so zur allgemeinen Nährstoffversorgung beitragen.
+
+Kolloidales Silizium stellt dieses Spurenelement in einer Form bereit, die eine mögliche Aufnahme und Nutzung im Körper unterstützen kann.`,
+    uses: [
+      "Haut & Haare",
+      "Knochen",
+      "Herz-Kreislauf",
+      "Immunsystem",
+      "Energie & Stoffwechsel",
+      "Antioxidativer Schutz",
+      "Verdauung & Wohlbefinden",
+    ],
     productLink: PLACEHOLDER_PRODUCT,
   },
   {
