@@ -336,8 +336,30 @@ Kolloidales Nickel stellt dieses Spurenelement in einer Form bereit, die eine m�
     gradientTo: "#a0a0a0",
     tagline: "Das bekannteste kolloidale Metall",
     description:
-      "Kolloidales Silber ist das bekannteste kolloidale Metall. Es besteht aus winzigen Silberpartikeln in destilliertem Wasser und hat eine charakteristische hellgraue bis gelbliche Färbung. Silber wird seit langem in der Naturheilkunde traditionell verwendet.",
-    uses: ["Haut", "Mundhygiene", "Traditionelle Anwendung"],
+      "Kolloidales Silber ist seit Jahrhunderten für seine antimikrobiellen Eigenschaften bekannt. Silberpartikel können mit Mikroorganismen interagieren und werden häufig mit einer hemmenden Wirkung auf Bakterien, Viren und andere Keime in Verbindung gebracht. Darüber hinaus wird kolloidales Silber für seine entzündungshemmenden und antioxidativen Eigenschaften geschätzt. Es kann dazu beitragen, das Immunsystem zu unterstützen, Entzündungsprozesse zu regulieren und den Körper vor den Auswirkungen freier Radikale zu schützen. Durch seine kolloidale Form wird Silber in einer Struktur bereitgestellt, die eine mögliche Aufnahme und Nutzung im Körper unterstützen kann.",
+    longDescription: `Kolloidales Silber
+
+Silber wird seit vielen Jahrhunderten wegen seiner antimikrobiellen Eigenschaften geschätzt. Historisch wurde es verwendet, um Wasser länger haltbar zu machen oder Lebensmittel vor dem Verderben zu schützen. Moderne Untersuchungen zeigen, dass Silberpartikel mit Mikroorganismen interagieren können.
+
+Dabei können Silberpartikel Ionen freisetzen, die in Bakterienzellen eindringen und deren Stoffwechselprozesse beeinflussen. Diese Eigenschaft wird mit einer möglichen hemmenden Wirkung auf verschiedene Mikroorganismen wie Bakterien, Viren und Pilze in Verbindung gebracht.
+
+Neben seinen antimikrobiellen Eigenschaften wird kolloidales Silber auch für seine entzündungshemmende Wirkung geschätzt. Es kann dazu beitragen, Entzündungsprozesse im Körper zu regulieren und das Immunsystem bei der Abwehr von Krankheitserregern zu unterstützen.
+
+Ein weiterer möglicher Wirkbereich ist der antioxidative Schutz. Kolloidales Silber kann dazu beitragen, freie Radikale zu neutralisieren, die Zellschäden verursachen können und mit Alterungsprozessen in Verbindung gebracht werden.
+
+Darüber hinaus wird kolloidales Silber häufig im Zusammenhang mit der Hautpflege und Wundheilung erwähnt. Es wird zur Unterstützung bei Hautproblemen, kleinen Verletzungen oder Hautreizungen eingesetzt.
+
+Auch bei der Unterstützung der Atemwege sowie bei bestimmten Verdauungsbeschwerden wird kolloidales Silber in verschiedenen Anwendungen genutzt.
+
+Durch seine kolloidale Form wird Silber in einer Struktur bereitgestellt, die eine mögliche Aufnahme und Nutzung im Körper unterstützen kann.`,
+    uses: [
+      "Immunsystem",
+      "Antioxidativer Schutz",
+      "Haut & Haare",
+      "Verdauung & Wohlbefinden",
+      "Atemwege",
+      "Entzündungen",
+    ],
     productLink: PLACEHOLDER_PRODUCT,
   },
   {
