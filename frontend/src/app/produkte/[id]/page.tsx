@@ -45,18 +45,18 @@ export default async function MetalDetailPage({ params }: Props) {
         </AnimateOnScroll>
       </div>
 
-      {/* Hero header – 100% width, metal label image */}
-      <div className="relative mt-6 aspect-[21/9] min-h-[240px] overflow-hidden">
-        <Image
-          src={`/images/metals/${metal.id}.png`}
-          alt=""
-          fill
-          className="object-cover"
-          sizes="100vw"
-          priority
-        />
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/85 via-black/50 to-transparent px-4 pb-12 pt-28 sm:px-6 sm:pb-16 sm:pt-36 lg:px-8">
-          <div className="relative z-10 mx-auto max-w-7xl">
+      {/* Hero header – full width bg, image max 1920px centered, 400px height */}
+      <div className="mt-6 w-full bg-primary-dark">
+        <div className="relative mx-auto h-[400px] max-w-[1920px] overflow-hidden">
+          <Image
+            src={`/images/metals/${metal.id}.png`}
+            alt=""
+            fill
+            className="object-cover object-center"
+            sizes="(max-width: 1920px) 100vw, 1920px"
+            priority
+          />
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-primary-dark/40">
             <h1 className="text-4xl font-bold tracking-tight text-white drop-shadow-lg sm:text-5xl">
               Kolloidales {metal.name}
             </h1>
