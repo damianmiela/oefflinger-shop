@@ -13,7 +13,14 @@ export const metadata = {
     "Übersicht aller kolloidalen Metalle: Chrom, Eisen, Gold, Kobalt, Kupfer, Magnesium, Molybdän, Nickel, Silber, Silizium, Tantal, Vanadium, Zink und Zinn.",
 };
 
-export default function ProduktePage() {
+interface ProduktePageProps {
+  searchParams: Promise<{ metal?: string }>;
+}
+
+export default async function ProduktePage({ searchParams }: ProduktePageProps) {
+  const params = await searchParams;
+  const initialMetalId = params?.metal ?? undefined;
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <AnimateOnScroll variant="fade-up">
@@ -21,7 +28,7 @@ export default function ProduktePage() {
       </AnimateOnScroll>
 
       <AnimateOnScroll variant="fade-up">
-        <MetalCarousel metals={COLLOIDAL_METALS} />
+        <MetalCarousel metals={COLLOIDAL_METALS} initialSelectedId={initialMetalId} />
       </AnimateOnScroll>
     </div>
   );

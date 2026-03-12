@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getMetalById, COLLOIDAL_METALS, getMetalAccentColor } from "@/data/colloidal-metals";
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
+import { RememberMetal } from "@/components/RememberMetal";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -29,11 +30,12 @@ export default async function MetalDetailPage({ params }: Props) {
 
   return (
     <div className="min-h-screen">
+      <RememberMetal metalId={metal.id} />
       {/* Back button – full width container */}
       <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
         <AnimateOnScroll variant="fade-up">
           <Link
-            href="/produkte"
+            href={`/produkte?metal=${metal.id}`}
             className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 transition hover:text-primary"
           >
             <span aria-hidden>←</span>

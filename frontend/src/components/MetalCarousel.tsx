@@ -1,21 +1,31 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import type { ColloidalMetal } from "@/data/colloidal-metals";
 import { getSortedUses, getMetalAccentColor } from "@/data/colloidal-metals";
+import { getRememberedMetalId } from "@/components/RememberMetal";
 
 interface MetalCarouselProps {
   metals: ColloidalMetal[];
+  /** Pre-select this metal (from URL ?metal= or sessionStorage when returning from detail page) */
+  initialSelectedId?: string;
 }
 
 function getMetalsForUse(metals: ColloidalMetal[], use: string): string[] {
   return metals.filter((m) => m.uses?.includes(use)).map((m) => m.id);
 }
 
-export function MetalCarousel({ metals }: MetalCarouselProps) {
+export function MetalCarousel({ metals, initialSelectedId }: MetalCarouselProps) {
   const [selectedMetalId, setSelectedMetalId] = useState(metals[0]?.id ?? "");
   const [selectedUse, setSelectedUse] = useState<string | null>(null);
+
+  useEffect(() => {
+    const id = initialSelectedId || getRememberedMetalId();
+    if (id && metals.some((m) => m.id === id)) {
+      setSelectedMetalId(id);
+    }
+  }, [initialSelectedId, metals]);
 
   const selectedMetal = metals.find((m) => m.id === selectedMetalId) ?? metals[0];
 
