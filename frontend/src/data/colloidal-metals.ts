@@ -219,8 +219,34 @@ Darüber hinaus wird kolloidales Kupfer mit möglichen positiven Effekten auf Ha
     gradientTo: "#a0a0a0",
     tagline: "Mineral für Muskeln und Nerven",
     description:
-      "Magnesium ist ein lebenswichtiges Mineral, das an über 300 enzymatischen Reaktionen beteiligt ist. Kolloidales Magnesium hat eine silberweiße metallische Erscheinung. Es wird traditionell für Muskeln, Nerven und Knochen geschätzt.",
-    uses: ["Muskelfunktion", "Nervensystem", "Knochen"],
+      "Kolloidales Magnesium ist ein wichtiges Mineral, das an zahlreichen biologischen Prozessen im Körper beteiligt ist. Es wirkt als Cofaktor bei über 300 enzymatischen Reaktionen und spielt eine zentrale Rolle bei der Energieproduktion, der Muskel- und Nervenfunktion sowie im Stoffwechsel. Magnesium unterstützt die Entspannung der Muskulatur, trägt zur Regulation des Nervensystems bei und kann zur Stabilisierung von Stimmung und Stressreaktionen beitragen. Zudem ist es wichtig für die Knochengesundheit, den Blutzuckerspiegel sowie die normale Funktion des Herz-Kreislauf-Systems. Durch seine kolloidale Form wird Magnesium in einer Struktur bereitgestellt, die eine mögliche Aufnahme und Verwertung im Körper unterstützen kann.",
+    longDescription: `Kolloidales Magnesium
+
+Magnesium ist ein lebenswichtiges Mineral und an einer Vielzahl von biologischen Prozessen beteiligt. Als Cofaktor für mehr als 300 enzymatische Reaktionen spielt es eine zentrale Rolle im Energiestoffwechsel, bei der DNA-Synthese sowie bei zahlreichen Stoffwechselprozessen im Körper.
+
+Eine der wichtigsten Funktionen von Magnesium liegt in der Unterstützung der Muskelentspannung und Regeneration. Es ist an der Regulation der Muskelkontraktion beteiligt und hilft dabei, Muskelverspannungen, Krämpfe und Muskelkater zu reduzieren. Dadurch kann Magnesium zur Erholung nach körperlicher Belastung beitragen.
+
+Magnesium unterstützt außerdem das Nervensystem und die mentale Balance. Es kann beruhigend auf das Nervensystem wirken, zur Regulation von Stresshormonen beitragen und die Produktion von Neurotransmittern wie Serotonin unterstützen. Dadurch kann Magnesium helfen, Stress zu reduzieren und die emotionale Ausgeglichenheit zu fördern.
+
+Darüber hinaus spielt Magnesium eine wichtige Rolle für die Knochengesundheit, da es an der Aufnahme und dem Stoffwechsel von Calcium beteiligt ist. Eine ausreichende Versorgung kann dazu beitragen, die Stabilität der Knochen zu unterstützen.
+
+Magnesium ist auch wichtig für das Herz-Kreislauf-System. Es trägt zur Entspannung der Blutgefäße bei, kann den Blutdruck regulieren und unterstützt die normale Herzfunktion.
+
+Ein weiterer wichtiger Bereich ist die Regulation des Blutzuckerspiegels. Magnesium ist an der Funktion von Insulin beteiligt und kann dazu beitragen, die Insulinsensitivität zu verbessern und den Blutzuckerspiegel stabil zu halten.
+
+Zusätzlich unterstützt Magnesium das Immunsystem, indem es an verschiedenen immunologischen Prozessen beteiligt ist und zur Regulation entzündungshemmender Mechanismen beitragen kann.
+
+Kolloidales Magnesium stellt dieses wichtige Mineral in einer Form bereit, die eine mögliche Aufnahme und Nutzung im Körper unterstützen kann.`,
+    uses: [
+      "Muskel & Regeneration",
+      "Energie & Stoffwechsel",
+      "Gehirn & Konzentration",
+      "Stimmung & Wohlbefinden",
+      "Knochen",
+      "Herz-Kreislauf",
+      "Blutzucker",
+      "Immunsystem",
+    ],
     productLink: PLACEHOLDER_PRODUCT,
   },
   {
