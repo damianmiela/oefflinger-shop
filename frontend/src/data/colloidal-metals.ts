@@ -183,8 +183,32 @@ Durch seine kolloidale Form wird Kobalt in einer speziellen Struktur bereitgeste
     gradientTo: "#8b5a2b",
     tagline: "Essentiell für Enzyme und Bindegewebe",
     description:
-      "Kupfer ist ein essentielles Spurenelement und Bestandteil vieler Enzyme. Es unterstützt unter anderem den Eisenstoffwechsel und die Bindegewebsbildung. Kolloidales Kupfer hat die charakteristische kupferrote Färbung.",
-    uses: ["Enzyme", "Bindegewebe", "Eisenstoffwechsel"],
+      "Kolloidales Kupfer ist ein essentielles Spurenelement, das zahlreiche wichtige Funktionen im Körper unterstützt. Es spielt eine Rolle bei der Bildung von Bindegewebe, der Produktion roter Blutkörperchen sowie bei der Energieerzeugung im Stoffwechsel. Kupfer ist außerdem an der Eisenverwertung beteiligt und unterstützt die Funktion des Nervensystems. Zusätzlich trägt es zur Bildung antioxidativer Enzyme bei und kann so zum Schutz der Zellen sowie zur Unterstützung des Immunsystems beitragen. Durch seine kolloidale Form wird Kupfer in einer Struktur bereitgestellt, die eine mögliche Aufnahme und Verwertung im Körper unterstützen kann.",
+    longDescription: `Kolloidales Kupfer
+
+Kupfer ist ein essentielles Spurenelement, das im Körper an zahlreichen biologischen Prozessen beteiligt ist. Es spielt eine wichtige Rolle bei der Bildung von Bindegewebe, Knochen und Blutgefäßen, da es an der Produktion von Kollagen und Elastin beteiligt ist. Diese strukturellen Proteine sorgen für Stabilität und Elastizität verschiedener Gewebe im Körper.
+
+Darüber hinaus unterstützt Kupfer die Bildung roter Blutkörperchen und ist an der Verwertung von Eisen beteiligt. Dadurch trägt es zur Sauerstoffversorgung der Zellen und zur allgemeinen Energieproduktion im Körper bei.
+
+Kupfer spielt außerdem eine wichtige Rolle im Nervensystem, da es an der Bildung von Neurotransmittern und der Signalübertragung zwischen Nervenzellen beteiligt ist. Dadurch kann es zur Unterstützung kognitiver Funktionen und der Regulation von Stimmung beitragen.
+
+Ein weiterer wichtiger Bereich ist die antioxidative Wirkung von Kupfer. Als Bestandteil des Enzyms Superoxiddismutase (SOD) hilft es dabei, freie Radikale zu neutralisieren und oxidativen Stress zu reduzieren. Dies trägt zum Schutz der Zellen und zur allgemeinen Gesundheit bei.
+
+Kupfer kann außerdem eine Rolle im Hormonstoffwechsel spielen, indem es Enzyme unterstützt, die am Abbau überschüssiger Hormone beteiligt sind. Dadurch kann es helfen, ein hormonelles Gleichgewicht im Körper zu fördern.
+
+Zusätzlich besitzt Kupfer antibakterielle Eigenschaften, da Kupferionen Mikroorganismen in ihrer Funktion stören können. Diese Eigenschaften werden auch in verschiedenen medizinischen Anwendungen untersucht.
+
+Darüber hinaus wird kolloidales Kupfer mit möglichen positiven Effekten auf Hautgesundheit und Kollagenbildung in Verbindung gebracht. Durch die Unterstützung der Hyaluronsäure- und Kollagenproduktion kann es zur Elastizität, Feuchtigkeit und Struktur der Haut beitragen.`,
+    uses: [
+      "Haut & Haare",
+      "Energie & Stoffwechsel",
+      "Immunsystem",
+      "Gehirn & Konzentration",
+      "Hormonbalance",
+      "Antioxidativer Schutz",
+      "Eisenmangel",
+      "Verdauung & Wohlbefinden",
+    ],
     productLink: PLACEHOLDER_PRODUCT,
   },
   {
