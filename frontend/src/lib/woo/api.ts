@@ -8,16 +8,18 @@ function getBaseUrl(): string {
 }
 
 /** WooCommerce REST API base (for attributes) – derive from Store API or use WC_REST_API_URL */
-function getRestApiBase(): string | null {
+function getRestApiBases(): string[] {
   const explicit = process.env.WC_REST_API_URL;
-  if (explicit) return explicit;
-  // Server-side: use internal URL if available (Docker)
-  const store =
-    typeof window === "undefined"
-      ? process.env.WC_INTERNAL_STORE_URL || process.env.NEXT_PUBLIC_WC_STORE_API
-      : process.env.NEXT_PUBLIC_WC_STORE_API;
-  if (!store) return null;
-  return store.replace(/\/wc\/store\/v1\/?$/, "/wc/v3");
+  if (explicit) return [explicit];
+  const bases: string[] = [];
+  // Prefer public URL when running locally (wordpress host only works inside Docker)
+  if (process.env.NEXT_PUBLIC_WC_STORE_API) {
+    bases.push(process.env.NEXT_PUBLIC_WC_STORE_API.replace(/\/wc\/store\/v1\/?$/, "/wc/v3"));
+  }
+  if (process.env.WC_INTERNAL_STORE_URL && !bases.includes(process.env.WC_INTERNAL_STORE_URL.replace(/\/wc\/store\/v1\/?$/, "/wc/v3"))) {
+    bases.push(process.env.WC_INTERNAL_STORE_URL.replace(/\/wc\/store\/v1\/?$/, "/wc/v3"));
+  }
+  return bases;
 }
 
 async function storeApiFetch<T>(
@@ -84,41 +86,80 @@ export async function getProducts(): Promise<Product[]> {
   return storeApiFetch<Product[]>("/products");
 }
 
-/** Fetch product attributes from WooCommerce REST API (wc/v3) – requires consumer key/secret */
+/** Fetch product attributes from WooCommerce REST API – requires consumer key/secret */
 async function fetchProductAttributesFromRestApi(
-  slug: string
+  slug: string,
+  productId: number
 ): Promise<ProductAttribute[] | null> {
-  const base = getRestApiBase();
-  if (!base) return null;
+  const bases = getRestApiBases();
+  if (!bases.length) return null;
 
   const key = process.env.WC_CONSUMER_KEY;
   const secret = process.env.WC_CONSUMER_SECRET;
   if (!key || !secret) return null;
 
-  const auth = Buffer.from(`${key}:${secret}`).toString("base64");
-  const url = `${base}/products?slug=${slug}`;
+  const authParams = `consumer_key=${encodeURIComponent(key)}&consumer_secret=${encodeURIComponent(secret)}`;
 
-  try {
-    const res = await fetch(url, {
-      headers: {
-        Authorization: `Basic ${auth}`,
-        "Content-Type": "application/json",
-      },
-    });
+  const tryFetch = async (base: string, version: "v3" | "v2") => {
+    const apiBase = base.replace(/\/wc\/v\d\/?$/, `/wc/${version}`);
+    // Try single product by ID first (may have different permissions than list)
+    const urlById = `${apiBase}/products/${productId}?${authParams}`;
+    const resById = await fetch(urlById, { headers: { "Content-Type": "application/json" } });
+    if (resById.ok) {
+      const product = (await resById.json()) as {
+        attributes?: Array<{
+          id?: number;
+          name?: string;
+          options?: string[];
+          visible?: boolean;
+          variation?: boolean;
+        }>;
+      };
+      if (product?.attributes?.length) {
+        return product.attributes.map((a) => ({
+          id: a.id,
+          name: a.name,
+          options: a.options,
+          visible: a.visible,
+          variation: a.variation,
+        }));
+      }
+    }
+    // Fallback: list by slug
+    const urlList = `${apiBase}/products?slug=${encodeURIComponent(slug)}&${authParams}`;
+    const res = await fetch(urlList, { headers: { "Content-Type": "application/json" } });
     if (!res.ok) return null;
     const data = (await res.json()) as unknown[];
-    const product = data[0] as { attributes?: Array<{ id?: number; name?: string; options?: string[]; visible?: boolean; variation?: boolean }> } | undefined;
-    if (!product?.attributes?.length) return null;
-    return product.attributes.map((a) => ({
+    const p = data[0] as {
+      attributes?: Array<{
+        id?: number;
+        name?: string;
+        options?: string[];
+        visible?: boolean;
+        variation?: boolean;
+      }>;
+    } | undefined;
+    if (!p?.attributes?.length) return null;
+    return p.attributes.map((a) => ({
       id: a.id,
       name: a.name,
       options: a.options,
       visible: a.visible,
       variation: a.variation,
     }));
-  } catch {
-    return null;
+  };
+
+  for (const base of bases) {
+    try {
+      const attrs = await tryFetch(base, "v3");
+      if (attrs) return attrs;
+      const attrsV2 = await tryFetch(base, "v2");
+      if (attrsV2) return attrsV2;
+    } catch {
+      continue;
+    }
   }
+  return null;
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
@@ -131,7 +172,7 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   if (storeAttrs?.length) {
     return { ...product, attributes: storeAttrs };
   }
-  const restAttributes = await fetchProductAttributesFromRestApi(slug);
+  const restAttributes = await fetchProductAttributesFromRestApi(slug, product.id);
   if (restAttributes?.length) {
     return { ...product, attributes: restAttributes };
   }

@@ -1,28 +1,34 @@
 # Product Attributes (Größe, Konzentration, etc.)
 
-Product attributes (e.g. Größe, Konzentration) configured in WooCommerce → Product data → Attributes are shown on the product page **only when the WooCommerce REST API is configured**.
+Product attributes configured in WooCommerce → Product data → Attributes (e.g. Größe, Konzentration) are shown on the product page via the **Product Attributes for Store API** plugin.
 
-The Store API (`wc/store/v1`) does not include product attributes in its response. To display them, add REST API credentials:
+## How it works
+
+The WordPress plugin `product-attributes-api.php` injects attributes into the Store API product response. No REST API credentials are needed.
 
 ## Setup
 
-1. In WordPress: **WooCommerce → Settings → Advanced → REST API**
-2. Click **Add key**
-3. Set description (e.g. "Frontend attributes")
-4. Choose **Read** permissions
-5. Copy the **Consumer key** and **Consumer secret**
+1. **Rebuild the WordPress container** (to load the plugin):
+   ```bash
+   docker compose build wordpress
+   docker compose up -d
+   ```
 
-## Environment variables
+2. For **new installations**, the setup script copies the plugin automatically.
 
-Add to your `.env` file in the project root:
+3. For **existing installations**, ensure `wordpress/api/product-attributes-api.php` is copied to `wp-content/mu-plugins/` and restart the container.
+
+## Fallback: REST API
+
+If the plugin is not available, the frontend can fetch attributes from the WooCommerce REST API. Add to `.env`:
 
 ```
-WC_CONSUMER_KEY=ck_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-WC_CONSUMER_SECRET=cs_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+WC_CONSUMER_KEY=ck_xxx
+WC_CONSUMER_SECRET=cs_xxx
 ```
 
-The frontend Docker service loads `.env` automatically.
+Create keys in **WooCommerce → Settings → Advanced → REST API** with Read permission.
 
-## Restart
+## Debugging
 
-Restart the frontend after adding the variables. Product attributes will then appear under the short description on product pages.
+Visit `http://localhost:4000/api/debug-woo-attributes?slug=YOUR-PRODUCT-SLUG` to inspect the API response.

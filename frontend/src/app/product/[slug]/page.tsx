@@ -73,13 +73,13 @@ export default async function ProductPage({ params }: Props) {
 
         {product.attributes && product.attributes.length > 0 && (
           <dl className="mt-4 space-y-2">
-            {product.attributes.map((attr) => {
+            {product.attributes.map((attr, i) => {
               const rawLabel = attr.name || attr.attribute?.replace(/^pa_/, "").replace(/-/g, " ") || "";
               const label = rawLabel ? rawLabel.charAt(0).toUpperCase() + rawLabel.slice(1) : "Attribut";
               const value = attr.options?.join(", ") || attr.value || "";
               if (!value) return null;
               return (
-                <div key={attr.id ?? attr.attribute ?? label}>
+                <div key={attr.attribute ?? attr.name ?? `attr-${i}`}>
                   <dt className="text-sm font-medium text-gray-500">{label}</dt>
                   <dd className="mt-0.5 text-gray-900">{value}</dd>
                 </div>

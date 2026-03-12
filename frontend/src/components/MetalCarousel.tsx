@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import type { ColloidalMetal } from "@/data/colloidal-metals";
 import { getSortedUses, getMetalAccentColor } from "@/data/colloidal-metals";
 import { getRememberedMetalId } from "@/components/RememberMetal";
@@ -77,39 +78,26 @@ export function MetalCarousel({ metals }: MetalCarouselProps) {
       {/* Center: Main content – visual + description */}
       <div className="min-w-0 flex-1">
           <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg">
-            <div
-              className="relative aspect-[2/1] overflow-hidden sm:aspect-[21/9]"
-              style={{
-                background: `linear-gradient(135deg, ${selectedMetal.gradientFrom} 0%, ${selectedMetal.gradientTo} 50%, ${selectedMetal.gradientFrom} 100%)`,
-                boxShadow: "inset 0 0 60px rgba(255,255,255,0.15)",
-              }}
-            >
+            <div className="relative aspect-[2/1] overflow-hidden sm:aspect-[21/9]">
+              <Image
+                src={`/images/metals/${selectedMetal.id}.png`}
+                alt=""
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 66vw"
+              />
               <div
-                className="absolute inset-0 opacity-30"
+                className="absolute inset-0 bg-black/30"
+                aria-hidden
+              />
+              <div
+                className="absolute inset-0 opacity-40"
                 style={{
                   background:
-                    "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.4) 45%, rgba(255,255,255,0.2) 50%, transparent 55%)",
+                    "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.3) 45%, rgba(255,255,255,0.15) 50%, transparent 55%)",
                 }}
+                aria-hidden
               />
-              <div className="absolute inset-0 opacity-20">
-                <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
-                  <defs>
-                    <pattern
-                      id="droplets"
-                      x="0"
-                      y="0"
-                      width="60"
-                      height="60"
-                      patternUnits="userSpaceOnUse"
-                    >
-                      <circle cx="10" cy="10" r="2" fill="white" opacity="0.5" />
-                      <circle cx="40" cy="35" r="1.5" fill="white" opacity="0.4" />
-                      <circle cx="25" cy="50" r="1" fill="white" opacity="0.3" />
-                    </pattern>
-                  </defs>
-                  <rect width="100%" height="100%" fill="url(#droplets)" />
-                </svg>
-              </div>
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 to-transparent p-6">
                 <h2 className="text-3xl font-bold tracking-tight text-white drop-shadow-lg sm:text-4xl">
                   Kolloidales {selectedMetal.name}

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { getMetalById, COLLOIDAL_METALS, getMetalAccentColor } from "@/data/colloidal-metals";
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 import { RememberMetal } from "@/components/RememberMetal";
@@ -44,45 +45,32 @@ export default async function MetalDetailPage({ params }: Props) {
         </AnimateOnScroll>
       </div>
 
-      {/* Hero header – 100% width, gradient */}
-      <div
-        className="relative mt-6 overflow-hidden py-16 sm:py-24"
-        style={{
-          background: `linear-gradient(135deg, ${metal.gradientFrom} 0%, ${metal.gradientTo} 50%, ${metal.gradientFrom} 100%)`,
-          boxShadow: "inset 0 0 60px rgba(255,255,255,0.15)",
-        }}
-      >
+      {/* Hero header – 100% width, metal label image */}
+      <div className="relative mt-6 aspect-[21/9] min-h-[240px] overflow-hidden">
+        <Image
+          src={`/images/metals/${metal.id}.png`}
+          alt=""
+          fill
+          className="object-cover"
+          sizes="100vw"
+          priority
+        />
+        <div className="absolute inset-0 bg-black/30" aria-hidden />
         <div
-          className="absolute inset-0 opacity-30"
+          className="absolute inset-0 opacity-40"
           style={{
             background:
-              "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.4) 45%, rgba(255,255,255,0.2) 50%, transparent 55%)",
+              "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.3) 45%, rgba(255,255,255,0.15) 50%, transparent 55%)",
           }}
+          aria-hidden
         />
-        <div className="absolute inset-0 opacity-20">
-          <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern
-                id="droplets-detail"
-                x="0"
-                y="0"
-                width="60"
-                height="60"
-                patternUnits="userSpaceOnUse"
-              >
-                <circle cx="10" cy="10" r="2" fill="white" opacity="0.5" />
-                <circle cx="40" cy="35" r="1.5" fill="white" opacity="0.4" />
-                <circle cx="25" cy="50" r="1" fill="white" opacity="0.3" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#droplets-detail)" />
-          </svg>
-        </div>
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl font-bold tracking-tight text-white drop-shadow-lg sm:text-5xl">
-            Kolloidales {metal.name}
-          </h1>
-          <p className="mt-2 text-xl text-white/90">{metal.tagline}</p>
+        <div className="relative z-10 flex w-full flex-col justify-end px-4 pb-12 pt-24 sm:px-6 sm:pb-16 sm:pt-28 lg:px-8">
+          <div className="mx-auto w-full max-w-7xl">
+            <h1 className="text-4xl font-bold tracking-tight text-white drop-shadow-lg sm:text-5xl">
+              Kolloidales {metal.name}
+            </h1>
+            <p className="mt-2 text-xl text-white/90">{metal.tagline}</p>
+          </div>
         </div>
       </div>
 
