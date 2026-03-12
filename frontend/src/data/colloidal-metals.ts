@@ -486,8 +486,36 @@ Kolloidales Vanadium stellt dieses Spurenelement in einer Form bereit, die eine 
     gradientTo: "#5c6b78",
     tagline: "Essentiell für Immunsystem und Haut",
     description:
-      "Zink ist ein essentielles Spurenelement und an zahlreichen Körperfunktionen beteiligt. Kolloidales Zink hat eine bläulich-weiße metallische Färbung. Es wird traditionell für Immunsystem, Haut und Wundheilung geschätzt.",
-    uses: ["Immunsystem", "Haut", "Wundheilung"],
+      "Kolloidales Zink ist ein essentielles Spurenelement, das an zahlreichen biologischen Prozessen im Körper beteiligt ist. Es spielt eine wichtige Rolle bei der Unterstützung des Immunsystems, der Zellteilung sowie der DNA-Replikation. Darüber hinaus wird Zink mit der Unterstützung der kognitiven Funktion, der Hautgesundheit sowie der antioxidativen Abwehr des Körpers in Verbindung gebracht. Es kann zur geistigen Klarheit, Konzentration und zum allgemeinen Wohlbefinden beitragen. Durch seine kolloidale Form wird Zink in einer Struktur bereitgestellt, die eine mögliche Aufnahme und Verwertung im Körper unterstützen kann.",
+    longDescription: `Kolloidales Zink
+
+Zink ist ein essentielles Spurenelement, das im menschlichen Körper an zahlreichen biologischen Prozessen beteiligt ist. Es spielt eine wichtige Rolle bei der Unterstützung des Immunsystems, da es die Produktion und Funktion von weißen Blutkörperchen fördern kann, die für die Abwehr von Krankheitserregern verantwortlich sind.
+
+Ein weiterer wichtiger Wirkbereich von Zink ist die Unterstützung der Hautgesundheit und Wundheilung. Zink kann zur Regeneration der Haut beitragen und wird häufig im Zusammenhang mit Hautproblemen wie Akne, Ekzemen oder Dermatitis erwähnt. Darüber hinaus spielt es eine Rolle bei der Bildung gesunder Haare und Nägel.
+
+Zink ist außerdem an der DNA-Replikation und Zellteilung beteiligt, wodurch es eine wichtige Funktion für das Wachstum und die Regeneration von Gewebe erfüllt.
+
+Ein bedeutender Aspekt von Zink ist seine Rolle für die Gehirnfunktion und kognitive Leistungsfähigkeit. Es wird angenommen, dass Zink an der Übertragung von Nervensignalen beteiligt ist und zur Unterstützung von Konzentration, Gedächtnis und geistiger Klarheit beitragen kann.
+
+Darüber hinaus kann Zink eine Rolle für die geistige Gesundheit spielen, da es an der Regulation von Neurotransmittern beteiligt sein kann, die Stimmung und emotionale Stabilität beeinflussen.
+
+Zink unterstützt außerdem verschiedene Stoffwechselprozesse, darunter den Kohlenhydrat-, Fett- und Proteinstoffwechsel, und trägt so zu einer normalen Energieproduktion im Körper bei.
+
+Ein weiterer möglicher Wirkbereich betrifft die Regulation des Hormonhaushalts, da Zink an der Produktion und Regulation verschiedener Hormone beteiligt ist und auch eine Rolle für die Fruchtbarkeit spielen kann.
+
+Zusätzlich wirkt Zink als Antioxidans, das dazu beitragen kann, freie Radikale zu neutralisieren und die Zellen vor oxidativem Stress zu schützen.
+
+Kolloidales Zink stellt dieses Spurenelement in einer Form bereit, die eine mögliche Aufnahme und Nutzung im Körper unterstützen kann.`,
+    uses: [
+      "Immunsystem",
+      "Haut & Haare",
+      "Gehirn & Konzentration",
+      "Stimmung & Wohlbefinden",
+      "Hormonbalance",
+      "Energie & Stoffwechsel",
+      "Antioxidativer Schutz",
+      "Muskel & Regeneration",
+    ],
     productLink: PLACEHOLDER_PRODUCT,
   },
   {
