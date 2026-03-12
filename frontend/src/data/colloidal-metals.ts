@@ -526,8 +526,39 @@ Kolloidales Zink stellt dieses Spurenelement in einer Form bereit, die eine mög
     gradientTo: "#808080",
     tagline: "Weiches Metall mit langer Geschichte",
     description:
-      "Zinn ist ein weiches, silberweiß glänzendes Metall. Kolloidales Zinn wird traditionell in der Naturheilkunde verwendet. Es hat eine charakteristische silbrige Färbung.",
-    uses: ["Traditionelle Anwendung"],
+      "Kolloidales Zinn ist ein Spurenelement, das in geringen Mengen im menschlichen Körper vorkommen kann und mit verschiedenen biologischen Prozessen in Verbindung gebracht wird. Es wird vermutet, dass Zinn als Cofaktor für bestimmte Enzyme wirken kann, die an Stoffwechselprozessen sowie an der Umwandlung von Nährstoffen beteiligt sind. Darüber hinaus wird Zinn mit möglichen antioxidativen Eigenschaften sowie mit der Unterstützung der Zellgesundheit, der Knochenstruktur und verschiedener Funktionen des Nervensystems in Verbindung gebracht. Durch seine kolloidale Form wird Zinn in einer Struktur bereitgestellt, die eine mögliche Aufnahme und Verwertung im Körper unterstützen kann.",
+    longDescription: `Kolloidales Zinn
+
+Zinn ist ein Spurenelement, das in der natürlichen Umwelt vorkommt und auch in geringen Mengen im menschlichen Körper nachweisbar ist. Es wird vermutet, dass Zinn an verschiedenen enzymatischen Prozessen beteiligt sein kann, die für den Stoffwechsel und die Verarbeitung von Nährstoffen wichtig sind.
+
+Ein möglicher Wirkbereich von Zinn liegt in der Unterstützung der Knochengesundheit. Studien deuten darauf hin, dass Zinn enzymatische Prozesse beeinflussen könnte, die den Calciumstoffwechsel regulieren. Dadurch könnte es indirekt zur Aufnahme und Einlagerung von Calcium in den Knochen beitragen.
+
+Darüber hinaus wird Zinn mit einer möglichen Unterstützung des Immunsystems in Verbindung gebracht. Es könnte die Aktivität bestimmter Immunzellen beeinflussen und so zur Regulation der Immunantwort beitragen.
+
+Ein weiterer möglicher Wirkbereich betrifft die Förderung der Wundheilung und Geweberegeneration. Zinn könnte Prozesse unterstützen, die an der Zellproliferation und der Bildung neuen Gewebes beteiligt sind. Auch eine mögliche Beteiligung an der Kollagenbildung wird diskutiert.
+
+Zinn wird außerdem mit einer möglichen Rolle bei der Regulation des Hormonhaushalts in Verbindung gebracht. Es könnte an hormonellen Regelkreisen beteiligt sein, die verschiedene Körperfunktionen wie Stoffwechsel, Energieproduktion und Stressreaktionen beeinflussen.
+
+Darüber hinaus kann Zinn an Stoffwechselprozessen der Energieproduktion beteiligt sein, indem es enzymatische Reaktionen unterstützt, die für die Umwandlung von Nährstoffen in Energie wichtig sind.
+
+Ein weiterer möglicher Wirkbereich betrifft die Unterstützung der Gehirnfunktion, da Zinn mit neurologischen Prozessen in Verbindung gebracht wird, die Gedächtnis, Konzentration und neuronale Kommunikation beeinflussen können.
+
+Zusätzlich wird Zinn mit antioxidativen Eigenschaften in Verbindung gebracht. Es könnte dazu beitragen, freie Radikale zu neutralisieren und oxidative Schäden an Zellen zu reduzieren.
+
+Weitere mögliche Wirkbereiche betreffen die Verdauung, da Zinn an der Regulation der Magensäureproduktion beteiligt sein könnte, sowie die Unterstützung von Haut, Haaren und Gewebe, da es möglicherweise am Aufbau und der Stabilität von Proteinen beteiligt ist.
+
+Kolloidales Zinn stellt dieses Spurenelement in einer Form bereit, die eine mögliche Aufnahme und Nutzung im Körper unterstützen kann.`,
+    uses: [
+      "Energie & Stoffwechsel",
+      "Immunsystem",
+      "Gehirn & Konzentration",
+      "Stimmung & Wohlbefinden",
+      "Hormonbalance",
+      "Antioxidativer Schutz",
+      "Knochen",
+      "Verdauung & Wohlbefinden",
+      "Haut & Haare",
+    ],
     productLink: PLACEHOLDER_PRODUCT,
   },
 ];
