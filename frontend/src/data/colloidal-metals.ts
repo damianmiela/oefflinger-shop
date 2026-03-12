@@ -257,8 +257,37 @@ Kolloidales Magnesium stellt dieses wichtige Mineral in einer Form bereit, die e
     gradientTo: "#4d5c6b",
     tagline: "Spurenelement für Enzyme",
     description:
-      "Molybdän ist ein essentielles Spurenelement und Bestandteil verschiedener Enzyme. Kolloidales Molybdän hat eine graue bis silbergraue Färbung. Es wird traditionell in der Naturheilkunde verwendet.",
-    uses: ["Enzyme", "Stoffwechsel"],
+      "Kolloidales Molybdän ist ein essentielles Spurenelement, das als wichtiger Cofaktor für zahlreiche Enzyme im Körper wirkt. Diese Enzyme sind an wichtigen biochemischen Prozessen beteiligt, darunter der Stoffwechsel von Aminosäuren, die Energieproduktion sowie verschiedene Entgiftungsmechanismen. Molybdän unterstützt insbesondere enzymatische Prozesse, die beim Abbau von Schwefelverbindungen und bei der Entgiftung des Körpers eine Rolle spielen. Darüber hinaus kann es zur Unterstützung des Nervensystems, des Immunsystems sowie des Stoffwechsels beitragen. Durch seine kolloidale Form wird Molybdän in einer Struktur bereitgestellt, die eine mögliche Aufnahme und Verwertung im Körper unterstützen kann.",
+    longDescription: `Kolloidales Molybdän
+
+Molybdän ist ein essentielles Spurenelement, das im Körper eine wichtige Rolle als Cofaktor für verschiedene Enzyme spielt. Diese Enzyme sind an zahlreichen biochemischen Prozessen beteiligt, darunter der Stoffwechsel von Aminosäuren, die Energieproduktion sowie die Entgiftung bestimmter Substanzen.
+
+Eine zentrale Funktion von Molybdän liegt in der Unterstützung von Entgiftungsprozessen im Körper. Es ist Bestandteil von Enzymen wie der Sulfitoxidase, die schädliche Schwefelverbindungen in weniger belastende Substanzen umwandeln können. Dadurch kann Molybdän dazu beitragen, den Stoffwechsel von schwefelhaltigen Aminosäuren zu unterstützen.
+
+Darüber hinaus spielt Molybdän eine Rolle im Harnsäurestoffwechsel, indem es an enzymatischen Prozessen beteiligt ist, die Harnsäure in weniger schädliche Formen umwandeln können.
+
+Molybdän unterstützt außerdem verschiedene Stoffwechselprozesse, da es an der Aktivierung von Enzymen beteiligt ist, die Nährstoffe verarbeiten und biochemische Reaktionen im Körper regulieren.
+
+Auch das Nervensystem kann von einer ausreichenden Versorgung profitieren, da Molybdän an Prozessen beteiligt ist, die mit der Synthese von Neurotransmittern und der Kommunikation zwischen Nervenzellen verbunden sind.
+
+Zusätzlich wird Molybdän mit einer möglichen Unterstützung des Immunsystems in Verbindung gebracht, da es Enzyme aktiviert, die an der Immunantwort beteiligt sein können.
+
+Darüber hinaus kann Molybdän eine Rolle bei der Hormonregulation spielen, da bestimmte Enzyme beim Abbau und bei der Verarbeitung von Hormonen auf dieses Spurenelement angewiesen sind.
+
+Weitere mögliche Wirkbereiche betreffen die antioxidative Unterstützung sowie die Beteiligung an enzymatischen Prozessen, die für die Hautgesundheit und die Knochengesundheit relevant sein können.
+
+Kolloidales Molybdän stellt dieses Spurenelement in einer Form bereit, die eine mögliche Aufnahme und Nutzung im Körper unterstützen kann.`,
+    uses: [
+      "Energie & Stoffwechsel",
+      "Immunsystem",
+      "Gehirn & Konzentration",
+      "Stimmung & Wohlbefinden",
+      "Hormonbalance",
+      "Antioxidativer Schutz",
+      "Haut & Haare",
+      "Knochen",
+      "Verdauung & Wohlbefinden",
+    ],
     productLink: PLACEHOLDER_PRODUCT,
   },
   {
