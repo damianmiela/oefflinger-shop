@@ -15,7 +15,7 @@ export function Header() {
             width={160}
             height={48}
             priority
-            className="h-10 w-auto"
+            className="h-[calc(var(--spacing)*15)] w-auto"
           />
         </Link>
 
