@@ -7,6 +7,7 @@ import type { Product } from "@/types";
 export function AddToCartButton({ product }: { product: Product }) {
   const { addItem, loading, lastError, clearError } = useCart();
   const [added, setAdded] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   const maxFromLimits = product.quantity_limits?.maximum;
   const maxFromLowStock = product.low_stock_remaining;
@@ -20,6 +21,8 @@ export function AddToCartButton({ product }: { product: Product }) {
 
   const handleClick = async () => {
     clearError();
+    setIsAnimating(true);
+    setTimeout(() => setIsAnimating(false), 300);
     const qty = Math.min(Math.max(1, quantity), effectiveMax);
     await addItem(product.id, qty);
     setAdded(true);
@@ -63,7 +66,7 @@ export function AddToCartButton({ product }: { product: Product }) {
       <button
         onClick={handleClick}
         disabled={loading}
-        className="cursor-pointer rounded-lg bg-primary px-6 py-3 text-lg font-semibold text-white transition hover:bg-primary-light disabled:cursor-not-allowed disabled:opacity-50"
+        className={`cursor-pointer rounded-lg bg-primary px-6 py-3 text-lg font-semibold text-white transition duration-150 hover:bg-primary-light active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50 ${isAnimating ? "animate-button-pop" : ""}`}
       >
         {loading ? "Wird hinzugefügt…" : added ? "Hinzugefügt!" : "In den Warenkorb"}
       </button>

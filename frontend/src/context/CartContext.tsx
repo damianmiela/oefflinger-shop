@@ -6,6 +6,7 @@ import {
   useState,
   useCallback,
   useEffect,
+  useRef,
   type ReactNode,
 } from "react";
 import type { Cart } from "@/types";
@@ -19,6 +20,8 @@ interface CartContextValue {
   cart: Cart | null;
   loading: boolean;
   lastError: CartError | null;
+  /** True briefly after an item is added – triggers header cart animation */
+  justAddedToCart: boolean;
   clearError: () => void;
   addItem: (productId: number, quantity?: number) => Promise<void>;
   removeItem: (itemKey: string) => Promise<void>;
@@ -41,12 +44,25 @@ function storeToken(token: string): void {
   }
 }
 
+const JUST_ADDED_DURATION_MS = 1200;
+
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<Cart | null>(null);
   const [loading, setLoading] = useState(false);
   const [lastError, setLastError] = useState<CartError | null>(null);
+  const [justAddedToCart, setJustAddedToCart] = useState(false);
+  const justAddedTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const clearError = useCallback(() => setLastError(null), []);
+
+  const triggerJustAdded = useCallback(() => {
+    if (justAddedTimeoutRef.current) clearTimeout(justAddedTimeoutRef.current);
+    setJustAddedToCart(true);
+    justAddedTimeoutRef.current = setTimeout(() => {
+      setJustAddedToCart(false);
+      justAddedTimeoutRef.current = null;
+    }, JUST_ADDED_DURATION_MS);
+  }, []);
 
   const refreshCart = useCallback(async () => {
     try {
@@ -86,6 +102,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
           setCart(data);
           if (token) storeToken(token);
         }
+        triggerJustAdded();
       } catch (err) {
         setLastError({ message: err instanceof Error ? err.message : "Fehler beim Hinzufügen" });
         await refreshCart();
@@ -93,7 +110,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         setLoading(false);
       }
     },
-    [cart?.items, refreshCart],
+    [cart?.items, refreshCart, triggerJustAdded],
   );
 
   const removeItem = useCallback(async (itemKey: string) => {
@@ -145,6 +162,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         cart,
         loading,
         lastError,
+        justAddedToCart,
         clearError,
         addItem,
         removeItem,

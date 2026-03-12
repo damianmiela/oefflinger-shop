@@ -1,12 +1,14 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { slugFromPermalink } from "@/lib/woo/utils";
 import { buildCheckoutUrl } from "@/lib/woo/checkout";
 import { useCart } from "@/context/CartContext";
 import type { CartItemData } from "@/types";
+
+const CART_PULSE_DELAY_MS = 280;
 
 const HOVER_DELAY_MS = 300;
 
@@ -55,10 +57,32 @@ function CartPreviewItem({ item }: { item: CartItemData }) {
 }
 
 export function CartPreview() {
-  const { cart } = useCart();
+  const { cart, justAddedToCart } = useCart();
   const [visible, setVisible] = useState(false);
+  const [showPulse, setShowPulse] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pulseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!justAddedToCart) {
+      setShowPulse(false);
+      if (pulseTimeoutRef.current) {
+        clearTimeout(pulseTimeoutRef.current);
+        pulseTimeoutRef.current = null;
+      }
+      return;
+    }
+    pulseTimeoutRef.current = setTimeout(() => {
+      setShowPulse(true);
+      pulseTimeoutRef.current = setTimeout(() => {
+        setShowPulse(false);
+      }, 900);
+    }, CART_PULSE_DELAY_MS);
+    return () => {
+      if (pulseTimeoutRef.current) clearTimeout(pulseTimeoutRef.current);
+    };
+  }, [justAddedToCart]);
 
   const show = useCallback(() => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -88,11 +112,17 @@ export function CartPreview() {
     >
       <Link
         href="/cart"
-        className="relative text-sm font-medium text-gray-700 transition hover:text-primary"
+        className="relative inline-block py-1 pr-5 text-sm font-medium text-gray-700 transition hover:text-primary"
       >
+        {showPulse && (
+          <span
+            className="cart-pulse-ring absolute inset-0 -m-2 rounded-full border-2"
+            aria-hidden
+          />
+        )}
         Warenkorb
         {itemCount > 0 && (
-          <span className="absolute -top-2 -right-4 flex h-5 w-5 items-center justify-center rounded-full bg-accent text-xs font-bold text-white">
+          <span className="absolute -top-2 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-accent text-xs font-bold text-white">
             {itemCount}
           </span>
         )}
