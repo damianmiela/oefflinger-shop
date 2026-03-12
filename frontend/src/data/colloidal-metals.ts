@@ -445,8 +445,37 @@ Kolloidales Tantal stellt dieses Element in einer Form bereit, die eine möglich
     gradientTo: "#4d5c6b",
     tagline: "Spurenelement für den Stoffwechsel",
     description:
-      "Vanadium kommt als Spurenelement in verschiedenen Lebensmitteln vor. Kolloidales Vanadium hat eine graue bis silbergraue Färbung. Es wird traditionell geschätzt.",
-    uses: ["Stoffwechsel", "Traditionelle Anwendung"],
+      "Kolloidales Vanadium ist ein Spurenelement, das in der Natur vorkommt und mit verschiedenen Stoffwechselprozessen im menschlichen Körper in Verbindung gebracht wird. Es wird insbesondere im Zusammenhang mit der Regulation des Blutzuckerspiegels, der Unterstützung der Insulinsensitivität sowie der Energieproduktion untersucht. Darüber hinaus wird Vanadium mit möglichen antioxidativen Eigenschaften sowie mit der Unterstützung der Knochengesundheit, der Gehirnfunktion und des Immunsystems in Verbindung gebracht. Durch seine kolloidale Form wird Vanadium in einer Struktur bereitgestellt, die eine mögliche Aufnahme und Verwertung im Körper unterstützen kann.",
+    longDescription: `Kolloidales Vanadium
+
+Vanadium ist ein Spurenelement, das natürlicherweise in der Umwelt vorkommt und seit dem 19. Jahrhundert Gegenstand wissenschaftlicher Untersuchungen ist. Es wird mit verschiedenen biologischen Prozessen im Körper in Verbindung gebracht, insbesondere mit Stoffwechselreaktionen und der Regulation bestimmter physiologischer Funktionen.
+
+Ein wichtiger möglicher Wirkbereich von Vanadium liegt in der Regulation des Blutzuckerspiegels. Es wird angenommen, dass Vanadium die Insulinsensitivität unterstützen kann, wodurch der Transport von Glukose aus dem Blut in die Zellen effizienter erfolgen könnte.
+
+Darüber hinaus ist Vanadium an verschiedenen Stoffwechselprozessen beteiligt, die für die Energieproduktion im Körper wichtig sind. Diese Prozesse können zur Unterstützung des Energiehaushalts und der körperlichen Leistungsfähigkeit beitragen.
+
+Vanadium wird außerdem mit antioxidativen Eigenschaften in Verbindung gebracht. Als Antioxidans kann es dazu beitragen, freie Radikale zu neutralisieren und oxidativen Stress zu reduzieren.
+
+Ein weiterer möglicher Wirkbereich betrifft die Knochengesundheit, da Vanadium an Prozessen beteiligt sein kann, die die Knochenbildung und die Stabilität des Knochengewebes unterstützen.
+
+Auch das Herz-Kreislauf-System kann von Vanadium beeinflusst werden. Es wird mit einer möglichen Unterstützung der Durchblutung sowie der Regulation von Blutdruck und Cholesterinspiegel in Verbindung gebracht.
+
+Darüber hinaus kann Vanadium eine Rolle für die Gehirnfunktion und das Gedächtnis spielen, da es an Prozessen beteiligt sein kann, die kognitive Funktionen und die neuronale Aktivität unterstützen.
+
+Weitere mögliche Wirkbereiche betreffen die Unterstützung des Immunsystems, die Regulation des Hormonhaushalts sowie die Förderung der sportlichen Leistungsfähigkeit und Muskelregeneration.
+
+Kolloidales Vanadium stellt dieses Spurenelement in einer Form bereit, die eine mögliche Aufnahme und Nutzung im Körper unterstützen kann.`,
+    uses: [
+      "Energie & Stoffwechsel",
+      "Immunsystem",
+      "Gehirn & Konzentration",
+      "Hormonbalance",
+      "Antioxidativer Schutz",
+      "Knochen",
+      "Herz-Kreislauf",
+      "Blutzucker",
+      "Muskel & Regeneration",
+    ],
     productLink: PLACEHOLDER_PRODUCT,
   },
   {
