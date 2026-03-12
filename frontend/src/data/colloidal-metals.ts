@@ -407,8 +407,34 @@ Kolloidales Silizium stellt dieses Spurenelement in einer Form bereit, die eine 
     gradientTo: "#3d4c5b",
     tagline: "Seltenes Metall mit besonderen Eigenschaften",
     description:
-      "Tantal ist ein seltenes, korrosionsbeständiges Metall mit einer charakteristischen grau-bläulichen Färbung. Kolloidales Tantal wird in der Naturheilkunde traditionell verwendet.",
-    uses: ["Traditionelle Anwendung"],
+      "Kolloidales Tantal ist ein Übergangsmetall mit besonderen Eigenschaften, das in geringen Mengen im Körper vorkommen kann. Es wird mit einer möglichen Beteiligung an der Stabilität von Zellmembranen sowie an der Bildung und Festigkeit von Geweben wie Sehnen, Bändern und Knochen in Verbindung gebracht. Darüber hinaus kann Tantal als Katalysator für bestimmte biochemische Prozesse wirken und die Aktivität von Enzymen beeinflussen, die für verschiedene Stoffwechselreaktionen wichtig sind. Durch seine kolloidale Form wird Tantal in einer Struktur bereitgestellt, die eine mögliche Aufnahme und Verwertung im Körper unterstützen kann.",
+    longDescription: `Kolloidales Tantal
+
+Tantal ist ein Übergangsmetall mit außergewöhnlichen physikalischen Eigenschaften und einer hohen Stabilität. Auch im menschlichen Körper kann es in geringen Mengen vorkommen und wird mit verschiedenen biologischen Funktionen in Verbindung gebracht.
+
+Ein möglicher Wirkbereich von Tantal liegt in der Unterstützung der Gewebe- und Knochenstruktur. Es kann an Prozessen beteiligt sein, die zur Stabilität von Sehnen, Bändern und Knochen beitragen und damit zur strukturellen Integrität des Bewegungsapparates unterstützen.
+
+Darüber hinaus wird Tantal mit der Stabilität von Zellmembranen in Verbindung gebracht. Zellmembranen spielen eine wichtige Rolle bei der Aufrechterhaltung der Zellstruktur sowie beim Transport von Nährstoffen und Signalen zwischen den Zellen.
+
+Tantal kann außerdem als Katalysator für enzymatische Prozesse wirken. Es wird angenommen, dass es die Aktivität bestimmter Enzyme beeinflussen kann, die an verschiedenen Stoffwechselprozessen beteiligt sind.
+
+Ein weiterer möglicher Wirkbereich betrifft die Unterstützung von Entgiftungsprozessen. Kolloidales Tantal kann Substanzen im Körper binden und deren Ausscheidung über Nieren und Darm unterstützen. Dabei wird es mit der Entfernung verschiedener Umweltgifte und Schwermetalle in Verbindung gebracht.
+
+Darüber hinaus besitzt Tantal antioxidative Eigenschaften, die dazu beitragen können, freie Radikale zu neutralisieren und oxidative Zellschäden zu reduzieren.
+
+Weitere mögliche Wirkbereiche betreffen die Unterstützung des Immunsystems, die Förderung der Knochengesundheit, die Regeneration der Haut sowie die Unterstützung von Nervenfunktion, Muskelgesundheit und Energieproduktion im Körper.
+
+Kolloidales Tantal stellt dieses Element in einer Form bereit, die eine mögliche Aufnahme und Nutzung im Körper unterstützen kann.`,
+    uses: [
+      "Energie & Stoffwechsel",
+      "Immunsystem",
+      "Antioxidativer Schutz",
+      "Haut & Haare",
+      "Knochen",
+      "Gehirn & Konzentration",
+      "Muskel & Regeneration",
+      "Verdauung & Wohlbefinden",
+    ],
     productLink: PLACEHOLDER_PRODUCT,
   },
   {
