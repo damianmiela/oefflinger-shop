@@ -35,7 +35,7 @@ export default async function MetalDetailPage({ params }: Props) {
       <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
         <AnimateOnScroll variant="fade-up">
           <Link
-            href={`/produkte?metal=${metal.id}`}
+            href="/produkte"
             className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 transition hover:text-primary"
           >
             <span aria-hidden>←</span>
