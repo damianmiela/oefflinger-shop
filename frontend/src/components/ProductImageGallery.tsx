@@ -22,7 +22,7 @@ export function ProductImageGallery({
 
   if (!images || images.length === 0) {
     return (
-      <div className="flex aspect-square items-center justify-center rounded-xl bg-surface-alt text-gray-400">
+      <div className="flex aspect-[5/7] items-center justify-center rounded-xl bg-surface-alt text-gray-400">
         Kein Bild
       </div>
     );
@@ -36,47 +36,49 @@ export function ProductImageGallery({
 
   return (
     <div className="flex flex-col gap-3">
-      {/* Main image */}
+      {/* Main image – ~600px high, 5:7 ratio */}
       <button
         type="button"
         onClick={() => setLightboxOpen(true)}
-        className="block aspect-square w-full cursor-pointer overflow-hidden rounded-xl bg-surface-alt focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+        className="block aspect-[5/7] w-full max-h-[600px] cursor-pointer overflow-hidden rounded-xl bg-surface-alt focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
         aria-label="Bild vergrößern"
       >
         <Image
           src={mainImage.src}
           alt={mainImage.alt || productName}
-          width={600}
+          width={429}
           height={600}
           unoptimized
           priority={priority}
-          className="h-full w-full object-cover transition hover:opacity-95"
+          className="h-full w-full object-contain p-1 transition hover:opacity-95"
         />
       </button>
 
-      {/* Thumbnail strip (when multiple images) */}
+      {/* Thumbnail grid – 3 per row, no scrollbar, all visible */}
       {images.length > 1 && (
-        <div className="flex gap-2 overflow-x-auto pb-1">
+        <div className="grid grid-cols-3 gap-2">
           {images.map((img, i) => (
             <button
               key={img.id}
               type="button"
               onClick={() => setSelectedIndex(i)}
-              className={`relative h-16 w-16 shrink-0 overflow-hidden rounded-lg transition focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
+              className={`relative overflow-hidden rounded-lg transition focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset cursor-pointer ${
                 selectedIndex === i
-                  ? "ring-2 ring-primary ring-offset-2"
+                  ? "ring-2 ring-primary ring-inset"
                   : "opacity-70 hover:opacity-100"
               }`}
               aria-label={`Bild ${i + 1} anzeigen`}
             >
-              <Image
-                src={img.thumbnail || img.src}
-                alt={img.alt || `${productName} – Bild ${i + 1}`}
-                width={64}
-                height={64}
-                unoptimized
-                className="h-full w-full object-cover"
-              />
+              <div className="aspect-square w-full">
+                <Image
+                  src={img.thumbnail || img.src}
+                  alt={img.alt || `${productName} – Bild ${i + 1}`}
+                  width={120}
+                  height={120}
+                  unoptimized
+                  className="h-full w-full object-cover p-1"
+                />
+              </div>
             </button>
           ))}
         </div>

@@ -19,15 +19,15 @@ function CartPreviewItem({ item }: { item: CartItemData }) {
 
   const content = (
     <div className="flex items-center gap-3 py-2">
-      <div className="h-10 w-10 shrink-0 overflow-hidden rounded bg-surface-alt">
+      <div className="h-10 w-[28px] shrink-0 overflow-hidden rounded bg-surface-alt">
         {item.images[0] ? (
           <Image
             src={item.images[0].src}
             alt={item.images[0].alt || item.name}
-            width={40}
+            width={28}
             height={40}
             unoptimized
-            className="h-full w-full object-cover"
+            className="h-full w-full object-contain"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-[10px] text-gray-400">

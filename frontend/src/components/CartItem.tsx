@@ -18,15 +18,15 @@ export function CartItem({ item }: { item: CartItemData }) {
 
   const content = (
     <>
-      <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-surface-alt">
+      <div className="h-16 w-[45px] shrink-0 overflow-hidden rounded-lg bg-surface-alt">
         {item.images[0] ? (
           <Image
             src={item.images[0].src}
             alt={item.images[0].alt || item.name}
-            width={64}
+            width={45}
             height={64}
             unoptimized
-            className="h-full w-full object-cover"
+            className="h-full w-full object-contain"
           />
         ) : (
           <div className="flex h-full items-center justify-center text-xs text-gray-400">

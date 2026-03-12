@@ -325,7 +325,7 @@ export default async function HomePage() {
               </Link>
             </div>
             <AnimateChildren
-              className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3"
+              className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4"
               stagger={80}
             >
               {products.slice(0, 6).map((product) => (

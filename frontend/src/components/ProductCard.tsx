@@ -13,15 +13,15 @@ export function ProductCard({ product }: { product: Product }) {
       href={`/product/${product.slug}`}
       className="group block overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition hover:border-gray-200 hover:shadow-md"
     >
-      <div className="aspect-square overflow-hidden bg-surface-alt">
+      <div className="aspect-[5/7] overflow-hidden bg-surface-alt">
         {product.images[0] ? (
           <Image
             src={product.images[0].src}
             alt={product.images[0].alt || product.name}
             width={400}
-            height={400}
+            height={560}
             unoptimized
-            className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+            className="h-full w-full object-contain transition duration-300 group-hover:scale-105"
           />
         ) : (
           <div className="flex h-full items-center justify-center text-gray-400">Kein Bild</div>

@@ -21,6 +21,16 @@ export interface QuantityLimits {
   editable: boolean;
 }
 
+export interface ProductAttribute {
+  id?: number;
+  name?: string;
+  attribute?: string;
+  options?: string[];
+  value?: string;
+  visible?: boolean;
+  variation?: boolean;
+}
+
 export interface Product {
   id: number;
   name: string;
@@ -39,6 +49,8 @@ export interface Product {
   low_stock_remaining?: number | null;
   /** Stock quantity when manage_stock is enabled (Store API may return this) */
   stock_quantity?: number | null;
+  /** Product attributes (e.g. size, color) – shown when present */
+  attributes?: ProductAttribute[];
 }
 
 export interface CartItemData {

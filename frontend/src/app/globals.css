@@ -18,6 +18,17 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
+/* Product/shop HTML content – paragraph spacing when prose plugin not used */
+.product-html-content p {
+  margin-bottom: 1rem;
+}
+.product-html-content p:last-child {
+  margin-bottom: 0;
+}
+.product-html-content p:first-child {
+  margin-top: 0;
+}
+
 /* Refined base styles */
 html {
   scroll-behavior: smooth;

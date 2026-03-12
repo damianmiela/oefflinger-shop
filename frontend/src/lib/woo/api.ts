@@ -1,10 +1,23 @@
-import type { Product, Cart } from "@/types";
+import type { Product, Cart, ProductAttribute } from "@/types";
 
 function getBaseUrl(): string {
   if (typeof window !== "undefined") {
     return process.env.NEXT_PUBLIC_WC_STORE_API!;
   }
   return process.env.WC_INTERNAL_STORE_URL || process.env.NEXT_PUBLIC_WC_STORE_API!;
+}
+
+/** WooCommerce REST API base (for attributes) – derive from Store API or use WC_REST_API_URL */
+function getRestApiBase(): string | null {
+  const explicit = process.env.WC_REST_API_URL;
+  if (explicit) return explicit;
+  // Server-side: use internal URL if available (Docker)
+  const store =
+    typeof window === "undefined"
+      ? process.env.WC_INTERNAL_STORE_URL || process.env.NEXT_PUBLIC_WC_STORE_API
+      : process.env.NEXT_PUBLIC_WC_STORE_API;
+  if (!store) return null;
+  return store.replace(/\/wc\/store\/v1\/?$/, "/wc/v3");
 }
 
 async function storeApiFetch<T>(
@@ -71,9 +84,58 @@ export async function getProducts(): Promise<Product[]> {
   return storeApiFetch<Product[]>("/products");
 }
 
+/** Fetch product attributes from WooCommerce REST API (wc/v3) – requires consumer key/secret */
+async function fetchProductAttributesFromRestApi(
+  slug: string
+): Promise<ProductAttribute[] | null> {
+  const base = getRestApiBase();
+  if (!base) return null;
+
+  const key = process.env.WC_CONSUMER_KEY;
+  const secret = process.env.WC_CONSUMER_SECRET;
+  if (!key || !secret) return null;
+
+  const auth = Buffer.from(`${key}:${secret}`).toString("base64");
+  const url = `${base}/products?slug=${slug}`;
+
+  try {
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `Basic ${auth}`,
+        "Content-Type": "application/json",
+      },
+    });
+    if (!res.ok) return null;
+    const data = (await res.json()) as unknown[];
+    const product = data[0] as { attributes?: Array<{ id?: number; name?: string; options?: string[]; visible?: boolean; variation?: boolean }> } | undefined;
+    if (!product?.attributes?.length) return null;
+    return product.attributes.map((a) => ({
+      id: a.id,
+      name: a.name,
+      options: a.options,
+      visible: a.visible,
+      variation: a.variation,
+    }));
+  } catch {
+    return null;
+  }
+}
+
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   const products = await storeApiFetch<Product[]>(`/products?slug=${slug}`);
-  return products[0] ?? null;
+  const product = products[0] ?? null;
+  if (!product) return null;
+
+  // Attributes: Store API may include them; otherwise try REST API if configured
+  const storeAttrs = (product as unknown as Record<string, unknown>).attributes as ProductAttribute[] | undefined;
+  if (storeAttrs?.length) {
+    return { ...product, attributes: storeAttrs };
+  }
+  const restAttributes = await fetchProductAttributesFromRestApi(slug);
+  if (restAttributes?.length) {
+    return { ...product, attributes: restAttributes };
+  }
+  return product;
 }
 
 export async function getCart(cartToken?: string): Promise<{ data: Cart; token?: string }> {
