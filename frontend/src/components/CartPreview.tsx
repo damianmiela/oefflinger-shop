@@ -112,7 +112,7 @@ export function CartPreview() {
     >
       <Link
         href="/cart"
-        className="relative inline-block py-1 pr-5 text-sm font-medium text-gray-700 transition hover:text-primary"
+        className="relative flex items-center gap-1.5 rounded-full px-4 py-2 pr-6 text-sm font-medium text-gray-700 transition-colors duration-200 hover:bg-primary/10 hover:text-primary"
       >
         {showPulse && (
           <span
@@ -120,6 +120,14 @@ export function CartPreview() {
             aria-hidden
           />
         )}
+        <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+          />
+        </svg>
         Warenkorb
         {itemCount > 0 && (
           <span className="absolute -top-2 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-accent text-xs font-bold text-white">

@@ -374,7 +374,7 @@ export default async function HomePage() {
               className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4"
               stagger={80}
             >
-              {products.slice(0, 6).map((product) => (
+              {[...products].sort(() => Math.random() - 0.5).slice(0, 4).map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </AnimateChildren>
@@ -403,28 +403,6 @@ export default async function HomePage() {
         </AnimateOnScroll>
       )}
 
-      {/* CTA */}
-      <AnimateOnScroll variant="fade-up">
-      <section className="border-t border-gray-100 bg-primary-dark py-20 sm:py-24">
-        <div className={SECTION_CLASS}>
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-              Kolloidale Metalle entdecken
-            </h2>
-            <p className="mt-4 text-lg text-white/90">
-              Stöbern Sie in unserem Sortiment — von Eisen und Zink über Gold und Silber bis zu
-              Chrom, Kupfer und weiteren Spurenelementen.
-            </p>
-            <Link
-              href="/shop"
-              className="mt-8 inline-block rounded-lg bg-white px-8 py-4 font-semibold text-primary-dark transition hover:bg-gray-100"
-            >
-              Zum Shop
-            </Link>
-          </div>
-        </div>
-      </section>
-      </AnimateOnScroll>
     </>
   );
 }
