@@ -137,11 +137,17 @@ export function CartPreview() {
       </Link>
 
       {visible && itemCount > 0 && (
-        <div
-          className="absolute right-0 top-full z-50 mt-2 w-80 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg"
-          onMouseEnter={show}
-          onMouseLeave={hide}
-        >
+        <>
+          {/* Invisible bridge to prevent preview from disappearing when moving cursor from button to dropdown */}
+          <div
+            className="absolute left-0 right-0 top-full z-40 h-3"
+            aria-hidden
+          />
+          <div
+            className="absolute right-0 top-full z-50 mt-2 w-80 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg"
+            onMouseEnter={show}
+            onMouseLeave={hide}
+          >
           <div className="border-b border-gray-100 px-4 py-3">
             <p className="text-sm font-semibold text-gray-900">Warenkorb-Vorschau</p>
           </div>
@@ -162,6 +168,7 @@ export function CartPreview() {
             </Link>
           </div>
         </div>
+        </>
       )}
     </div>
   );
