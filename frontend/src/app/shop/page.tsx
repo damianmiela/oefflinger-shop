@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { getProducts } from "@/lib/woo/api";
+import { getProductsPaginated } from "@/lib/woo/api";
 import { ProductCard } from "@/components/ProductCard";
+import { ShopPagination } from "@/components/ShopPagination";
 import { AnimateChildren } from "@/components/AnimateChildren";
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 import type { Product } from "@/types";
@@ -10,10 +11,20 @@ export const metadata = {
   description: "Entdecken Sie unsere hochwertigen Kolloide.",
 };
 
-export default async function ShopPage() {
+interface Props {
+  searchParams: Promise<{ page?: string }>;
+}
+
+export default async function ShopPage({ searchParams }: Props) {
+  const { page: pageParam } = await searchParams;
+  const currentPage = Math.max(1, parseInt(pageParam ?? "1", 10) || 1);
+
   let products: Product[] = [];
+  let totalPages = 1;
   try {
-    products = await getProducts();
+    const result = await getProductsPaginated(currentPage, 20);
+    products = result.products;
+    totalPages = result.totalPages;
   } catch {
     // WooCommerce may not be ready yet
   }
@@ -41,14 +52,17 @@ export default async function ShopPage() {
       </AnimateOnScroll>
 
       {products.length > 0 ? (
-        <AnimateChildren
-          className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
-          stagger={60}
-        >
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </AnimateChildren>
+        <>
+          <AnimateChildren
+            className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+            stagger={60}
+          >
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </AnimateChildren>
+          <ShopPagination currentPage={currentPage} totalPages={totalPages} />
+        </>
       ) : (
         <AnimateOnScroll variant="fade-up">
         <div className="rounded-lg border border-dashed border-gray-300 py-16 text-center">

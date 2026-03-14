@@ -82,8 +82,41 @@ async function cartApiFetch<T>(
   return { data, token: newToken };
 }
 
+const PRODUCTS_PER_PAGE = 20;
+
+export interface ProductsResponse {
+  products: Product[];
+  total: number;
+  totalPages: number;
+}
+
+export async function getProductsPaginated(
+  page: number = 1,
+  perPage: number = PRODUCTS_PER_PAGE,
+): Promise<ProductsResponse> {
+  const base = getBaseUrl();
+  const offset = (page - 1) * perPage;
+  const url = `${base}/products?per_page=${perPage}&offset=${offset}`;
+
+  const res = await fetch(url, {
+    headers: { "Content-Type": "application/json" },
+  });
+
+  if (!res.ok) {
+    throw new Error(`WooCommerce Store API error: ${res.status} ${res.statusText}`);
+  }
+
+  const products = (await res.json()) as Product[];
+  const total = parseInt(res.headers.get("X-WP-Total") ?? "0", 10);
+  const totalPages = parseInt(res.headers.get("X-WP-TotalPages") ?? "1", 10);
+
+  return { products, total, totalPages };
+}
+
+/** Fetch all products (for main page, etc.) – uses first page only */
 export async function getProducts(): Promise<Product[]> {
-  return storeApiFetch<Product[]>("/products?per_page=100");
+  const { products } = await getProductsPaginated(1, 100);
+  return products;
 }
 
 /** Fetch product attributes from WooCommerce REST API – requires consumer key/secret */
