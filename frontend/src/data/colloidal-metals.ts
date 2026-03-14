@@ -21,9 +21,6 @@ export interface ColloidalMetal {
   productLink?: string;
 }
 
-/** Replace with actual product slug when products are in shop */
-const PLACEHOLDER_PRODUCT = "/product/test-product";
-
 export const COLLOIDAL_METALS: ColloidalMetal[] = [
   {
     id: "chrom",
@@ -54,7 +51,7 @@ Durch die kolloidale Form werden Chrompartikel in einer Form bereitgestellt, die
       "Antioxidativer Schutz",
       "Stimmung & Wohlbefinden",
     ],
-    productLink: PLACEHOLDER_PRODUCT,
+    productLink: "/product/kolloidales-chrom",
   },
   {
     id: "eisen",
@@ -88,7 +85,7 @@ Kolloidales Eisen stellt dieses wichtige Spurenelement in einer speziellen Form 
       "Blutbildung",
       "Verdauung & Wohlbefinden",
     ],
-    productLink: PLACEHOLDER_PRODUCT,
+    productLink: "/product/kolloidales-eisen",
   },
   {
     id: "gold",
@@ -126,7 +123,7 @@ Darüber hinaus wird kolloidales Gold mit einer möglichen Unterstützung der k�
       "Muskel & Regeneration",
       "Antioxidativer Schutz",
     ],
-    productLink: PLACEHOLDER_PRODUCT,
+    productLink: "/product/kolloidales-gold",
   },
   {
     id: "kobalt",
@@ -162,7 +159,7 @@ Durch seine kolloidale Form wird Kobalt in einer speziellen Struktur bereitgeste
       "Haut & Haare",
       "Blutbildung",
     ],
-    productLink: PLACEHOLDER_PRODUCT,
+    productLink: "/product/kolloidales-kobalt",
   },
   {
     id: "kupfer",
@@ -197,7 +194,7 @@ Darüber hinaus wird kolloidales Kupfer mit möglichen positiven Effekten auf Ha
       "Blutbildung",
       "Verdauung & Wohlbefinden",
     ],
-    productLink: PLACEHOLDER_PRODUCT,
+    productLink: "/product/kolloidales-kupfer",
   },
   {
     id: "magnesium",
@@ -234,7 +231,7 @@ Kolloidales Magnesium stellt dieses wichtige Mineral in einer Form bereit, die e
       "Blutzucker",
       "Immunsystem",
     ],
-    productLink: PLACEHOLDER_PRODUCT,
+    productLink: "/product/kolloidales-magnesium",
   },
   {
     id: "molybdan",
@@ -274,7 +271,7 @@ Kolloidales Molybdän stellt dieses Spurenelement in einer Form bereit, die eine
       "Knochen",
       "Verdauung & Wohlbefinden",
     ],
-    productLink: PLACEHOLDER_PRODUCT,
+    productLink: "/product/kolloidales-molybdan",
   },
   {
     id: "nickel",
@@ -311,7 +308,7 @@ Kolloidales Nickel stellt dieses Spurenelement in einer Form bereit, die eine m�
       "Antioxidativer Schutz",
       "Blutzucker",
     ],
-    productLink: PLACEHOLDER_PRODUCT,
+    productLink: "/product/kolloidales-nickel",
   },
   {
     id: "silber",
@@ -342,7 +339,7 @@ Durch seine kolloidale Form wird Silber in einer Struktur bereitgestellt, die ei
       "Haut & Haare",
       "Verdauung & Wohlbefinden",
     ],
-    productLink: PLACEHOLDER_PRODUCT,
+    productLink: "/product/kolloidales-silber",
   },
   {
     id: "silizium",
@@ -378,7 +375,7 @@ Kolloidales Silizium stellt dieses Spurenelement in einer Form bereit, die eine 
       "Antioxidativer Schutz",
       "Verdauung & Wohlbefinden",
     ],
-    productLink: PLACEHOLDER_PRODUCT,
+    productLink: "/product/kolloidales-silizium",
   },
   {
     id: "tantal",
@@ -415,7 +412,7 @@ Kolloidales Tantal stellt dieses Element in einer Form bereit, die eine möglich
       "Muskel & Regeneration",
       "Verdauung & Wohlbefinden",
     ],
-    productLink: PLACEHOLDER_PRODUCT,
+    productLink: "/product/kolloidales-tantal",
   },
   {
     id: "vanadium",
@@ -455,7 +452,7 @@ Kolloidales Vanadium stellt dieses Spurenelement in einer Form bereit, die eine 
       "Blutzucker",
       "Muskel & Regeneration",
     ],
-    productLink: PLACEHOLDER_PRODUCT,
+    productLink: "/product/kolloidales-vanadium",
   },
   {
     id: "zink",
@@ -494,7 +491,7 @@ Kolloidales Zink stellt dieses Spurenelement in einer Form bereit, die eine mög
       "Antioxidativer Schutz",
       "Muskel & Regeneration",
     ],
-    productLink: PLACEHOLDER_PRODUCT,
+    productLink: "/product/kolloidales-zink",
   },
   {
     id: "zinn",
@@ -536,7 +533,7 @@ Kolloidales Zinn stellt dieses Spurenelement in einer Form bereit, die eine mög
       "Verdauung & Wohlbefinden",
       "Haut & Haare",
     ],
-    productLink: PLACEHOLDER_PRODUCT,
+    productLink: "/product/kolloidales-zinn",
   },
 ];
 

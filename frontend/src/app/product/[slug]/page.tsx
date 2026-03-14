@@ -1,13 +1,12 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { getProductBySlug, getProducts } from "@/lib/woo/api";
 import { AddToCartButton } from "./AddToCartButton";
 import { StockStatus } from "./StockStatus";
+import { DeliveryEstimate } from "./DeliveryEstimate";
 import { ProductImageGallery } from "@/components/ProductImageGallery";
-import { ProductCard } from "@/components/ProductCard";
 import { PriceDisplay } from "@/components/PriceDisplay";
+import { ProductCrossSell } from "./ProductCrossSell";
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
-import { AnimateChildren } from "@/components/AnimateChildren";
 import type { Product } from "@/types";
 
 interface Props {
@@ -39,65 +38,77 @@ export default async function ProductPage({ params }: Props) {
 
   if (!product) notFound();
 
-  const otherProducts = shuffleAndTake(allProducts, product.id, 4);
+  const crossSellProducts = shuffleAndTake(allProducts, product.id, 10);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      {/* Top: two columns – gallery | details */}
-      <div className="grid gap-12 lg:grid-cols-2">
-        <AnimateOnScroll variant="fade-up">
-        <div className="w-full lg:max-w-[50%]">
-          <ProductImageGallery
-            images={product.images}
-            productName={product.name}
-            priority
-          />
+      {/* Top: gallery (30%) | details (60%) | cross-sell (10%). Height from gallery or details only; cross-sell is absolute. */}
+      <div className="relative flex gap-8">
+        <div className="min-w-0 flex-1 grid gap-8 lg:grid-cols-[30%_1fr]">
+          <AnimateOnScroll variant="fade-up">
+          <div className="w-full">
+            <ProductImageGallery
+              images={product.images}
+              productName={product.name}
+              priority
+            />
+          </div>
+          </AnimateOnScroll>
+
+          <AnimateOnScroll variant="fade-up">
+          <div className="flex w-full flex-col justify-center">
+          <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
+          <p className="mt-2">
+            <PriceDisplay prices={product.prices} size="lg" />
+          </p>
+
+          {product.short_description && (
+            <div
+              className="product-html-content mt-6 max-w-none text-gray-600 leading-relaxed [&_p]:mb-4 [&_p:last-child]:mb-0"
+              dangerouslySetInnerHTML={{ __html: product.short_description }}
+            />
+          )}
+
+          {product.attributes && product.attributes.length > 0 && (
+            <dl className="mt-4 space-y-2">
+              {product.attributes.map((attr, i) => {
+                const rawLabel = attr.name || attr.attribute?.replace(/^pa_/, "").replace(/-/g, " ") || "";
+                const label = rawLabel ? rawLabel.charAt(0).toUpperCase() + rawLabel.slice(1) : "Attribut";
+                const value = attr.options?.join(", ") || attr.value || "";
+                if (!value) return null;
+                return (
+                  <div key={attr.attribute ?? attr.name ?? `attr-${i}`}>
+                    <dt className="text-sm font-medium text-gray-500">{label}</dt>
+                    <dd className="mt-0.5 text-gray-900">{value}</dd>
+                  </div>
+                );
+              })}
+            </dl>
+          )}
+
+          {product.is_purchasable && (product.is_in_stock || product.is_on_backorder) && (
+            <>
+              <StockStatus product={product} />
+              <DeliveryEstimate deliveryEstimate={product.delivery_estimate} />
+              <AddToCartButton product={product} />
+            </>
+          )}
+
+          {!product.is_in_stock && !product.is_on_backorder && (
+            <p className="mt-6 text-sm text-red-600">Derzeit nicht auf Lager.</p>
+          )}
+          </div>
+          </AnimateOnScroll>
         </div>
-        </AnimateOnScroll>
 
-        <AnimateOnScroll variant="fade-up">
-        <div className="flex w-full flex-col justify-center">
-        <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
-        <p className="mt-2">
-          <PriceDisplay prices={product.prices} size="lg" />
-        </p>
-
-        {product.short_description && (
-          <div
-            className="product-html-content mt-6 max-w-none text-gray-600 leading-relaxed [&_p]:mb-4 [&_p:last-child]:mb-0"
-            dangerouslySetInnerHTML={{ __html: product.short_description }}
-          />
-        )}
-
-        {product.attributes && product.attributes.length > 0 && (
-          <dl className="mt-4 space-y-2">
-            {product.attributes.map((attr, i) => {
-              const rawLabel = attr.name || attr.attribute?.replace(/^pa_/, "").replace(/-/g, " ") || "";
-              const label = rawLabel ? rawLabel.charAt(0).toUpperCase() + rawLabel.slice(1) : "Attribut";
-              const value = attr.options?.join(", ") || attr.value || "";
-              if (!value) return null;
-              return (
-                <div key={attr.attribute ?? attr.name ?? `attr-${i}`}>
-                  <dt className="text-sm font-medium text-gray-500">{label}</dt>
-                  <dd className="mt-0.5 text-gray-900">{value}</dd>
-                </div>
-              );
-            })}
-          </dl>
-        )}
-
-        {product.is_purchasable && (product.is_in_stock || product.is_on_backorder) && (
+        {crossSellProducts.length > 0 && (
           <>
-            <StockStatus product={product} />
-            <AddToCartButton product={product} />
+            <div className="hidden w-[10%] shrink-0 lg:block" aria-hidden />
+            <div className="absolute right-0 top-0 bottom-0 hidden w-[10%] overflow-hidden border-l border-gray-100 pl-6 lg:block">
+              <ProductCrossSell products={crossSellProducts} />
+            </div>
           </>
         )}
-
-        {!product.is_in_stock && !product.is_on_backorder && (
-          <p className="mt-6 text-sm text-red-600">Derzeit nicht auf Lager.</p>
-        )}
-        </div>
-        </AnimateOnScroll>
       </div>
 
       {/* Full-width description */}
@@ -110,30 +121,6 @@ export default async function ProductPage({ params }: Props) {
         </AnimateOnScroll>
       )}
 
-      {/* Andere Produkte */}
-      {otherProducts.length > 0 && (
-        <AnimateOnScroll variant="fade-up">
-        <section className="mt-20 border-t border-gray-200 pt-16">
-          <h2 className="mb-8 text-2xl font-bold text-gray-900">Andere Produkte</h2>
-          <AnimateChildren
-            className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
-            stagger={60}
-          >
-            {otherProducts.map((p) => (
-              <ProductCard key={p.id} product={p} />
-            ))}
-          </AnimateChildren>
-          <div className="mt-8 text-center">
-            <Link
-              href="/shop"
-              className="text-sm font-medium text-primary transition hover:text-primary-light"
-            >
-              Alle Produkte anzeigen →
-            </Link>
-          </div>
-        </section>
-        </AnimateOnScroll>
-      )}
     </div>
   );
 }

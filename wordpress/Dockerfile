@@ -4,7 +4,7 @@ FROM wordpress:latest
 COPY php-upload-limit.ini /usr/local/etc/php/conf.d/99-upload-limit.ini
 
 RUN mkdir -p /usr/src/wordpress/wp-content/mu-plugins
-COPY api/cors-api.php api/stock-quantity-api.php api/product-attributes-api.php /usr/src/wordpress/wp-content/mu-plugins/
+COPY api/cors-api.php api/stock-quantity-api.php api/product-attributes-api.php api/delivery-estimate-api.php /usr/src/wordpress/wp-content/mu-plugins/
 
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x wp-cli.phar \

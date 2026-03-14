@@ -51,6 +51,14 @@ export interface Product {
   stock_quantity?: number | null;
   /** Product attributes (e.g. size, color) – shown when present */
   attributes?: ProductAttribute[];
+  /** Delivery estimate from mu-plugin (order by X for delivery on Y) */
+  delivery_estimate?: {
+    orderBy: string;
+    orderByHoursLeft: number;
+    deliveryDate: string;
+    deliveryDayName: string;
+    message: string;
+  };
 }
 
 export interface CartItemData {
