@@ -68,7 +68,7 @@ export function Header() {
           </Link>
           <Link href="/produkte" className={navLinkClass}>
             <DropletsIcon className="h-4 w-4" />
-            Kolloidale Wasser
+            Kolloidales Wasser
           </Link>
           <Link href="/shop" className={navLinkClass}>
             <ShopIcon className="h-4 w-4" />

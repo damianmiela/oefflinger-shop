@@ -25,17 +25,19 @@ export default async function ShopPage() {
       </AnimateOnScroll>
 
       <AnimateOnScroll variant="fade-up">
-        <Link
-          href="/produkte"
-          className="mb-10 flex flex-col gap-4 rounded-xl border border-primary/20 bg-primary/5 px-5 py-4 transition hover:border-primary/40 hover:bg-primary/10 sm:flex-row sm:items-center sm:justify-between"
-        >
+        <div className="mb-10 flex flex-col gap-4 rounded-xl border border-primary/20 bg-primary/5 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-gray-700 sm:text-base">
             <span className="font-medium text-primary">Was sind kolloidale Metalle?</span>{" "}
             Erfahren Sie mehr über Eisen, Gold, Silber, Zink und unsere weiteren Spurenelemente
             — Herstellung, Eigenschaften und mögliche Einsatzbereiche.
           </p>
-          <span className="shrink-0 text-sm font-medium text-primary">Mehr erfahren →</span>
-        </Link>
+          <Link
+            href="/produkte"
+            className="shrink-0 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition hover:bg-primary-light"
+          >
+            Mehr erfahren →
+          </Link>
+        </div>
       </AnimateOnScroll>
 
       {products.length > 0 ? (
