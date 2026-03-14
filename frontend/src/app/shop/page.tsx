@@ -25,7 +25,7 @@ export default async function ShopPage() {
 
       {products.length > 0 ? (
         <AnimateChildren
-          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
+          className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
           stagger={60}
         >
           {products.map((product) => (
