@@ -4,6 +4,7 @@ import { getProducts } from "@/lib/woo/api";
 import { ProductCard } from "@/components/ProductCard";
 import { AnimateChildren } from "@/components/AnimateChildren";
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
+import { HeroParallax } from "@/components/HeroParallax";
 import type { Product } from "@/types";
 
 const SECTION_CLASS = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8";
@@ -25,54 +26,38 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* Hero with background image */}
-      <AnimateOnScroll variant="fade-up">
-      <section className="relative overflow-hidden py-24 sm:py-32 lg:py-40">
-        <div className="absolute inset-0">
-          <Image
-            src={IMAGES.hero}
-            alt="Drohnenaufnahme eines Waldes in Deutschland"
-            fill
-            className="object-cover"
-            priority
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-primary-dark/70" />
-        </div>
-        <div className="relative">
-          <div className={SECTION_CLASS}>
-            <div className="mx-auto max-w-3xl text-center">
-              <p className="mb-4 text-sm font-medium uppercase tracking-widest text-white/90">
-                Kolloidale Metalle aus Oberöfflingen
-              </p>
-              <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
-                Öfflinger
-                <br />
-                <span className="text-white/95">Kolloide aus eigener Produktion</span>
-              </h1>
-              <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/90">
-                Kolloidales Eisen, Gold, Silber, Zink und weitere Spurenelemente — hergestellt in
-                Oberöfflingen, Rheinland-Pfalz.
-              </p>
-              <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                <Link
-                  href="/produkte"
-                  className="w-full rounded-lg bg-white px-8 py-4 text-center font-semibold text-primary-dark transition hover:bg-gray-100 sm:w-auto"
-                >
-                  Produkte entdecken
-                </Link>
-                <Link
-                  href="/shop"
-                  className="w-full rounded-lg border border-white/50 bg-white/10 px-8 py-4 text-center font-medium text-white backdrop-blur transition hover:bg-white/20 sm:w-auto"
-                >
-                  Zum Shop
-                </Link>
-              </div>
+      <HeroParallax imageUrl={IMAGES.hero}>
+        <div className={SECTION_CLASS}>
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="mb-4 text-sm font-medium uppercase tracking-widest text-white/90">
+              Kolloidale Metalle aus Oberöfflingen
+            </p>
+            <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+              Öfflinger
+              <br />
+              <span className="text-white/95">Kolloide aus eigener Produktion</span>
+            </h1>
+            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/90">
+              Kolloidales Eisen, Gold, Silber, Zink und weitere Spurenelemente — hergestellt in
+              Oberöfflingen, Rheinland-Pfalz.
+            </p>
+            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <Link
+                href="/produkte"
+                className="w-full rounded-lg bg-white px-8 py-4 text-center font-semibold text-primary-dark transition hover:bg-gray-100 sm:w-auto"
+              >
+                Produkte entdecken
+              </Link>
+              <Link
+                href="/shop"
+                className="w-full rounded-lg border border-white/50 bg-white/10 px-8 py-4 text-center font-medium text-white backdrop-blur transition hover:bg-white/20 sm:w-auto"
+              >
+                Zum Shop
+              </Link>
             </div>
           </div>
         </div>
-      </section>
-      </AnimateOnScroll>
+      </HeroParallax>
 
       {/* What is colloidal water – with image */}
       <AnimateOnScroll variant="fade-up">
@@ -402,7 +387,6 @@ export default async function HomePage() {
         </section>
         </AnimateOnScroll>
       )}
-
     </>
   );
 }

@@ -65,6 +65,9 @@
 }
 
 /* Refined base styles */
+:root {
+  --header-height: 88px;
+}
 html {
   scroll-behavior: smooth;
 }
