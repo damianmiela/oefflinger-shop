@@ -12,6 +12,7 @@ define('OEFFLINGER_DELIVERY_META_KEY', '_oefflinger_shipping_days');
 define('OEFFLINGER_DELIVERY_OPTION_CUTOFF', 'oefflinger_delivery_cutoff_hour');
 define('OEFFLINGER_DELIVERY_OPTION_TZ', 'oefflinger_delivery_timezone');
 define('OEFFLINGER_DELIVERY_OPTION_DAYS', 'oefflinger_delivery_default_days');
+define('OEFFLINGER_DELIVERY_OPTION_ENABLED', 'oefflinger_delivery_enabled');
 
 $oefflinger_delivery_weekdays = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
 $oefflinger_delivery_months = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
@@ -94,8 +95,13 @@ function oefflinger_calc_delivery_estimate(int $shippingDays) {
 
     $hoursLeft = 0;
     $message = '';
+    $cutoffIso = null;
 
     if (oefflinger_is_workday($now) && $currentMinutes < $cutoffMinutes) {
+        $cutoffDt = clone $now;
+        $cutoffDt->setTime($cutoff, 0, 0);
+        $cutoffIso = $cutoffDt->format(DateTime::ATOM);
+
         $hoursLeft = (int) floor(($cutoffMinutes - $currentMinutes) / 60);
         if ($hoursLeft < 1) {
             $minsLeft = $cutoffMinutes - $currentMinutes;
@@ -124,13 +130,17 @@ function oefflinger_calc_delivery_estimate(int $shippingDays) {
         );
     }
 
-    return [
+    $result = [
         'orderBy' => $orderBy,
         'orderByHoursLeft' => $hoursLeft,
         'deliveryDate' => $deliveryDateStr,
         'deliveryDayName' => $deliveryDayName,
         'message' => $message,
     ];
+    if ($cutoffIso !== null) {
+        $result['cutoffIso'] = $cutoffIso;
+    }
+    return $result;
 }
 
 /**
@@ -138,6 +148,9 @@ function oefflinger_calc_delivery_estimate(int $shippingDays) {
  */
 function oefflinger_inject_delivery_estimate($response, $server, $request) {
     if (!function_exists('wc_get_product')) {
+        return $response;
+    }
+    if (!get_option(OEFFLINGER_DELIVERY_OPTION_ENABLED, true)) {
         return $response;
     }
     $route = $request->get_route() ?? '';
@@ -202,6 +215,9 @@ function oefflinger_delivery_render_settings_page() {
         return;
     }
     if (isset($_POST['oefflinger_delivery_save']) && check_admin_referer('oefflinger_delivery_settings')) {
+        $enabled = isset($_POST['oefflinger_enabled']);
+        update_option(OEFFLINGER_DELIVERY_OPTION_ENABLED, $enabled);
+
         $cutoff = isset($_POST['oefflinger_cutoff']) ? (int) $_POST['oefflinger_cutoff'] : 14;
         $cutoff = max(0, min(23, $cutoff));
         update_option(OEFFLINGER_DELIVERY_OPTION_CUTOFF, $cutoff);
@@ -217,6 +233,7 @@ function oefflinger_delivery_render_settings_page() {
 
         echo '<div class="notice notice-success"><p>Einstellungen gespeichert.</p></div>';
     }
+    $enabled = get_option(OEFFLINGER_DELIVERY_OPTION_ENABLED, true);
     $cutoff = (int) get_option(OEFFLINGER_DELIVERY_OPTION_CUTOFF, 14);
     $tz = get_option(OEFFLINGER_DELIVERY_OPTION_TZ, 'Europe/Berlin');
     $days = (int) get_option(OEFFLINGER_DELIVERY_OPTION_DAYS, 2);
@@ -227,6 +244,16 @@ function oefflinger_delivery_render_settings_page() {
         <form method="post">
             <?php wp_nonce_field('oefflinger_delivery_settings'); ?>
             <table class="form-table">
+                <tr>
+                    <th><label for="oefflinger_enabled">Lieferzeitanzeige</label></th>
+                    <td>
+                        <label>
+                            <input type="checkbox" id="oefflinger_enabled" name="oefflinger_enabled" value="1" <?php checked($enabled); ?> />
+                            Lieferzeitschätzung auf Produktseiten anzeigen
+                        </label>
+                        <p class="description">Deaktivieren Sie diese Option, um die Lieferzeitanzeige im Shop auszublenden.</p>
+                    </td>
+                </tr>
                 <tr>
                     <th><label for="oefflinger_cutoff">Versand bis Uhrzeit (Stunde)</label></th>
                     <td>

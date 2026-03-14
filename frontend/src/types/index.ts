@@ -58,6 +58,8 @@ export interface Product {
     deliveryDate: string;
     deliveryDayName: string;
     message: string;
+    /** ISO timestamp of cutoff for live countdown (when before cutoff) */
+    cutoffIso?: string;
   };
 }
 
