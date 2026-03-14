@@ -1,13 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
+import { PriceDisplay } from "@/components/PriceDisplay";
 import type { Product } from "@/types";
 
 export function ProductCard({ product }: { product: Product }) {
-  const price =
-    Number(product.prices.price) > 0
-      ? `${(Number(product.prices.price) / 100).toFixed(2)} ${product.prices.currency_symbol}`
-      : "Preis auf Anfrage";
-
   return (
     <Link
       href={`/product/${product.slug}`}
@@ -31,7 +27,9 @@ export function ProductCard({ product }: { product: Product }) {
         <h3 className="font-semibold text-gray-900 transition group-hover:text-primary">
           {product.name}
         </h3>
-        <p className="mt-2 text-lg font-bold text-primary">{price}</p>
+        <p className="mt-2">
+          <PriceDisplay prices={product.prices} size="md" />
+        </p>
       </div>
     </Link>
   );

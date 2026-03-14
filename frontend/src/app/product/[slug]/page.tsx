@@ -5,6 +5,7 @@ import { AddToCartButton } from "./AddToCartButton";
 import { StockStatus } from "./StockStatus";
 import { ProductImageGallery } from "@/components/ProductImageGallery";
 import { ProductCard } from "@/components/ProductCard";
+import { PriceDisplay } from "@/components/PriceDisplay";
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 import { AnimateChildren } from "@/components/AnimateChildren";
 import type { Product } from "@/types";
@@ -38,11 +39,6 @@ export default async function ProductPage({ params }: Props) {
 
   if (!product) notFound();
 
-  const priceDisplay =
-    Number(product.prices.price) > 0
-      ? `${(Number(product.prices.price) / 100).toFixed(2)} ${product.prices.currency_symbol}`
-      : "Preis auf Anfrage";
-
   const otherProducts = shuffleAndTake(allProducts, product.id, 4);
 
   return (
@@ -62,7 +58,9 @@ export default async function ProductPage({ params }: Props) {
         <AnimateOnScroll variant="fade-up">
         <div className="flex w-full flex-col justify-center">
         <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
-        <p className="mt-2 text-2xl font-semibold text-primary">{priceDisplay}</p>
+        <p className="mt-2">
+          <PriceDisplay prices={product.prices} size="lg" />
+        </p>
 
         {product.short_description && (
           <div
