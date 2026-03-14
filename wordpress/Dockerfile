@@ -1,5 +1,8 @@
 FROM wordpress:latest
 
+# Increase max upload size to 5MB
+COPY php-upload-limit.ini /usr/local/etc/php/conf.d/99-upload-limit.ini
+
 RUN mkdir -p /usr/src/wordpress/wp-content/mu-plugins
 COPY api/cors-api.php api/stock-quantity-api.php api/product-attributes-api.php /usr/src/wordpress/wp-content/mu-plugins/
 
