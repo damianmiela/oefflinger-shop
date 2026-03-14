@@ -83,7 +83,7 @@ async function cartApiFetch<T>(
 }
 
 export async function getProducts(): Promise<Product[]> {
-  return storeApiFetch<Product[]>("/products");
+  return storeApiFetch<Product[]>("/products?per_page=100");
 }
 
 /** Fetch product attributes from WooCommerce REST API – requires consumer key/secret */
