@@ -76,7 +76,15 @@ export function DeliveryEstimate({ deliveryEstimate }: DeliveryEstimateProps) {
                 })}
               </p>
               <p className="text-xs text-emerald-600/90">
-                Noch bis {deliveryEstimate.orderBy} Uhr bestellen
+                Noch bis{" "}
+                {deliveryEstimate.cutoffIso
+                  ? new Date(deliveryEstimate.cutoffIso).toLocaleDateString("de-DE", {
+                      weekday: "long",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })
+                  : deliveryEstimate.orderBy}{" "}
+                bestellen
               </p>
             </div>
           ) : (

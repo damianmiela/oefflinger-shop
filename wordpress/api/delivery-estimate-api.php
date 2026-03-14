@@ -121,6 +121,8 @@ function oefflinger_calc_delivery_estimate(int $shippingDays) {
         }
     } else {
         $nextCutoff = oefflinger_next_ship_date($now, $cutoff);
+        $nextCutoff->setTime($cutoff, 0, 0);
+        $cutoffIso = $nextCutoff->format(DateTime::ATOM);
         $nextCutoffStr = ($nextCutoff->format('Y-m-d') === $now->format('Y-m-d')) ? 'heute' : ($nextCutoff->format('N') === '1' ? 'Montag' : 'morgen');
         $message = sprintf(
             'Bestellen Sie bis %s %s für Lieferung am %s',
