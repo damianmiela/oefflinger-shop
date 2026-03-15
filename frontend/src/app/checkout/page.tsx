@@ -45,17 +45,6 @@ function CheckoutContent() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <h1 className="mb-6 text-2xl font-bold text-gray-900">Kasse</h1>
-      <p className="mb-3 text-sm text-gray-600">
-        Checkout lädt nicht?{" "}
-          <a
-            href={checkoutUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-medium text-primary hover:underline"
-          >
-            In neuem Tab öffnen
-        </a>
-      </p>
       <div className="min-h-[600px] overflow-hidden rounded-xl border border-gray-200 bg-white">
         <iframe
           src={checkoutUrl}
