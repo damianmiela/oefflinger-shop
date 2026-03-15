@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import Link from "next/link";
-import { Suspense } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 
 const WP_URL = process.env.NEXT_PUBLIC_WP_URL || "http://localhost:4001";
 
@@ -18,6 +18,19 @@ function CheckoutContent() {
   const searchParams = useSearchParams();
   const { cart, loading } = useCart();
   const products = searchParams.get("products");
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [iframeHeight, setIframeHeight] = useState(600);
+
+  useEffect(() => {
+    const handler = (e: MessageEvent) => {
+      if (e.data?.type === "oeff-checkout-height" && typeof e.data.height === "number") {
+        setIframeHeight(Math.max(400, Math.min(e.data.height + 20, 2000)));
+      }
+    };
+    window.addEventListener("message", handler);
+    return () => window.removeEventListener("message", handler);
+  }, []);
+
   if (loading && !cart) {
     return (
       <div className="mx-auto max-w-7xl px-4 py-16 text-center text-gray-500 sm:px-6 lg:px-8">
@@ -45,11 +58,13 @@ function CheckoutContent() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <h1 className="mb-6 text-2xl font-bold text-gray-900">Kasse</h1>
-      <div className="min-h-[600px] overflow-hidden rounded-xl border border-gray-200 bg-white">
+      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
         <iframe
+          ref={iframeRef}
           src={checkoutUrl}
           title="Checkout"
-          className="h-[calc(100vh-280px)] min-h-[600px] w-full border-0"
+          style={{ height: iframeHeight }}
+          className="min-h-[400px] w-full border-0 overflow-hidden"
           sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
         />
       </div>

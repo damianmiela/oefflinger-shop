@@ -101,7 +101,7 @@ function oefflinger_set_embed_cookie() {
 }
 
 function oefflinger_checkout_embed_template($template) {
-    $embed_template = dirname(__FILE__) . '/../theme/oefflinger-checkout/checkout-embed.php';
+    $embed_template = dirname(__FILE__) . '/../themes/oefflinger-checkout/checkout-embed.php';
     if (file_exists($embed_template)) {
         return $embed_template;
     }
