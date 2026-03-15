@@ -20,10 +20,11 @@ The post-receive hook builds and restarts containers automatically.
 - WordPress: http://91.98.112.186:4001
 - Admin: http://91.98.112.186:4001/wp-admin
 
-## Custom domain
+## Custom domain / HTTPS
 
-If using a custom domain (e.g. https://oefflinger.de), add to `.env` before building:
+If using a custom domain or HTTPS (e.g. via reverse proxy), add to `.env` before building:
 
-- `NEXT_PUBLIC_WC_STORE_API`
-- `NEXT_PUBLIC_WP_URL`
-- `CORS_ALLOWED_ORIGINS`
+- `NEXT_PUBLIC_WC_STORE_API` – WordPress Store API URL (must match the protocol: https if site is HTTPS)
+- `NEXT_PUBLIC_WP_URL` – WordPress URL (checkout iframe loads from here; use HTTPS if site is HTTPS to avoid mixed-content blocking)
+- `CORS_ALLOWED_ORIGINS` – include your frontend origin (e.g. `https://oefflinger.de`)
+- `FRONTEND_URL` – frontend URL for WordPress (e.g. `https://oefflinger.de`)

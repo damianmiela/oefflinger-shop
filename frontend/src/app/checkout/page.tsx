@@ -7,11 +7,17 @@ import { Suspense } from "react";
 
 const WP_URL = process.env.NEXT_PUBLIC_WP_URL || "http://localhost:4001";
 
+function getCheckoutUrl(productsParam: string, coupon: string | null): string {
+  const iframeParams = new URLSearchParams({ products: productsParam });
+  if (coupon) iframeParams.set("coupon", coupon);
+  const base = WP_URL.replace(/\/$/, "");
+  return `${base}/checkout-link/?${iframeParams.toString()}`;
+}
+
 function CheckoutContent() {
   const searchParams = useSearchParams();
   const { cart, loading } = useCart();
   const products = searchParams.get("products");
-
   if (loading && !cart) {
     return (
       <div className="mx-auto max-w-7xl px-4 py-16 text-center text-gray-500 sm:px-6 lg:px-8">
@@ -34,16 +40,25 @@ function CheckoutContent() {
     );
   }
 
-  const iframeParams = new URLSearchParams({ products: productsParam });
-  if (coupon) iframeParams.set("coupon", coupon);
-  const iframeSrc = `${WP_URL}/checkout-link/?${iframeParams.toString()}`;
+  const checkoutUrl = getCheckoutUrl(productsParam, coupon);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <h1 className="mb-6 text-2xl font-bold text-gray-900">Kasse</h1>
+      <p className="mb-3 text-sm text-gray-600">
+        Checkout lädt nicht?{" "}
+          <a
+            href={checkoutUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-primary hover:underline"
+          >
+            In neuem Tab öffnen
+        </a>
+      </p>
       <div className="min-h-[600px] overflow-hidden rounded-xl border border-gray-200 bg-white">
         <iframe
-          src={iframeSrc}
+          src={checkoutUrl}
           title="Checkout"
           className="h-[calc(100vh-280px)] min-h-[600px] w-full border-0"
           sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
