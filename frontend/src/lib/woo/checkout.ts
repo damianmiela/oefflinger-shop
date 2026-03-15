@@ -1,13 +1,12 @@
 import type { CartItemData } from "@/types";
 
 /**
- * Build WooCommerce checkout-link URL.
- * See: https://developer.woocommerce.com/docs/best-practices/urls-and-routing/checkout-urls/
+ * Build checkout URL – goes to frontend /checkout which embeds WordPress checkout in iframe.
+ * Header/footer come from frontend (single source of truth).
  */
 export function buildCheckoutUrl(items: CartItemData[], coupon?: string): string {
-  const base = process.env.NEXT_PUBLIC_WP_URL || "http://localhost:4001";
   const products = items.map((i) => `${i.id}:${i.quantity}`).join(",");
   const params = new URLSearchParams({ products });
   if (coupon) params.set("coupon", coupon);
-  return `${base}/checkout-link/?${params.toString()}`;
+  return `/checkout?${params.toString()}`;
 }

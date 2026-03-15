@@ -81,12 +81,12 @@ export default function CartPage() {
         >
           Weiter einkaufen
         </Link>
-        <a
+        <Link
           href={buildCheckoutUrl(cart.items)}
           className="rounded-lg bg-accent px-6 py-3 font-semibold text-white transition hover:bg-accent-light"
         >
           Zur Kasse
-        </a>
+        </Link>
       </div>
       </AnimateOnScroll>
     </div>

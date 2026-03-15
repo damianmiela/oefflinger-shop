@@ -1,0 +1,62 @@
+"use client";
+
+import { useSearchParams } from "next/navigation";
+import { useCart } from "@/context/CartContext";
+import Link from "next/link";
+import { Suspense } from "react";
+
+const WP_URL = process.env.NEXT_PUBLIC_WP_URL || "http://localhost:4001";
+
+function CheckoutContent() {
+  const searchParams = useSearchParams();
+  const { cart, loading } = useCart();
+  const products = searchParams.get("products");
+
+  if (loading && !cart) {
+    return (
+      <div className="mx-auto max-w-7xl px-4 py-16 text-center text-gray-500 sm:px-6 lg:px-8">
+        Warenkorb wird geladen…
+      </div>
+    );
+  }
+
+  const coupon = searchParams.get("coupon");
+  const productsParam = products || (cart ? cart.items.map((i) => `${i.id}:${i.quantity}`).join(",") : "");
+
+  if (!productsParam) {
+    return (
+      <div className="mx-auto max-w-7xl px-4 py-16 text-center sm:px-6 lg:px-8">
+        <h1 className="text-2xl font-bold text-gray-900">Keine Produkte im Warenkorb</h1>
+        <Link href="/shop" className="mt-6 inline-block rounded-lg bg-primary px-6 py-3 text-white transition hover:bg-primary-light">
+          Zum Shop
+        </Link>
+      </div>
+    );
+  }
+
+  const iframeParams = new URLSearchParams({ products: productsParam });
+  if (coupon) iframeParams.set("coupon", coupon);
+  const iframeSrc = `${WP_URL}/checkout-link/?${iframeParams.toString()}`;
+
+  return (
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <h1 className="mb-6 text-2xl font-bold text-gray-900">Kasse</h1>
+      <div className="min-h-[600px] overflow-hidden rounded-xl border border-gray-200 bg-white">
+        <iframe
+          src={iframeSrc}
+          title="Checkout"
+          className="h-[calc(100vh-280px)] min-h-[600px] w-full border-0"
+          sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
+        />
+      </div>
+    </div>
+  );
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={<div className="mx-auto max-w-7xl px-4 py-16 text-center text-gray-500">Wird geladen…</div>}>
+      <CheckoutContent />
+    </Suspense>
+  );
+}
