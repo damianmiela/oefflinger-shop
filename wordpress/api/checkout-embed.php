@@ -8,14 +8,14 @@
 defined('ABSPATH') || exit;
 
 add_action('template_redirect', 'oefflinger_checkout_embed', 1);
-add_action('send_headers', 'oefflinger_allow_frontend_frame', 1);
+add_action('send_headers', 'oefflinger_allow_frontend_frame', 999);
 
 function oefflinger_should_allow_frame() {
     $uri = $_SERVER['REQUEST_URI'] ?? '';
     if (strpos($uri, '/checkout-link') !== false) {
         return true;
     }
-    if (preg_match('#/checkout(/|$)#', $uri)) {
+    if (preg_match('#/checkout(/|$|\?)#', $uri)) {
         if (strpos($uri, 'order-received') !== false) {
             return false;
         }
@@ -34,10 +34,13 @@ function oefflinger_allow_frontend_frame() {
     if (!oefflinger_should_allow_frame()) {
         return;
     }
-    remove_action('send_headers', 'send_frame_options_header');
+    if (headers_sent()) {
+        return;
+    }
+    header_remove('X-Frame-Options');
+    header_remove('Content-Security-Policy');
     $frontend = getenv('FRONTEND_URL') ?: 'http://91.98.112.186:4000';
     header("Content-Security-Policy: frame-ancestors 'self' " . $frontend);
-    header_remove('X-Frame-Options');
 }
 
 function oefflinger_checkout_embed() {
