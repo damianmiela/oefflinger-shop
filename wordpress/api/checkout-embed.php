@@ -7,8 +7,18 @@
 
 defined('ABSPATH') || exit;
 
+add_action('init', 'oefflinger_remove_woo_frame_header', 999);
 add_action('template_redirect', 'oefflinger_checkout_embed', 1);
 add_action('send_headers', 'oefflinger_allow_frontend_frame', 999);
+
+function oefflinger_remove_woo_frame_header() {
+    if (!oefflinger_should_allow_frame()) {
+        return;
+    }
+    if (function_exists('wc_send_frame_options_header')) {
+        remove_action('template_redirect', 'wc_send_frame_options_header');
+    }
+}
 
 function oefflinger_should_allow_frame() {
     $uri = $_SERVER['REQUEST_URI'] ?? '';
