@@ -2,12 +2,14 @@
 
 WP="wp --allow-root --path=/var/www/html"
 
-echo "[setup] Installing mu-plugins for headless frontend..."
-mkdir -p /var/www/html/wp-content/mu-plugins
+echo "[setup] Installing mu-plugins and theme for headless frontend..."
+mkdir -p /var/www/html/wp-content/mu-plugins /var/www/html/wp-content/themes
 cp /usr/src/wordpress/wp-content/mu-plugins/cors-api.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
 cp /usr/src/wordpress/wp-content/mu-plugins/stock-quantity-api.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
 cp /usr/src/wordpress/wp-content/mu-plugins/product-attributes-api.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
 cp /usr/src/wordpress/wp-content/mu-plugins/delivery-estimate-api.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
+cp /usr/src/wordpress/wp-content/mu-plugins/checkout-styles.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
+cp -r /usr/src/wordpress/wp-content/themes/oefflinger-checkout /var/www/html/wp-content/themes/ 2>/dev/null || true
 
 echo "[setup] Waiting for WordPress files and database connection..."
 
@@ -43,5 +45,8 @@ fi
 
 echo "[setup] Setting permalink structure..."
 $WP rewrite structure '/%postname%/' --hard 2>/dev/null || true
+
+echo "[setup] Activating Oefflinger Checkout theme..."
+$WP theme activate oefflinger-checkout 2>/dev/null || true
 
 echo "[setup] WooCommerce setup complete."

@@ -41,26 +41,6 @@ body.woocommerce-checkout {
   color: #1f2937 !important;
 }
 
-/* Minimal header bar – back to shop */
-.oefflinger-checkout-header {
-  background: var(--oeff-primary-dark);
-  padding: 0.75rem 1rem;
-  margin-bottom: 1.5rem;
-  border-radius: 0.5rem;
-}
-.oefflinger-checkout-header a {
-  color: rgba(255,255,255,0.9);
-  text-decoration: none;
-  font-size: 0.875rem;
-  font-weight: 500;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-}
-.oefflinger-checkout-header a:hover {
-  color: #fff;
-}
-
 /* Main content container */
 .woocommerce-checkout .woocommerce,
 .woocommerce-checkout .wp-block-woocommerce-checkout {
@@ -186,20 +166,5 @@ body.woocommerce-checkout {
 
     wp_add_inline_style('oefflinger-checkout', $css);
 
-    add_action('wp_body_open', 'oefflinger_checkout_header_block', 5);
 }
 
-function oefflinger_checkout_header_block() {
-    if (!function_exists('is_checkout') || !is_checkout()) {
-        return;
-    }
-    $frontend_url = getenv('FRONTEND_URL') ?: 'http://91.98.112.186:4000';
-    ?>
-    <div class="oefflinger-checkout-header">
-        <a href="<?php echo esc_url($frontend_url); ?>">
-            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-            Zurück zum Shop
-        </a>
-    </div>
-    <?php
-}
