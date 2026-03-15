@@ -27,6 +27,7 @@ services:
       WORDPRESS_DB_HOST: mysql
       CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://91.98.112.186:4000}
       WP_URL: ${WP_URL:-http://91.98.112.186:4001}
+      FRONTEND_URL: ${FRONTEND_URL:-http://91.98.112.186:4000}
     volumes:
       - wp_data:/var/www/html
     ports:
