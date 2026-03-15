@@ -7,6 +7,9 @@ import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 import { HeroParallax } from "@/components/HeroParallax";
 import type { Product } from "@/types";
 
+/** Force dynamic render so products are fetched at request time (not build time) */
+export const dynamic = "force-dynamic";
+
 const SECTION_CLASS = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8";
 
 /* Unsplash images – replace with your own for production */

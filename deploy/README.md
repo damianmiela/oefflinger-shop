@@ -1,5 +1,27 @@
 # Oefflinger Deployment
 
+## Migrate WordPress (local → production)
+
+If production has a fresh WordPress and you want to copy products, plugins, and content from local:
+
+```powershell
+.\deploy\migrate-wordpress.ps1
+```
+
+Requires: local Docker running (mysql + wordpress), SSH access to server, `.env` with MySQL passwords.
+
+### Fix product descriptions (encoding corruption)
+
+If descriptions got corrupted during migration (artifacts, truncated text):
+
+```powershell
+.\deploy\sync-product-descriptions.ps1
+```
+
+Re-syncs only `post_content` and `post_excerpt` from local products to production.
+
+---
+
 ## Initial Server Setup (one-time)
 
 1. Deploy (first push creates `.env` from `.env.example` if missing):
