@@ -70,7 +70,7 @@ export default async function ShopPage({ searchParams }: Props) {
             Noch keine Produkte vorhanden. Fügen Sie Produkte im WordPress-Admin hinzu.
           </p>
           <a
-            href="http://localhost:4001/wp-admin/post-new.php?post_type=product"
+            href={`${process.env.NEXT_PUBLIC_WP_URL || "http://localhost:4001"}/wp-admin/post-new.php?post_type=product`}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-4 inline-block text-sm text-primary underline hover:text-primary-light"

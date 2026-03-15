@@ -4,9 +4,17 @@
  * Description: Adds CORS headers for headless frontend (Next.js) to access WooCommerce Store API.
  */
 
+function oefflinger_cors_get_allowed_origins() {
+    $env = getenv('CORS_ALLOWED_ORIGINS');
+    if ($env) {
+        return array_map('trim', explode(',', $env));
+    }
+    return ['http://localhost:4000', 'http://127.0.0.1:4000'];
+}
+
 add_filter('rest_pre_serve_request', function ($served, $response, $request, $server) {
     $origin = $request->get_header('Origin');
-    $allowed = ['http://localhost:4000', 'http://127.0.0.1:4000'];
+    $allowed = oefflinger_cors_get_allowed_origins();
 
     if ($origin && in_array($origin, $allowed, true)) {
         header('Access-Control-Allow-Origin: ' . $origin);
@@ -22,7 +30,7 @@ add_filter('rest_pre_serve_request', function ($served, $response, $request, $se
 add_filter('rest_pre_dispatch', function ($result, $server, $request) {
     if ($request->get_method() === 'OPTIONS') {
         $origin = $request->get_header('Origin');
-        $allowed = ['http://localhost:4000', 'http://127.0.0.1:4000'];
+        $allowed = oefflinger_cors_get_allowed_origins();
 
         if ($origin && in_array($origin, $allowed, true)) {
             header('Access-Control-Allow-Origin: ' . $origin);

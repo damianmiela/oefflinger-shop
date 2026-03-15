@@ -1,0 +1,29 @@
+#!/bin/bash
+set -e
+
+DEPLOY_DIR=/srv/oefflinger
+REPO_DIR=/opt/oefflinger-deploy.git
+
+while read -r oldrev newrev refname; do
+  if [ "$refname" = "refs/heads/master" ]; then
+    echo "Deploying Oefflinger..."
+    
+    git --work-tree="$DEPLOY_DIR" --git-dir="$REPO_DIR" checkout -f master
+    
+    if [ ! -f "$DEPLOY_DIR/.env" ]; then
+      if [ -f "$DEPLOY_DIR/.env.example" ]; then
+        cp "$DEPLOY_DIR/.env.example" "$DEPLOY_DIR/.env"
+        echo "WARNING: Created .env from .env.example. Set strong passwords and redeploy!"
+      else
+        echo "ERROR: .env not found. Create it from .env.example with strong passwords."
+        exit 1
+      fi
+    fi
+    
+    cd "$DEPLOY_DIR/docker"
+    docker compose -f docker-compose.prod.yml build --no-cache
+    docker compose -f docker-compose.prod.yml up -d
+    
+    echo "Deploy complete. Frontend: http://91.98.112.186:4000 | WordPress: http://91.98.112.186:4001"
+  fi
+done

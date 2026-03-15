@@ -1,0 +1,55 @@
+name: oefflinger
+
+services:
+  mysql:
+    image: mysql:8
+    restart: unless-stopped
+    env_file: ../.env
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  wordpress:
+    build:
+      context: ../wordpress
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    env_file: ../.env
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://91.98.112.186:4000}
+      WP_URL: ${WP_URL:-http://91.98.112.186:4001}
+    volumes:
+      - wp_data:/var/www/html
+    ports:
+      - "4001:80"
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile.prod
+    restart: unless-stopped
+    depends_on:
+      - wordpress
+    env_file: ../.env
+    ports:
+      - "4000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_WP_API_URL=${NEXT_PUBLIC_WP_API_URL:-http://91.98.112.186:4001/wp-json}
+      - NEXT_PUBLIC_WP_URL=${NEXT_PUBLIC_WP_URL:-http://91.98.112.186:4001}
+      - NEXT_PUBLIC_WC_STORE_API=${NEXT_PUBLIC_WC_STORE_API:-http://91.98.112.186:4001/wp-json/wc/store/v1}
+      - WP_INTERNAL_URL=http://wordpress/wp-json
+      - WC_INTERNAL_STORE_URL=http://wordpress/wp-json/wc/store/v1
+
+volumes:
+  db_data:
+  wp_data:
