@@ -2,14 +2,58 @@
 /**
  * Plugin Name: Checkout Embed (Oefflinger)
  * Description: When checkout is loaded in iframe from frontend, output form only (no header/footer).
- * Sets cookie on checkout-link so redirect to checkout uses minimal template.
+ * Provides checkout-link endpoint: add products to cart and redirect to checkout.
  */
 
 defined('ABSPATH') || exit;
 
 add_action('init', 'oefflinger_remove_woo_frame_header', 999);
+add_action('template_redirect', 'oefflinger_handle_checkout_link', 0);
 add_action('template_redirect', 'oefflinger_checkout_embed', 1);
 add_action('send_headers', 'oefflinger_allow_frontend_frame', 999);
+
+/**
+ * Handle checkout-link: add products to cart, set embed cookie, redirect to checkout.
+ * Uses REQUEST_URI to avoid needing rewrite rules.
+ */
+function oefflinger_handle_checkout_link() {
+    $uri = $_SERVER['REQUEST_URI'] ?? '';
+    if (strpos($uri, '/checkout-link') === false) {
+        return;
+    }
+
+    oefflinger_set_embed_cookie();
+
+    $products_param = isset($_GET['products']) ? sanitize_text_field(wp_unslash($_GET['products'])) : '';
+    if (empty($products_param)) {
+        wp_safe_redirect(wc_get_checkout_url());
+        exit;
+    }
+
+    if (!function_exists('WC') || !WC()->cart) {
+        wp_safe_redirect(wc_get_checkout_url());
+        exit;
+    }
+
+    WC()->cart->empty_cart();
+
+    $pairs = array_map('trim', explode(',', $products_param));
+    foreach ($pairs as $pair) {
+        $parts = explode(':', $pair, 2);
+        $product_id = isset($parts[0]) ? absint($parts[0]) : 0;
+        $qty = isset($parts[1]) ? max(1, absint($parts[1])) : 1;
+        if ($product_id && wc_get_product($product_id)) {
+            WC()->cart->add_to_cart($product_id, $qty);
+        }
+    }
+
+    if (!empty($_GET['coupon'])) {
+        WC()->cart->apply_coupon(sanitize_text_field(wp_unslash($_GET['coupon'])));
+    }
+
+    wp_safe_redirect(wc_get_checkout_url());
+    exit;
+}
 
 function oefflinger_remove_woo_frame_header() {
     if (!oefflinger_should_allow_frame()) {
