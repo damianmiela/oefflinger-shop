@@ -1,4 +1,5 @@
 <?php
+$is_checkout = function_exists('is_checkout') && is_checkout() && (!function_exists('is_wc_endpoint_url') || !is_wc_endpoint_url('order-received'));
 $frontend = function_exists('oefflinger_frontend_url') ? oefflinger_frontend_url() : 'http://91.98.112.186:4000';
 $logo = function_exists('oefflinger_logo_url') ? oefflinger_logo_url() : $frontend . '/logo/logo-transparent.png';
 ?>
@@ -8,6 +9,7 @@ $logo = function_exists('oefflinger_logo_url') ? oefflinger_logo_url() : $fronte
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php wp_head(); ?>
+    <?php if (!$is_checkout): ?>
     <style>
         .oeff-header { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid #e5e7eb; background: #fff; }
         .oeff-header-inner { max-width: 80rem; margin: 0 auto; padding: 1.25rem 1rem; display: flex; align-items: center; justify-content: space-between; }
@@ -22,9 +24,11 @@ $logo = function_exists('oefflinger_logo_url') ? oefflinger_logo_url() : $fronte
             .oeff-nav { flex-wrap: wrap; }
         }
     </style>
+    <?php endif; ?>
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
+<?php if (!$is_checkout): ?>
 <header class="oeff-header">
     <div class="oeff-header-inner">
         <a href="<?php echo esc_url($frontend); ?>" class="oeff-logo-link">
@@ -51,3 +55,6 @@ $logo = function_exists('oefflinger_logo_url') ? oefflinger_logo_url() : $fronte
     </div>
 </header>
 <main class="oeff-main" style="min-height: calc(100vh - 200px); background: #f8fafb; padding: 2rem 1rem 4rem;">
+<?php else: ?>
+<main class="oeff-main" style="padding: 1rem;">
+<?php endif; ?>
