@@ -35,3 +35,7 @@ desktop.ini
 # Logs
 *.log
 npm-debug.log*
+
+# Deploy temp files
+deploy/wp_backup_*.sql
+deploy/product_updates.sql
