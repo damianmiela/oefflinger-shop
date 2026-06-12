@@ -8,6 +8,7 @@ import { PriceDisplay } from "@/components/PriceDisplay";
 import { ProductCrossSell } from "./ProductCrossSell";
 import { CollapsibleDescription } from "./CollapsibleDescription";
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
+import { formatBasePrice, volumeFromAttributes } from "@/lib/format";
 import type { Product } from "@/types";
 
 interface Props {
@@ -38,6 +39,12 @@ export default async function ProductPage({ params }: Props) {
 
   const crossSellProducts = shuffleAndTake(allProducts, product.id, 10);
 
+  const basePrice = formatBasePrice(
+    product.prices.price,
+    volumeFromAttributes(product.attributes),
+    product.prices.currency_code,
+  );
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       {/* Top: gallery (30%) | details (60%) | cross-sell (10%). Height from gallery or details only; cross-sell is absolute. */}
@@ -55,7 +62,12 @@ export default async function ProductPage({ params }: Props) {
                 {product.name}
               </h1>
               <p className="order-2 mt-2 lg:order-none">
-                <PriceDisplay prices={product.prices} size="lg" />
+                <PriceDisplay
+                  prices={product.prices}
+                  size="lg"
+                  showTaxNote
+                  basePrice={basePrice}
+                />
               </p>
 
               {product.short_description && (

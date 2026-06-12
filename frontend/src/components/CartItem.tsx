@@ -4,21 +4,26 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/context/CartContext";
 import { slugFromPermalink } from "@/lib/woo/utils";
+import { formatBasePrice, formatCents } from "@/lib/format";
 import type { CartItemData } from "@/types";
 
-export function CartItem({ item }: { item: CartItemData }) {
+interface CartItemProps {
+  item: CartItemData;
+  /** Package volume in ml (from product attributes) – enables the PAngV Grundpreis line */
+  volumeMl?: number | null;
+}
+
+export function CartItem({ item, volumeMl = null }: CartItemProps) {
   const { removeItem, updateItem, loading } = useCart();
   const slug = slugFromPermalink(item.permalink);
   const max = item.quantity_limits?.maximum ?? 9999;
 
-  const lineTotal =
-    Number(item.totals.line_total) > 0
-      ? `${(Number(item.totals.line_total) / 100).toFixed(2)} ${item.totals.currency_symbol}`
-      : "0,00 €";
+  const lineTotal = formatCents(item.totals.line_total, item.totals.currency_code);
+  const basePrice = formatBasePrice(item.prices.price, volumeMl, item.prices.currency_code);
 
   const content = (
     <>
-      <div className="h-16 w-[45px] shrink-0 overflow-hidden rounded-lg bg-surface-alt">
+      <div className="bg-surface-alt h-16 w-[45px] shrink-0 overflow-hidden rounded-lg">
         {item.images[0] ? (
           <Image
             src={item.images[0].src}
@@ -35,9 +40,10 @@ export function CartItem({ item }: { item: CartItemData }) {
         )}
       </div>
 
-      <div className="flex-1 min-w-0">
+      <div className="min-w-0 flex-1">
         <p className="font-semibold text-gray-900">{item.name}</p>
         <p className="text-sm text-gray-500">{lineTotal}</p>
+        {basePrice && <p className="mt-0.5 text-xs text-gray-400">{basePrice}</p>}
       </div>
 
       <div className="flex items-center gap-2">

@@ -3,6 +3,9 @@
 .env.production
 frontend/.env.local
 
+# claude instructions
+CLAUDE.md
+
 # Documentation (local only)
 _docs/
 

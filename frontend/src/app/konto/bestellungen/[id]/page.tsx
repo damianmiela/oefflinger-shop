@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
 import { apiOrderDetail, type AuthOrderDetail, type AuthAddress } from "@/lib/auth";
+import { formatEuros } from "@/lib/format";
 
 function AddressCard({ title, address }: { title: string; address: AuthAddress }) {
   const lines = [
@@ -70,7 +71,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
     );
   }
 
-  const money = (v: string) => `${Number(v).toFixed(2)} €`;
+  const money = (v: string) => formatEuros(v);
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">

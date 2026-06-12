@@ -6,6 +6,7 @@ import Image from "next/image";
 import { slugFromPermalink } from "@/lib/woo/utils";
 import { buildCheckoutUrl } from "@/lib/woo/checkout";
 import { useCart } from "@/context/CartContext";
+import { formatCents } from "@/lib/format";
 import type { CartItemData } from "@/types";
 
 const CART_PULSE_DELAY_MS = 280;
@@ -14,10 +15,7 @@ const HOVER_DELAY_MS = 300;
 
 function CartPreviewItem({ item }: { item: CartItemData }) {
   const slug = slugFromPermalink(item.permalink);
-  const lineTotal =
-    Number(item.totals.line_total) > 0
-      ? `${(Number(item.totals.line_total) / 100).toFixed(2)} ${item.totals.currency_symbol}`
-      : "";
+  const lineTotal = formatCents(item.totals.line_total, item.totals.currency_code);
 
   const content = (
     <div className="flex items-center gap-3 py-2">
@@ -100,7 +98,7 @@ export function CartPreview() {
   const itemCount = cart?.items_count ?? 0;
   const totalPrice =
     cart && Number(cart.totals.total_price) > 0
-      ? `${(Number(cart.totals.total_price) / 100).toFixed(2)} ${cart.totals.currency_symbol}`
+      ? formatCents(cart.totals.total_price, cart.totals.currency_code)
       : null;
 
   return (

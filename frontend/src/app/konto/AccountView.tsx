@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
+import { formatEuros } from "@/lib/format";
 import {
   apiOrders,
   apiUpdateAddress,
@@ -158,7 +159,7 @@ function OrderList() {
             <span className="bg-surface-alt rounded-full px-3 py-1 text-xs font-medium text-gray-700">
               {order.status_label}
             </span>
-            <span className="text-primary font-semibold">{Number(order.total).toFixed(2)} €</span>
+            <span className="text-primary font-semibold">{formatEuros(order.total)}</span>
             <span className="text-gray-400" aria-hidden>
               →
             </span>

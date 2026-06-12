@@ -1,9 +1,16 @@
 import Link from "next/link";
 import Image from "next/image";
 import { PriceDisplay } from "@/components/PriceDisplay";
+import { formatBasePrice, volumeFromAttributes } from "@/lib/format";
 import type { Product } from "@/types";
 
 export function ProductCard({ product }: { product: Product }) {
+  const basePrice = formatBasePrice(
+    product.prices.price,
+    volumeFromAttributes(product.attributes),
+    product.prices.currency_code,
+  );
+
   return (
     <Link
       href={`/product/${product.slug}`}
@@ -29,7 +36,7 @@ export function ProductCard({ product }: { product: Product }) {
         </h3>
         <div className="mt-auto pt-3 sm:pt-4">
           <p>
-            <PriceDisplay prices={product.prices} size="md" />
+            <PriceDisplay prices={product.prices} size="md" showTaxNote basePrice={basePrice} />
           </p>
           {product.attributes && product.attributes.length > 0 && (
             <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-500">
