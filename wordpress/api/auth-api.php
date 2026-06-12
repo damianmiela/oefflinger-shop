@@ -28,6 +28,11 @@ function oeff_auth_register_routes() {
             'permission_callback' => '__return_true', // auth handled per-callback via cookie
         ]);
     }
+    register_rest_route('oeff/v1', '/order/(?P<id>\\d+)', [
+        'methods'             => 'GET',
+        'callback'            => 'oeff_auth_order_detail',
+        'permission_callback' => '__return_true',
+    ]);
 }
 
 /** Resolve the current user from the WP logged-in cookie (REST nonce not required). */
@@ -164,6 +169,8 @@ function oeff_auth_orders(WP_REST_Request $request) {
         'limit'       => 25,
         'orderby'     => 'date',
         'order'       => 'DESC',
+        // Real orders only – no checkout drafts ("Entwurf")
+        'status'      => ['pending', 'processing', 'on-hold', 'completed', 'refunded'],
     ]);
     $payload = array_map(function ($order) {
         return [
@@ -221,4 +228,71 @@ function oeff_auth_update_address(WP_REST_Request $request) {
     }
     $customer->save();
     return new WP_REST_Response(['user' => oeff_auth_user_payload($user_id)], 200);
+}
+
+function oeff_auth_order_item_payload($item) {
+    $product   = $item->get_product();
+    $image_url = null;
+    $slug      = null;
+    if ($product) {
+        $image_id = $product->get_image_id();
+        if ($image_id) {
+            $image_url = wp_get_attachment_image_url($image_id, 'woocommerce_thumbnail');
+        }
+        $parent = $product->is_type('variation')
+            ? wc_get_product($product->get_parent_id())
+            : $product;
+        if ($parent) {
+            $slug = $parent->get_slug();
+        }
+    }
+    return [
+        'name'     => $item->get_name(),
+        'quantity' => $item->get_quantity(),
+        'total'    => wc_format_decimal($item->get_total(), 2),
+        'image'    => $image_url,
+        'slug'     => $slug,
+    ];
+}
+
+function oeff_auth_order_detail(WP_REST_Request $request) {
+    $user_id = oeff_auth_user_id();
+    if (!$user_id) {
+        return oeff_auth_error('not_logged_in', 'Nicht angemeldet.', 401);
+    }
+    $order = wc_get_order((int) $request['id']);
+    if (!$order || (int) $order->get_customer_id() !== $user_id) {
+        return oeff_auth_error('not_found', 'Bestellung nicht gefunden.', 404);
+    }
+    $address = function ($type) use ($order) {
+        $get = fn($field) => $order->{"get_{$type}_{$field}"}();
+        return [
+            'first_name' => $get('first_name'),
+            'last_name'  => $get('last_name'),
+            'address_1'  => $get('address_1'),
+            'address_2'  => $get('address_2'),
+            'postcode'   => $get('postcode'),
+            'city'       => $get('city'),
+            'country'    => $get('country'),
+        ];
+    };
+    return new WP_REST_Response(['order' => [
+        'id'              => $order->get_id(),
+        'number'          => $order->get_order_number(),
+        'date'            => $order->get_date_created() ? $order->get_date_created()->date('d.m.Y H:i') : null,
+        'status'          => $order->get_status(),
+        'status_label'    => wc_get_order_status_name($order->get_status()),
+        'currency'        => $order->get_currency(),
+        'subtotal'        => wc_format_decimal($order->get_subtotal(), 2),
+        'shipping_total'  => wc_format_decimal($order->get_shipping_total(), 2),
+        'discount_total'  => wc_format_decimal($order->get_discount_total(), 2),
+        'total_tax'       => wc_format_decimal($order->get_total_tax(), 2),
+        'total'           => wc_format_decimal($order->get_total(), 2),
+        'payment_method'  => $order->get_payment_method_title(),
+        'shipping_method' => $order->get_shipping_method(),
+        'customer_note'   => $order->get_customer_note(),
+        'billing'         => $address('billing'),
+        'shipping'        => $address('shipping'),
+        'items'           => array_values(array_map('oeff_auth_order_item_payload', $order->get_items())),
+    ]], 200);
 }

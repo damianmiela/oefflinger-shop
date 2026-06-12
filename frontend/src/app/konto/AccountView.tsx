@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import {
   apiOrders,
@@ -142,9 +143,10 @@ function OrderList() {
   return (
     <div className="divide-y divide-gray-100 rounded-2xl border border-gray-200 bg-white shadow-sm">
       {orders.map((order) => (
-        <div
+        <Link
           key={order.id}
-          className="flex flex-col gap-2 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5"
+          href={`/konto/bestellungen/${order.id}`}
+          className="flex flex-col gap-2 p-4 transition hover:bg-gray-50 sm:flex-row sm:items-center sm:justify-between sm:p-5"
         >
           <div className="min-w-0">
             <p className="font-semibold text-gray-900">Bestellung #{order.number}</p>
@@ -157,8 +159,11 @@ function OrderList() {
               {order.status_label}
             </span>
             <span className="text-primary font-semibold">{Number(order.total).toFixed(2)} €</span>
+            <span className="text-gray-400" aria-hidden>
+              →
+            </span>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   );
@@ -167,6 +172,7 @@ function OrderList() {
 export function AccountView() {
   const { user, logout } = useAuth();
   const [loggingOut, setLoggingOut] = useState(false);
+  const [tab, setTab] = useState<"orders" | "addresses">("orders");
 
   if (!user) return null;
 
@@ -198,18 +204,41 @@ export function AccountView() {
         </button>
       </div>
 
-      <section className="mt-10">
-        <h2 className="mb-4 text-xl font-semibold text-gray-900">Bestellungen</h2>
-        <OrderList />
-      </section>
+      {/* Tabs */}
+      <div className="bg-surface-alt mt-8 grid max-w-md grid-cols-2 gap-2 rounded-xl p-1">
+        {(
+          [
+            ["orders", "Bestellungen"],
+            ["addresses", "Adressen"],
+          ] as const
+        ).map(([key, label]) => (
+          <button
+            key={key}
+            type="button"
+            onClick={() => setTab(key)}
+            className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
+              tab === key ? "text-primary bg-white shadow-sm" : "text-gray-600 hover:text-gray-900"
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
 
-      <section className="mt-10">
-        <h2 className="mb-4 text-xl font-semibold text-gray-900">Adressen</h2>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <AddressForm type="billing" title="Rechnungsadresse" initial={user.billing} withPhone />
-          <AddressForm type="shipping" title="Lieferadresse" initial={user.shipping} />
-        </div>
-      </section>
+      {tab === "orders" && (
+        <section className="mt-6">
+          <OrderList />
+        </section>
+      )}
+
+      {tab === "addresses" && (
+        <section className="mt-6">
+          <div className="grid gap-6 lg:grid-cols-2">
+            <AddressForm type="billing" title="Rechnungsadresse" initial={user.billing} withPhone />
+            <AddressForm type="shipping" title="Lieferadresse" initial={user.shipping} />
+          </div>
+        </section>
+      )}
     </div>
   );
 }

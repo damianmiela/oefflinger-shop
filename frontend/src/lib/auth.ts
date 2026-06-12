@@ -111,3 +111,36 @@ export async function apiUpdateAddress(params: {
   });
   return data.user;
 }
+
+export interface AuthOrderItem {
+  name: string;
+  quantity: number;
+  total: string;
+  image: string | null;
+  slug: string | null;
+}
+
+export interface AuthOrderDetail {
+  id: number;
+  number: string;
+  date: string | null;
+  status: string;
+  status_label: string;
+  currency: string;
+  subtotal: string;
+  shipping_total: string;
+  discount_total: string;
+  total_tax: string;
+  total: string;
+  payment_method: string;
+  shipping_method: string;
+  customer_note: string;
+  billing: AuthAddress;
+  shipping: AuthAddress;
+  items: AuthOrderItem[];
+}
+
+export async function apiOrderDetail(id: number | string): Promise<AuthOrderDetail> {
+  const data = await request<{ order: AuthOrderDetail }>(`/order/${id}`);
+  return data.order;
+}
