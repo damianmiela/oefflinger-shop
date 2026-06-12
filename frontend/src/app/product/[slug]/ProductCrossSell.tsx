@@ -7,9 +7,11 @@ import type { Product } from "@/types";
 
 interface ProductCrossSellProps {
   products: Product[];
+  /** "vertical" (desktop sidebar) or "horizontal" (mobile swipe row) */
+  orientation?: "vertical" | "horizontal";
 }
 
-export function ProductCrossSell({ products }: ProductCrossSellProps) {
+export function ProductCrossSell({ products, orientation = "vertical" }: ProductCrossSellProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: "up" | "down") => {
@@ -21,10 +23,49 @@ export function ProductCrossSell({ products }: ProductCrossSellProps) {
 
   if (products.length === 0) return null;
 
+  if (orientation === "horizontal") {
+    return (
+      <div>
+        <p className="mb-3 text-xs font-medium tracking-wider text-gray-500 uppercase">
+          Auch interessant
+        </p>
+        <div className="-mx-4 flex snap-x gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:px-0">
+          {products.map((p) => (
+            <Link
+              key={p.id}
+              href={`/product/${p.slug}`}
+              className="group flex w-28 shrink-0 snap-start flex-col items-center gap-1.5 rounded-lg border border-gray-100 bg-white p-2 transition hover:border-gray-200 hover:bg-gray-50"
+            >
+              <div className="bg-surface-alt relative aspect-square w-full overflow-hidden rounded">
+                {p.images[0] ? (
+                  <Image
+                    src={p.images[0].thumbnail || p.images[0].src}
+                    alt={p.images[0].alt || p.name}
+                    fill
+                    sizes="112px"
+                    className="object-contain transition group-hover:scale-105"
+                    unoptimized
+                  />
+                ) : (
+                  <div className="flex h-full items-center justify-center text-xs text-gray-400">
+                    Kein Bild
+                  </div>
+                )}
+              </div>
+              <p className="group-hover:text-primary line-clamp-2 text-center text-xs font-medium text-gray-900">
+                {p.name}
+              </p>
+            </Link>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex h-full min-h-0 flex-col">
       <div className="mb-2 flex flex-col items-center gap-1">
-        <span className="text-center text-xs font-medium uppercase tracking-wider text-gray-500">
+        <span className="text-center text-xs font-medium tracking-wider text-gray-500 uppercase">
           Auch interessant
         </span>
         <button
@@ -50,7 +91,7 @@ export function ProductCrossSell({ products }: ProductCrossSellProps) {
               href={`/product/${p.slug}`}
               className="group flex flex-col items-center gap-1.5 rounded-lg border border-gray-100 p-2 transition hover:border-gray-200 hover:bg-gray-50"
             >
-              <div className="relative aspect-square w-full overflow-hidden rounded bg-surface-alt">
+              <div className="bg-surface-alt relative aspect-square w-full overflow-hidden rounded">
                 {p.images[0] ? (
                   <Image
                     src={p.images[0].thumbnail || p.images[0].src}
@@ -66,7 +107,7 @@ export function ProductCrossSell({ products }: ProductCrossSellProps) {
                   </div>
                 )}
               </div>
-              <p className="line-clamp-2 text-center text-xs font-medium text-gray-900 group-hover:text-primary">
+              <p className="group-hover:text-primary line-clamp-2 text-center text-xs font-medium text-gray-900">
                 {p.name}
               </p>
             </Link>

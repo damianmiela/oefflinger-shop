@@ -21,7 +21,7 @@ function CartPreviewItem({ item }: { item: CartItemData }) {
 
   const content = (
     <div className="flex items-center gap-3 py-2">
-      <div className="h-10 w-[28px] shrink-0 overflow-hidden rounded bg-surface-alt">
+      <div className="bg-surface-alt h-10 w-[28px] shrink-0 overflow-hidden rounded">
         {item.images[0] ? (
           <Image
             src={item.images[0].src}
@@ -104,15 +104,10 @@ export function CartPreview() {
       : null;
 
   return (
-    <div
-      ref={containerRef}
-      className="relative"
-      onMouseEnter={show}
-      onMouseLeave={hide}
-    >
+    <div ref={containerRef} className="relative" onMouseEnter={show} onMouseLeave={hide}>
       <Link
         href="/cart"
-        className="relative flex items-center gap-1.5 rounded-full px-4 py-2 pr-6 text-sm font-medium text-gray-700 transition-colors duration-200 hover:bg-primary/10 hover:text-primary"
+        className="hover:bg-primary/10 hover:text-primary relative flex items-center gap-1.5 rounded-full px-4 py-2 pr-6 text-sm font-medium text-gray-700 transition-colors duration-200"
       >
         {showPulse && (
           <span
@@ -128,9 +123,9 @@ export function CartPreview() {
             d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
           />
         </svg>
-        Warenkorb
+        <span className="hidden md:inline">Warenkorb</span>
         {itemCount > 0 && (
-          <span className="absolute -top-2 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-accent text-xs font-bold text-white">
+          <span className="bg-accent absolute -top-2 -right-1 flex h-5 w-5 items-center justify-center rounded-full text-xs font-bold text-white">
             {itemCount}
           </span>
         )}
@@ -139,35 +134,30 @@ export function CartPreview() {
       {visible && itemCount > 0 && (
         <>
           {/* Invisible bridge to prevent preview from disappearing when moving cursor from button to dropdown */}
+          <div className="absolute top-full right-0 left-0 z-40 h-3" aria-hidden />
           <div
-            className="absolute left-0 right-0 top-full z-40 h-3"
-            aria-hidden
-          />
-          <div
-            className="absolute right-0 top-full z-50 mt-2 w-80 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg"
+            className="absolute top-full right-0 z-50 mt-2 w-80 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg"
             onMouseEnter={show}
             onMouseLeave={hide}
           >
-          <div className="border-b border-gray-100 px-4 py-3">
-            <p className="text-sm font-semibold text-gray-900">Warenkorb-Vorschau</p>
+            <div className="border-b border-gray-100 px-4 py-3">
+              <p className="text-sm font-semibold text-gray-900">Warenkorb-Vorschau</p>
+            </div>
+            <div className="max-h-64 overflow-y-auto px-4">
+              {cart?.items.map((item) => (
+                <CartPreviewItem key={item.key} item={item} />
+              ))}
+            </div>
+            <div className="border-t border-gray-100 px-4 py-3">
+              <p className="mb-2 text-sm font-semibold text-gray-900">Gesamt: {totalPrice}</p>
+              <Link
+                href={buildCheckoutUrl(cart!.items)}
+                className="bg-primary hover:bg-primary-light block w-full rounded-lg py-2 text-center text-sm font-semibold text-white transition"
+              >
+                Zur Kasse
+              </Link>
+            </div>
           </div>
-          <div className="max-h-64 overflow-y-auto px-4">
-            {cart?.items.map((item) => (
-              <CartPreviewItem key={item.key} item={item} />
-            ))}
-          </div>
-          <div className="border-t border-gray-100 px-4 py-3">
-            <p className="mb-2 text-sm font-semibold text-gray-900">
-              Gesamt: {totalPrice}
-            </p>
-            <Link
-              href={buildCheckoutUrl(cart!.items)}
-              className="block w-full rounded-lg bg-primary py-2 text-center text-sm font-semibold text-white transition hover:bg-primary-light"
-            >
-              Zur Kasse
-            </Link>
-          </div>
-        </div>
         </>
       )}
     </div>
