@@ -68,6 +68,8 @@ export function MetalCarousel({ metals }: MetalCarouselProps) {
     return new Set(getMetalsForUse(metals, hoveredUse));
   }, [metals, hoveredUse]);
 
+  const isHoverPreview = hoveredMetalId !== null || hoveredUse !== null;
+
   const highlightedUses = selectedMetal?.uses ?? [];
   const sortedUses = useMemo(() => getSortedUses(metals), [metals]);
 
@@ -82,8 +84,10 @@ export function MetalCarousel({ metals }: MetalCarouselProps) {
           {metals.map((metal) => {
             const isSelected = selectedMetalId === metal.id;
             const isHighlightedByUse =
-              selectedUse && metalsForSelectedUse?.has(metal.id);
-            const isGoldHover = metalsForHoveredUse?.has(metal.id) ?? false;
+              !isHoverPreview && selectedUse && metalsForSelectedUse?.has(metal.id);
+            const isGoldHover =
+              (metalsForHoveredUse?.has(metal.id) ?? false) ||
+              hoveredMetalId === metal.id;
             const isPulsing = pulseMetals.has(metal.id);
             return (
               <button
@@ -189,11 +193,13 @@ export function MetalCarousel({ metals }: MetalCarouselProps) {
         </p>
         <div className="flex flex-wrap gap-2 lg:flex-col">
           {sortedUses.map((use) => {
-            const isHighlightedByMetal = highlightedUses.includes(use);
+            const isHighlightedByMetal =
+              !isHoverPreview && highlightedUses.includes(use);
             const isSelected = selectedUse === use;
             const metalIdsWithUse = getMetalsForUse(metals, use);
             const currentMetalHasUse = selectedMetal?.uses?.includes(use);
-            const isGoldHover = usesForHoveredMetal?.has(use) ?? false;
+            const isGoldHover =
+              (usesForHoveredMetal?.has(use) ?? false) || hoveredUse === use;
             const isPulsing = pulseUses.has(use);
             return (
               <button
