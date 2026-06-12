@@ -26,6 +26,34 @@ export function MetalCarousel({ metals }: MetalCarouselProps) {
   const [pulseUses, setPulseUses] = useState<Set<string>>(new Set());
   const [pulseMetals, setPulseMetals] = useState<Set<string>>(new Set());
   const pulseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hoverOffTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function cancelHoverOff() {
+    if (hoverOffTimer.current) {
+      clearTimeout(hoverOffTimer.current);
+      hoverOffTimer.current = null;
+    }
+  }
+
+  function hoverMetal(id: string) {
+    cancelHoverOff();
+    setHoveredMetalId(id);
+    setHoveredUse(null);
+  }
+
+  function hoverUse(use: string) {
+    cancelHoverOff();
+    setHoveredUse(use);
+    setHoveredMetalId(null);
+  }
+
+  function scheduleHoverOff() {
+    cancelHoverOff();
+    hoverOffTimer.current = setTimeout(() => {
+      setHoveredMetalId(null);
+      setHoveredUse(null);
+    }, 200);
+  }
 
   useEffect(() => {
     const id = getRememberedMetalId();
@@ -37,6 +65,7 @@ export function MetalCarousel({ metals }: MetalCarouselProps) {
   useEffect(() => {
     return () => {
       if (pulseTimer.current) clearTimeout(pulseTimer.current);
+      if (hoverOffTimer.current) clearTimeout(hoverOffTimer.current);
     };
   }, []);
 
@@ -93,11 +122,12 @@ export function MetalCarousel({ metals }: MetalCarouselProps) {
               <button
                 key={metal.id}
                 type="button"
-                onMouseEnter={() => setHoveredMetalId(metal.id)}
-                onMouseLeave={() => setHoveredMetalId(null)}
+                onMouseEnter={() => hoverMetal(metal.id)}
+                onMouseLeave={scheduleHoverOff}
                 onClick={() => {
                   setSelectedMetalId(metal.id);
                   setSelectedUse(null);
+                  cancelHoverOff();
                   setHoveredMetalId(null);
                   triggerPulse(new Set(metal.uses ?? []), new Set());
                 }}
@@ -205,14 +235,15 @@ export function MetalCarousel({ metals }: MetalCarouselProps) {
               <button
                 key={use}
                 type="button"
-                onMouseEnter={() => setHoveredUse(use)}
-                onMouseLeave={() => setHoveredUse(null)}
+                onMouseEnter={() => hoverUse(use)}
+                onMouseLeave={scheduleHoverOff}
                 onClick={() => {
                   const newSelectedUse = selectedUse === use ? null : use;
                   setSelectedUse(newSelectedUse);
                   if (newSelectedUse && !currentMetalHasUse && metalIdsWithUse[0]) {
                     setSelectedMetalId(metalIdsWithUse[0]);
                   }
+                  cancelHoverOff();
                   setHoveredUse(null);
                   triggerPulse(new Set(), new Set(metalIdsWithUse));
                 }}
