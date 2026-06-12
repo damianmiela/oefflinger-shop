@@ -35,10 +35,24 @@ function oefflinger_checkout_styles() {
   --oeff-muted: #6b7280;
 }
 
+html {
+  overflow-x: hidden !important;
+}
+
 body.woocommerce-checkout {
   font-family: 'Inter', ui-sans-serif, system-ui, sans-serif !important;
   background: var(--oeff-surface) !important;
   color: #1f2937 !important;
+  overflow-x: hidden !important;
+  margin: 0 !important;
+}
+
+/* Inside the frontend iframe nothing may exceed the viewport width
+   (100vw-based elements overflow when a scrollbar is present) */
+.woocommerce-checkout .wp-block-woocommerce-checkout,
+.woocommerce-checkout .wc-block-components-sidebar-layout,
+.woocommerce-checkout .woocommerce {
+  max-width: 100% !important;
 }
 
 /* Main content container */

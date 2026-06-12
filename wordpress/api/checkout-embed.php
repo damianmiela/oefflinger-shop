@@ -50,3 +50,41 @@ function oefflinger_allow_frontend_frame() {
     $frontend = getenv('FRONTEND_URL') ?: 'http://91.98.112.186:4000';
     header("Content-Security-Policy: frame-ancestors 'self' " . $frontend);
 }
+
+/**
+ * When the checkout runs inside the frontend iframe, continuously report the
+ * document height to the parent so it can resize the iframe (no scrollbars).
+ */
+add_action('wp_footer', 'oefflinger_iframe_autoheight_script', 99);
+
+function oefflinger_iframe_autoheight_script() {
+    if (!oefflinger_should_allow_frame()) {
+        return;
+    }
+    ?>
+    <script>
+    (function () {
+        if (window.self === window.top) return; // not framed
+        var lastHeight = 0;
+        function report() {
+            var h = Math.max(
+                document.documentElement.scrollHeight,
+                document.body ? document.body.scrollHeight : 0
+            );
+            if (h !== lastHeight) {
+                lastHeight = h;
+                window.parent.postMessage({ type: 'oeff:checkout-height', height: h }, '*');
+            }
+        }
+        if (typeof ResizeObserver !== 'undefined') {
+            var ro = new ResizeObserver(report);
+            ro.observe(document.documentElement);
+            if (document.body) ro.observe(document.body);
+        }
+        window.addEventListener('load', report);
+        setInterval(report, 1000); // safety net for async content (payment methods etc.)
+        report();
+    })();
+    </script>
+    <?php
+}
