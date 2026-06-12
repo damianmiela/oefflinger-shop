@@ -4,6 +4,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { ShopPagination } from "@/components/ShopPagination";
 import { AnimateChildren } from "@/components/AnimateChildren";
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
+import { HealthDisclaimer } from "@/components/HealthDisclaimer";
 import type { Product } from "@/types";
 
 export const metadata = {
@@ -80,6 +81,10 @@ export default async function ShopPage({ searchParams }: Props) {
           </div>
         </AnimateOnScroll>
       )}
+
+      <AnimateOnScroll variant="fade-up">
+        <HealthDisclaimer className="mt-12" />
+      </AnimateOnScroll>
     </div>
   );
 }

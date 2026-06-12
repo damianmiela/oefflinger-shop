@@ -1,10 +1,14 @@
 import dynamic from "next/dynamic";
 import { COLLOIDAL_METALS } from "@/data/colloidal-metals";
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
+import { HealthDisclaimer } from "@/components/HealthDisclaimer";
 
 const MetalCarousel = dynamic(
   () => import("@/components/MetalCarousel").then((m) => ({ default: m.MetalCarousel })),
-  { ssr: true, loading: () => <div className="min-h-[400px] animate-pulse rounded-2xl bg-surface-alt" /> }
+  {
+    ssr: true,
+    loading: () => <div className="bg-surface-alt min-h-[400px] animate-pulse rounded-2xl" />,
+  },
 );
 
 export const metadata = {
@@ -22,6 +26,10 @@ export default function ProduktePage() {
 
       <AnimateOnScroll variant="fade-up">
         <MetalCarousel metals={COLLOIDAL_METALS} />
+      </AnimateOnScroll>
+
+      <AnimateOnScroll variant="fade-up">
+        <HealthDisclaimer className="mt-12" />
       </AnimateOnScroll>
     </div>
   );

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { getMetalById, COLLOIDAL_METALS, getMetalAccentColor } from "@/data/colloidal-metals";
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 import { RememberMetal } from "@/components/RememberMetal";
+import { HealthDisclaimer } from "@/components/HealthDisclaimer";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -37,7 +38,7 @@ export default async function MetalDetailPage({ params }: Props) {
         <AnimateOnScroll variant="fade-up">
           <Link
             href="/produkte"
-            className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 transition hover:text-primary"
+            className="hover:text-primary inline-flex items-center gap-2 text-sm font-medium text-gray-600 transition"
           >
             <span aria-hidden>←</span>
             Zurück zu Produkte
@@ -46,7 +47,7 @@ export default async function MetalDetailPage({ params }: Props) {
       </div>
 
       {/* Hero header – full width bg, image max 1920px centered, 400px height */}
-      <div className="mt-6 w-full bg-primary-dark">
+      <div className="bg-primary-dark mt-6 w-full">
         <div className="relative mx-auto h-[400px] max-w-[1920px] overflow-hidden">
           <Image
             src={`/images/metals/${metal.id}.png`}
@@ -57,7 +58,7 @@ export default async function MetalDetailPage({ params }: Props) {
             priority
             unoptimized
           />
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-primary-dark/40">
+          <div className="bg-primary-dark/40 absolute inset-0 flex flex-col items-center justify-center">
             <h1 className="text-4xl font-bold tracking-tight text-white drop-shadow-lg sm:text-5xl">
               Kolloidales {metal.name}
             </h1>
@@ -70,24 +71,22 @@ export default async function MetalDetailPage({ params }: Props) {
       <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
         <AnimateOnScroll variant="fade-up">
           <div className="prose prose-gray max-w-none space-y-8 text-gray-600">
-            <div className="whitespace-pre-line text-lg leading-relaxed">
+            <div className="text-lg leading-relaxed whitespace-pre-line">
               {metal.longDescription ?? metal.description}
             </div>
 
             {metal.uses && metal.uses.length > 0 && (
               <section>
-                <h2 className="text-xl font-semibold text-gray-900">
-                  Mögliche Einsatzbereiche
-                </h2>
+                <h2 className="text-xl font-semibold text-gray-900">Mögliche Einsatzbereiche</h2>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {metal.uses.map((use) => (
                     <span
                       key={use}
                       className="rounded-full px-4 py-2 text-sm font-medium"
-                        style={{
-                          backgroundColor: `${getMetalAccentColor(metal)}20`,
-                          color: getMetalAccentColor(metal),
-                        }}
+                      style={{
+                        backgroundColor: `${getMetalAccentColor(metal)}20`,
+                        color: getMetalAccentColor(metal),
+                      }}
                     >
                       {use}
                     </span>
@@ -96,16 +95,7 @@ export default async function MetalDetailPage({ params }: Props) {
               </section>
             )}
 
-            <div className="rounded-xl border border-amber-200 bg-amber-50/50 p-4 text-sm text-amber-900">
-              <p className="font-medium">Hinweis</p>
-              <p className="mt-1">
-                Die hier präsentierten Informationen dienen ausschließlich zu Bildungszwecken und
-                allgemeinen Informationen. Sie ersetzen keine professionelle medizinische Beratung,
-                Diagnose oder Behandlung. Vor der Einnahme von Nahrungsergänzungsmitteln oder
-                Änderungen Ihrer Gesundheitsroutine konsultieren Sie bitte einen qualifizierten Arzt
-                oder Gesundheitsexperten.
-              </p>
-            </div>
+            <HealthDisclaimer />
           </div>
         </AnimateOnScroll>
 
@@ -113,7 +103,7 @@ export default async function MetalDetailPage({ params }: Props) {
           <AnimateOnScroll variant="fade-up">
             <Link
               href={metal.productLink}
-              className="mt-10 inline-block rounded-lg bg-primary px-6 py-3 font-semibold text-white transition hover:bg-primary-light"
+              className="bg-primary hover:bg-primary-light mt-10 inline-block rounded-lg px-6 py-3 font-semibold text-white transition"
             >
               Zum Produkt im Shop
             </Link>
