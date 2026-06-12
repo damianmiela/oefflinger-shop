@@ -46,7 +46,13 @@ function oeff_lockdown_redirect() {
  * but its redirect target (my-account) gets re-redirected by the lockdown
  * above – send them straight to the frontend account page instead.
  */
-add_filter('woocommerce_prevent_admin_access', '__return_true');
+add_filter('woocommerce_prevent_admin_access', function ($prevent) {
+    // Admins / shop managers keep wp-admin access; everyone else is blocked.
+    if (current_user_can('manage_woocommerce') || current_user_can('edit_posts')) {
+        return false;
+    }
+    return true;
+});
 add_filter('login_redirect', function ($redirect, $requested, $user) {
     if ($user instanceof WP_User && !user_can($user, 'manage_woocommerce')) {
         $frontend = rtrim(getenv('FRONTEND_URL') ?: 'http://91.98.112.186:4000', '/');
