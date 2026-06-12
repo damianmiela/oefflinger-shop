@@ -99,9 +99,11 @@ export default function CartPage() {
           <span className="text-lg font-semibold text-gray-700">Gesamtsumme</span>
           <span className="text-right">
             <span className="text-primary block text-2xl font-bold">{total}</span>
-            {/* TODO(P0-2b): link "Versand" to the upcoming Versand & Zahlung page */}
             <span className="mt-0.5 block text-xs text-gray-500">
-              inkl. MwSt., zzgl. Versand
+              inkl. MwSt., zzgl.{" "}
+              <Link href="/versand" className="hover:text-primary underline">
+                Versand
+              </Link>
             </span>
           </span>
         </div>

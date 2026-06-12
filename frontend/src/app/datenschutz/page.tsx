@@ -95,6 +95,32 @@ export default function DatenschutzPage() {
               Browser-Sitzung gelöscht.
             </p>
           </section>
+
+          <section>
+            <h2 className="text-lg font-semibold text-gray-900">9. Kontaktformular</h2>
+            <p className="mt-2">
+              Wenn Sie uns über das Kontaktformular eine Anfrage senden, verarbeiten wir die von
+              Ihnen angegebenen Daten (Name, E-Mail-Adresse, Inhalt der Nachricht) ausschließlich
+              zur Bearbeitung Ihrer Anfrage. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO,
+              soweit Ihre Anfrage mit einem Vertrag zusammenhängt, im Übrigen unser berechtigtes
+              Interesse an der Beantwortung von Anfragen (Art. 6 Abs. 1 lit. f DSGVO). Die Daten
+              werden gelöscht, sobald sie für die Bearbeitung nicht mehr erforderlich sind und
+              keine gesetzlichen Aufbewahrungspflichten entgegenstehen.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold text-gray-900">
+              10. Schutz vor Missbrauch (Cloudflare Turnstile)
+            </h2>
+            <p className="mt-2">
+              Zum Schutz unserer Formulare (Registrierung, Kontakt) vor automatisiertem Missbrauch
+              setzen wir Cloudflare Turnstile ein, einen Dienst der Cloudflare, Inc. Dabei kann
+              Ihre IP-Adresse an Cloudflare übermittelt werden. Rechtsgrundlage ist unser
+              berechtigtes Interesse an der Sicherheit unserer Systeme (Art. 6 Abs. 1 lit. f
+              DSGVO).
+            </p>
+          </section>
         </div>
       </AnimateOnScroll>
     </div>

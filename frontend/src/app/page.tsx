@@ -229,7 +229,7 @@ export default async function HomePage() {
                     </svg>
                   </span>
                   <a href="tel:+491234567890" className="hover:text-primary">
-                    0049 123456789
+                    +49 1234 567890
                   </a>
                 </div>
                 <div className="mt-4 flex items-center gap-3 text-gray-600">

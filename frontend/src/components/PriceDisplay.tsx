@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { formatCents } from "@/lib/format";
 import type { ProductPrice } from "@/types";
 
@@ -10,6 +11,8 @@ interface PriceDisplayProps {
   showTaxNote?: boolean;
   /** PAngV: Grundpreis line, e.g. "87,00 € / 1 l" (see lib/format formatBasePrice) */
   basePrice?: string | null;
+  /** Link the "Versand" word to /versand. Keep false inside <Link> wrappers (no nested anchors). */
+  linkShipping?: boolean;
 }
 
 export function PriceDisplay({
@@ -18,6 +21,7 @@ export function PriceDisplay({
   size = "md",
   showTaxNote = false,
   basePrice = null,
+  linkShipping = false,
 }: PriceDisplayProps) {
   const priceNum = Number(prices.price);
   const regularNum = Number(prices.regular_price);
@@ -33,12 +37,22 @@ export function PriceDisplay({
   const sizeClass = size === "sm" ? "text-base" : size === "lg" ? "text-2xl" : "text-lg";
   const noteSizeClass = size === "lg" ? "text-sm" : "text-xs";
 
-  /* TODO(P0-2b): link "Versand" to the upcoming Versand & Zahlung page */
   const notes = (showTaxNote || basePrice) && (
     <span className={`mt-0.5 block font-normal text-gray-500 ${noteSizeClass}`}>
       {basePrice && <span>{basePrice}</span>}
       {basePrice && showTaxNote && <span aria-hidden> · </span>}
-      {showTaxNote && <span>inkl. MwSt., zzgl. Versand</span>}
+      {showTaxNote && (
+        <span>
+          inkl. MwSt., zzgl.{" "}
+          {linkShipping ? (
+            <Link href="/versand" className="hover:text-primary underline">
+              Versand
+            </Link>
+          ) : (
+            "Versand"
+          )}
+        </span>
+      )}
     </span>
   );
 

@@ -67,6 +67,7 @@ export default async function ProductPage({ params }: Props) {
                   size="lg"
                   showTaxNote
                   basePrice={basePrice}
+                  linkShipping
                 />
               </p>
 
