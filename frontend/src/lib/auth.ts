@@ -75,6 +75,9 @@ export async function apiRegister(params: {
   password: string;
   first_name?: string;
   last_name?: string;
+  turnstile_token?: string;
+  /** Honeypot field – must stay empty */
+  website?: string;
 }): Promise<AuthUser> {
   const data = await request<{ user: AuthUser }>("/register", {
     method: "POST",

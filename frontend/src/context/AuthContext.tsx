@@ -13,6 +13,8 @@ interface AuthContextValue {
     password: string;
     first_name?: string;
     last_name?: string;
+    turnstile_token?: string;
+    website?: string;
   }) => Promise<void>;
   logout: () => Promise<void>;
   setUser: (user: AuthUser | null) => void;
@@ -49,6 +51,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       password: string;
       first_name?: string;
       last_name?: string;
+      turnstile_token?: string;
+      website?: string;
     }) => {
       const u = await apiRegister(params);
       setUser(u);

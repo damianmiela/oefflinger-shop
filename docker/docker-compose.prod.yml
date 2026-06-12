@@ -28,6 +28,7 @@ services:
       CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://91.98.112.186:4000}
       WP_URL: ${WP_URL:-http://91.98.112.186:4001}
       FRONTEND_URL: ${FRONTEND_URL:-http://91.98.112.186:4000}
+      TURNSTILE_SECRET_KEY: ${TURNSTILE_SECRET_KEY:-}
     volumes:
       - wp_data:/var/www/html
     ports:
@@ -41,6 +42,7 @@ services:
         - NEXT_PUBLIC_WC_STORE_API=${NEXT_PUBLIC_WC_STORE_API:-http://91.98.112.186:4001/wp-json/wc/store/v1}
         - NEXT_PUBLIC_WP_API_URL=${NEXT_PUBLIC_WP_API_URL:-http://91.98.112.186:4001/wp-json}
         - NEXT_PUBLIC_WP_URL=${NEXT_PUBLIC_WP_URL:-http://91.98.112.186:4001}
+        - NEXT_PUBLIC_TURNSTILE_SITE_KEY=${NEXT_PUBLIC_TURNSTILE_SITE_KEY:-}
     restart: unless-stopped
     depends_on:
       - wordpress

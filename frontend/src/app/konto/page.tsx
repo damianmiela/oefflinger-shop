@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { AccountView } from "./AccountView";
 import { AuthApiError } from "@/lib/auth";
+import { Turnstile, turnstileEnabled } from "@/components/Turnstile";
 
 const inputClass =
   "w-full rounded-lg border border-gray-300 px-3 py-2.5 text-gray-900 placeholder:text-gray-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30";
@@ -87,6 +88,7 @@ function RegisterForm() {
   const { register } = useAuth();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -99,6 +101,8 @@ function RegisterForm() {
         password: String(form.get("password")),
         first_name: String(form.get("first_name") || ""),
         last_name: String(form.get("last_name") || ""),
+        turnstile_token: turnstileToken ?? undefined,
+        website: String(form.get("website") || ""),
       });
     } catch (err) {
       setError(
@@ -179,11 +183,23 @@ function RegisterForm() {
         <p className="mt-1 text-xs text-gray-500">Mindestens 8 Zeichen.</p>
       </div>
 
+      {/* Honeypot – invisible to humans, bots tend to fill it */}
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="absolute -left-[9999px] h-0 w-0 opacity-0"
+      />
+
+      <Turnstile onToken={setTurnstileToken} />
+
       {error && <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
 
       <button
         type="submit"
-        disabled={submitting}
+        disabled={submitting || (turnstileEnabled && !turnstileToken)}
         className="border-primary text-primary hover:bg-primary/5 mt-auto rounded-lg border bg-white px-6 py-3 font-semibold transition disabled:cursor-not-allowed disabled:opacity-60"
       >
         {submitting ? "Bitte warten…" : "Konto erstellen"}

@@ -95,6 +95,9 @@ function oeff_auth_login(WP_REST_Request $request) {
     if (!oeff_auth_check_origin($request)) {
         return oeff_auth_error('forbidden', 'Ungültige Anfrage.', 403);
     }
+    if (!oeff_rate_limit('login', 10, 15 * MINUTE_IN_SECONDS)) {
+        return oeff_auth_error('rate_limited', 'Zu viele Anmeldeversuche. Bitte versuchen Sie es in einigen Minuten erneut.', 429);
+    }
     $login    = sanitize_text_field($request->get_param('login') ?? '');
     $password = (string) ($request->get_param('password') ?? '');
     if (!$login || !$password) {
@@ -124,6 +127,16 @@ function oeff_auth_logout(WP_REST_Request $request) {
 function oeff_auth_register(WP_REST_Request $request) {
     if (!oeff_auth_check_origin($request)) {
         return oeff_auth_error('forbidden', 'Ungültige Anfrage.', 403);
+    }
+    // Honeypot: hidden field bots tend to fill – reject without detail
+    if ((string) ($request->get_param('website') ?? '') !== '') {
+        return oeff_auth_error('register_failed', 'Registrierung fehlgeschlagen.', 400);
+    }
+    if (!oeff_rate_limit('register', 3, HOUR_IN_SECONDS)) {
+        return oeff_auth_error('rate_limited', 'Zu viele Registrierungen. Bitte versuchen Sie es später erneut.', 429);
+    }
+    if (!oeff_verify_turnstile((string) ($request->get_param('turnstile_token') ?? ''))) {
+        return oeff_auth_error('captcha_failed', 'Sicherheitsprüfung fehlgeschlagen. Bitte laden Sie die Seite neu und versuchen Sie es erneut.', 400);
     }
     $email      = sanitize_email($request->get_param('email') ?? '');
     $password   = (string) ($request->get_param('password') ?? '');
