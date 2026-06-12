@@ -4,7 +4,7 @@ import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { AccountView } from "./AccountView";
-import { AuthApiError } from "@/lib/auth";
+import { apiRequestPasswordReset, AuthApiError } from "@/lib/auth";
 import { Turnstile, turnstileEnabled } from "@/components/Turnstile";
 
 const inputClass =
@@ -15,6 +15,9 @@ function LoginForm() {
   const { login } = useAuth();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [mode, setMode] = useState<"login" | "forgot">("login");
+  const [resetSent, setResetSent] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -31,6 +34,104 @@ function LoginForm() {
       );
       setSubmitting(false);
     }
+  }
+
+  async function onForgotSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setError(null);
+    setSubmitting(true);
+    const form = new FormData(e.currentTarget);
+    try {
+      await apiRequestPasswordReset(
+        String(form.get("email")),
+        turnstileToken ?? undefined,
+        String(form.get("website") || ""),
+      );
+      setResetSent(true);
+    } catch (err) {
+      setError(
+        err instanceof AuthApiError
+          ? err.message
+          : "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  if (mode === "forgot") {
+    return (
+      <form
+        onSubmit={onForgotSubmit}
+        className="flex h-full flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8"
+      >
+        <div>
+          <h2 className="text-xl font-semibold text-gray-900">Passwort vergessen?</h2>
+          <p className="mt-1 text-sm text-gray-500">
+            Geben Sie Ihre E-Mail-Adresse ein – wir senden Ihnen einen Link zum Zurücksetzen.
+          </p>
+        </div>
+
+        {resetSent ? (
+          <p className="rounded-lg bg-green-50 px-4 py-3 text-sm text-green-800" role="status">
+            Wenn ein Konto mit dieser E-Mail-Adresse existiert, haben wir Ihnen soeben einen Link
+            zum Zurücksetzen des Passworts gesendet. Bitte prüfen Sie auch Ihren Spam-Ordner.
+          </p>
+        ) : (
+          <>
+            <div>
+              <label htmlFor="forgot_email" className={labelClass}>
+                E-Mail-Adresse
+              </label>
+              <input
+                id="forgot_email"
+                name="email"
+                type="email"
+                required
+                autoComplete="email"
+                className={inputClass}
+              />
+            </div>
+
+            {/* Honeypot – invisible to humans, bots tend to fill it */}
+            <input
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              className="absolute -left-[9999px] h-0 w-0 opacity-0"
+            />
+
+            <Turnstile onToken={setTurnstileToken} />
+
+            {error && (
+              <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
+            )}
+
+            <button
+              type="submit"
+              disabled={submitting || (turnstileEnabled && !turnstileToken)}
+              className="bg-primary hover:bg-primary-light rounded-lg px-6 py-3 font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {submitting ? "Bitte warten…" : "Link senden"}
+            </button>
+          </>
+        )}
+
+        <button
+          type="button"
+          onClick={() => {
+            setMode("login");
+            setResetSent(false);
+            setError(null);
+          }}
+          className="text-primary mt-auto self-start text-sm hover:underline"
+        >
+          ← Zurück zur Anmeldung
+        </button>
+      </form>
+    );
   }
 
   return (
@@ -69,6 +170,18 @@ function LoginForm() {
           autoComplete="current-password"
           className={inputClass}
         />
+        <div className="mt-1.5 text-right">
+          <button
+            type="button"
+            onClick={() => {
+              setMode("forgot");
+              setError(null);
+            }}
+            className="text-primary text-sm hover:underline"
+          >
+            Passwort vergessen?
+          </button>
+        </div>
       </div>
 
       {error && <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}

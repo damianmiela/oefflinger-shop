@@ -147,3 +147,28 @@ export async function apiOrderDetail(id: number | string): Promise<AuthOrderDeta
   const data = await request<{ order: AuthOrderDetail }>(`/order/${id}`);
   return data.order;
 }
+
+/** Request a password-reset email. Resolves generically (no account disclosure). */
+export async function apiRequestPasswordReset(
+  email: string,
+  turnstileToken?: string,
+  website?: string,
+): Promise<void> {
+  await request("/password-reset-request", {
+    method: "POST",
+    body: JSON.stringify({ email, turnstile_token: turnstileToken, website }),
+  });
+}
+
+/** Set a new password via reset key; the API logs the customer in on success. */
+export async function apiResetPassword(params: {
+  login: string;
+  key: string;
+  password: string;
+}): Promise<AuthUser> {
+  const data = await request<{ user: AuthUser }>("/password-reset", {
+    method: "POST",
+    body: JSON.stringify(params),
+  });
+  return data.user;
+}

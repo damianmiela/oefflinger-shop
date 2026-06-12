@@ -17,6 +17,8 @@ function oeff_auth_register_routes() {
         ['login',    'POST', 'oeff_auth_login',           false],
         ['logout',   'POST', 'oeff_auth_logout',          true],
         ['register', 'POST', 'oeff_auth_register',        false],
+        ['password-reset-request', 'POST', 'oeff_auth_password_reset_request', false],
+        ['password-reset',         'POST', 'oeff_auth_password_reset',         false],
         ['me',       'GET',  'oeff_auth_me',              true],
         ['orders',   'GET',  'oeff_auth_orders',          true],
         ['address',  'POST', 'oeff_auth_update_address',  true],
@@ -308,4 +310,81 @@ function oeff_auth_order_detail(WP_REST_Request $request) {
         'shipping'        => $address('shipping'),
         'items'           => array_values(array_map('oeff_auth_order_item_payload', $order->get_items())),
     ]], 200);
+}
+
+/**
+ * Request a password reset link (always answers generically – never reveals
+ * whether an account exists). Protections: origin, honeypot, rate limit, Turnstile.
+ */
+function oeff_auth_password_reset_request(WP_REST_Request $request) {
+    if (!oeff_auth_check_origin($request)) {
+        return oeff_auth_error('forbidden', 'Ungültige Anfrage.', 403);
+    }
+    if ((string) ($request->get_param('website') ?? '') !== '') {
+        return new WP_REST_Response(['ok' => true], 200); // honeypot: fake success
+    }
+    if (!oeff_rate_limit('password_reset_request', 3, HOUR_IN_SECONDS)) {
+        return oeff_auth_error('rate_limited', 'Zu viele Anfragen. Bitte versuchen Sie es später erneut.', 429);
+    }
+    if (!oeff_verify_turnstile((string) ($request->get_param('turnstile_token') ?? ''))) {
+        return oeff_auth_error('captcha_failed', 'Sicherheitsprüfung fehlgeschlagen. Bitte laden Sie die Seite neu und versuchen Sie es erneut.', 400);
+    }
+    $email = sanitize_email($request->get_param('email') ?? '');
+    if (!is_email($email)) {
+        return oeff_auth_error('invalid_email', 'Bitte geben Sie eine gültige E-Mail-Adresse ein.', 400);
+    }
+
+    $user = get_user_by('email', $email);
+    if ($user) {
+        $key = get_password_reset_key($user);
+        if (!is_wp_error($key)) {
+            $frontend = rtrim(getenv('FRONTEND_URL') ?: 'http://localhost:4000', '/');
+            $url = $frontend . '/konto/passwort-zuruecksetzen?login=' . rawurlencode($user->user_login) . '&key=' . rawurlencode($key);
+            $name = $user->first_name ?: $user->display_name;
+            $subject = 'Passwort zurücksetzen – Öfflinger';
+            $body = sprintf(
+                "Hallo %s,\n\nfür Ihr Konto bei Öfflinger wurde das Zurücksetzen des Passworts angefordert.\n\nKlicken Sie auf den folgenden Link, um ein neues Passwort zu vergeben:\n%s\n\nDer Link ist 24 Stunden gültig. Wenn Sie diese Anfrage nicht gestellt haben, können Sie diese E-Mail ignorieren – Ihr Passwort bleibt unverändert.\n\nIhr Öfflinger-Team",
+                $name,
+                $url
+            );
+            wp_mail($email, $subject, $body);
+        }
+    }
+
+    // Always generic – never reveal whether an account exists
+    return new WP_REST_Response(['ok' => true], 200);
+}
+
+/** Set a new password using a reset key, then log the customer in. */
+function oeff_auth_password_reset(WP_REST_Request $request) {
+    if (!oeff_auth_check_origin($request)) {
+        return oeff_auth_error('forbidden', 'Ungültige Anfrage.', 403);
+    }
+    if (!oeff_rate_limit('password_reset', 5, HOUR_IN_SECONDS)) {
+        return oeff_auth_error('rate_limited', 'Zu viele Versuche. Bitte versuchen Sie es später erneut.', 429);
+    }
+    $login    = (string) ($request->get_param('login') ?? '');
+    $key      = (string) ($request->get_param('key') ?? '');
+    $password = (string) ($request->get_param('password') ?? '');
+
+    if ($login === '' || $key === '') {
+        return oeff_auth_error('invalid_link', 'Der Link ist ungültig. Bitte fordern Sie einen neuen Link an.', 400);
+    }
+    if (strlen($password) < 8) {
+        return oeff_auth_error('weak_password', 'Das Passwort muss mindestens 8 Zeichen lang sein.', 400);
+    }
+
+    $user = check_password_reset_key($key, $login);
+    if (is_wp_error($user)) {
+        return oeff_auth_error('invalid_key', 'Der Link ist ungültig oder abgelaufen. Bitte fordern Sie einen neuen Link an.', 400);
+    }
+
+    reset_password($user, $password);
+    if (class_exists('WP_Session_Tokens')) {
+        WP_Session_Tokens::get_instance($user->ID)->destroy_all();
+    }
+    wp_set_current_user($user->ID);
+    wp_set_auth_cookie($user->ID, true);
+
+    return new WP_REST_Response(['user' => oeff_auth_user_payload($user->ID)], 200);
 }
