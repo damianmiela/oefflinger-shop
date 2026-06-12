@@ -14,7 +14,7 @@ function ZurKasseContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const checkoutUrl = `/checkout${searchParams.toString() ? `?${searchParams.toString()}` : ""}`;
+  const checkoutUrl = `/kasse${searchParams.toString() ? `?${searchParams.toString()}` : ""}`;
 
   useEffect(() => {
     if (!loading && user) {
@@ -40,16 +40,16 @@ function ZurKasseContent() {
 
         <div className="mt-8 flex flex-col gap-4">
           <Link
-            href={`/konto?redirect=${encodeURIComponent(checkoutUrl)}`}
+            href={checkoutUrl}
             className="bg-primary hover:bg-primary-light rounded-lg px-6 py-3.5 font-semibold text-white transition"
           >
-            Anmelden und fortfahren
+            Als Gast bestellen
           </Link>
           <Link
-            href={checkoutUrl}
+            href={`/konto?redirect=${encodeURIComponent(checkoutUrl)}`}
             className="rounded-lg border border-gray-300 bg-white px-6 py-3.5 font-semibold text-gray-700 transition hover:bg-gray-50"
           >
-            Als Gast bestellen
+            Anmelden und fortfahren
           </Link>
         </div>
 

@@ -12,6 +12,17 @@ import {
 import type { Cart } from "@/types";
 import * as wooApi from "@/lib/woo/api";
 import { toUserMessage } from "@/lib/woo/api";
+import { useAuth } from "@/context/AuthContext";
+import {
+  getStoredToken,
+  storeToken,
+  clearToken,
+  getUserToken,
+  storeUserToken,
+  getGuestStash,
+  setGuestStash,
+  clearGuestStash,
+} from "@/lib/woo/cart-token";
 
 export interface CartError {
   message: string;
@@ -33,19 +44,6 @@ interface CartContextValue {
 
 const CartContext = createContext<CartContextValue | undefined>(undefined);
 
-const CART_TOKEN_KEY = "oefflinger_cart_token";
-
-function getStoredToken(): string | undefined {
-  if (typeof window === "undefined") return undefined;
-  return localStorage.getItem(CART_TOKEN_KEY) ?? undefined;
-}
-
-function storeToken(token: string): void {
-  if (typeof window !== "undefined") {
-    localStorage.setItem(CART_TOKEN_KEY, token);
-  }
-}
-
 const JUST_ADDED_DURATION_MS = 1200;
 
 export function CartProvider({ children }: { children: ReactNode }) {
@@ -54,6 +52,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [lastError, setLastError] = useState<CartError | null>(null);
   const [justAddedToCart, setJustAddedToCart] = useState(false);
   const justAddedTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const { user, loading: authLoading } = useAuth();
+  /** undefined = auth not resolved yet; null = guest */
+  const prevUserIdRef = useRef<number | null | undefined>(undefined);
 
   const clearError = useCallback(() => setLastError(null), []);
 
@@ -79,6 +81,91 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  /**
+   * P1-11f: bind carts to users.
+   * Login: guest cart becomes the user's cart (no previous user cart), or guest
+   * items are merged into the user's existing cart. Logout: persist the user's
+   * cart under their key, then restore the stashed guest cart or start fresh.
+   */
+  const handleLogin = useCallback(
+    async (userId: number) => {
+      const guestToken = getStoredToken();
+      const userToken = getUserToken(userId);
+
+      if (!userToken) {
+        // First login on this browser: the guest cart simply becomes the user's cart
+        if (guestToken) storeUserToken(userId, guestToken);
+        await refreshCart();
+        return;
+      }
+      if (userToken === guestToken) {
+        await refreshCart();
+        return;
+      }
+      // Merge guest items into the user's existing cart (best effort)
+      try {
+        if (guestToken) {
+          const { data: guestCart } = await wooApi.getCart(guestToken);
+          if (guestCart.items.length > 0) {
+            for (const item of guestCart.items) {
+              await wooApi.addToCart(item.id, item.quantity, userToken);
+            }
+          } else {
+            // Keep the (empty) guest cart for after logout
+            setGuestStash(guestToken);
+          }
+        }
+      } catch {
+        // merge is best-effort – the user still gets their own cart
+      }
+      storeToken(userToken);
+      await refreshCart();
+    },
+    [refreshCart],
+  );
+
+  const handleLogout = useCallback(
+    (previousUserId: number) => {
+      const active = getStoredToken();
+      if (active) storeUserToken(previousUserId, active);
+      const stash = getGuestStash();
+      if (stash) {
+        storeToken(stash);
+        clearGuestStash();
+      } else {
+        clearToken(); // fresh anonymous cart
+      }
+      setCart(null);
+      void refreshCart();
+    },
+    [refreshCart],
+  );
+
+  useEffect(() => {
+    if (authLoading) return;
+    const currentId = user?.id ?? null;
+    const prevId = prevUserIdRef.current;
+    prevUserIdRef.current = currentId;
+
+    if (prevId === undefined) {
+      // Initial auth resolution (page load), no transition
+      if (currentId != null) {
+        const userToken = getUserToken(currentId);
+        const active = getStoredToken();
+        if (userToken && userToken !== active) {
+          if (active) setGuestStash(active);
+          storeToken(userToken);
+          void refreshCart();
+        } else if (!userToken && active) {
+          storeUserToken(currentId, active);
+        }
+      }
+      return;
+    }
+    if (prevId === null && currentId != null) void handleLogin(currentId);
+    else if (prevId != null && currentId === null) handleLogout(prevId);
+  }, [user, authLoading, handleLogin, handleLogout, refreshCart]);
+
   const addItem = useCallback(
     async (productId: number, quantity: number = 1) => {
       setLoading(true);
@@ -96,11 +183,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
           setCart(data);
           if (token) storeToken(token);
         } else {
-          const { data, token } = await wooApi.addToCart(
-            productId,
-            quantity,
-            getStoredToken(),
-          );
+          const { data, token } = await wooApi.addToCart(productId, quantity, getStoredToken());
           setCart(data);
           if (token) storeToken(token);
         }
@@ -143,11 +226,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         const item = cart?.items.find((i) => i.key === itemKey);
         const max = item?.quantity_limits?.maximum ?? 9999;
         const clamped = Math.max(1, Math.min(quantity, max));
-        const { data, token } = await wooApi.updateCartItem(
-          itemKey,
-          clamped,
-          getStoredToken(),
-        );
+        const { data, token } = await wooApi.updateCartItem(itemKey, clamped, getStoredToken());
         setCart(data);
         if (token) storeToken(token);
       } catch (err) {

@@ -1,4 +1,4 @@
-import type { Product, Cart, ProductAttribute } from "@/types";
+import type { Product, Cart, ProductAttribute, CheckoutAddress, CheckoutResult } from "@/types";
 
 function getBaseUrl(): string {
   if (typeof window !== "undefined") {
@@ -293,5 +293,67 @@ export async function updateCartItem(
     method: "POST",
     token: cartToken,
     body: JSON.stringify({ key: itemKey, quantity }),
+  });
+}
+
+export async function updateCustomer(
+  payload: { billing_address?: Partial<CheckoutAddress>; shipping_address?: Partial<CheckoutAddress> },
+  cartToken?: string,
+): Promise<{ data: Cart; token?: string }> {
+  return cartApiFetch<Cart>("/cart/update-customer", {
+    method: "POST",
+    token: cartToken,
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function selectShippingRate(
+  packageId: number | string,
+  rateId: string,
+  cartToken?: string,
+): Promise<{ data: Cart; token?: string }> {
+  return cartApiFetch<Cart>("/cart/select-shipping-rate", {
+    method: "POST",
+    token: cartToken,
+    body: JSON.stringify({ package_id: packageId, rate_id: rateId }),
+  });
+}
+
+export async function applyCoupon(
+  code: string,
+  cartToken?: string,
+): Promise<{ data: Cart; token?: string }> {
+  return cartApiFetch<Cart>("/cart/apply-coupon", {
+    method: "POST",
+    token: cartToken,
+    body: JSON.stringify({ code }),
+  });
+}
+
+export async function removeCoupon(
+  code: string,
+  cartToken?: string,
+): Promise<{ data: Cart; token?: string }> {
+  return cartApiFetch<Cart>("/cart/remove-coupon", {
+    method: "POST",
+    token: cartToken,
+    body: JSON.stringify({ code }),
+  });
+}
+
+/** Place the order (Store API checkout). Payment redirects come back in payment_result. */
+export async function placeOrder(
+  payload: {
+    billing_address: CheckoutAddress;
+    shipping_address: CheckoutAddress;
+    payment_method: string;
+    customer_note?: string;
+  },
+  cartToken?: string,
+): Promise<{ data: CheckoutResult; token?: string }> {
+  return cartApiFetch<CheckoutResult>("/checkout", {
+    method: "POST",
+    token: cartToken,
+    body: JSON.stringify(payload),
   });
 }

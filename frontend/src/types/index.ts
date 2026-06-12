@@ -84,18 +84,71 @@ export interface CartItemData {
   };
 }
 
+export interface ShippingRate {
+  rate_id: string;
+  name: string;
+  description?: string;
+  delivery_time?: string;
+  price: string;
+  taxes?: string;
+  selected: boolean;
+  currency_code: string;
+}
+
+export interface ShippingPackage {
+  package_id: number | string;
+  name: string;
+  shipping_rates: ShippingRate[];
+}
+
+export interface CartCoupon {
+  code: string;
+  totals?: { total_discount: string; total_discount_tax?: string; currency_code: string };
+}
+
 export interface Cart {
   items: CartItemData[];
   items_count: number;
+  needs_shipping?: boolean;
+  shipping_rates?: ShippingPackage[];
+  coupons?: CartCoupon[];
+  /** Enabled payment gateway ids (provided by newer Store API versions) */
+  payment_methods?: string[];
   totals: {
     total_items: string;
     /** Tax on items (minor units) */
     total_items_tax?: string;
+    total_shipping?: string;
+    total_shipping_tax?: string;
+    total_discount?: string;
     /** Total tax (minor units) */
     total_tax?: string;
     total_price: string;
     currency_code: string;
     currency_symbol: string;
+  };
+}
+
+export interface CheckoutAddress {
+  first_name: string;
+  last_name: string;
+  address_1: string;
+  address_2?: string;
+  city: string;
+  postcode: string;
+  country: string;
+  email?: string;
+  phone?: string;
+}
+
+export interface CheckoutResult {
+  order_id: number;
+  status: string;
+  order_key?: string;
+  payment_result?: {
+    payment_status: "success" | "pending" | "failure" | "error" | string;
+    redirect_url?: string;
+    payment_details?: { key: string; value: string }[];
   };
 }
 
