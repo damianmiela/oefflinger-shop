@@ -5,6 +5,7 @@ import { ShopPagination } from "@/components/ShopPagination";
 import { AnimateChildren } from "@/components/AnimateChildren";
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 import { HealthDisclaimer } from "@/components/HealthDisclaimer";
+import { SortSelect } from "@/components/SortSelect";
 import {
   collectFilterGroups,
   filterProducts,
@@ -146,23 +147,7 @@ export default async function ShopPage({ searchParams }: Props) {
               </div>
             ))}
 
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="w-full text-sm font-medium text-gray-500 sm:w-28 sm:shrink-0">
-                Sortierung:
-              </span>
-              {SORT_OPTIONS.map((option) => {
-                const active = sort === option.key;
-                return (
-                  <Link
-                    key={option.key || "standard"}
-                    href={href({ sort: option.key || null })}
-                    className={`${CHIP_BASE} ${active ? CHIP_ACTIVE : CHIP_INACTIVE}`}
-                  >
-                    {option.label}
-                  </Link>
-                );
-              })}
-            </div>
+            <SortSelect sort={sort} baseParams={baseParams} />
 
             {hasActiveFilters && (
               <p>
