@@ -44,6 +44,15 @@ else
     $WP plugin activate woocommerce 2>/dev/null || true
 fi
 
+echo "[setup] Setting German language (core + WooCommerce translations)..."
+mkdir -p /var/www/html/wp-content/languages
+chown -R www-data:www-data /var/www/html/wp-content/languages
+$WP language core install de_DE 2>/dev/null || true
+$WP language core activate de_DE 2>/dev/null || true
+$WP language plugin install woocommerce de_DE 2>/dev/null || true
+$WP language plugin update --all 2>/dev/null || true
+$WP option update WPLANG de_DE 2>/dev/null || true
+
 echo "[setup] Setting permalink structure..."
 $WP rewrite structure '/%postname%/' --hard 2>/dev/null || true
 

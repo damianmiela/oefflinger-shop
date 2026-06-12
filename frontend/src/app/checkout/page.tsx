@@ -1,6 +1,6 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
@@ -17,6 +17,7 @@ function getCheckoutUrl(productsParam: string, coupon: string | null): string {
 function CheckoutContent() {
   const searchParams = useSearchParams();
   const { cart, loading } = useCart();
+  const router = useRouter();
   const [iframeHeight, setIframeHeight] = useState<number | null>(null);
 
   // The WP checkout posts its content height; resize the iframe so no inner
@@ -34,10 +35,20 @@ function CheckoutContent() {
       if (d && d.type === "oeff:checkout-height" && typeof d.height === "number") {
         setIframeHeight(Math.max(600, Math.ceil(d.height) + 2));
       }
+      if (d && d.type === "oeff:navigate" && typeof d.href === "string") {
+        try {
+          const url = new URL(d.href);
+          if (url.origin === window.location.origin) {
+            router.push(url.pathname + url.search);
+          }
+        } catch {
+          // ignore malformed URLs
+        }
+      }
     }
     window.addEventListener("message", onMessage);
     return () => window.removeEventListener("message", onMessage);
-  }, []);
+  }, [router]);
   const products = searchParams.get("products");
   if (loading && !cart) {
     return (

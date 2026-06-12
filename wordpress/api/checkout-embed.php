@@ -7,6 +7,17 @@
 defined('ABSPATH') || exit;
 
 add_action('init', 'oefflinger_remove_woo_frame_header', 999);
+
+/**
+ * The WP cart is unused (headless setup) – point all cart links (e.g. the
+ * "Return to Cart" link in the checkout block) at the frontend cart page.
+ */
+add_filter('woocommerce_get_cart_url', 'oefflinger_frontend_cart_url', 999);
+
+function oefflinger_frontend_cart_url() {
+    $frontend = getenv('FRONTEND_URL') ?: 'http://91.98.112.186:4000';
+    return rtrim($frontend, '/') . '/cart';
+}
 add_action('send_headers', 'oefflinger_allow_frontend_frame', 999);
 
 function oefflinger_remove_woo_frame_header() {
@@ -84,6 +95,18 @@ function oefflinger_iframe_autoheight_script() {
         window.addEventListener('load', report);
         setInterval(report, 1000); // safety net for async content (payment methods etc.)
         report();
+
+        // Links pointing at the headless frontend (e.g. "Return to Cart") must
+        // navigate the parent page, not the iframe.
+        var frontendOrigin = <?php echo wp_json_encode(rtrim(getenv('FRONTEND_URL') ?: 'http://91.98.112.186:4000', '/')); ?>;
+        document.addEventListener('click', function (e) {
+            var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+            if (!a) return;
+            if (a.href.indexOf(frontendOrigin) === 0) {
+                e.preventDefault();
+                window.parent.postMessage({ type: 'oeff:navigate', href: a.href }, '*');
+            }
+        }, true);
     })();
     </script>
     <?php
