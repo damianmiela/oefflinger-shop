@@ -5,6 +5,7 @@ import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { Header } from "@/components/Header";
+import { PaymentMethodLogos } from "@/components/PaymentMethodLogos";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -42,8 +43,6 @@ const FOOTER_COLUMNS: { title: string; links: { href: string; label: string }[] 
     ],
   },
 ];
-
-const PAYMENT_METHODS = ["PayPal", "Klarna", "Visa", "Mastercard", "Überweisung"];
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -103,16 +102,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <p className="text-xs font-medium tracking-wider text-white/60 uppercase">
                       Sichere Bezahlung
                     </p>
-                    <ul className="mt-3 flex flex-wrap gap-2">
-                      {PAYMENT_METHODS.map((method) => (
-                        <li
-                          key={method}
-                          className="rounded-md border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white"
-                        >
-                          {method}
-                        </li>
-                      ))}
-                    </ul>
+                    <PaymentMethodLogos className="mt-3" />
                   </div>
                   <p className="text-sm text-white/70">
                     Versand mit DHL – Lieferung innerhalb Deutschlands
