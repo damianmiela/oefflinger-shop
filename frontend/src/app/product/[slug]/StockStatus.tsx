@@ -15,11 +15,18 @@ export function StockStatus({ product }: { product: Product }) {
   const limit = getStockLimit(product);
 
   if (limit != null) {
+    const isLow = product.low_stock_remaining != null && product.low_stock_remaining <= limit;
     return (
-      <p className="mt-6 text-sm text-gray-600">
-        {product.low_stock_remaining != null && product.low_stock_remaining <= limit
-          ? `Nur noch ${product.low_stock_remaining} auf Lager`
-          : `${limit} Stück verfügbar`}
+      <p
+        className={`mt-5 flex items-center gap-2 text-sm font-medium ${
+          isLow ? "text-amber-700" : "text-gray-600"
+        }`}
+      >
+        <span
+          className={`h-2 w-2 shrink-0 rounded-full ${isLow ? "bg-amber-500" : "bg-emerald-500"}`}
+          aria-hidden
+        />
+        {isLow ? `Nur noch ${product.low_stock_remaining} auf Lager` : `${limit} Stück verfügbar`}
       </p>
     );
   }
@@ -27,7 +34,8 @@ export function StockStatus({ product }: { product: Product }) {
   if (!product.is_in_stock && !product.is_on_backorder) return null;
 
   return (
-    <p className="mt-6 text-sm text-green-600">
+    <p className="mt-5 flex items-center gap-2 text-sm font-medium text-emerald-700">
+      <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-500" aria-hidden />
       {product.is_in_stock ? "Auf Lager" : "Lieferbar auf Nachfrage"}
     </p>
   );

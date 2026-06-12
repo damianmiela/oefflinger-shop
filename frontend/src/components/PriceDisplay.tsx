@@ -15,6 +15,10 @@ interface PriceDisplayProps {
   linkShipping?: boolean;
 }
 
+const SIZE_CLASS = { sm: "text-base", md: "text-lg", lg: "text-2xl" } as const;
+/** Strikethrough old price: one step smaller than the main price */
+const STRIKE_CLASS = { sm: "text-xs", md: "text-sm", lg: "text-base" } as const;
+
 export function PriceDisplay({
   prices,
   className = "",
@@ -34,18 +38,19 @@ export function PriceDisplay({
     return <span className={className}>Preis auf Anfrage</span>;
   }
 
-  const sizeClass = size === "sm" ? "text-base" : size === "lg" ? "text-2xl" : "text-lg";
-  const noteSizeClass = size === "lg" ? "text-sm" : "text-xs";
-
+  /* Legal notes (Grundpreis, MwSt/Versand): mandatory but deliberately quiet */
   const notes = (showTaxNote || basePrice) && (
-    <span className={`mt-0.5 block font-normal text-gray-500 ${noteSizeClass}`}>
+    <span className="mt-1 block text-xs font-normal text-gray-400">
       {basePrice && <span>{basePrice}</span>}
       {basePrice && showTaxNote && <span aria-hidden> · </span>}
       {showTaxNote && (
         <span>
           inkl. MwSt., zzgl.{" "}
           {linkShipping ? (
-            <Link href="/versand" className="hover:text-primary underline">
+            <Link
+              href="/versand"
+              className="hover:text-primary underline decoration-gray-300 underline-offset-2 transition"
+            >
               Versand
             </Link>
           ) : (
@@ -56,21 +61,16 @@ export function PriceDisplay({
     </span>
   );
 
-  if (hasSale) {
-    return (
-      <span className={`block ${className}`}>
-        <span className={`flex flex-wrap items-baseline gap-2 ${sizeClass}`}>
-          <span className="text-gray-500 line-through">{format(regularNum)}</span>
-          <span className="text-primary font-bold">{format(saleNum)}</span>
-        </span>
-        {notes}
-      </span>
-    );
-  }
-
   return (
     <span className={`block ${className}`}>
-      <span className={`text-primary font-bold ${sizeClass}`}>{format(priceNum)}</span>
+      <span className={`flex flex-wrap items-baseline gap-x-2.5 ${SIZE_CLASS[size]}`}>
+        <span className="text-primary font-bold">{format(hasSale ? saleNum : priceNum)}</span>
+        {hasSale && (
+          <span className={`${STRIKE_CLASS[size]} text-gray-400 line-through`}>
+            {format(regularNum)}
+          </span>
+        )}
+      </span>
       {notes}
     </span>
   );

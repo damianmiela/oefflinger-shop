@@ -69,10 +69,10 @@ export default async function ProductPage({ params }: Props) {
 
           <AnimateOnScroll variant="fade-up">
             <div className="flex w-full flex-col justify-center">
-              <h1 className="order-1 text-3xl font-bold text-gray-900 lg:order-none">
+              <h1 className="order-1 text-3xl font-bold tracking-tight text-gray-900 lg:order-none">
                 {product.name}
               </h1>
-              <p className="order-2 mt-2 lg:order-none">
+              <p className="order-2 mt-3 lg:order-none">
                 <PriceDisplay
                   prices={product.prices}
                   size="lg"
@@ -80,27 +80,17 @@ export default async function ProductPage({ params }: Props) {
                   basePrice={basePrice}
                   linkShipping
                 />
-                <span className="mt-1 block text-sm text-gray-500">
-                  Versand 4,90 € ·{" "}
-                  <span className="font-medium text-emerald-700">
-                    versandkostenfrei ab 100 €
-                  </span>{" "}
-                  —{" "}
-                  <Link href="/versand" className="hover:text-primary underline">
-                    Details
-                  </Link>
-                </span>
               </p>
 
               {product.short_description && (
                 <div
-                  className="product-html-content order-7 mt-6 max-w-none leading-relaxed text-gray-600 lg:order-none [&_p]:mb-4 [&_p:last-child]:mb-0"
+                  className="product-html-content order-7 mt-5 max-w-none leading-relaxed text-gray-600 lg:order-none [&_p]:mb-4 [&_p:last-child]:mb-0"
                   dangerouslySetInnerHTML={{ __html: product.short_description }}
                 />
               )}
 
               {product.attributes && product.attributes.length > 0 && (
-                <dl className="order-3 mt-4 space-y-2 lg:order-none">
+                <dl className="order-3 mt-5 flex flex-wrap overflow-hidden rounded-xl border border-gray-200 bg-white lg:order-none">
                   {product.attributes.map((attr, i) => {
                     const rawLabel =
                       attr.name || attr.attribute?.replace(/^pa_/, "").replace(/-/g, " ") || "";
@@ -110,9 +100,14 @@ export default async function ProductPage({ params }: Props) {
                     const value = attr.options?.join(", ") || attr.value || "";
                     if (!value) return null;
                     return (
-                      <div key={attr.attribute ?? attr.name ?? `attr-${i}`}>
-                        <dt className="text-sm font-medium text-gray-500">{label}</dt>
-                        <dd className="mt-0.5 text-gray-900">{value}</dd>
+                      <div
+                        key={attr.attribute ?? attr.name ?? `attr-${i}`}
+                        className="min-w-[7.5rem] flex-1 border-l border-gray-200 px-4 py-3 first:border-l-0"
+                      >
+                        <dt className="text-xs font-medium tracking-wider text-gray-400 uppercase">
+                          {label}
+                        </dt>
+                        <dd className="mt-0.5 font-semibold text-gray-900">{value}</dd>
                       </div>
                     );
                   })}
@@ -123,6 +118,35 @@ export default async function ProductPage({ params }: Props) {
                 <div className="order-4 lg:order-none">
                   <StockStatus product={product} />
                   <DeliveryEstimate deliveryEstimate={product.delivery_estimate} />
+                  <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-500">
+                    <svg
+                      className="h-4 w-4 shrink-0 text-gray-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      aria-hidden
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
+                      />
+                    </svg>
+                    <span>Versand 4,90 €</span>
+                    <span aria-hidden className="text-gray-300">
+                      ·
+                    </span>
+                    <span className="font-medium text-emerald-700">
+                      versandkostenfrei ab 100 €
+                    </span>
+                    <Link
+                      href="/versand"
+                      className="hover:text-primary text-gray-400 underline decoration-gray-300 underline-offset-2 transition"
+                    >
+                      Details
+                    </Link>
+                  </p>
                   <AddToCartButton product={product} />
                   <div className="mt-5">
                     <p className="text-xs font-medium tracking-wider text-gray-400 uppercase">
