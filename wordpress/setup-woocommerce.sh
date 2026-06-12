@@ -12,6 +12,7 @@ cp /usr/src/wordpress/wp-content/mu-plugins/checkout-styles.php /var/www/html/wp
 cp /usr/src/wordpress/wp-content/mu-plugins/checkout-embed.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
 cp /usr/src/wordpress/wp-content/mu-plugins/auth-api.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
 cp /usr/src/wordpress/wp-content/mu-plugins/security-api.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
+cp /usr/src/wordpress/wp-content/mu-plugins/lockdown.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
 cp -r /usr/src/wordpress/wp-content/themes/oefflinger-checkout /var/www/html/wp-content/themes/ 2>/dev/null || true
 
 echo "[setup] Waiting for WordPress files and database connection..."
