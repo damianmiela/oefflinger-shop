@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import type { ColloidalMetal } from "@/data/colloidal-metals";
@@ -19,6 +19,14 @@ export function MetalCarousel({ metals }: MetalCarouselProps) {
   const [selectedMetalId, setSelectedMetalId] = useState(metals[0]?.id ?? "");
   const [selectedUse, setSelectedUse] = useState<string | null>(null);
 
+  // Hover preview: gold ring on related items in the opposite panel
+  const [hoveredMetalId, setHoveredMetalId] = useState<string | null>(null);
+  const [hoveredUse, setHoveredUse] = useState<string | null>(null);
+  // Pulse-then-fade after click
+  const [pulseUses, setPulseUses] = useState<Set<string>>(new Set());
+  const [pulseMetals, setPulseMetals] = useState<Set<string>>(new Set());
+  const pulseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   useEffect(() => {
     const id = getRememberedMetalId();
     if (id && metals.some((m) => m.id === id)) {
@@ -26,12 +34,39 @@ export function MetalCarousel({ metals }: MetalCarouselProps) {
     }
   }, [metals]);
 
+  useEffect(() => {
+    return () => {
+      if (pulseTimer.current) clearTimeout(pulseTimer.current);
+    };
+  }, []);
+
+  function triggerPulse(uses: Set<string>, metalIds: Set<string>) {
+    if (pulseTimer.current) clearTimeout(pulseTimer.current);
+    setPulseUses(uses);
+    setPulseMetals(metalIds);
+    pulseTimer.current = setTimeout(() => {
+      setPulseUses(new Set());
+      setPulseMetals(new Set());
+    }, 700);
+  }
+
   const selectedMetal = metals.find((m) => m.id === selectedMetalId) ?? metals[0];
 
   const metalsForSelectedUse = useMemo(() => {
     if (!selectedUse) return null;
     return new Set(getMetalsForUse(metals, selectedUse));
   }, [metals, selectedUse]);
+
+  const usesForHoveredMetal = useMemo(() => {
+    if (!hoveredMetalId) return null;
+    const metal = metals.find((m) => m.id === hoveredMetalId);
+    return new Set(metal?.uses ?? []);
+  }, [metals, hoveredMetalId]);
+
+  const metalsForHoveredUse = useMemo(() => {
+    if (!hoveredUse) return null;
+    return new Set(getMetalsForUse(metals, hoveredUse));
+  }, [metals, hoveredUse]);
 
   const highlightedUses = selectedMetal?.uses ?? [];
   const sortedUses = useMemo(() => getSortedUses(metals), [metals]);
@@ -48,15 +83,23 @@ export function MetalCarousel({ metals }: MetalCarouselProps) {
             const isSelected = selectedMetalId === metal.id;
             const isHighlightedByUse =
               selectedUse && metalsForSelectedUse?.has(metal.id);
+            const isGoldHover = metalsForHoveredUse?.has(metal.id) ?? false;
+            const isPulsing = pulseMetals.has(metal.id);
             return (
               <button
                 key={metal.id}
                 type="button"
+                onMouseEnter={() => setHoveredMetalId(metal.id)}
+                onMouseLeave={() => setHoveredMetalId(null)}
                 onClick={() => {
                   setSelectedMetalId(metal.id);
                   setSelectedUse(null);
+                  setHoveredMetalId(null);
+                  triggerPulse(new Set(metal.uses ?? []), new Set());
                 }}
-                className={`flex shrink-0 items-center gap-3 rounded-xl px-4 py-3 text-left transition lg:w-full ${
+                className={`gold-ring-base flex shrink-0 items-center gap-3 rounded-xl px-4 py-3 text-left transition lg:w-full ${
+                  isPulsing ? "gold-ring-pulse" : isGoldHover ? "gold-ring-on" : ""
+                } ${
                   isSelected
                     ? "bg-primary text-white shadow-md"
                     : isHighlightedByUse
@@ -150,18 +193,26 @@ export function MetalCarousel({ metals }: MetalCarouselProps) {
             const isSelected = selectedUse === use;
             const metalIdsWithUse = getMetalsForUse(metals, use);
             const currentMetalHasUse = selectedMetal?.uses?.includes(use);
+            const isGoldHover = usesForHoveredMetal?.has(use) ?? false;
+            const isPulsing = pulseUses.has(use);
             return (
               <button
                 key={use}
                 type="button"
+                onMouseEnter={() => setHoveredUse(use)}
+                onMouseLeave={() => setHoveredUse(null)}
                 onClick={() => {
                   const newSelectedUse = selectedUse === use ? null : use;
                   setSelectedUse(newSelectedUse);
                   if (newSelectedUse && !currentMetalHasUse && metalIdsWithUse[0]) {
                     setSelectedMetalId(metalIdsWithUse[0]);
                   }
+                  setHoveredUse(null);
+                  triggerPulse(new Set(), new Set(metalIdsWithUse));
                 }}
-                className={`flex items-center justify-between gap-2 rounded-xl px-4 py-2.5 text-left text-sm transition lg:w-full ${
+                className={`gold-ring-base flex items-center justify-between gap-2 rounded-xl px-4 py-2.5 text-left text-sm transition lg:w-full ${
+                  isPulsing ? "gold-ring-pulse" : isGoldHover ? "gold-ring-on" : ""
+                } ${
                   isSelected
                     ? "bg-primary text-white shadow-md"
                     : isHighlightedByMetal

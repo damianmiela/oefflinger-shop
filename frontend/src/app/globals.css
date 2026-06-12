@@ -75,3 +75,30 @@ body {
   color: #1f2937;
   letter-spacing: 0.01em;
 }
+
+/* MetalCarousel hover-preview gold ring */
+.gold-ring-base {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition: outline-color 0.25s ease;
+}
+.gold-ring-on {
+  outline-color: var(--color-accent);
+}
+.gold-ring-pulse {
+  animation: gold-ring-pulse 0.7s ease-out forwards;
+}
+@keyframes gold-ring-pulse {
+  0% {
+    outline-color: var(--color-accent);
+    filter: drop-shadow(0 0 0 rgb(184 149 74 / 0));
+  }
+  35% {
+    outline-color: var(--color-accent-light);
+    filter: drop-shadow(0 0 8px rgb(184 149 74 / 0.7));
+  }
+  100% {
+    outline-color: transparent;
+    filter: none;
+  }
+}
