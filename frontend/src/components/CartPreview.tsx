@@ -134,9 +134,9 @@ export function CartPreview() {
       {visible && itemCount > 0 && (
         <>
           {/* Invisible bridge to prevent preview from disappearing when moving cursor from button to dropdown */}
-          <div className="absolute top-full right-0 left-0 z-40 h-3" aria-hidden />
+          <div className="absolute top-full right-0 left-0 z-40 hidden h-3 md:block" aria-hidden />
           <div
-            className="absolute top-full right-0 z-50 mt-2 w-80 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg"
+            className="absolute top-full right-0 z-50 mt-2 hidden w-80 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg md:block"
             onMouseEnter={show}
             onMouseLeave={hide}
           >

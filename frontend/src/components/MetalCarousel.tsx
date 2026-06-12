@@ -107,7 +107,7 @@ export function MetalCarousel({ metals }: MetalCarouselProps) {
       {/* Left: Metal selector */}
       <div className="flex shrink-0 flex-col gap-4 lg:w-56">
         <p className="text-primary text-sm font-medium tracking-widest uppercase">Metalle</p>
-        <div className="-mx-4 flex snap-x snap-mandatory gap-2 overflow-x-auto px-4 pb-2 sm:mx-0 sm:px-0 lg:snap-none lg:flex-col lg:overflow-visible">
+        <div className="-mx-4 flex snap-x snap-mandatory gap-2 overflow-x-auto pr-4 pb-2 pl-6 sm:mx-0 sm:px-0 lg:snap-none lg:flex-col lg:overflow-visible">
           {metals.map((metal) => {
             const isSelected = selectedMetalId === metal.id;
             const isHighlightedByUse =
@@ -214,7 +214,7 @@ export function MetalCarousel({ metals }: MetalCarouselProps) {
       </div>
 
       {/* Right: Uses */}
-      <div className="flex shrink-0 flex-col gap-4 lg:w-52">
+      <div className="hidden shrink-0 flex-col gap-4 lg:flex lg:w-52">
         <p className="text-primary text-sm font-medium tracking-widest uppercase">
           Anwendungsbereiche
         </p>

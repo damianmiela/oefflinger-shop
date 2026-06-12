@@ -6,7 +6,7 @@ interface HealthDisclaimerProps {
 export function HealthDisclaimer({ className = "" }: HealthDisclaimerProps) {
   return (
     <div
-      className={`rounded-xl border border-amber-200 bg-amber-50/50 p-4 text-sm text-amber-900 ${className}`}
+      className={`rounded-xl border border-amber-200 bg-amber-50/50 p-4 text-center text-sm text-amber-900 sm:text-left ${className}`}
     >
       <p className="font-medium">Hinweis</p>
       <p className="mt-1">
