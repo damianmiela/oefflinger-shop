@@ -127,27 +127,32 @@ export default async function ShopPage({ searchParams }: Props) {
               </p>
             )}
 
-            {groups.map((group) => (
-              <div key={group.param} className="flex flex-wrap items-center gap-2">
-                <span className="w-full text-sm font-medium text-gray-500 sm:w-28 sm:shrink-0">
-                  {group.label}:
-                </span>
-                {group.values.map((value) => {
-                  const active = selected[group.param]?.includes(value) ?? false;
-                  return (
-                    <Link
-                      key={value}
-                      href={toggleHref(group.param, value)}
-                      className={`${CHIP_BASE} ${active ? CHIP_ACTIVE : CHIP_INACTIVE}`}
-                    >
-                      {value}
-                    </Link>
-                  );
-                })}
+            <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
+              <div className="min-w-0 space-y-3">
+                {groups.map((group) => (
+                  <div key={group.param} className="flex flex-wrap items-center gap-2">
+                    <span className="w-full text-sm font-medium text-gray-500 sm:w-28 sm:shrink-0">
+                      {group.label}:
+                    </span>
+                    {group.values.map((value) => {
+                      const active = selected[group.param]?.includes(value) ?? false;
+                      return (
+                        <Link
+                          key={value}
+                          href={toggleHref(group.param, value)}
+                          className={`${CHIP_BASE} ${active ? CHIP_ACTIVE : CHIP_INACTIVE}`}
+                        >
+                          {value}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                ))}
               </div>
-            ))}
-
-            <SortSelect sort={sort} baseParams={baseParams} />
+              <div className="shrink-0">
+                <SortSelect sort={sort} baseParams={baseParams} />
+              </div>
+            </div>
 
             {hasActiveFilters && (
               <p>

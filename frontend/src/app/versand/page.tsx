@@ -44,6 +44,10 @@ export default function VersandPage() {
                   <dd className="font-semibold text-gray-900">4,90 € pro Bestellung</dd>
                 </div>
                 <div className="flex items-center justify-between gap-4 px-5 py-3">
+                  <dt className="text-sm text-gray-500">Versandkostenfrei</dt>
+                  <dd className="font-semibold text-emerald-700">ab 100 € Bestellwert</dd>
+                </div>
+                <div className="flex items-center justify-between gap-4 px-5 py-3">
                   <dt className="text-sm text-gray-500">Versanddienstleister</dt>
                   <dd className="font-semibold text-gray-900">DHL</dd>
                 </div>

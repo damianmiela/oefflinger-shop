@@ -8,6 +8,9 @@ import { PriceDisplay } from "@/components/PriceDisplay";
 import { ProductCrossSell } from "./ProductCrossSell";
 import { CollapsibleDescription } from "./CollapsibleDescription";
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { PaymentMethodLogos } from "@/components/PaymentMethodLogos";
+import Link from "next/link";
 import { formatBasePrice, volumeFromAttributes } from "@/lib/format";
 import type { Product } from "@/types";
 
@@ -46,7 +49,15 @@ export default async function ProductPage({ params }: Props) {
   );
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
+      <Breadcrumbs
+        className="mb-6"
+        items={[
+          { label: "Start", href: "/" },
+          { label: "Shop", href: "/shop" },
+          { label: product.name },
+        ]}
+      />
       {/* Top: gallery (30%) | details (60%) | cross-sell (10%). Height from gallery or details only; cross-sell is absolute. */}
       <div className="relative flex gap-8">
         <div className="grid min-w-0 flex-1 gap-8 lg:grid-cols-[30%_1fr]">
@@ -69,6 +80,16 @@ export default async function ProductPage({ params }: Props) {
                   basePrice={basePrice}
                   linkShipping
                 />
+                <span className="mt-1 block text-sm text-gray-500">
+                  Versand 4,90 € ·{" "}
+                  <span className="font-medium text-emerald-700">
+                    versandkostenfrei ab 100 €
+                  </span>{" "}
+                  —{" "}
+                  <Link href="/versand" className="hover:text-primary underline">
+                    Details
+                  </Link>
+                </span>
               </p>
 
               {product.short_description && (
@@ -103,6 +124,12 @@ export default async function ProductPage({ params }: Props) {
                   <StockStatus product={product} />
                   <DeliveryEstimate deliveryEstimate={product.delivery_estimate} />
                   <AddToCartButton product={product} />
+                  <div className="mt-5">
+                    <p className="text-xs font-medium tracking-wider text-gray-400 uppercase">
+                      Sichere Bezahlung
+                    </p>
+                    <PaymentMethodLogos className="mt-2" />
+                  </div>
                 </div>
               )}
 

@@ -4,7 +4,7 @@
  * official acceptance marks from the providers' brand portals if desired.
  */
 
-const BADGE_CLASS = "h-8 w-auto rounded-md bg-white shadow-sm";
+const BADGE_CLASS = "h-8 w-auto rounded-md border border-black/5 bg-white shadow-sm";
 
 function VisaBadge() {
   return (
