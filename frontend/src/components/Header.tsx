@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { CartPreview } from "@/components/CartPreview";
+import { useAuth } from "@/context/AuthContext";
 
 const navLinkClass =
   "flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium text-gray-700 transition-colors duration-200 hover:bg-primary/10 hover:text-primary";
@@ -51,9 +52,24 @@ function ShopIcon({ className }: { className?: string }) {
   );
 }
 
+function UserIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+      />
+    </svg>
+  );
+}
+
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { user } = useAuth();
+  const accountLabel = user ? "Mein Konto" : "Anmelden";
 
   // Close the mobile menu on navigation
   useEffect(() => {
@@ -121,6 +137,10 @@ export function Header() {
             <ShopIcon className="h-4 w-4" />
             Shop
           </Link>
+          <Link href="/konto" className={navLinkClass}>
+            <UserIcon className="h-4 w-4" />
+            {accountLabel}
+          </Link>
           <CartPreview />
         </nav>
 
@@ -154,6 +174,10 @@ export function Header() {
             <Link href="/shop" className={mobileNavLinkClass} onClick={() => setMenuOpen(false)}>
               <ShopIcon className="h-5 w-5" />
               Shop
+            </Link>
+            <Link href="/konto" className={mobileNavLinkClass} onClick={() => setMenuOpen(false)}>
+              <UserIcon className="h-5 w-5" />
+              {accountLabel}
             </Link>
           </div>
         </nav>

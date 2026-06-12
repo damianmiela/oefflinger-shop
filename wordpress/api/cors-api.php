@@ -18,6 +18,7 @@ add_filter('rest_pre_serve_request', function ($served, $response, $request, $se
 
     if ($origin && in_array($origin, $allowed, true)) {
         header('Access-Control-Allow-Origin: ' . $origin);
+        header('Access-Control-Allow-Credentials: true');
         header('Access-Control-Expose-Headers: Cart-Token');
         header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
         header('Access-Control-Allow-Headers: Content-Type, Cart-Token');
@@ -34,6 +35,7 @@ add_filter('rest_pre_dispatch', function ($result, $server, $request) {
 
         if ($origin && in_array($origin, $allowed, true)) {
             header('Access-Control-Allow-Origin: ' . $origin);
+            header('Access-Control-Allow-Credentials: true');
             header('Access-Control-Expose-Headers: Cart-Token');
             header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
             header('Access-Control-Allow-Headers: Content-Type, Cart-Token');
