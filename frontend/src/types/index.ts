@@ -77,6 +77,8 @@ export interface CartItemData {
   totals: {
     line_subtotal: string;
     line_total: string;
+    /** Tax on the line total (minor units) – add to line_total for gross display */
+    line_total_tax?: string;
     currency_code: string;
     currency_symbol: string;
   };
@@ -87,6 +89,10 @@ export interface Cart {
   items_count: number;
   totals: {
     total_items: string;
+    /** Tax on items (minor units) */
+    total_items_tax?: string;
+    /** Total tax (minor units) */
+    total_tax?: string;
     total_price: string;
     currency_code: string;
     currency_symbol: string;

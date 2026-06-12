@@ -8,9 +8,11 @@ import { buildCheckoutUrl } from "@/lib/woo/checkout";
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 import { getProducts } from "@/lib/woo/api";
 import { formatCents, volumeFromAttributes } from "@/lib/format";
+import { estimateShippingCents, missingForFreeShipping } from "@/lib/shipping";
 
 export default function CartPage() {
   const { cart, loading, lastError, clearError } = useCart();
+  const [coupon, setCoupon] = useState("");
 
   /** Product id → package volume (ml), for the PAngV Grundpreis per line item */
   const [volumes, setVolumes] = useState<Record<number, number>>({});
@@ -62,7 +64,16 @@ export default function CartPage() {
     );
   }
 
-  const total = formatCents(cart.totals.total_price, cart.totals.currency_code);
+  const currency = cart.totals.currency_code;
+  /** Gross subtotal: items + item tax (tax fields are 0 when taxes aren't configured) */
+  const subtotalCents =
+    Number(cart.totals.total_items) + Number(cart.totals.total_items_tax ?? 0);
+  const taxCents = Number(cart.totals.total_tax ?? cart.totals.total_items_tax ?? 0);
+  const shippingCents = estimateShippingCents(subtotalCents);
+  const grandTotalCents = subtotalCents + shippingCents;
+  const missingCents = missingForFreeShipping(subtotalCents);
+
+  const checkoutHref = buildCheckoutUrl(cart.items, coupon.trim() || undefined);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -95,17 +106,75 @@ export default function CartPage() {
           ))}
         </div>
 
-        <div className="bg-surface-alt mt-8 flex items-center justify-between rounded-xl p-6">
-          <span className="text-lg font-semibold text-gray-700">Gesamtsumme</span>
-          <span className="text-right">
-            <span className="text-primary block text-2xl font-bold">{total}</span>
-            <span className="mt-0.5 block text-xs text-gray-500">
-              inkl. MwSt., zzgl.{" "}
-              <Link href="/versand" className="hover:text-primary underline">
-                Versand
-              </Link>
-            </span>
-          </span>
+        <div className="mt-8 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+          {/* Coupon */}
+          <div className="w-full max-w-sm">
+            <label htmlFor="cart-coupon" className="mb-1 block text-sm font-medium text-gray-700">
+              Gutscheincode
+            </label>
+            <input
+              id="cart-coupon"
+              type="text"
+              value={coupon}
+              onChange={(e) => setCoupon(e.target.value)}
+              placeholder="z. B. WILLKOMMEN10"
+              autoComplete="off"
+              className="focus:border-primary focus:ring-primary/30 w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:outline-none"
+            />
+            {coupon.trim() && (
+              <p className="mt-1.5 text-xs text-gray-500">
+                Der Gutschein wird an der Kasse eingelöst und verrechnet.
+              </p>
+            )}
+          </div>
+
+          {/* Totals */}
+          <div className="bg-surface-alt w-full rounded-xl p-6 lg:max-w-sm">
+            <dl className="space-y-2.5 text-sm">
+              <div className="flex items-center justify-between">
+                <dt className="text-gray-600">Zwischensumme</dt>
+                <dd className="font-medium text-gray-900">
+                  {formatCents(subtotalCents, currency)}
+                </dd>
+              </div>
+              <div className="flex items-center justify-between">
+                <dt className="text-gray-600">Versand (DHL)</dt>
+                <dd
+                  className={
+                    shippingCents === 0 ? "font-medium text-emerald-700" : "font-medium text-gray-900"
+                  }
+                >
+                  {shippingCents === 0 ? "Kostenlos" : formatCents(shippingCents, currency)}
+                </dd>
+              </div>
+              {taxCents > 0 && (
+                <div className="flex items-center justify-between text-xs text-gray-400">
+                  <dt>davon MwSt.</dt>
+                  <dd>{formatCents(taxCents, currency)}</dd>
+                </div>
+              )}
+            </dl>
+
+            {missingCents > 0 && (
+              <p className="mt-3 rounded-lg bg-white px-3 py-2 text-xs text-gray-600">
+                Noch{" "}
+                <span className="font-semibold text-emerald-700">
+                  {formatCents(missingCents, currency)}
+                </span>{" "}
+                bis zum kostenlosen Versand
+              </p>
+            )}
+
+            <div className="mt-4 flex items-baseline justify-between border-t border-gray-200 pt-4">
+              <span className="text-lg font-semibold text-gray-700">Gesamtsumme</span>
+              <span className="text-right">
+                <span className="text-primary block text-2xl font-bold">
+                  {formatCents(grandTotalCents, currency)}
+                </span>
+                <span className="mt-0.5 block text-xs text-gray-400">inkl. MwSt.</span>
+              </span>
+            </div>
+          </div>
         </div>
 
         <div className="mt-6 flex justify-end gap-4">
@@ -116,7 +185,7 @@ export default function CartPage() {
             Weiter einkaufen
           </Link>
           <Link
-            href={buildCheckoutUrl(cart.items)}
+            href={checkoutHref}
             className="bg-accent hover:bg-accent-light rounded-lg px-4 py-3 text-center text-sm font-semibold whitespace-nowrap text-white transition sm:px-6 sm:text-base"
           >
             Zur Kasse
