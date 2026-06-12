@@ -11,6 +11,7 @@ import {
 } from "react";
 import type { Cart } from "@/types";
 import * as wooApi from "@/lib/woo/api";
+import { toUserMessage } from "@/lib/woo/api";
 
 export interface CartError {
   message: string;
@@ -23,7 +24,8 @@ interface CartContextValue {
   /** True briefly after an item is added – triggers header cart animation */
   justAddedToCart: boolean;
   clearError: () => void;
-  addItem: (productId: number, quantity?: number) => Promise<void>;
+  /** Resolves true when the item was added successfully */
+  addItem: (productId: number, quantity?: number) => Promise<boolean>;
   removeItem: (itemKey: string) => Promise<void>;
   updateItem: (itemKey: string, quantity: number) => Promise<void>;
   refreshCart: () => Promise<void>;
@@ -103,9 +105,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
           if (token) storeToken(token);
         }
         triggerJustAdded();
+        return true;
       } catch (err) {
-        setLastError({ message: err instanceof Error ? err.message : "Fehler beim Hinzufügen" });
+        setLastError({ message: toUserMessage(err) });
         await refreshCart();
+        return false;
       } finally {
         setLoading(false);
       }
@@ -113,19 +117,23 @@ export function CartProvider({ children }: { children: ReactNode }) {
     [cart?.items, refreshCart, triggerJustAdded],
   );
 
-  const removeItem = useCallback(async (itemKey: string) => {
-    setLoading(true);
-    try {
-      const { data, token } = await wooApi.removeFromCart(
-        itemKey,
-        getStoredToken(),
-      );
-      setCart(data);
-      if (token) storeToken(token);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const removeItem = useCallback(
+    async (itemKey: string) => {
+      setLoading(true);
+      setLastError(null);
+      try {
+        const { data, token } = await wooApi.removeFromCart(itemKey, getStoredToken());
+        setCart(data);
+        if (token) storeToken(token);
+      } catch (err) {
+        setLastError({ message: toUserMessage(err) });
+        await refreshCart();
+      } finally {
+        setLoading(false);
+      }
+    },
+    [refreshCart],
+  );
 
   const updateItem = useCallback(
     async (itemKey: string, quantity: number) => {
@@ -143,7 +151,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         setCart(data);
         if (token) storeToken(token);
       } catch (err) {
-        setLastError({ message: err instanceof Error ? err.message : "Fehler beim Aktualisieren" });
+        setLastError({ message: toUserMessage(err) });
         await refreshCart();
       } finally {
         setLoading(false);

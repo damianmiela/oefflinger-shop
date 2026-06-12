@@ -24,9 +24,11 @@ export function AddToCartButton({ product }: { product: Product }) {
     setIsAnimating(true);
     setTimeout(() => setIsAnimating(false), 300);
     const qty = Math.min(Math.max(1, quantity), effectiveMax);
-    await addItem(product.id, qty);
-    setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
+    const ok = await addItem(product.id, qty);
+    if (ok) {
+      setAdded(true);
+      setTimeout(() => setAdded(false), 2000);
+    }
   };
 
   return (
@@ -72,7 +74,7 @@ export function AddToCartButton({ product }: { product: Product }) {
       </button>
       {lastError && (
         <p className="w-full text-sm text-amber-600" role="alert">
-          {lastError.message.replace(/^WooCommerce Store API error: /, "")}
+          {lastError.message}
         </p>
       )}
     </div>

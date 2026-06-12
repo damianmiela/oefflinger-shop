@@ -76,7 +76,7 @@ export default function CartPage() {
             className="mb-6 flex items-center justify-between rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800"
             role="alert"
           >
-            <span>{lastError.message.replace(/^WooCommerce Store API error: /, "")}</span>
+            <span>{lastError.message}</span>
             <button
               onClick={clearError}
               className="text-amber-600 hover:text-amber-800"

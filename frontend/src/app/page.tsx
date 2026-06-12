@@ -21,10 +21,11 @@ const IMAGES = {
 
 export default async function HomePage() {
   let products: Product[] = [];
+  let loadFailed = false;
   try {
     products = await getProducts();
   } catch {
-    // WooCommerce may not be ready yet
+    loadFailed = true;
   }
 
   return (
@@ -375,16 +376,32 @@ export default async function HomePage() {
         <AnimateOnScroll variant="fade-up">
         <section className="border-t border-gray-100 bg-surface-alt py-20">
           <div className={SECTION_CLASS}>
-            <div className="rounded-2xl border border-dashed border-gray-300 bg-white py-16 text-center">
-              <p className="text-gray-500">
-                Produkte werden geladen. Bitte stellen Sie sicher, dass WooCommerce aktiv ist.
+            <div className="rounded-2xl border border-dashed border-gray-300 bg-white px-6 py-16 text-center">
+              <p className="text-lg font-semibold text-gray-900">
+                {loadFailed
+                  ? "Unsere Produkte konnten gerade nicht geladen werden."
+                  : "Unser Sortiment wird gerade aktualisiert."}
               </p>
-              <Link
-                href="/shop"
-                className="mt-6 inline-block rounded-lg border border-gray-300 px-6 py-3 text-gray-700 transition hover:bg-gray-50"
-              >
-                Zum Shop
-              </Link>
+              <p className="mx-auto mt-2 max-w-md text-gray-500">
+                {loadFailed
+                  ? "Bitte versuchen Sie es in wenigen Minuten erneut."
+                  : "Schauen Sie bald wieder vorbei."}
+              </p>
+              {loadFailed ? (
+                <Link
+                  href="/"
+                  className="bg-primary hover:bg-primary-light mt-6 inline-block rounded-lg px-6 py-3 font-semibold text-white transition"
+                >
+                  Erneut laden
+                </Link>
+              ) : (
+                <Link
+                  href="/shop"
+                  className="mt-6 inline-block rounded-lg border border-gray-300 px-6 py-3 text-gray-700 transition hover:bg-gray-50"
+                >
+                  Zum Shop
+                </Link>
+              )}
             </div>
           </div>
         </section>

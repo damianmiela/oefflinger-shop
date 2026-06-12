@@ -22,6 +22,51 @@ function getRestApiBases(): string[] {
   return bases;
 }
 
+/** Error thrown for non-OK Store API responses, carrying status + server message. */
+export class StoreApiError extends Error {
+  status: number;
+  /** Localized message from the API response body (WordPress locale), if any */
+  serverMessage?: string;
+
+  constructor(status: number, statusText: string, serverMessage?: string) {
+    super(serverMessage || `${status} ${statusText}`);
+    this.name = "StoreApiError";
+    this.status = status;
+    this.serverMessage = serverMessage;
+  }
+}
+
+async function toStoreApiError(res: Response): Promise<StoreApiError> {
+  let serverMessage: string | undefined;
+  try {
+    const body = (await res.json()) as { message?: string };
+    if (body?.message) serverMessage = body.message.replace(/<[^>]*>/g, "");
+  } catch {
+    // unparseable body – fall back to status text
+  }
+  return new StoreApiError(res.status, res.statusText, serverMessage);
+}
+
+/** Map any API/network failure to a friendly German message for customers. */
+export function toUserMessage(err: unknown): string {
+  if (err instanceof StoreApiError) {
+    if (err.status === 429) {
+      return "Zu viele Anfragen. Bitte warten Sie einen Moment und versuchen Sie es erneut.";
+    }
+    if (err.status >= 500) {
+      return "Es ist ein technischer Fehler aufgetreten. Bitte versuchen Sie es später erneut.";
+    }
+    // 4xx: the Store API message is meaningful for customers (e.g. quantity limits)
+    if (err.serverMessage) return err.serverMessage;
+    return "Die Anfrage konnte nicht verarbeitet werden. Bitte laden Sie die Seite neu und versuchen Sie es erneut.";
+  }
+  if (err instanceof TypeError) {
+    // fetch() network failure
+    return "Keine Verbindung zum Shop. Bitte prüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.";
+  }
+  return "Es ist ein unerwarteter Fehler aufgetreten. Bitte versuchen Sie es erneut.";
+}
+
 async function storeApiFetch<T>(
   endpoint: string,
   options: RequestInit = {},
@@ -40,7 +85,7 @@ async function storeApiFetch<T>(
   });
 
   if (!res.ok) {
-    throw new Error(`WooCommerce Store API error: ${res.status} ${res.statusText}`);
+    throw await toStoreApiError(res);
   }
 
   return res.json() as Promise<T>;
@@ -67,14 +112,7 @@ async function cartApiFetch<T>(
   });
 
   if (!res.ok) {
-    let message = `${res.status} ${res.statusText}`;
-    try {
-      const errBody = (await res.json()) as { message?: string; code?: string };
-      if (errBody?.message) message = errBody.message;
-    } catch {
-      // ignore parse errors
-    }
-    throw new Error(`WooCommerce Store API error: ${message}`);
+    throw await toStoreApiError(res);
   }
 
   const data = (await res.json()) as T;
@@ -103,7 +141,7 @@ export async function getProductsPaginated(
   });
 
   if (!res.ok) {
-    throw new Error(`WooCommerce Store API error: ${res.status} ${res.statusText}`);
+    throw await toStoreApiError(res);
   }
 
   const products = (await res.json()) as Product[];

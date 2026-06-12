@@ -64,7 +64,9 @@ export function volumeFromAttributes(attributes?: ProductAttribute[]): number | 
 
 /**
  * PAngV Grundpreis from a unit price in minor units.
- * Reference quantity: 100 ml for packages ≤ 250 ml, otherwise 1 l.
+ * Reference quantity for packaged liquids (Fertigpackungen) is fixed at 1 l
+ * (PAngV 2022, §5 – the former ≤250 ml → 100 ml exception was abolished;
+ * 100 g/ml remains only for loose goods, which does not apply here).
  * Returns e.g. "87,00 € / 1 l" or null when not computable.
  */
 export function formatBasePrice(
@@ -74,8 +76,6 @@ export function formatBasePrice(
 ): string | null {
   const cents = typeof unitPriceCents === "string" ? Number(unitPriceCents) : unitPriceCents;
   if (!Number.isFinite(cents) || cents <= 0 || !volumeMl || volumeMl <= 0) return null;
-  const perLiter = volumeMl > 250;
-  const referenceMl = perLiter ? 1000 : 100;
-  const referenceCents = (cents / volumeMl) * referenceMl;
-  return `${formatCents(referenceCents, currencyCode)} / ${perLiter ? "1 l" : "100 ml"}`;
+  const referenceCents = (cents / volumeMl) * 1000;
+  return `${formatCents(referenceCents, currencyCode)} / 1 l`;
 }

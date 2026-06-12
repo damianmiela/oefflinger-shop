@@ -22,12 +22,13 @@ export default async function ShopPage({ searchParams }: Props) {
 
   let products: Product[] = [];
   let totalPages = 1;
+  let loadFailed = false;
   try {
     const result = await getProductsPaginated(currentPage, 20);
     products = result.products;
     totalPages = result.totalPages;
   } catch {
-    // WooCommerce may not be ready yet
+    loadFailed = true;
   }
 
   return (
@@ -66,18 +67,25 @@ export default async function ShopPage({ searchParams }: Props) {
         </>
       ) : (
         <AnimateOnScroll variant="fade-up">
-          <div className="rounded-lg border border-dashed border-gray-300 py-16 text-center">
-            <p className="text-gray-500">
-              Noch keine Produkte vorhanden. Fügen Sie Produkte im WordPress-Admin hinzu.
+          <div className="rounded-2xl border border-dashed border-gray-300 bg-white px-6 py-16 text-center">
+            <h2 className="text-lg font-semibold text-gray-900">
+              {loadFailed
+                ? "Unsere Produkte konnten gerade nicht geladen werden."
+                : "Im Moment sind keine Produkte verfügbar."}
+            </h2>
+            <p className="mx-auto mt-2 max-w-md text-gray-500">
+              {loadFailed
+                ? "Bitte versuchen Sie es in wenigen Minuten erneut."
+                : "Unser Sortiment wird gerade aktualisiert – schauen Sie bald wieder vorbei."}
             </p>
-            <a
-              href={`${process.env.NEXT_PUBLIC_WP_URL || "http://localhost:4001"}/wp-admin/post-new.php?post_type=product`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary hover:text-primary-light mt-4 inline-block text-sm underline"
-            >
-              WordPress Admin &rarr;
-            </a>
+            {loadFailed && (
+              <a
+                href="/shop"
+                className="bg-primary hover:bg-primary-light mt-6 inline-block rounded-lg px-6 py-3 font-semibold text-white transition"
+              >
+                Erneut versuchen
+              </a>
+            )}
           </div>
         </AnimateOnScroll>
       )}
