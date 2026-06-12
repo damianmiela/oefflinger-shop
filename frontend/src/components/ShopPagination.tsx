@@ -4,20 +4,27 @@ interface ShopPaginationProps {
   currentPage: number;
   totalPages: number;
   basePath?: string;
+  /** Extra query params to preserve in page links (filters, search, sort) */
+  params?: Record<string, string>;
 }
 
 export function ShopPagination({
   currentPage,
   totalPages,
   basePath = "/shop",
+  params = {},
 }: ShopPaginationProps) {
   if (totalPages <= 1) return null;
 
   const prevPage = currentPage > 1 ? currentPage - 1 : null;
   const nextPage = currentPage < totalPages ? currentPage + 1 : null;
 
-  const pageHref = (page: number) =>
-    page === 1 ? basePath : `${basePath}?page=${page}`;
+  const pageHref = (page: number) => {
+    const sp = new URLSearchParams(params);
+    if (page > 1) sp.set("page", String(page));
+    const qs = sp.toString();
+    return qs ? `${basePath}?${qs}` : basePath;
+  };
 
   return (
     <nav

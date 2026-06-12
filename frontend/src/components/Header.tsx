@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { CartPreview } from "@/components/CartPreview";
+import { SearchBox } from "@/components/SearchBox";
 import { useAuth } from "@/context/AuthContext";
 
 const navLinkClass =
@@ -137,6 +138,7 @@ export function Header() {
             <ShopIcon className="h-4 w-4" />
             Shop
           </Link>
+          <SearchBox variant="desktop" />
           <Link href="/konto" className={navLinkClass}>
             <UserIcon className="h-4 w-4" />
             {accountLabel}
@@ -158,6 +160,7 @@ export function Header() {
         }`}
       >
         <nav className="min-h-0 overflow-hidden">
+          <SearchBox variant="mobile" onNavigate={() => setMenuOpen(false)} />
           <div className="flex flex-col gap-1 px-4 py-3">
             <Link href="/" className={mobileNavLinkClass} onClick={() => setMenuOpen(false)}>
               <HomeIcon className="h-5 w-5" />

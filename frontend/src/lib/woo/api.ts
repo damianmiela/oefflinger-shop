@@ -157,6 +157,13 @@ export async function getProducts(): Promise<Product[]> {
   return products;
 }
 
+/** Search products by term (used by the header typeahead). */
+export async function searchProducts(term: string, perPage: number = 5): Promise<Product[]> {
+  return storeApiFetch<Product[]>(
+    `/products?search=${encodeURIComponent(term)}&per_page=${perPage}`,
+  );
+}
+
 /** Fetch product attributes from WooCommerce REST API – requires consumer key/secret */
 async function fetchProductAttributesFromRestApi(
   slug: string,
