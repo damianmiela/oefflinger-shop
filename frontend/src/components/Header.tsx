@@ -1,11 +1,16 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { CartPreview } from "@/components/CartPreview";
 
 const navLinkClass =
   "flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium text-gray-700 transition-colors duration-200 hover:bg-primary/10 hover:text-primary";
+
+const mobileNavLinkClass =
+  "flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium text-gray-700 transition-colors duration-200 hover:bg-primary/10 hover:text-primary";
 
 function HomeIcon({ className }: { className?: string }) {
   return (
@@ -47,9 +52,17 @@ function ShopIcon({ className }: { className?: string }) {
 }
 
 export function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Close the mobile menu on navigation
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
   return (
     <header className="sticky top-0 z-50 border-b border-gray-200 bg-white">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-5 sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 md:py-5 lg:px-8">
         <Link href="/" className="flex shrink-0 items-center">
           <Image
             src="/logo/logo-transparent.png"
@@ -57,11 +70,12 @@ export function Header() {
             width={160}
             height={48}
             priority
-            className="h-[calc(var(--spacing)*15)] w-auto"
+            className="h-10 w-auto md:h-[calc(var(--spacing)*15)]"
           />
         </Link>
 
-        <nav className="flex items-center gap-6">
+        {/* Desktop nav */}
+        <nav className="hidden items-center gap-6 md:flex">
           <Link href="/" className={navLinkClass}>
             <HomeIcon className="h-4 w-4" />
             Start
@@ -75,6 +89,66 @@ export function Header() {
             Shop
           </Link>
           <CartPreview />
+        </nav>
+
+        {/* Mobile: cart + hamburger */}
+        <div className="flex items-center gap-2 md:hidden">
+          <CartPreview />
+          <button
+            type="button"
+            onClick={() => setMenuOpen((open) => !open)}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+            aria-label={menuOpen ? "Menü schließen" : "Menü öffnen"}
+            className="flex h-10 w-10 items-center justify-center rounded-lg text-gray-700 transition hover:bg-gray-100"
+          >
+            <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {menuOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              )}
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile dropdown panel */}
+      <div
+        id="mobile-menu"
+        className={`grid overflow-hidden border-gray-200 bg-white transition-all duration-300 ease-in-out md:hidden ${
+          menuOpen ? "grid-rows-[1fr] border-t" : "grid-rows-[0fr]"
+        }`}
+      >
+        <nav className="min-h-0 overflow-hidden">
+          <div className="flex flex-col gap-1 px-4 py-3">
+            <Link href="/" className={mobileNavLinkClass} onClick={() => setMenuOpen(false)}>
+              <HomeIcon className="h-5 w-5" />
+              Start
+            </Link>
+            <Link
+              href="/produkte"
+              className={mobileNavLinkClass}
+              onClick={() => setMenuOpen(false)}
+            >
+              <DropletsIcon className="h-5 w-5" />
+              Kolloidales Wasser
+            </Link>
+            <Link href="/shop" className={mobileNavLinkClass} onClick={() => setMenuOpen(false)}>
+              <ShopIcon className="h-5 w-5" />
+              Shop
+            </Link>
+          </div>
         </nav>
       </div>
     </header>

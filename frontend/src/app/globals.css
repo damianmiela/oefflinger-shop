@@ -102,3 +102,10 @@ body {
     filter: none;
   }
 }
+
+/* Prevent horizontal page overflow on mobile without breaking position: sticky
+   (overflow-x: clip, unlike hidden, does not create a scroll container) */
+html,
+body {
+  overflow-x: clip;
+}

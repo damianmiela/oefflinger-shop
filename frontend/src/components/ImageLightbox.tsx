@@ -1,6 +1,7 @@
 "use client";
 
 import Lightbox from "yet-another-react-lightbox";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
 interface ImageLightboxProps {
   src: string;
@@ -16,10 +17,17 @@ export function ImageLightbox({ src, alt, isOpen, onClose }: ImageLightboxProps)
       open={isOpen}
       close={onClose}
       slides={slides}
+      plugins={[Zoom]}
+      zoom={{
+        maxZoomPixelRatio: 3,
+        scrollToZoom: true,
+        doubleTapDelay: 300,
+        pinchZoomDistanceFactor: 100,
+      }}
+      carousel={{ finite: true, imageFit: "contain", padding: "16px" }}
       animation={{ fade: 300 }}
       controller={{ closeOnBackdropClick: true }}
       labels={{ Close: "Schließen" }}
-      carousel={{ finite: true }}
       render={{
         buttonPrev: slides.length <= 1 ? () => null : undefined,
         buttonNext: slides.length <= 1 ? () => null : undefined,

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Lightbox from "yet-another-react-lightbox";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import type { ProductImage } from "@/types";
 
 interface ProductImageGalleryProps {
@@ -22,7 +23,7 @@ export function ProductImageGallery({
 
   if (!images || images.length === 0) {
     return (
-      <div className="flex aspect-[5/7] items-center justify-center rounded-xl bg-surface-alt text-gray-400">
+      <div className="bg-surface-alt flex aspect-[5/7] items-center justify-center rounded-xl text-gray-400">
         Kein Bild
       </div>
     );
@@ -40,7 +41,7 @@ export function ProductImageGallery({
       <button
         type="button"
         onClick={() => setLightboxOpen(true)}
-        className="block aspect-[5/7] w-full max-h-[600px] cursor-pointer overflow-hidden rounded-xl bg-surface-alt focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+        className="bg-surface-alt focus:ring-primary block aspect-[5/7] max-h-[600px] w-full cursor-pointer overflow-hidden rounded-xl focus:ring-2 focus:ring-offset-2 focus:outline-none"
         aria-label="Bild vergrößern"
       >
         <Image
@@ -62,9 +63,9 @@ export function ProductImageGallery({
               key={img.id}
               type="button"
               onClick={() => setSelectedIndex(i)}
-              className={`relative overflow-hidden rounded-lg transition focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset cursor-pointer ${
+              className={`focus:ring-primary relative cursor-pointer overflow-hidden rounded-lg transition focus:ring-2 focus:outline-none focus:ring-inset ${
                 selectedIndex === i
-                  ? "ring-2 ring-primary ring-inset"
+                  ? "ring-primary ring-2 ring-inset"
                   : "opacity-70 hover:opacity-100"
               }`}
               aria-label={`Bild ${i + 1} anzeigen`}
@@ -90,10 +91,17 @@ export function ProductImageGallery({
         close={() => setLightboxOpen(false)}
         slides={slides}
         index={selectedIndex}
+        plugins={[Zoom]}
+        zoom={{
+          maxZoomPixelRatio: 3,
+          scrollToZoom: true,
+          doubleTapDelay: 300,
+          pinchZoomDistanceFactor: 100,
+        }}
+        carousel={{ finite: true, imageFit: "contain", padding: "16px" }}
         animation={{ fade: 300 }}
         controller={{ closeOnBackdropClick: true }}
         labels={{ Close: "Schließen" }}
-        carousel={{ finite: true }}
         render={{
           buttonPrev: slides.length <= 1 ? () => null : undefined,
           buttonNext: slides.length <= 1 ? () => null : undefined,

@@ -36,15 +36,15 @@ export default async function ShopPage({ searchParams }: Props) {
       </AnimateOnScroll>
 
       <AnimateOnScroll variant="fade-up">
-        <div className="mb-10 flex flex-col gap-4 rounded-xl border border-primary/20 bg-primary/5 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="border-primary/20 bg-primary/5 mb-10 flex flex-col gap-4 rounded-xl border px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-gray-700 sm:text-base">
-            <span className="font-medium text-primary">Was sind kolloidale Metalle?</span>{" "}
-            Erfahren Sie mehr über Eisen, Gold, Silber, Zink und unsere weiteren Spurenelemente
-            — Herstellung, Eigenschaften und mögliche Einsatzbereiche.
+            <span className="text-primary font-medium">Was sind kolloidale Metalle?</span> Erfahren
+            Sie mehr über Eisen, Gold, Silber, Zink und unsere weiteren Spurenelemente —
+            Herstellung, Eigenschaften und mögliche Einsatzbereiche.
           </p>
           <Link
             href="/produkte"
-            className="shrink-0 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition hover:bg-primary-light"
+            className="bg-primary hover:bg-primary-light shrink-0 rounded-lg px-4 py-2 text-sm font-medium text-white transition"
           >
             Mehr erfahren →
           </Link>
@@ -54,7 +54,7 @@ export default async function ShopPage({ searchParams }: Props) {
       {products.length > 0 ? (
         <>
           <AnimateChildren
-            className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+            className="grid grid-cols-2 gap-3 sm:gap-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
             stagger={60}
           >
             {products.map((product) => (
@@ -65,19 +65,19 @@ export default async function ShopPage({ searchParams }: Props) {
         </>
       ) : (
         <AnimateOnScroll variant="fade-up">
-        <div className="rounded-lg border border-dashed border-gray-300 py-16 text-center">
-          <p className="text-gray-500">
-            Noch keine Produkte vorhanden. Fügen Sie Produkte im WordPress-Admin hinzu.
-          </p>
-          <a
-            href={`${process.env.NEXT_PUBLIC_WP_URL || "http://localhost:4001"}/wp-admin/post-new.php?post_type=product`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-4 inline-block text-sm text-primary underline hover:text-primary-light"
-          >
-            WordPress Admin &rarr;
-          </a>
-        </div>
+          <div className="rounded-lg border border-dashed border-gray-300 py-16 text-center">
+            <p className="text-gray-500">
+              Noch keine Produkte vorhanden. Fügen Sie Produkte im WordPress-Admin hinzu.
+            </p>
+            <a
+              href={`${process.env.NEXT_PUBLIC_WP_URL || "http://localhost:4001"}/wp-admin/post-new.php?post_type=product`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:text-primary-light mt-4 inline-block text-sm underline"
+            >
+              WordPress Admin &rarr;
+            </a>
+          </div>
         </AnimateOnScroll>
       )}
     </div>
