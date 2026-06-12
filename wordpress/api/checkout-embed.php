@@ -96,16 +96,28 @@ function oefflinger_iframe_autoheight_script() {
         setInterval(report, 1000); // safety net for async content (payment methods etc.)
         report();
 
-        // Links pointing at the headless frontend (e.g. "Return to Cart") must
+        // Links leaving the checkout (e.g. "Zurück zum Warenkorb") must
         // navigate the parent page, not the iframe.
         var frontendOrigin = <?php echo wp_json_encode(rtrim(getenv('FRONTEND_URL') ?: 'http://91.98.112.186:4000', '/')); ?>;
         document.addEventListener('click', function (e) {
             var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
             if (!a) return;
-            if (a.href.indexOf(frontendOrigin) === 0) {
+            var href = a.href;
+            // Direct links to the frontend
+            if (href.indexOf(frontendOrigin) === 0) {
                 e.preventDefault();
-                window.parent.postMessage({ type: 'oeff:navigate', href: a.href }, '*');
+                window.parent.postMessage({ type: 'oeff:navigate', href: href }, '*');
+                return;
             }
+            // WP cart links (blocks checkout builds them from the WP cart page
+            // permalink) -> map to the headless frontend cart
+            try {
+                var url = new URL(href, window.location.href);
+                if (url.origin === window.location.origin && /^\/cart\/?$/.test(url.pathname)) {
+                    e.preventDefault();
+                    window.parent.postMessage({ type: 'oeff:navigate', href: frontendOrigin + '/cart' }, '*');
+                }
+            } catch (err) { /* ignore */ }
         }, true);
     })();
     </script>
