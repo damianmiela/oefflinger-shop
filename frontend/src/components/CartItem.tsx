@@ -33,7 +33,6 @@ export function CartItem({ item, volumeMl = null }: CartItemProps) {
           alt={item.images[0].alt || item.name}
           width={45}
           height={64}
-          unoptimized
           className="h-full w-full object-contain"
         />
       ) : (

@@ -26,7 +26,6 @@ function CartPreviewItem({ item }: { item: CartItemData }) {
             alt={item.images[0].alt || item.name}
             width={28}
             height={40}
-            unoptimized
             className="h-full w-full object-contain"
           />
         ) : (

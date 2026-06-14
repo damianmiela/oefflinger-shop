@@ -49,7 +49,6 @@ export function ProductImageGallery({
           alt={mainImage.alt || productName}
           width={429}
           height={600}
-          unoptimized
           priority={priority}
           className="h-full w-full object-contain p-1 transition hover:opacity-95"
         />
@@ -76,7 +75,6 @@ export function ProductImageGallery({
                   alt={img.alt || `${productName} – Bild ${i + 1}`}
                   width={120}
                   height={120}
-                  unoptimized
                   className="h-full w-full object-cover p-1"
                 />
               </div>

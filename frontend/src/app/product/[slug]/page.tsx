@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getProductBySlug, getProducts } from "@/lib/woo/api";
+import { getProductBySlug, getProductsPaginated } from "@/lib/woo/api";
 import { AddToCartButton } from "./AddToCartButton";
 import { StockStatus } from "./StockStatus";
 import { DeliveryEstimate } from "./DeliveryEstimate";
@@ -17,6 +17,14 @@ import type { Product } from "@/types";
 interface Props {
   params: Promise<{ slug: string }>;
 }
+
+/**
+ * PDP cross-sell pool (P1-12c → §4.4): fetch only a small bounded set instead of
+ * the whole catalog. CROSS_SELL_POOL must exceed CROSS_SELL_COUNT so excluding the
+ * current product still leaves enough to show.
+ */
+const CROSS_SELL_POOL = 12;
+const CROSS_SELL_COUNT = 10;
 
 function shuffleAndTake<T>(arr: T[], excludeId: number, count: number): T[] {
   const filtered = arr.filter((p) => (p as Product).id !== excludeId);
@@ -36,11 +44,14 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
-  const [product, allProducts] = await Promise.all([getProductBySlug(slug), getProducts()]);
+  const [product, related] = await Promise.all([
+    getProductBySlug(slug),
+    getProductsPaginated(1, CROSS_SELL_POOL),
+  ]);
 
   if (!product) notFound();
 
-  const crossSellProducts = shuffleAndTake(allProducts, product.id, 10);
+  const crossSellProducts = shuffleAndTake(related.products, product.id, CROSS_SELL_COUNT);
 
   const basePrice = formatBasePrice(
     product.prices.price,

@@ -23,7 +23,7 @@ export function ProductCard({ product }: { product: Product }) {
             alt={product.images[0].alt || product.name}
             width={400}
             height={560}
-            unoptimized
+            sizes="(min-width: 1280px) 240px, (min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
             className="h-full w-full object-contain transition duration-300 group-hover:scale-105"
           />
         ) : (

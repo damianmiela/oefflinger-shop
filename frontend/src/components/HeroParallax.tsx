@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
+import Image from "next/image";
 
 const PARALLAX_FACTOR = 1.0;
 
@@ -59,14 +60,22 @@ export function HeroParallax({ imageUrl, children }: HeroParallaxProps) {
       {/* Parallax background – extends above/below section for smooth translate */}
       <div
         ref={imageRef}
-        className="absolute left-0 w-full bg-cover bg-center"
+        className="absolute left-0 w-full"
         style={{
-          backgroundImage: `url(${imageUrl})`,
           top: "-10%",
           height: "120%",
         }}
         aria-hidden
-      />
+      >
+        <Image
+          src={imageUrl}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+      </div>
       <div className="absolute inset-0 bg-primary-dark/70" />
       <div className="relative z-10">{children}</div>
     </section>

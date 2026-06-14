@@ -122,6 +122,15 @@ async function cartApiFetch<T>(
 
 const PRODUCTS_PER_PAGE = 20;
 
+/**
+ * ISR caching for product catalog reads (P1-12b → §4.4).
+ * Server-side fetches are cached and revalidated every 5 minutes, and tagged
+ * so they can later be purged on demand via revalidateTag(PRODUCT_CACHE_TAG).
+ * (Ignored for client-side calls, e.g. the cart page – cache only applies on the server.)
+ */
+const PRODUCT_REVALIDATE = 300;
+const PRODUCT_CACHE_TAG = "products";
+
 export interface ProductsResponse {
   products: Product[];
   total: number;
@@ -138,6 +147,7 @@ export async function getProductsPaginated(
 
   const res = await fetch(url, {
     headers: { "Content-Type": "application/json" },
+    next: { revalidate: PRODUCT_REVALIDATE, tags: [PRODUCT_CACHE_TAG] },
   });
 
   if (!res.ok) {
@@ -241,7 +251,9 @@ async function fetchProductAttributesFromRestApi(
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
-  const products = await storeApiFetch<Product[]>(`/products?slug=${slug}`);
+  const products = await storeApiFetch<Product[]>(`/products?slug=${slug}`, {
+    next: { revalidate: PRODUCT_REVALIDATE, tags: [PRODUCT_CACHE_TAG] },
+  });
   const product = products[0] ?? null;
   if (!product) return null;
 

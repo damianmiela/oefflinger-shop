@@ -44,7 +44,6 @@ export function ProductCrossSell({ products, orientation = "vertical" }: Product
                     fill
                     sizes="112px"
                     className="object-contain transition group-hover:scale-105"
-                    unoptimized
                   />
                 ) : (
                   <div className="flex h-full items-center justify-center text-xs text-gray-400">
@@ -99,7 +98,6 @@ export function ProductCrossSell({ products, orientation = "vertical" }: Product
                     fill
                     sizes="80px"
                     className="object-contain transition group-hover:scale-105"
-                    unoptimized
                   />
                 ) : (
                   <div className="flex h-full items-center justify-center text-xs text-gray-400">

@@ -56,7 +56,6 @@ export default async function MetalDetailPage({ params }: Props) {
             className="object-cover object-center"
             sizes="(max-width: 1920px) 100vw, 1920px"
             priority
-            unoptimized
           />
           <div className="bg-primary-dark/40 absolute inset-0 flex flex-col items-center justify-center">
             <h1 className="text-4xl font-bold tracking-tight text-white drop-shadow-lg sm:text-5xl">

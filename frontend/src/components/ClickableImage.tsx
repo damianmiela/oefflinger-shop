@@ -37,7 +37,6 @@ export function ClickableImage({
           alt={alt}
           width={width}
           height={height}
-          unoptimized
           priority={priority}
           className={`h-full w-full object-cover transition hover:opacity-95 ${className}`}
         />

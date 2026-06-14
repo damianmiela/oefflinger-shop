@@ -115,7 +115,6 @@ export function SearchBox({ variant = "desktop", onNavigate }: SearchBoxProps) {
                       alt=""
                       width={32}
                       height={44}
-                      unoptimized
                       className="h-full w-full object-contain"
                     />
                   )}

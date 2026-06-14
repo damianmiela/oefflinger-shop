@@ -105,7 +105,6 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
                     alt={item.name}
                     width={56}
                     height={80}
-                    unoptimized
                     className="h-full w-full object-contain"
                   />
                 ) : (
