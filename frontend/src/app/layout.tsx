@@ -6,7 +6,8 @@ import { CartProvider } from "@/context/CartContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { Header } from "@/components/Header";
 import { PaymentMethodLogos } from "@/components/PaymentMethodLogos";
-import { SITE_URL, robotsMetadata, DEFAULT_OG_IMAGE } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { SITE_URL, robotsMetadata, DEFAULT_OG_IMAGE, absoluteUrl } from "@/lib/seo";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,6 +15,32 @@ const SITE_NAME = "Öfflinger";
 const DEFAULT_TITLE = "Öfflinger – Kolloidale Metalle aus eigener Produktion";
 const DEFAULT_DESCRIPTION =
   "Kolloidales Eisen, Gold, Silber, Zink und weitere Metalle aus eigener Produktion in Oberöfflingen, Rheinland-Pfalz.";
+
+/** schema.org LocalBusiness (P2-14f) – rendered once, sitewide. */
+const BUSINESS_LD = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": `${SITE_URL}/#business`,
+  name: SITE_NAME,
+  url: SITE_URL,
+  image: absoluteUrl(DEFAULT_OG_IMAGE),
+  logo: absoluteUrl("/logo/logo-transparent.png"),
+  email: "info@example.com",
+  telephone: "+49 1234 567890",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Musterstraße 1",
+    postalCode: "12345",
+    addressLocality: "Oberöfflingen",
+    addressCountry: "DE",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 50.0000000,
+    longitude: 6.0000000,
+  },
+  areaServed: "DE",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -72,6 +99,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="de">
       <body className={`${inter.className} bg-surface text-gray-900 antialiased`}>
+        <JsonLd data={BUSINESS_LD} />
         <AuthProvider>
           <CartProvider>
             <Header />

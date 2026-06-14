@@ -74,6 +74,14 @@ export default async function MetalDetailPage({ params }: Props) {
               Kolloidales {metal.name}
             </h1>
             <p className="mt-2 text-xl text-white/90">{metal.tagline}</p>
+            {metal.productLink && (
+              <Link
+                href={metal.productLink}
+                className="bg-primary hover:bg-primary-light mt-6 rounded-lg px-6 py-3 font-semibold text-white shadow-lg transition"
+              >
+                Im Shop ansehen
+              </Link>
+            )}
           </div>
         </div>
       </div>

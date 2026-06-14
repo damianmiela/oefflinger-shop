@@ -12,7 +12,9 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { PaymentMethodLogos } from "@/components/PaymentMethodLogos";
 import Link from "next/link";
 import { formatBasePrice, volumeFromAttributes } from "@/lib/format";
-import { toMetaDescription } from "@/lib/seo";
+import { toMetaDescription, absoluteUrl } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { getMetalByProductSlug } from "@/data/colloidal-metals";
 import type { Product } from "@/types";
 import type { Metadata } from "next";
 
@@ -80,8 +82,57 @@ export default async function ProductPage({ params }: Props) {
     product.prices.currency_code,
   );
 
+  const metal = getMetalByProductSlug(product.slug);
+  const canonicalUrl = absoluteUrl(`/product/${product.slug}`);
+  const ldDescription = toMetaDescription(
+    product.short_description || product.description || "",
+    300,
+  );
+  const priceCents = Number(product.prices.price);
+  const availability = product.is_in_stock
+    ? "https://schema.org/InStock"
+    : product.is_on_backorder
+      ? "https://schema.org/BackOrder"
+      : "https://schema.org/OutOfStock";
+  const priceValidUntil = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
+    .toISOString()
+    .slice(0, 10);
+  const productLd: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    ...(ldDescription ? { description: ldDescription } : {}),
+    ...(product.images?.length ? { image: product.images.map((img) => img.src) } : {}),
+    ...(product.sku ? { sku: product.sku } : {}),
+    brand: { "@type": "Brand", name: "Öfflinger" },
+    ...(priceCents > 0
+      ? {
+          offers: {
+            "@type": "Offer",
+            price: (priceCents / 100).toFixed(2),
+            priceCurrency: product.prices.currency_code || "EUR",
+            availability,
+            itemCondition: "https://schema.org/NewCondition",
+            url: canonicalUrl,
+            priceValidUntil,
+          },
+        }
+      : {}),
+  };
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Start", item: absoluteUrl("/") },
+      { "@type": "ListItem", position: 2, name: "Shop", item: absoluteUrl("/shop") },
+      { "@type": "ListItem", position: 3, name: product.name, item: canonicalUrl },
+    ],
+  };
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
+      <JsonLd data={productLd} />
+      <JsonLd data={breadcrumbLd} />
       <Breadcrumbs
         className="mb-6"
         items={[
@@ -220,6 +271,21 @@ export default async function ProductPage({ params }: Props) {
         <AnimateOnScroll variant="fade-up">
           <div className="mt-10 lg:mt-12">
             <CollapsibleDescription html={product.description} />
+          </div>
+        </AnimateOnScroll>
+      )}
+
+      {/* Cross-link into the knowledge hub for this metal (P2-14h) */}
+      {metal && (
+        <AnimateOnScroll variant="fade-up">
+          <div className="mt-10 border-t border-gray-100 pt-6">
+            <Link
+              href={`/produkte/${metal.id}`}
+              className="text-primary hover:text-primary-light inline-flex items-center gap-2 font-medium transition"
+            >
+              Mehr über kolloidales {metal.name} erfahren
+              <span aria-hidden>→</span>
+            </Link>
           </div>
         </AnimateOnScroll>
       )}

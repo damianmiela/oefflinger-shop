@@ -547,6 +547,11 @@ export function getMetalById(id: string): ColloidalMetal | undefined {
   return COLLOIDAL_METALS.find((m) => m.id === id);
 }
 
+/** Get the metal whose shop product matches the given product slug (e.g. "kolloidales-silber"). */
+export function getMetalByProductSlug(slug: string): ColloidalMetal | undefined {
+  return COLLOIDAL_METALS.find((m) => m.productLink === `/product/${slug}`);
+}
+
 /** All unique uses across metals, sorted by metal count (most first) */
 export function getSortedUses(metals: ColloidalMetal[]): string[] {
   const counts: Record<string, number> = {};
