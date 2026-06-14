@@ -16,6 +16,10 @@ const IMAGES = {
     "https://images.unsplash.com/photo-1742279153774-af5df0a758d2?w=800&q=80",
 };
 
+export const metadata = {
+  alternates: { canonical: "/" },
+};
+
 export default async function HomePage() {
   let products: Product[] = [];
   let loadFailed = false;

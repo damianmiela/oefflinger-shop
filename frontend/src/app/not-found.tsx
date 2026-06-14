@@ -1,7 +1,8 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Seite nicht gefunden – Öfflinger",
+  title: "Seite nicht gefunden",
+  robots: { index: false, follow: false },
 };
 
 export default function NotFound() {

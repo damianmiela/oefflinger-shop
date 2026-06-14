@@ -2,8 +2,9 @@ import { Suspense } from "react";
 import { ResetPasswordForm } from "./ResetPasswordForm";
 
 export const metadata = {
-  title: "Passwort zurücksetzen – Öfflinger",
+  title: "Passwort zurücksetzen",
   description: "Vergeben Sie ein neues Passwort für Ihr Öfflinger-Konto.",
+  robots: { index: false, follow: false },
 };
 
 export default function PasswortZuruecksetzenPage() {

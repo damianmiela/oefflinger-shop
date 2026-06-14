@@ -6,8 +6,9 @@ import { AnimateOnScroll } from "@/components/AnimateOnScroll";
  */
 
 export const metadata = {
-  title: "Impressum – Öfflinger",
+  title: "Impressum",
   description: "Impressum und Anbieterkennzeichnung gemäß § 5 DDG.",
+  alternates: { canonical: "/impressum" },
 };
 
 export default function ImpressumPage() {

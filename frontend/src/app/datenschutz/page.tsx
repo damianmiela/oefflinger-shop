@@ -1,8 +1,9 @@
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 
 export const metadata = {
-  title: "Datenschutz – Öfflinger",
+  title: "Datenschutz",
   description: "Datenschutzerklärung und Informationen zur Verarbeitung Ihrer Daten.",
+  alternates: { canonical: "/datenschutz" },
 };
 
 export default function DatenschutzPage() {

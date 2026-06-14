@@ -5,6 +5,8 @@ import { getMetalById, COLLOIDAL_METALS, getMetalAccentColor } from "@/data/coll
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 import { RememberMetal } from "@/components/RememberMetal";
 import { HealthDisclaimer } from "@/components/HealthDisclaimer";
+import { toMetaDescription } from "@/lib/seo";
+import type { Metadata } from "next";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -14,13 +16,23 @@ export function generateStaticParams() {
   return COLLOIDAL_METALS.map((m) => ({ id: m.id }));
 }
 
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   const metal = getMetalById(id);
-  if (!metal) return { title: "Kolloid nicht gefunden" };
+  if (!metal) return { title: "Kolloid nicht gefunden", robots: { index: false, follow: false } };
+  const title = `Kolloidales ${metal.name}`;
+  const description = toMetaDescription(metal.description);
+  const path = `/produkte/${metal.id}`;
   return {
-    title: `Kolloidales ${metal.name} – Öfflinger`,
-    description: metal.description,
+    title,
+    description,
+    alternates: { canonical: path },
+    openGraph: {
+      type: "article",
+      url: path,
+      title,
+      description,
+    },
   };
 }
 

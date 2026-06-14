@@ -3,9 +3,10 @@ import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 import { ContactForm } from "./ContactForm";
 
 export const metadata = {
-  title: "Kontakt – Öfflinger",
+  title: "Kontakt",
   description:
     "Kontaktieren Sie Öfflinger: per Formular, E-Mail oder Telefon. Wir helfen bei Fragen zu Produkten, Bestellungen und Versand gerne weiter.",
+  alternates: { canonical: "/kontakt" },
 };
 
 export default function KontaktPage() {

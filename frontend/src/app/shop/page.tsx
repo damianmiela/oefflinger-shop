@@ -16,8 +16,15 @@ import {
 import type { Product } from "@/types";
 
 export const metadata = {
-  title: "Shop – Öfflinger",
+  title: "Shop",
   description: "Entdecken Sie unsere hochwertigen Kolloide.",
+  alternates: { canonical: "/shop" },
+  openGraph: {
+    type: "website",
+    url: "/shop",
+    title: "Shop",
+    description: "Entdecken Sie unsere hochwertigen Kolloide.",
+  },
 };
 
 const PER_PAGE = 20;

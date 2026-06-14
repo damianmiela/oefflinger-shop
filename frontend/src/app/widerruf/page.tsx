@@ -7,9 +7,10 @@ import { AnimateOnScroll } from "@/components/AnimateOnScroll";
  */
 
 export const metadata = {
-  title: "Widerrufsbelehrung – Öfflinger",
+  title: "Widerrufsbelehrung",
   description:
     "Widerrufsrecht für Verbraucher: 14 Tage Widerrufsfrist, Muster-Widerrufsformular und Hinweise zur Rücksendung.",
+  alternates: { canonical: "/widerruf" },
 };
 
 export default function WiderrufPage() {

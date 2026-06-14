@@ -2,8 +2,9 @@ import { Suspense } from "react";
 import { CheckoutForm } from "./CheckoutForm";
 
 export const metadata = {
-  title: "Kasse – Öfflinger",
+  title: "Kasse",
   description: "Bestellung abschließen: Lieferadresse, Versand und Zahlung.",
+  robots: { index: false, follow: false },
 };
 
 export default function KassePage() {

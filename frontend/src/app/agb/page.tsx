@@ -1,8 +1,9 @@
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 
 export const metadata = {
-  title: "AGB – Öfflinger",
+  title: "AGB",
   description: "Allgemeine Geschäftsbedingungen für den Einkauf bei Öfflinger.",
+  alternates: { canonical: "/agb" },
 };
 
 export default function AGBPage() {

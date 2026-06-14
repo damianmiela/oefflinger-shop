@@ -12,9 +12,17 @@ const MetalCarousel = dynamic(
 );
 
 export const metadata = {
-  title: "Unsere Kolloide – Öfflinger",
+  title: "Unsere Kolloide",
   description:
     "Übersicht aller kolloidalen Metalle: Chrom, Eisen, Gold, Kobalt, Kupfer, Magnesium, Molybdän, Nickel, Silber, Silizium, Tantal, Vanadium, Zink und Zinn.",
+  alternates: { canonical: "/produkte" },
+  openGraph: {
+    type: "website",
+    url: "/produkte",
+    title: "Unsere Kolloide",
+    description:
+      "Übersicht aller kolloidalen Metalle: Chrom, Eisen, Gold, Kobalt, Kupfer, Magnesium, Molybdän, Nickel, Silber, Silizium, Tantal, Vanadium, Zink und Zinn.",
+  },
 };
 
 export default function ProduktePage() {

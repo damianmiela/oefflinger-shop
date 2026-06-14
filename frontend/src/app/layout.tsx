@@ -6,13 +6,37 @@ import { CartProvider } from "@/context/CartContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { Header } from "@/components/Header";
 import { PaymentMethodLogos } from "@/components/PaymentMethodLogos";
+import { SITE_URL, robotsMetadata, DEFAULT_OG_IMAGE } from "@/lib/seo";
 
 const inter = Inter({ subsets: ["latin"] });
 
+const SITE_NAME = "Öfflinger";
+const DEFAULT_TITLE = "Öfflinger – Kolloidale Metalle aus eigener Produktion";
+const DEFAULT_DESCRIPTION =
+  "Kolloidales Eisen, Gold, Silber, Zink und weitere Metalle aus eigener Produktion in Oberöfflingen, Rheinland-Pfalz.";
+
 export const metadata: Metadata = {
-  title: "Öfflinger – Kolloidale Metalle",
-  description:
-    "Kolloidales Eisen, Gold, Silber, Zink und weitere Metalle aus eigener Produktion in Oberöfflingen, Rheinland-Pfalz.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: DEFAULT_TITLE,
+    template: "%s · Öfflinger",
+  },
+  description: DEFAULT_DESCRIPTION,
+  robots: robotsMetadata,
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    locale: "de_DE",
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+    images: [{ url: DEFAULT_OG_IMAGE, alt: SITE_NAME }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+    images: [DEFAULT_OG_IMAGE],
+  },
 };
 
 const FOOTER_LINK_CLASS = "text-sm text-white/75 transition hover:text-white";

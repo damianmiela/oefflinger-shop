@@ -12,7 +12,9 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { PaymentMethodLogos } from "@/components/PaymentMethodLogos";
 import Link from "next/link";
 import { formatBasePrice, volumeFromAttributes } from "@/lib/format";
+import { toMetaDescription } from "@/lib/seo";
 import type { Product } from "@/types";
+import type { Metadata } from "next";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -32,13 +34,32 @@ function shuffleAndTake<T>(arr: T[], excludeId: number, count: number): T[] {
   return shuffled.slice(0, count);
 }
 
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
-  if (!product) return { title: "Produkt nicht gefunden" };
+  if (!product) {
+    return { title: "Produkt nicht gefunden", robots: { index: false, follow: false } };
+  }
+  const description = toMetaDescription(product.short_description || product.description || "");
+  const path = `/product/${product.slug}`;
+  const image = product.images?.[0];
   return {
-    title: `${product.name} – Öfflinger`,
-    description: product.short_description,
+    title: product.name,
+    description: description || undefined,
+    alternates: { canonical: path },
+    openGraph: {
+      type: "website",
+      url: path,
+      title: product.name,
+      description: description || undefined,
+      images: image ? [{ url: image.src, alt: image.alt || product.name }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: product.name,
+      description: description || undefined,
+      images: image ? [image.src] : undefined,
+    },
   };
 }
 

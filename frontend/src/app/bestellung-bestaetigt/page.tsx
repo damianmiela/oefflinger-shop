@@ -2,8 +2,9 @@ import { Suspense } from "react";
 import { ConfirmationContent } from "./ConfirmationContent";
 
 export const metadata = {
-  title: "Bestellung erhalten – Öfflinger",
+  title: "Bestellung erhalten",
   description: "Vielen Dank für Ihre Bestellung bei Öfflinger.",
+  robots: { index: false, follow: false },
 };
 
 export default function BestellungBestaetigtPage() {

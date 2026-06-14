@@ -3,9 +3,10 @@ import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 /* Inhalt vor Launch prüfen: Versandpreis/Träger müssen den WooCommerce-Einstellungen entsprechen. */
 
 export const metadata = {
-  title: "Versand & Zahlung – Öfflinger",
+  title: "Versand & Zahlung",
   description:
     "Versandkosten, Lieferzeiten und Zahlungsarten bei Öfflinger: DHL-Versand innerhalb Deutschlands, Zahlung per PayPal, Klarna, Kreditkarte oder Überweisung.",
+  alternates: { canonical: "/versand" },
 };
 
 const PAYMENT_METHODS = [
