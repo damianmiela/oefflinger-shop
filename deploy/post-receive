@@ -23,7 +23,16 @@ while read -r oldrev newrev refname; do
     cd "$DEPLOY_DIR/docker"
     docker compose -f docker-compose.prod.yml build --no-cache
     docker compose -f docker-compose.prod.yml up -d
-    
+
+    # Reclaim disk from the previous build so it can't fill up over time:
+    # - dangling images = the old frontend/wordpress versions this rebuild just orphaned
+    # - unused build cache
+    # Only untagged/unused layers are removed (other projects' images are safe), and
+    # volumes are never touched, so the database is safe. `|| true` keeps a prune
+    # hiccup from failing the deploy.
+    docker image prune -f || true
+    docker builder prune -f || true
+
     echo "Deploy complete. Frontend: http://91.98.112.186:4000 | WordPress: http://91.98.112.186:4001"
   fi
 done
