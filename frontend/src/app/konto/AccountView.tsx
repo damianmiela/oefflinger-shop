@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import { formatEuros } from "@/lib/format";
+import { orderStatusClasses } from "@/lib/order-status";
 import {
   apiOrders,
   apiUpdateAddress,
@@ -168,7 +169,9 @@ function OrderList() {
             </p>
           </div>
           <div className="flex shrink-0 items-center gap-3">
-            <span className="bg-surface-alt rounded-full px-3 py-1 text-xs font-medium text-gray-700">
+            <span
+              className={`rounded-full px-3 py-1 text-xs font-medium ${orderStatusClasses(order.status)}`}
+            >
               {order.status_label}
             </span>
             <span className="text-primary font-semibold">{formatEuros(order.total)}</span>
@@ -250,6 +253,9 @@ export function AccountView() {
             <AddressForm type="billing" title="Rechnungsadresse" initial={user.billing} withPhone />
             <AddressForm type="shipping" title="Lieferadresse" initial={user.shipping} />
           </div>
+          <p className="mt-4 text-sm text-gray-500">
+            Wir liefern derzeit ausschließlich innerhalb Deutschlands.
+          </p>
         </section>
       )}
     </div>

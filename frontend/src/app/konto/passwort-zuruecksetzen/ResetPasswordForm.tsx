@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { apiResetPassword, AuthApiError } from "@/lib/auth";
+import { PasswordInput } from "@/components/PasswordInput";
 
 const inputClass =
   "w-full rounded-lg border border-gray-300 px-3 py-2.5 text-gray-900 placeholder:text-gray-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30";
@@ -76,10 +77,9 @@ export function ResetPasswordForm() {
               <label htmlFor="reset_password" className={labelClass}>
                 Neues Passwort
               </label>
-              <input
+              <PasswordInput
                 id="reset_password"
                 name="password"
-                type="password"
                 required
                 minLength={8}
                 autoComplete="new-password"
@@ -92,10 +92,9 @@ export function ResetPasswordForm() {
               <label htmlFor="reset_password_confirm" className={labelClass}>
                 Neues Passwort wiederholen
               </label>
-              <input
+              <PasswordInput
                 id="reset_password_confirm"
                 name="password_confirm"
-                type="password"
                 required
                 minLength={8}
                 autoComplete="new-password"

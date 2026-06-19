@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
 import { apiOrderDetail, type AuthOrderDetail, type AuthAddress } from "@/lib/auth";
 import { formatEuros } from "@/lib/format";
+import { orderStatusClasses } from "@/lib/order-status";
 
 function AddressCard({ title, address }: { title: string; address: AuthAddress }) {
   const lines = [
@@ -88,7 +89,9 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
           <h1 className="text-3xl font-bold text-gray-900">Bestellung #{order.number}</h1>
           {order.date && <p className="mt-1 text-gray-500">Bestellt am {order.date}</p>}
         </div>
-        <span className="bg-primary/10 text-primary self-start rounded-full px-4 py-1.5 text-sm font-semibold sm:self-auto">
+        <span
+          className={`self-start rounded-full px-4 py-1.5 text-sm font-semibold sm:self-auto ${orderStatusClasses(order.status)}`}
+        >
           {order.status_label}
         </span>
       </div>

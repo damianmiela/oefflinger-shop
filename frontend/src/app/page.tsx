@@ -5,7 +5,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { AnimateChildren } from "@/components/AnimateChildren";
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 import { HeroParallax } from "@/components/HeroParallax";
-import { COLLOIDAL_METALS } from "@/data/colloidal-metals";
+import { COLLOIDAL_METALS, getMetalAccentColor } from "@/data/colloidal-metals";
 import type { Product } from "@/types";
 
 const SECTION_CLASS = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8";
@@ -140,8 +140,15 @@ export default async function HomePage() {
                   aria-hidden
                 />
                 <span className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-1 p-3">
-                  <span className="text-sm font-semibold text-white drop-shadow-sm sm:text-base">
-                    {metal.name}
+                  <span className="flex min-w-0 items-center gap-2">
+                    <span
+                      className="h-2.5 w-2.5 shrink-0 rounded-full ring-1 ring-white/70"
+                      style={{ backgroundColor: getMetalAccentColor(metal) }}
+                      aria-hidden
+                    />
+                    <span className="truncate text-sm font-semibold text-white drop-shadow-sm sm:text-base">
+                      {metal.name}
+                    </span>
                   </span>
                   <span
                     className="text-white/0 transition group-hover:translate-x-0.5 group-hover:text-white/90"

@@ -6,6 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 import { AccountView } from "./AccountView";
 import { apiRequestPasswordReset, AuthApiError } from "@/lib/auth";
 import { Turnstile, turnstileEnabled } from "@/components/Turnstile";
+import { PasswordInput } from "@/components/PasswordInput";
 
 const inputClass =
   "w-full rounded-lg border border-gray-300 px-3 py-2.5 text-gray-900 placeholder:text-gray-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30";
@@ -170,10 +171,9 @@ function LoginForm() {
         <label htmlFor="login_password" className={labelClass}>
           Passwort
         </label>
-        <input
+        <PasswordInput
           id="login_password"
           name="password"
-          type="password"
           required
           autoComplete="current-password"
           className={inputClass}
@@ -218,6 +218,10 @@ function RegisterForm() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const passwordValid = password.length >= 8;
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -293,24 +297,40 @@ function RegisterForm() {
           type="email"
           required
           autoComplete="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          aria-invalid={email !== "" && !emailValid ? true : undefined}
+          aria-describedby={email !== "" && !emailValid ? "reg_email_err" : undefined}
           className={inputClass}
         />
+        {email !== "" && !emailValid && (
+          <p id="reg_email_err" className="mt-1 text-xs text-red-600">
+            Bitte geben Sie eine gültige E-Mail-Adresse ein.
+          </p>
+        )}
       </div>
 
       <div>
         <label htmlFor="reg_password" className={labelClass}>
           Passwort
         </label>
-        <input
+        <PasswordInput
           id="reg_password"
           name="password"
-          type="password"
           required
           minLength={8}
           autoComplete="new-password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           className={inputClass}
         />
-        <p className="mt-1 text-xs text-gray-500">Mindestens 8 Zeichen.</p>
+        <p
+          className={`mt-1 text-xs ${
+            password === "" ? "text-gray-500" : passwordValid ? "text-green-700" : "text-red-600"
+          }`}
+        >
+          Mindestens 8 Zeichen.
+        </p>
       </div>
 
       {/* Honeypot – invisible to humans, bots tend to fill it */}
@@ -337,7 +357,9 @@ function RegisterForm() {
 
       <button
         type="submit"
-        disabled={submitting || (turnstileEnabled && !turnstileToken)}
+        disabled={
+          submitting || (turnstileEnabled && !turnstileToken) || !emailValid || !passwordValid
+        }
         className="border-primary text-primary hover:bg-primary/5 mt-auto rounded-lg border bg-white px-6 py-3 font-semibold transition disabled:cursor-not-allowed disabled:opacity-60"
       >
         {submitting ? "Bitte warten…" : "Konto erstellen"}
