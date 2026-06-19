@@ -122,9 +122,9 @@ export function Header() {
         </div>
       </div>
       <header className="sticky top-0 z-50 border-b border-gray-200 bg-white">
-      <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-4 py-3 sm:px-6 md:flex md:justify-between md:py-5 lg:px-8">
+      <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-4 py-3 sm:px-6 lg:flex lg:justify-between lg:px-8 lg:py-5">
         {/* Mobile: hamburger – left */}
-        <div className="justify-self-start md:hidden">
+        <div className="justify-self-start lg:hidden">
           <button
             ref={toggleRef}
             type="button"
@@ -156,7 +156,7 @@ export function Header() {
 
         <Link
           href="/"
-          className="flex shrink-0 items-center justify-self-center md:justify-self-auto"
+          className="flex shrink-0 items-center justify-self-center lg:justify-self-auto"
         >
           <Image
             src="/logo/logo-transparent.png"
@@ -164,12 +164,12 @@ export function Header() {
             width={160}
             height={48}
             priority
-            className="h-10 w-auto md:h-[calc(var(--spacing)*15)]"
+            className="h-10 w-auto lg:h-[calc(var(--spacing)*15)]"
           />
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-6 md:flex">
+        <nav className="hidden items-center gap-4 lg:flex xl:gap-6">
           <Link href="/" className={navLinkClass}>
             <HomeIcon className="h-4 w-4" />
             Start
@@ -182,7 +182,9 @@ export function Header() {
             <ShopIcon className="h-4 w-4" />
             Shop
           </Link>
-          <SearchBox variant="desktop" />
+          <div className="hidden xl:block">
+            <SearchBox variant="desktop" />
+          </div>
           <Link href="/konto" className={navLinkClass}>
             <UserIcon className="h-4 w-4" />
             {accountLabel}
@@ -191,7 +193,7 @@ export function Header() {
         </nav>
 
         {/* Mobile: cart – right */}
-        <div className="flex items-center justify-self-end md:hidden">
+        <div className="flex items-center justify-self-end lg:hidden">
           <CartPreview />
         </div>
       </div>
@@ -200,7 +202,7 @@ export function Header() {
       <div
         id="mobile-menu"
         ref={menuRef}
-        className={`grid overflow-hidden border-gray-200 bg-white transition-all duration-300 ease-in-out md:hidden ${
+        className={`grid overflow-hidden border-gray-200 bg-white transition-all duration-300 ease-in-out lg:hidden ${
           menuOpen ? "grid-rows-[1fr] border-t" : "grid-rows-[0fr]"
         }`}
       >

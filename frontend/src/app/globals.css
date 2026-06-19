@@ -18,6 +18,16 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
+/* Tailwind v4 no longer sets cursor:pointer on buttons by default. Restore it
+   for enabled buttons / role=button site-wide (utilities such as
+   disabled:cursor-not-allowed still win where they are applied). */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
 /* Product/shop HTML content – paragraph spacing when prose plugin not used */
 .product-html-content p {
   margin-bottom: 1rem;

@@ -120,7 +120,7 @@ export function CartPreview() {
             d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
           />
         </svg>
-        <span className="hidden md:inline">Warenkorb</span>
+        <span className="hidden lg:inline">Warenkorb</span>
         {itemCount > 0 && (
           <span className="bg-accent text-primary-dark absolute -top-2 -right-1 flex h-5 w-5 items-center justify-center rounded-full text-xs font-bold">
             {itemCount}
@@ -131,9 +131,9 @@ export function CartPreview() {
       {visible && itemCount > 0 && (
         <>
           {/* Invisible bridge to prevent preview from disappearing when moving cursor from button to dropdown */}
-          <div className="absolute top-full right-0 left-0 z-40 hidden h-3 md:block" aria-hidden />
+          <div className="absolute top-full right-0 left-0 z-40 hidden h-3 lg:block" aria-hidden />
           <div
-            className="absolute top-full right-0 z-50 mt-2 hidden w-80 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg md:block"
+            className="absolute top-full right-0 z-50 mt-2 hidden w-80 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg lg:block"
             onMouseEnter={show}
             onMouseLeave={hide}
           >
