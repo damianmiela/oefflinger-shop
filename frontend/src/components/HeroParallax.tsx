@@ -54,7 +54,7 @@ export function HeroParallax({ imageUrl, children }: HeroParallaxProps) {
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden pb-24 sm:pb-32 lg:pb-40"
+      className="relative flex min-h-[80vh] flex-col items-center justify-center overflow-hidden pb-24 sm:pb-32 lg:pb-40"
       style={{
         marginTop: "calc(-1 * var(--header-height, 88px))",
         paddingTop: "calc(var(--header-height, 88px) + 6rem)",

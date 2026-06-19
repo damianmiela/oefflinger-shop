@@ -66,6 +66,14 @@ function UserIcon({ className }: { className?: string }) {
   );
 }
 
+function CheckIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+    </svg>
+  );
+}
+
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -95,7 +103,25 @@ export function Header() {
   }, [menuOpen]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-gray-200 bg-white">
+    <>
+      {/* USP trust bar (P2-17c) – scrolls away; the nav below stays sticky */}
+      <div className="bg-primary-dark text-white">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-5 gap-y-1 px-4 py-2 text-center text-[11px] font-medium sm:gap-x-8 sm:px-6 sm:text-xs lg:px-8">
+          <span className="flex items-center gap-1.5">
+            <CheckIcon className="text-accent-light h-3.5 w-3.5" />
+            Eigene Herstellung in der Eifel
+          </span>
+          <span className="flex items-center gap-1.5">
+            <CheckIcon className="text-accent-light h-3.5 w-3.5" />
+            Versand in ganz Deutschland
+          </span>
+          <span className="flex items-center gap-1.5">
+            <CheckIcon className="text-accent-light h-3.5 w-3.5" />
+            Sichere Zahlung
+          </span>
+        </div>
+      </div>
+      <header className="sticky top-0 z-50 border-b border-gray-200 bg-white">
       <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-4 py-3 sm:px-6 md:flex md:justify-between md:py-5 lg:px-8">
         {/* Mobile: hamburger – left */}
         <div className="justify-self-start md:hidden">
@@ -150,7 +176,7 @@ export function Header() {
           </Link>
           <Link href="/produkte" className={navLinkClass}>
             <DropletsIcon className="h-4 w-4" />
-            Kolloidales Wasser
+            Unsere Metalle
           </Link>
           <Link href="/shop" className={navLinkClass}>
             <ShopIcon className="h-4 w-4" />
@@ -191,7 +217,7 @@ export function Header() {
               onClick={() => setMenuOpen(false)}
             >
               <DropletsIcon className="h-5 w-5" />
-              Kolloidales Wasser
+              Unsere Metalle
             </Link>
             <Link href="/shop" className={mobileNavLinkClass} onClick={() => setMenuOpen(false)}>
               <ShopIcon className="h-5 w-5" />
@@ -205,5 +231,6 @@ export function Header() {
         </nav>
       </div>
     </header>
+    </>
   );
 }

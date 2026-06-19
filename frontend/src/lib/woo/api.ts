@@ -167,6 +167,29 @@ export async function getProducts(): Promise<Product[]> {
   return products;
 }
 
+/**
+ * Featured products for the homepage (P2-17e): the WooCommerce "featured" flag
+ * via the Store API. Falls back to the first products (no random shuffle) if
+ * none are flagged featured yet.
+ */
+export async function getFeaturedProducts(limit: number = 4): Promise<Product[]> {
+  const base = getBaseUrl();
+  try {
+    const res = await fetch(`${base}/products?featured=true&per_page=${limit}`, {
+      headers: { "Content-Type": "application/json" },
+      next: { revalidate: PRODUCT_REVALIDATE, tags: [PRODUCT_CACHE_TAG] },
+    });
+    if (res.ok) {
+      const featured = (await res.json()) as Product[];
+      if (featured.length > 0) return featured.slice(0, limit);
+    }
+  } catch {
+    // fall through to the fallback below
+  }
+  const { products } = await getProductsPaginated(1, limit);
+  return products;
+}
+
 /** Search products by term (used by the header typeahead). */
 export async function searchProducts(term: string, perPage: number = 5): Promise<Product[]> {
   return storeApiFetch<Product[]>(

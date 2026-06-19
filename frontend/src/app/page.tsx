@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getProducts } from "@/lib/woo/api";
+import { getFeaturedProducts } from "@/lib/woo/api";
 import { ProductCard } from "@/components/ProductCard";
 import { AnimateChildren } from "@/components/AnimateChildren";
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
@@ -21,10 +21,10 @@ export const metadata = {
 };
 
 export default async function HomePage() {
-  let products: Product[] = [];
+  let featured: Product[] = [];
   let loadFailed = false;
   try {
-    products = await getProducts();
+    featured = await getFeaturedProducts(4);
   } catch {
     loadFailed = true;
   }
@@ -38,9 +38,9 @@ export default async function HomePage() {
               Kolloidale Metalle aus Oberöfflingen
             </p>
             <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
-              Öfflinger
+              Kolloide aus eigener Produktion
               <br />
-              <span className="text-white/95">Kolloide aus eigener Produktion</span>
+              <span className="text-white/95">in der Eifel, Rheinland-Pfalz</span>
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/90">
               Kolloidales Eisen, Gold, Silber, Zink und weitere Spurenelemente — hergestellt in
@@ -48,16 +48,16 @@ export default async function HomePage() {
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
-                href="/produkte"
+                href="/shop"
                 className="w-full rounded-lg bg-white px-8 py-4 text-center font-semibold text-primary-dark transition hover:bg-gray-100 sm:w-auto"
               >
-                Produkte entdecken
+                Zum Shop
               </Link>
               <Link
-                href="/shop"
+                href="/produkte"
                 className="w-full rounded-lg border border-white/50 bg-white/10 px-8 py-4 text-center font-medium text-white backdrop-blur transition hover:bg-white/20 sm:w-auto"
               >
-                Zum Shop
+                Mehr über kolloidale Metalle
               </Link>
             </div>
           </div>
@@ -345,7 +345,7 @@ export default async function HomePage() {
       </AnimateOnScroll>
 
       {/* Featured products */}
-      {products.length > 0 && (
+      {featured.length > 0 && (
         <AnimateOnScroll variant="fade-up">
         <section className="border-t border-gray-100 bg-white py-20 sm:py-28">
           <div className={SECTION_CLASS}>
@@ -364,7 +364,7 @@ export default async function HomePage() {
               className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4"
               stagger={80}
             >
-              {[...products].sort(() => Math.random() - 0.5).slice(0, 4).map((product) => (
+              {featured.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </AnimateChildren>
@@ -373,7 +373,7 @@ export default async function HomePage() {
         </AnimateOnScroll>
       )}
 
-      {products.length === 0 && (
+      {featured.length === 0 && (
         <AnimateOnScroll variant="fade-up">
         <section className="border-t border-gray-100 bg-surface-alt py-20">
           <div className={SECTION_CLASS}>
