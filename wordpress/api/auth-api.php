@@ -22,6 +22,9 @@ function oeff_auth_register_routes() {
         ['me',       'GET',  'oeff_auth_me',              true],
         ['orders',   'GET',  'oeff_auth_orders',          true],
         ['address',  'POST', 'oeff_auth_update_address',  true],
+        ['change-password', 'POST', 'oeff_auth_change_password', true],
+        ['change-email',    'POST', 'oeff_auth_change_email',    true],
+        ['delete-account',  'POST', 'oeff_auth_delete_account',  true],
     ];
     foreach ($routes as [$path, $method, $cb, $needs_auth]) {
         register_rest_route('oeff/v1', '/' . $path, [
@@ -387,4 +390,166 @@ function oeff_auth_password_reset(WP_REST_Request $request) {
     wp_set_auth_cookie($user->ID, true);
 
     return new WP_REST_Response(['user' => oeff_auth_user_payload($user->ID)], 200);
+}
+
+/** Change the logged-in user's password (requires the current password). */
+function oeff_auth_change_password(WP_REST_Request $request) {
+    if (!oeff_auth_check_origin($request)) {
+        return oeff_auth_error('forbidden', 'Ungültige Anfrage.', 403);
+    }
+    $user_id = oeff_auth_user_id();
+    if (!$user_id) {
+        return oeff_auth_error('not_logged_in', 'Nicht angemeldet.', 401);
+    }
+    if (!oeff_rate_limit('change_password', 5, HOUR_IN_SECONDS)) {
+        return oeff_auth_error('rate_limited', 'Zu viele Versuche. Bitte versuchen Sie es später erneut.', 429);
+    }
+    $current = (string) ($request->get_param('current_password') ?? '');
+    $new     = (string) ($request->get_param('new_password') ?? '');
+    if ($current === '' || $new === '') {
+        return oeff_auth_error('missing_fields', 'Bitte füllen Sie alle Felder aus.', 400);
+    }
+    if (strlen($new) < 8) {
+        return oeff_auth_error('weak_password', 'Das neue Passwort muss mindestens 8 Zeichen lang sein.', 400);
+    }
+    $user = get_userdata($user_id);
+    if (!$user || !wp_check_password($current, $user->user_pass, $user_id)) {
+        return oeff_auth_error('invalid_password', 'Das aktuelle Passwort ist nicht korrekt.', 403);
+    }
+    // wp_set_password invalidates all sessions – re-authenticate this one so the user stays logged in.
+    wp_set_password($new, $user_id);
+    wp_set_current_user($user_id);
+    wp_set_auth_cookie($user_id, true);
+    return new WP_REST_Response(['user' => oeff_auth_user_payload($user_id)], 200);
+}
+
+/** Change the logged-in user's email (requires the current password). Notifies the old address. */
+function oeff_auth_change_email(WP_REST_Request $request) {
+    if (!oeff_auth_check_origin($request)) {
+        return oeff_auth_error('forbidden', 'Ungültige Anfrage.', 403);
+    }
+    $user_id = oeff_auth_user_id();
+    if (!$user_id) {
+        return oeff_auth_error('not_logged_in', 'Nicht angemeldet.', 401);
+    }
+    if (!oeff_rate_limit('change_email', 5, HOUR_IN_SECONDS)) {
+        return oeff_auth_error('rate_limited', 'Zu viele Versuche. Bitte versuchen Sie es später erneut.', 429);
+    }
+    $new_email = sanitize_email($request->get_param('email') ?? '');
+    $password  = (string) ($request->get_param('current_password') ?? '');
+    if (!is_email($new_email)) {
+        return oeff_auth_error('invalid_email', 'Bitte geben Sie eine gültige E-Mail-Adresse ein.', 400);
+    }
+    if ($password === '') {
+        return oeff_auth_error('missing_fields', 'Bitte bestätigen Sie mit Ihrem Passwort.', 400);
+    }
+    $user = get_userdata($user_id);
+    if (!$user || !wp_check_password($password, $user->user_pass, $user_id)) {
+        return oeff_auth_error('invalid_password', 'Das Passwort ist nicht korrekt.', 403);
+    }
+    $old_email = $user->user_email;
+    if (strtolower($new_email) === strtolower($old_email)) {
+        return oeff_auth_error('email_unchanged', 'Dies ist bereits Ihre E-Mail-Adresse.', 400);
+    }
+    $existing = email_exists($new_email);
+    if ($existing && (int) $existing !== $user_id) {
+        return oeff_auth_error('email_exists', 'Diese E-Mail-Adresse wird bereits verwendet.', 409);
+    }
+    // Change the email; suppress WP core's generic notice so we send a branded German one instead.
+    add_filter('send_email_change_email', '__return_false');
+    $result = wp_update_user(['ID' => $user_id, 'user_email' => $new_email]);
+    remove_filter('send_email_change_email', '__return_false');
+    if (is_wp_error($result)) {
+        return oeff_auth_error('update_failed', 'Die E-Mail-Adresse konnte nicht geändert werden.', 400);
+    }
+    // Keep the WooCommerce billing email in sync.
+    if (class_exists('WC_Customer')) {
+        $customer = new WC_Customer($user_id);
+        $customer->set_billing_email($new_email);
+        $customer->save();
+    }
+    // Notify the OLD address so a silent hijack is visible.
+    $name = $user->first_name ?: $user->display_name;
+    wp_mail(
+        $old_email,
+        'Ihre E-Mail-Adresse wurde geändert – Öfflinger',
+        sprintf(
+            "Hallo %s,\n\ndie E-Mail-Adresse Ihres Kontos bei Öfflinger wurde soeben auf %s geändert.\n\nWenn Sie diese Änderung nicht vorgenommen haben, wenden Sie sich bitte umgehend an info@example.com.\n\nIhr Öfflinger-Team",
+            $name,
+            $new_email
+        )
+    );
+    return new WP_REST_Response(['user' => oeff_auth_user_payload($user_id)], 200);
+}
+
+/**
+ * Delete the logged-in user's account (GDPR self-service). Requires the current
+ * password. Order records are RETAINED for tax law (§147 AO / §257 HGB) but their
+ * personal data is anonymized; the user account itself is removed.
+ * NOTE: legal wording/approach is pending lawyer review (D6).
+ */
+function oeff_auth_delete_account(WP_REST_Request $request) {
+    if (!oeff_auth_check_origin($request)) {
+        return oeff_auth_error('forbidden', 'Ungültige Anfrage.', 403);
+    }
+    $user_id = oeff_auth_user_id();
+    if (!$user_id) {
+        return oeff_auth_error('not_logged_in', 'Nicht angemeldet.', 401);
+    }
+    if (!oeff_rate_limit('delete_account', 5, HOUR_IN_SECONDS)) {
+        return oeff_auth_error('rate_limited', 'Zu viele Versuche. Bitte versuchen Sie es später erneut.', 429);
+    }
+    $password = (string) ($request->get_param('current_password') ?? '');
+    $user = get_userdata($user_id);
+    if (!$user || !wp_check_password($password, $user->user_pass, $user_id)) {
+        return oeff_auth_error('invalid_password', 'Das Passwort ist nicht korrekt.', 403);
+    }
+    // Safety: never let this endpoint remove a privileged account.
+    if (user_can($user_id, 'manage_options') || user_can($user_id, 'manage_woocommerce')) {
+        return oeff_auth_error('forbidden', 'Dieses Konto kann hier nicht gelöscht werden.', 403);
+    }
+
+    // 1. Anonymize + detach the customer's orders (financial data is retained for tax law).
+    if (function_exists('wc_get_orders')) {
+        $orders = wc_get_orders(['customer_id' => $user_id, 'limit' => -1, 'status' => 'any']);
+        $billing = [
+            'first_name' => 'Gelöscht', 'last_name' => 'Gelöscht', 'company' => '',
+            'address_1' => '', 'address_2' => '', 'city' => '', 'postcode' => '',
+            'state' => '', 'phone' => '', 'email' => 'geloescht-' . $user_id . '@oefflinger.invalid',
+        ];
+        $shipping = [
+            'first_name' => 'Gelöscht', 'last_name' => 'Gelöscht', 'company' => '',
+            'address_1' => '', 'address_2' => '', 'city' => '', 'postcode' => '', 'state' => '',
+        ];
+        foreach ($orders as $order) {
+            foreach ($billing as $f => $v) {
+                $setter = "set_billing_$f";
+                if (method_exists($order, $setter)) { $order->$setter($v); }
+            }
+            foreach ($shipping as $f => $v) {
+                $setter = "set_shipping_$f";
+                if (method_exists($order, $setter)) { $order->$setter($v); }
+            }
+            $order->set_customer_id(0);
+            $order->save();
+        }
+    }
+
+    // 2. Remove the user. Reassign any authored content (incl. legacy order posts)
+    //    to an admin so order records are reassigned, NEVER deleted.
+    require_once ABSPATH . 'wp-admin/includes/user.php';
+    $admins   = get_users(['role' => 'administrator', 'number' => 1, 'fields' => 'ID']);
+    $reassign = !empty($admins) ? (int) $admins[0] : 1;
+    if ($reassign === $user_id) {
+        $reassign = 1;
+    }
+    $deleted = wp_delete_user($user_id, $reassign);
+    if (!$deleted) {
+        return oeff_auth_error('delete_failed', 'Das Konto konnte nicht gelöscht werden. Bitte kontaktieren Sie uns unter info@example.com.', 500);
+    }
+
+    // 3. End this browser's session.
+    wp_clear_auth_cookie();
+
+    return new WP_REST_Response(['success' => true], 200);
 }

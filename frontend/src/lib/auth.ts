@@ -172,3 +172,32 @@ export async function apiResetPassword(params: {
   });
   return data.user;
 }
+
+/** Change the logged-in user's password (requires the current password). */
+export async function apiChangePassword(
+  currentPassword: string,
+  newPassword: string,
+): Promise<AuthUser> {
+  const data = await request<{ user: AuthUser }>("/change-password", {
+    method: "POST",
+    body: JSON.stringify({ current_password: currentPassword, new_password: newPassword }),
+  });
+  return data.user;
+}
+
+/** Change the logged-in user's email (requires the current password). */
+export async function apiChangeEmail(newEmail: string, currentPassword: string): Promise<AuthUser> {
+  const data = await request<{ user: AuthUser }>("/change-email", {
+    method: "POST",
+    body: JSON.stringify({ email: newEmail, current_password: currentPassword }),
+  });
+  return data.user;
+}
+
+/** Permanently delete the logged-in user's account (requires the current password). */
+export async function apiDeleteAccount(currentPassword: string): Promise<void> {
+  await request("/delete-account", {
+    method: "POST",
+    body: JSON.stringify({ current_password: currentPassword }),
+  });
+}
