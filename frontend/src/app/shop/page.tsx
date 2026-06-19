@@ -236,12 +236,12 @@ export default async function ShopPage({ searchParams }: Props) {
                 : "Unser Sortiment wird gerade aktualisiert – schauen Sie bald wieder vorbei."}
             </p>
             {loadFailed && (
-              <a
+              <Link
                 href="/shop"
                 className="bg-primary hover:bg-primary-light mt-6 inline-block rounded-lg px-6 py-3 font-semibold text-white transition"
               >
                 Erneut versuchen
-              </a>
+              </Link>
             )}
           </div>
         </AnimateOnScroll>
