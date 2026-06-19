@@ -104,8 +104,8 @@ export function Header() {
 
   return (
     <>
-      {/* USP trust bar (P2-17c) – scrolls away; the nav below stays sticky */}
-      <div className="bg-primary-dark text-white">
+      {/* USP trust bar (P2-17c) – scrolls away; shown only with the desktop nav, hidden on the hamburger layout */}
+      <div className="hidden bg-primary-dark text-white lg:block">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-5 gap-y-1 px-4 py-2 text-center text-[11px] font-medium sm:gap-x-8 sm:px-6 sm:text-xs lg:px-8">
           <span className="flex items-center gap-1.5">
             <CheckIcon className="text-accent-light h-3.5 w-3.5" />
