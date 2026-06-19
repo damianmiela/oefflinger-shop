@@ -121,22 +121,34 @@ export default async function HomePage() {
             Wählen Sie ein Metall und erfahren Sie mehr über seine Eigenschaften und möglichen
             Einsatzbereiche.
           </p>
-          <div className="mx-auto mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">
+          <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7">
             {COLLOIDAL_METALS.map((metal) => (
               <Link
                 key={metal.id}
                 href={`/produkte/${metal.id}`}
-                className="group relative flex aspect-square items-center justify-center overflow-hidden rounded-2xl shadow-sm transition hover:shadow-md"
-                style={{
-                  backgroundImage: `linear-gradient(135deg, ${metal.gradientFrom}, ${metal.gradientTo})`,
-                }}
+                className="group relative block aspect-[4/3] overflow-hidden rounded-xl shadow-sm ring-1 ring-black/5 transition hover:shadow-md"
               >
+                <Image
+                  src={`/images/metals/${metal.id}.png`}
+                  alt=""
+                  fill
+                  sizes="(min-width: 1280px) 15vw, (min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, 50vw"
+                  className="object-cover transition duration-300 group-hover:scale-105"
+                />
                 <span
-                  className="absolute inset-0 transition group-hover:bg-black/10"
+                  className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent"
                   aria-hidden
                 />
-                <span className="relative rounded-full bg-white/90 px-3 py-1 text-sm font-semibold text-gray-900 shadow-sm">
-                  {metal.name}
+                <span className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-1 p-3">
+                  <span className="text-sm font-semibold text-white drop-shadow-sm sm:text-base">
+                    {metal.name}
+                  </span>
+                  <span
+                    className="text-white/0 transition group-hover:translate-x-0.5 group-hover:text-white/90"
+                    aria-hidden
+                  >
+                    →
+                  </span>
                 </span>
               </Link>
             ))}
