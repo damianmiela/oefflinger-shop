@@ -59,9 +59,17 @@ function oeff_verify_turnstile($token) {
     return !empty($body['success']);
 }
 
-/** Enable WooCommerce's built-in Store API rate limiting. */
+/**
+ * Store API rate limiting is DISABLED on purpose. This is a headless setup, so
+ * all SSR/ISR/build requests share the Next.js server's single IP. WooCommerce
+ * rate-limits by IP and writes to wp_wc_rate_limits on every request; under that
+ * shared-IP load it caused severe InnoDB row-lock contention ("Lock wait timeout
+ * exceeded") that jammed the whole database. Abuse protection for the sensitive
+ * checkout POST is handled separately below (oeff_rate_limit), and edge/IP rate
+ * limiting belongs at the reverse proxy where the real client IP is available.
+ */
 add_filter('woocommerce_store_api_rate_limit_options', function ($options) {
-    $options['enabled'] = true;
+    $options['enabled'] = false;
     return $options;
 });
 

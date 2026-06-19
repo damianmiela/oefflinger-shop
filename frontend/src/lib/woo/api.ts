@@ -130,6 +130,8 @@ const PRODUCTS_PER_PAGE = 20;
  */
 const PRODUCT_REVALIDATE = 300;
 const PRODUCT_CACHE_TAG = "products";
+/** Cap the homepage featured fetch so a slow backend can't hang the build (falls back). */
+const FEATURED_FETCH_TIMEOUT_MS = 8000;
 
 export interface ProductsResponse {
   products: Product[];
@@ -178,6 +180,7 @@ export async function getFeaturedProducts(limit: number = 4): Promise<Product[]>
     const res = await fetch(`${base}/products?featured=true&per_page=${limit}`, {
       headers: { "Content-Type": "application/json" },
       next: { revalidate: PRODUCT_REVALIDATE, tags: [PRODUCT_CACHE_TAG] },
+      signal: AbortSignal.timeout(FEATURED_FETCH_TIMEOUT_MS),
     });
     if (res.ok) {
       const featured = (await res.json()) as Product[];
