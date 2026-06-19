@@ -351,12 +351,11 @@ function SecurityPanel() {
           confirmLabel: "Passwort ändern",
           danger: false,
           onConfirm: async (password: string) => {
-            const u = await apiChangePassword(password, newPw);
-            setUser(u);
-            setNewPw("");
-            setNewPwConfirm("");
-            setPwMsg("Ihr Passwort wurde geändert.");
-            setDialog(null);
+            await apiChangePassword(password, newPw);
+            // The server ended all sessions; reflect that and send the user to the
+            // sign-in screen to log in again with their new password.
+            setUser(null);
+            router.replace("/konto?reauth=password-changed");
           },
         }
       : dialog === "email"

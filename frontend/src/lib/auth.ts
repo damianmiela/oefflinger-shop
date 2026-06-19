@@ -173,16 +173,19 @@ export async function apiResetPassword(params: {
   return data.user;
 }
 
-/** Change the logged-in user's password (requires the current password). */
+/**
+ * Change the logged-in user's password (requires the current password).
+ * On success the server ends ALL sessions, so the caller must send the user
+ * back to the sign-in screen to log in again with the new password.
+ */
 export async function apiChangePassword(
   currentPassword: string,
   newPassword: string,
-): Promise<AuthUser> {
-  const data = await request<{ user: AuthUser }>("/change-password", {
+): Promise<void> {
+  await request("/change-password", {
     method: "POST",
     body: JSON.stringify({ current_password: currentPassword, new_password: newPassword }),
   });
-  return data.user;
 }
 
 /** Change the logged-in user's email (requires the current password). */

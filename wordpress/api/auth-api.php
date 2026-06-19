@@ -416,11 +416,15 @@ function oeff_auth_change_password(WP_REST_Request $request) {
     if (!$user || !wp_check_password($current, $user->user_pass, $user_id)) {
         return oeff_auth_error('invalid_password', 'Das aktuelle Passwort ist nicht korrekt.', 403);
     }
-    // wp_set_password invalidates all sessions – re-authenticate this one so the user stays logged in.
+    // Security: a password change ends EVERY session. Set the new password, then
+    // destroy all session tokens and clear this request's auth cookie, so this
+    // browser AND any other device must sign in again with the new password.
     wp_set_password($new, $user_id);
-    wp_set_current_user($user_id);
-    wp_set_auth_cookie($user_id, true);
-    return new WP_REST_Response(['user' => oeff_auth_user_payload($user_id)], 200);
+    if (class_exists('WP_Session_Tokens')) {
+        WP_Session_Tokens::get_instance($user_id)->destroy_all();
+    }
+    wp_clear_auth_cookie();
+    return new WP_REST_Response(['success' => true], 200);
 }
 
 /** Change the logged-in user's email (requires the current password). Notifies the old address. */

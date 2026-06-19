@@ -373,6 +373,7 @@ function KontoContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect");
+  const reauth = searchParams.get("reauth");
 
   // After successful login/registration follow the redirect (e.g. to checkout)
   useEffect(() => {
@@ -396,6 +397,12 @@ function KontoContent() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <h1 className="text-3xl font-bold text-gray-900">Anmelden</h1>
+      {reauth === "password-changed" && (
+        <p role="status" className="mt-4 rounded-lg bg-green-50 px-4 py-3 text-sm text-green-800">
+          Ihr Passwort wurde erfolgreich geändert. Bitte melden Sie sich mit Ihrem neuen Passwort
+          an.
+        </p>
+      )}
       <div className="mt-8 grid items-stretch gap-6 lg:grid-cols-2 lg:gap-8">
         <LoginForm />
         <RegisterForm />
