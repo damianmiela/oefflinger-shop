@@ -176,21 +176,28 @@ export async function getProducts(): Promise<Product[]> {
  */
 export async function getFeaturedProducts(limit: number = 4): Promise<Product[]> {
   const base = getBaseUrl();
-  try {
-    const res = await fetch(`${base}/products?featured=true&per_page=${limit}`, {
-      headers: { "Content-Type": "application/json" },
-      next: { revalidate: PRODUCT_REVALIDATE, tags: [PRODUCT_CACHE_TAG] },
-      signal: AbortSignal.timeout(FEATURED_FETCH_TIMEOUT_MS),
-    });
-    if (res.ok) {
-      const featured = (await res.json()) as Product[];
-      if (featured.length > 0) return featured.slice(0, limit);
+  // Both fetches are time-bounded and this never throws/hangs: a slow or
+  // unreachable backend degrades the homepage to "no featured products"
+  // (ISR refills it shortly) instead of hanging the build.
+  const fetchList = async (query: string): Promise<Product[] | null> => {
+    try {
+      const res = await fetch(`${base}/products?${query}`, {
+        headers: { "Content-Type": "application/json" },
+        next: { revalidate: PRODUCT_REVALIDATE, tags: [PRODUCT_CACHE_TAG] },
+        signal: AbortSignal.timeout(FEATURED_FETCH_TIMEOUT_MS),
+      });
+      return res.ok ? ((await res.json()) as Product[]) : null;
+    } catch {
+      return null;
     }
-  } catch {
-    // fall through to the fallback below
-  }
-  const { products } = await getProductsPaginated(1, limit);
-  return products;
+  };
+
+  const featured = await fetchList(`featured=true&per_page=${limit}`);
+  if (featured && featured.length > 0) return featured.slice(0, limit);
+
+  // Fallback: first products (no random shuffle), also bounded.
+  const fallback = await fetchList(`per_page=${limit}&offset=0`);
+  return fallback ? fallback.slice(0, limit) : [];
 }
 
 /** Search products by term (used by the header typeahead). */
