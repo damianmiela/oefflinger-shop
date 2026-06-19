@@ -69,7 +69,11 @@ function AddressForm({
   }
 
   return (
-    <form onSubmit={onSubmit} className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+    <form
+      onSubmit={onSubmit}
+      aria-describedby={error ? `${type}-error` : undefined}
+      className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm"
+    >
       <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
         {ADDRESS_FIELDS.map(({ key, label, autoComplete }) => (
@@ -114,8 +118,16 @@ function AddressForm({
         >
           {saving ? "Speichern…" : "Speichern"}
         </button>
-        {message && <span className="text-sm text-green-700">{message}</span>}
-        {error && <span className="text-sm text-red-700">{error}</span>}
+        {message && (
+          <span className="text-sm text-green-700" role="status">
+            {message}
+          </span>
+        )}
+        {error && (
+          <span id={`${type}-error`} role="alert" className="text-sm text-red-700">
+            {error}
+          </span>
+        )}
       </div>
     </form>
   );

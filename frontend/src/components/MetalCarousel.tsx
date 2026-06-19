@@ -119,8 +119,11 @@ export function MetalCarousel({ metals }: MetalCarouselProps) {
               <button
                 key={metal.id}
                 type="button"
+                aria-pressed={isSelected}
                 onMouseEnter={() => hoverMetal(metal.id)}
                 onMouseLeave={scheduleHoverOff}
+                onFocus={() => hoverMetal(metal.id)}
+                onBlur={scheduleHoverOff}
                 onClick={() => {
                   setSelectedMetalId(metal.id);
                   setSelectedUse(null);
@@ -230,8 +233,11 @@ export function MetalCarousel({ metals }: MetalCarouselProps) {
               <button
                 key={use}
                 type="button"
+                aria-pressed={isSelected}
                 onMouseEnter={() => hoverUse(use)}
                 onMouseLeave={scheduleHoverOff}
+                onFocus={() => hoverUse(use)}
+                onBlur={scheduleHoverOff}
                 onClick={() => {
                   const newSelectedUse = selectedUse === use ? null : use;
                   setSelectedUse(newSelectedUse);

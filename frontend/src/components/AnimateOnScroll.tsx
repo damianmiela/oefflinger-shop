@@ -11,6 +11,13 @@ interface AnimateOnScrollProps {
   variant?: "fade-up" | "fade-in" | "fade-down";
 }
 
+/**
+ * Reveals children on scroll. Visible by default (P2-16e): the hidden/animated
+ * state only applies when JS is active (html.js, set in the root layout) and the
+ * user hasn't requested reduced motion — so no-JS visitors, crawlers and
+ * reduced-motion users always see the content. Styling lives in globals.css
+ * (`[data-reveal]` / `[data-revealed]`).
+ */
 export function AnimateOnScroll({
   children,
   className = "",
@@ -18,7 +25,7 @@ export function AnimateOnScroll({
   variant = "fade-up",
 }: AnimateOnScrollProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
+  const [revealed, setRevealed] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
@@ -26,9 +33,7 @@ export function AnimateOnScroll({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-        }
+        if (entry.isIntersecting) setRevealed(true);
       },
       { threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
     );
@@ -37,24 +42,13 @@ export function AnimateOnScroll({
     return () => observer.disconnect();
   }, []);
 
-  const base = "transition-all duration-500 ease-out";
-  const variants = {
-    "fade-up": visible
-      ? "opacity-100 translate-y-0"
-      : "opacity-0 translate-y-6",
-    "fade-in": visible ? "opacity-100" : "opacity-0",
-    "fade-down": visible
-      ? "opacity-100 translate-y-0"
-      : "opacity-0 -translate-y-4",
-  };
-
   return (
     <div
       ref={ref}
-      className={`${base} ${variants[variant]} ${className}`}
-      style={{
-        transitionDelay: visible ? `${delay}ms` : "0ms",
-      }}
+      data-reveal={variant}
+      data-revealed={revealed ? "" : undefined}
+      className={className}
+      style={{ transitionDelay: revealed ? `${delay}ms` : "0ms" }}
     >
       {children}
     </div>

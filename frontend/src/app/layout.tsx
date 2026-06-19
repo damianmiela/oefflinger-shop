@@ -99,6 +99,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="de">
       <body className={`${inter.className} bg-surface text-gray-900 antialiased`}>
+        {/* Mark JS as available before paint so scroll-reveal (P2-16e) only hides
+            content when it can actually be animated back in. */}
+        <script
+          dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }}
+        />
         <a
           href="#main"
           className="focus:bg-primary sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:px-4 focus:py-2 focus:font-medium focus:text-white focus:shadow-lg"

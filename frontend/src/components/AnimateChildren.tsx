@@ -10,6 +10,11 @@ interface AnimateChildrenProps {
   variant?: "fade-up" | "fade-in";
 }
 
+/**
+ * Staggered scroll reveal for a list of children. Visible by default (P2-16e):
+ * the hidden/animated state only applies when JS is active (html.js) and motion
+ * is allowed. Styling lives in globals.css (`[data-reveal]` / `[data-revealed]`).
+ */
 export function AnimateChildren({
   children,
   className = "",
@@ -17,7 +22,7 @@ export function AnimateChildren({
   variant = "fade-up",
 }: AnimateChildrenProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
+  const [revealed, setRevealed] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
@@ -25,7 +30,7 @@ export function AnimateChildren({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) setVisible(true);
+        if (entry.isIntersecting) setRevealed(true);
       },
       { threshold: 0.05, rootMargin: "0px 0px -30px 0px" },
     );
@@ -34,40 +39,20 @@ export function AnimateChildren({
     return () => observer.disconnect();
   }, []);
 
+  const items = Array.isArray(children) ? children : [children];
+
   return (
     <div ref={ref} className={className}>
-      {Array.isArray(children)
-        ? children.map((child, i) => (
-            <div
-              key={i}
-              className={`transition-all duration-500 ease-out ${
-                visible
-                  ? "opacity-100 translate-y-0"
-                  : variant === "fade-up"
-                    ? "opacity-0 translate-y-6"
-                    : "opacity-0"
-              }`}
-              style={{
-                transitionDelay: visible ? `${i * stagger}ms` : "0ms",
-              }}
-            >
-              {child}
-            </div>
-          ))
-        : (
-          <div
-            className={`transition-all duration-500 ease-out ${
-              visible
-                ? "opacity-100 translate-y-0"
-                : variant === "fade-up"
-                  ? "opacity-0 translate-y-6"
-                  : "opacity-0"
-            }`}
-            style={{ transitionDelay: visible ? "0ms" : "0ms" }}
-          >
-            {children}
-          </div>
-        )}
+      {items.map((child, i) => (
+        <div
+          key={i}
+          data-reveal={variant}
+          data-revealed={revealed ? "" : undefined}
+          style={{ transitionDelay: revealed ? `${i * stagger}ms` : "0ms" }}
+        >
+          {child}
+        </div>
+      ))}
     </div>
   );
 }

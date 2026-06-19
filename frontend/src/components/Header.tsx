@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -71,11 +71,28 @@ export function Header() {
   const pathname = usePathname();
   const { user } = useAuth();
   const accountLabel = user ? "Mein Konto" : "Anmelden";
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   // Close the mobile menu on navigation
   useEffect(() => {
     setMenuOpen(false);
   }, [pathname]);
+
+  // Mobile menu a11y (P2-16f): Escape closes the menu and returns focus to the
+  // toggle; opening moves focus to the first menu link.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMenuOpen(false);
+        toggleRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    menuRef.current?.querySelector<HTMLElement>("a[href]")?.focus();
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [menuOpen]);
 
   return (
     <header className="sticky top-0 z-50 border-b border-gray-200 bg-white">
@@ -83,6 +100,7 @@ export function Header() {
         {/* Mobile: hamburger – left */}
         <div className="justify-self-start md:hidden">
           <button
+            ref={toggleRef}
             type="button"
             onClick={() => setMenuOpen((open) => !open)}
             aria-expanded={menuOpen}
@@ -155,6 +173,7 @@ export function Header() {
       {/* Mobile dropdown panel */}
       <div
         id="mobile-menu"
+        ref={menuRef}
         className={`grid overflow-hidden border-gray-200 bg-white transition-all duration-300 ease-in-out md:hidden ${
           menuOpen ? "grid-rows-[1fr] border-t" : "grid-rows-[0fr]"
         }`}

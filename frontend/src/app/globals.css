@@ -132,3 +132,27 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* Scroll-reveal (P2-16e): content is visible by default so it works without JS,
+   with reduced motion, and for crawlers. Only when JS is active (html.js) do
+   not-yet-revealed elements start hidden and then transition in. */
+.js [data-reveal]:not([data-revealed]) {
+  opacity: 0;
+}
+.js [data-reveal="fade-up"]:not([data-revealed]) {
+  transform: translateY(1.5rem);
+}
+.js [data-reveal="fade-down"]:not([data-revealed]) {
+  transform: translateY(-1rem);
+}
+.js [data-reveal] {
+  transition:
+    opacity 0.5s ease-out,
+    transform 0.5s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal]:not([data-revealed]) {
+    opacity: 1;
+    transform: none;
+  }
+}

@@ -64,6 +64,7 @@ export function ResetPasswordForm() {
         ) : (
           <form
             onSubmit={onSubmit}
+            aria-describedby={error ? "reset-error" : undefined}
             className="mt-8 flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8"
           >
             <p className="text-sm text-gray-500">
@@ -103,7 +104,11 @@ export function ResetPasswordForm() {
             </div>
 
             {error && (
-              <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700" role="alert">
+              <p
+                id="reset-error"
+                role="alert"
+                className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700"
+              >
                 {error}
               </p>
             )}

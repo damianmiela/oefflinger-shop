@@ -63,6 +63,7 @@ function LoginForm() {
     return (
       <form
         onSubmit={onForgotSubmit}
+        aria-describedby={error ? "forgot-error" : undefined}
         className="flex h-full flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8"
       >
         <div>
@@ -106,7 +107,13 @@ function LoginForm() {
             <Turnstile onToken={setTurnstileToken} />
 
             {error && (
-              <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
+              <p
+                id="forgot-error"
+                role="alert"
+                className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700"
+              >
+                {error}
+              </p>
             )}
 
             <button
@@ -137,6 +144,7 @@ function LoginForm() {
   return (
     <form
       onSubmit={onSubmit}
+      aria-describedby={error ? "login-error" : undefined}
       className="flex h-full flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8"
     >
       <div>
@@ -184,7 +192,15 @@ function LoginForm() {
         </div>
       </div>
 
-      {error && <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
+      {error && (
+        <p
+          id="login-error"
+          role="alert"
+          className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700"
+        >
+          {error}
+        </p>
+      )}
 
       <button
         type="submit"
@@ -230,6 +246,7 @@ function RegisterForm() {
   return (
     <form
       onSubmit={onSubmit}
+      aria-describedby={error ? "register-error" : undefined}
       className="flex h-full flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8"
     >
       <div>
@@ -308,7 +325,15 @@ function RegisterForm() {
 
       <Turnstile onToken={setTurnstileToken} />
 
-      {error && <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
+      {error && (
+        <p
+          id="register-error"
+          role="alert"
+          className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700"
+        >
+          {error}
+        </p>
+      )}
 
       <button
         type="submit"

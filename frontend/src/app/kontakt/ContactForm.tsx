@@ -71,6 +71,7 @@ export function ContactForm() {
   return (
     <form
       onSubmit={onSubmit}
+      aria-describedby={error ? "contact-error" : undefined}
       className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8"
     >
       <h2 className="text-xl font-semibold text-gray-900">Nachricht senden</h2>
@@ -136,7 +137,11 @@ export function ContactForm() {
       </div>
 
       {error && (
-        <p className="mt-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700" role="alert">
+        <p
+          id="contact-error"
+          role="alert"
+          className="mt-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700"
+        >
           {error}
         </p>
       )}
