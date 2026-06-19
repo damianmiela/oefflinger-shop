@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: "Produkt nicht gefunden", robots: { index: false, follow: false } };
   }
   const description = toMetaDescription(product.short_description || product.description || "");
-  const path = `/product/${product.slug}`;
+  const path = `/shop/${product.slug}`;
   const image = product.images?.[0];
   return {
     title: product.name,
@@ -83,7 +83,7 @@ export default async function ProductPage({ params }: Props) {
   );
 
   const metal = getMetalByProductSlug(product.slug);
-  const canonicalUrl = absoluteUrl(`/product/${product.slug}`);
+  const canonicalUrl = absoluteUrl(`/shop/${product.slug}`);
   const ldDescription = toMetaDescription(
     product.short_description || product.description || "",
     300,

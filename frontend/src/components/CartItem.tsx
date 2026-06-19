@@ -17,7 +17,7 @@ export function CartItem({ item, volumeMl = null }: CartItemProps) {
   const { removeItem, updateItem, loading } = useCart();
   const slug = slugFromPermalink(item.permalink);
   const max = item.quantity_limits?.maximum ?? 9999;
-  const href = slug ? `/product/${slug}` : null;
+  const href = slug ? `/shop/${slug}` : null;
 
   const currency = item.totals.currency_code;
   const lineTotalCents = Number(item.totals.line_total) + Number(item.totals.line_total_tax ?? 0);

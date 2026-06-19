@@ -5,6 +5,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { AnimateChildren } from "@/components/AnimateChildren";
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 import { HeroParallax } from "@/components/HeroParallax";
+import { COLLOIDAL_METALS } from "@/data/colloidal-metals";
 import type { Product } from "@/types";
 
 const SECTION_CLASS = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8";
@@ -104,6 +105,41 @@ export default async function HomePage() {
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+      </AnimateOnScroll>
+
+      {/* Metal tiles – category entry points (P2-17d) */}
+      <AnimateOnScroll variant="fade-up">
+      <section className="border-t border-gray-100 bg-surface-alt py-20 sm:py-28">
+        <div className={SECTION_CLASS}>
+          <h2 className="text-center text-3xl font-bold tracking-tight text-primary-dark sm:text-4xl">
+            Unsere 14 Metalle
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-center text-gray-600">
+            Wählen Sie ein Metall und erfahren Sie mehr über seine Eigenschaften und möglichen
+            Einsatzbereiche.
+          </p>
+          <div className="mx-auto mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">
+            {COLLOIDAL_METALS.map((metal) => (
+              <Link
+                key={metal.id}
+                href={`/produkte/${metal.id}`}
+                className="group relative flex aspect-square items-center justify-center overflow-hidden rounded-2xl shadow-sm transition hover:shadow-md"
+                style={{
+                  backgroundImage: `linear-gradient(135deg, ${metal.gradientFrom}, ${metal.gradientTo})`,
+                }}
+              >
+                <span
+                  className="absolute inset-0 transition group-hover:bg-black/10"
+                  aria-hidden
+                />
+                <span className="relative rounded-full bg-white/90 px-3 py-1 text-sm font-semibold text-gray-900 shadow-sm">
+                  {metal.name}
+                </span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>

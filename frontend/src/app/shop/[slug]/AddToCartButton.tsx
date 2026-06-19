@@ -114,7 +114,7 @@ export function AddToCartButton({ product }: { product: Product }) {
                 {quantity} × {product.name}
               </p>
               <Link
-                href="/cart"
+                href="/warenkorb"
                 className="bg-primary hover:bg-primary-light mt-3 inline-block rounded-lg px-4 py-2 text-sm font-semibold text-white transition"
               >
                 Zum Warenkorb

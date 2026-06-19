@@ -3,7 +3,7 @@ import { SITE_URL, INDEXING_ENABLED, absoluteUrl } from "@/lib/seo";
 
 /** Functional routes that should never be crawled (no SEO value, user-specific). */
 const DISALLOW_FUNCTIONAL = [
-  "/cart",
+  "/warenkorb",
   "/checkout",
   "/kasse",
   "/zur-kasse",

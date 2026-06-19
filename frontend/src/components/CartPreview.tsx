@@ -45,7 +45,7 @@ function CartPreviewItem({ item }: { item: CartItemData }) {
 
   if (slug) {
     return (
-      <Link href={`/product/${slug}`} className="block transition hover:bg-gray-50">
+      <Link href={`/shop/${slug}`} className="block transition hover:bg-gray-50">
         {content}
       </Link>
     );
@@ -103,7 +103,7 @@ export function CartPreview() {
   return (
     <div ref={containerRef} className="relative" onMouseEnter={show} onMouseLeave={hide}>
       <Link
-        href="/cart"
+        href="/warenkorb"
         className="hover:bg-primary/10 hover:text-primary relative flex items-center gap-1.5 rounded-full px-4 py-2 pr-6 text-sm font-medium text-gray-700 transition-colors duration-200"
       >
         {showPulse && (

@@ -51,7 +51,7 @@ Durch die kolloidale Form werden Chrompartikel in einer Form bereitgestellt, die
       "Antioxidativer Schutz",
       "Stimmung & Wohlbefinden",
     ],
-    productLink: "/product/kolloidales-chrom",
+    productLink: "/shop/kolloidales-chrom",
   },
   {
     id: "eisen",
@@ -85,7 +85,7 @@ Kolloidales Eisen stellt dieses wichtige Spurenelement in einer speziellen Form 
       "Blutbildung",
       "Verdauung & Wohlbefinden",
     ],
-    productLink: "/product/kolloidales-eisen",
+    productLink: "/shop/kolloidales-eisen",
   },
   {
     id: "gold",
@@ -123,7 +123,7 @@ Darüber hinaus wird kolloidales Gold mit einer möglichen Unterstützung der k�
       "Muskel & Regeneration",
       "Antioxidativer Schutz",
     ],
-    productLink: "/product/kolloidales-gold",
+    productLink: "/shop/kolloidales-gold",
   },
   {
     id: "kobalt",
@@ -159,7 +159,7 @@ Durch seine kolloidale Form wird Kobalt in einer speziellen Struktur bereitgeste
       "Haut & Haare",
       "Blutbildung",
     ],
-    productLink: "/product/kolloidales-kobalt",
+    productLink: "/shop/kolloidales-kobalt",
   },
   {
     id: "kupfer",
@@ -194,7 +194,7 @@ Darüber hinaus wird kolloidales Kupfer mit möglichen positiven Effekten auf Ha
       "Blutbildung",
       "Verdauung & Wohlbefinden",
     ],
-    productLink: "/product/kolloidales-kupfer",
+    productLink: "/shop/kolloidales-kupfer",
   },
   {
     id: "magnesium",
@@ -231,7 +231,7 @@ Kolloidales Magnesium stellt dieses wichtige Mineral in einer Form bereit, die e
       "Blutzucker",
       "Immunsystem",
     ],
-    productLink: "/product/kolloidales-magnesium",
+    productLink: "/shop/kolloidales-magnesium",
   },
   {
     id: "molybdan",
@@ -271,7 +271,7 @@ Kolloidales Molybdän stellt dieses Spurenelement in einer Form bereit, die eine
       "Knochen",
       "Verdauung & Wohlbefinden",
     ],
-    productLink: "/product/kolloidales-molybdan",
+    productLink: "/shop/kolloidales-molybdan",
   },
   {
     id: "nickel",
@@ -308,7 +308,7 @@ Kolloidales Nickel stellt dieses Spurenelement in einer Form bereit, die eine m�
       "Antioxidativer Schutz",
       "Blutzucker",
     ],
-    productLink: "/product/kolloidales-nickel",
+    productLink: "/shop/kolloidales-nickel",
   },
   {
     id: "silber",
@@ -339,7 +339,7 @@ Durch seine kolloidale Form wird Silber in einer Struktur bereitgestellt, die ei
       "Haut & Haare",
       "Verdauung & Wohlbefinden",
     ],
-    productLink: "/product/kolloidales-silber",
+    productLink: "/shop/kolloidales-silber",
   },
   {
     id: "silizium",
@@ -375,7 +375,7 @@ Kolloidales Silizium stellt dieses Spurenelement in einer Form bereit, die eine 
       "Antioxidativer Schutz",
       "Verdauung & Wohlbefinden",
     ],
-    productLink: "/product/kolloidales-silizium",
+    productLink: "/shop/kolloidales-silizium",
   },
   {
     id: "tantal",
@@ -412,7 +412,7 @@ Kolloidales Tantal stellt dieses Element in einer Form bereit, die eine möglich
       "Muskel & Regeneration",
       "Verdauung & Wohlbefinden",
     ],
-    productLink: "/product/kolloidales-tantal",
+    productLink: "/shop/kolloidales-tantal",
   },
   {
     id: "vanadium",
@@ -452,7 +452,7 @@ Kolloidales Vanadium stellt dieses Spurenelement in einer Form bereit, die eine 
       "Blutzucker",
       "Muskel & Regeneration",
     ],
-    productLink: "/product/kolloidales-vanadium",
+    productLink: "/shop/kolloidales-vanadium",
   },
   {
     id: "zink",
@@ -491,7 +491,7 @@ Kolloidales Zink stellt dieses Spurenelement in einer Form bereit, die eine mög
       "Antioxidativer Schutz",
       "Muskel & Regeneration",
     ],
-    productLink: "/product/kolloidales-zink",
+    productLink: "/shop/kolloidales-zink",
   },
   {
     id: "zinn",
@@ -533,7 +533,7 @@ Kolloidales Zinn stellt dieses Spurenelement in einer Form bereit, die eine mög
       "Verdauung & Wohlbefinden",
       "Haut & Haare",
     ],
-    productLink: "/product/kolloidales-zinn",
+    productLink: "/shop/kolloidales-zinn",
   },
 ];
 
@@ -549,7 +549,7 @@ export function getMetalById(id: string): ColloidalMetal | undefined {
 
 /** Get the metal whose shop product matches the given product slug (e.g. "kolloidales-silber"). */
 export function getMetalByProductSlug(slug: string): ColloidalMetal | undefined {
-  return COLLOIDAL_METALS.find((m) => m.productLink === `/product/${slug}`);
+  return COLLOIDAL_METALS.find((m) => m.productLink === `/shop/${slug}`);
 }
 
 /** All unique uses across metals, sorted by metal count (most first) */

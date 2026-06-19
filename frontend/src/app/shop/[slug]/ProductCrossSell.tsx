@@ -33,7 +33,7 @@ export function ProductCrossSell({ products, orientation = "vertical" }: Product
           {products.map((p) => (
             <Link
               key={p.id}
-              href={`/product/${p.slug}`}
+              href={`/shop/${p.slug}`}
               className="group flex w-28 shrink-0 snap-start flex-col items-center gap-1.5 rounded-lg border border-gray-100 bg-white p-2 transition hover:border-gray-200 hover:bg-gray-50"
             >
               <div className="bg-surface-alt relative aspect-square w-full overflow-hidden rounded">
@@ -87,7 +87,7 @@ export function ProductCrossSell({ products, orientation = "vertical" }: Product
           {products.map((p) => (
             <Link
               key={p.id}
-              href={`/product/${p.slug}`}
+              href={`/shop/${p.slug}`}
               className="group flex flex-col items-center gap-1.5 rounded-lg border border-gray-100 p-2 transition hover:border-gray-200 hover:bg-gray-50"
             >
               <div className="bg-surface-alt relative aspect-square w-full overflow-hidden rounded">

@@ -38,7 +38,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const { products } = await getProductsPaginated(1, 100);
     productEntries = products.map((p) => ({
-      url: absoluteUrl(`/product/${p.slug}`),
+      url: absoluteUrl(`/shop/${p.slug}`),
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.8,

@@ -104,7 +104,7 @@ export function SearchBox({ variant = "desktop", onNavigate }: SearchBoxProps) {
           {results.map((product) => (
             <li key={product.id} role="option" aria-selected={false}>
               <Link
-                href={`/product/${product.slug}`}
+                href={`/shop/${product.slug}`}
                 onClick={closeAndNavigate}
                 className="flex items-center gap-3 px-4 py-2.5 transition hover:bg-gray-50"
               >

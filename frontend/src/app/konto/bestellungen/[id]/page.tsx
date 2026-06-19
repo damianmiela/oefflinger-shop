@@ -123,7 +123,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
           return item.slug ? (
             <Link
               key={i}
-              href={`/product/${item.slug}`}
+              href={`/shop/${item.slug}`}
               className="block transition hover:bg-gray-50"
             >
               {content}

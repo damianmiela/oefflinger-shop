@@ -22,6 +22,13 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      // P2-17b: German slugs are canonical; 301 the old English routes.
+      { source: "/cart", destination: "/warenkorb", permanent: true },
+      { source: "/product/:slug", destination: "/shop/:slug", permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;
