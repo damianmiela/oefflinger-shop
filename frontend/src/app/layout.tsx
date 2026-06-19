@@ -66,7 +66,7 @@ export const metadata: Metadata = {
   },
 };
 
-const FOOTER_LINK_CLASS = "text-sm text-white/75 transition hover:text-white";
+const FOOTER_LINK_CLASS = "text-sm text-white/80 transition hover:text-white";
 
 const FOOTER_COLUMNS: { title: string; links: { href: string; label: string }[] }[] = [
   {
@@ -99,11 +99,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="de">
       <body className={`${inter.className} bg-surface text-gray-900 antialiased`}>
+        <a
+          href="#main"
+          className="focus:bg-primary sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:px-4 focus:py-2 focus:font-medium focus:text-white focus:shadow-lg"
+        >
+          Zum Inhalt springen
+        </a>
         <JsonLd data={BUSINESS_LD} />
         <AuthProvider>
           <CartProvider>
             <Header />
-            <main className="min-h-screen">{children}</main>
+            <main id="main" tabIndex={-1} className="min-h-screen scroll-mt-24 focus:outline-none">
+              {children}
+            </main>
             <footer className="bg-primary-dark">
               <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
                 <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
@@ -128,7 +136,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <p className="text-sm font-semibold tracking-wider text-white uppercase">
                       Kontakt
                     </p>
-                    <address className="mt-4 space-y-2.5 text-sm text-white/75 not-italic">
+                    <address className="mt-4 space-y-2.5 text-sm text-white/80 not-italic">
                       <p>
                         Öfflinger
                         <br />
@@ -151,17 +159,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
                 <div className="mt-12 flex flex-col gap-6 border-t border-white/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
                   <div>
-                    <p className="text-xs font-medium tracking-wider text-white/60 uppercase">
+                    <p className="text-xs font-medium tracking-wider text-white/70 uppercase">
                       Sichere Bezahlung
                     </p>
                     <PaymentMethodLogos className="mt-3" />
                   </div>
-                  <p className="text-sm text-white/70">
+                  <p className="text-sm text-white/80">
                     Versand mit DHL – Lieferung innerhalb Deutschlands
                   </p>
                 </div>
 
-                <p className="mt-10 text-sm text-white/60">
+                <p className="mt-10 text-sm text-white/70">
                   &copy; {new Date().getFullYear()} Öfflinger · Kolloidale Metalle aus eigener
                   Produktion
                 </p>

@@ -92,7 +92,7 @@ export function AddToCartButton({ product }: { product: Product }) {
         {loading ? "Wird hinzugefügt…" : added ? "Hinzugefügt!" : "In den Warenkorb"}
       </button>
       {lastError && (
-        <p className="w-full text-sm text-amber-600" role="alert">
+        <p className="w-full text-sm text-amber-700" role="alert">
           {lastError.message}
         </p>
       )}

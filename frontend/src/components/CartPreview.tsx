@@ -122,7 +122,7 @@ export function CartPreview() {
         </svg>
         <span className="hidden md:inline">Warenkorb</span>
         {itemCount > 0 && (
-          <span className="bg-accent absolute -top-2 -right-1 flex h-5 w-5 items-center justify-center rounded-full text-xs font-bold text-white">
+          <span className="bg-accent text-primary-dark absolute -top-2 -right-1 flex h-5 w-5 items-center justify-center rounded-full text-xs font-bold">
             {itemCount}
           </span>
         )}

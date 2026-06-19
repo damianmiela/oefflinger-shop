@@ -109,3 +109,26 @@ html,
 body {
   overflow-x: clip;
 }
+
+/* Consistent keyboard focus ring (P2-16b). :where() keeps specificity 0 so
+   element/utility styles (inputs, gallery, outline-none) still take precedence. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Respect prefers-reduced-motion (P2-16a): neutralize animations, transitions
+   and smooth scrolling for users who ask for less motion. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

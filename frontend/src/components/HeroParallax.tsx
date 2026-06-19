@@ -21,6 +21,9 @@ export function HeroParallax({ imageUrl, children }: HeroParallaxProps) {
   const imageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Respect reduced-motion (P2-16a): leave the hero image static, no parallax.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
     const handleScroll = () => {
       const section = sectionRef.current;
       const image = imageRef.current;
