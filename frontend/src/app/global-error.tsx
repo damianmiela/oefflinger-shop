@@ -6,6 +6,8 @@
  * app's CSS (globals.css is imported by the layout that just failed). Styles are
  * therefore inline, using the brand palette, so the page still looks intentional.
  */
+import { useEffect } from "react";
+
 export default function GlobalError({
   error,
   reset,
@@ -13,6 +15,10 @@ export default function GlobalError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  useEffect(() => {
+    console.error(error);
+  }, [error]);
+
   return (
     <html lang="de">
       <body
