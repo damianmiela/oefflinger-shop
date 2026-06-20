@@ -5,6 +5,7 @@ import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { Header } from "@/components/Header";
+import { NewsletterPopup } from "@/components/NewsletterPopup";
 import { PaymentMethodLogos } from "@/components/PaymentMethodLogos";
 import { JsonLd } from "@/components/JsonLd";
 import { SITE_URL, robotsMetadata, DEFAULT_OG_IMAGE, absoluteUrl } from "@/lib/seo";
@@ -181,6 +182,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </p>
               </div>
             </footer>
+            <NewsletterPopup />
           </CartProvider>
         </AuthProvider>
       </body>

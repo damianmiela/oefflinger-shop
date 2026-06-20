@@ -136,7 +136,7 @@ export default function DatenschutzPage() {
             </p>
             <p className="mt-2">
               Als Dankeschön für Ihre Anmeldung erhalten Sie nach der Bestätigung einen einmaligen
-              Rabattgutschein (5% auf Ihre erste Bestellung). Sie können Ihre Einwilligung jederzeit
+              Rabattgutschein (10% auf Ihre erste Bestellung). Sie können Ihre Einwilligung jederzeit
               mit Wirkung für die Zukunft widerrufen, zum Beispiel über den Abmeldelink in jeder
               Newsletter-E-Mail (Art. 7 Abs. 3 DSGVO). Nach der Abmeldung entfernen wir Ihre Daten
               aus dem Verteiler, soweit keine gesetzlichen Aufbewahrungspflichten entgegenstehen.

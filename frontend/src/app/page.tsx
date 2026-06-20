@@ -481,10 +481,10 @@ export default async function HomePage() {
                 Newsletter
               </p>
               <h2 className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                5% Willkommensgutschein sichern
+                10% Willkommensgutschein sichern
               </h2>
               <p className="mx-auto mt-4 max-w-xl text-white/90">
-                Melden Sie sich für unseren Newsletter an und erhalten Sie 5% Rabatt auf Ihre erste
+                Melden Sie sich für unseren Newsletter an und erhalten Sie 10% Rabatt auf Ihre erste
                 Bestellung – dazu Neuigkeiten zu unseren kolloidalen Metallen aus der Eifel.
               </p>
               <div className="mt-8">

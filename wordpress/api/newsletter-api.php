@@ -3,7 +3,7 @@
  * Plugin Name: Newsletter (Oefflinger)
  * Description: Double-opt-in newsletter signup for the headless frontend. Stores
  * subscribers as a private `oeff_newsletter` CPT, sends a German confirmation
- * email (DOI), and issues a 5% WooCommerce welcome coupon on confirmation.
+ * email (DOI), and issues a 10% WooCommerce welcome coupon on confirmation.
  *
  * Endpoints (oeff/v1):
  *   POST /newsletter/subscribe    { email, website (honeypot), turnstile_token }
@@ -111,7 +111,7 @@ function oeff_nl_send_confirmation_email($email, $token) {
     $body    = sprintf(
         "Hallo,\n\nvielen Dank für Ihr Interesse am Öfflinger-Newsletter.\n\n" .
         "Bitte bestätigen Sie Ihre Anmeldung mit einem Klick auf den folgenden Link:\n%s\n\n" .
-        "Nach der Bestätigung erhalten Sie Ihren 5%%-Willkommensgutschein für Ihre erste Bestellung.\n\n" .
+        "Nach der Bestätigung erhalten Sie Ihren 10%%-Willkommensgutschein für Ihre erste Bestellung.\n\n" .
         "Wenn Sie sich nicht angemeldet haben, ignorieren Sie diese E-Mail einfach – es werden dann keine Daten gespeichert oder E-Mails versendet.\n\n" .
         "Ihr Öfflinger-Team",
         $url
@@ -121,10 +121,10 @@ function oeff_nl_send_confirmation_email($email, $token) {
 
 function oeff_nl_send_coupon_email($email, $code, $token) {
     $unsub   = oeff_nl_frontend_url() . '/newsletter/abmelden?token=' . rawurlencode($token);
-    $subject = 'Ihr 5%-Willkommensgutschein – Öfflinger';
+    $subject = 'Ihr 10%-Willkommensgutschein – Öfflinger';
     $body    = sprintf(
         "Hallo,\n\nvielen Dank – Ihre Newsletter-Anmeldung ist bestätigt.\n\n" .
-        "Ihr persönlicher Willkommensgutschein über 5%% auf Ihre erste Bestellung:\n\n    %s\n\n" .
+        "Ihr persönlicher Willkommensgutschein über 10%% auf Ihre erste Bestellung:\n\n    %s\n\n" .
         "Lösen Sie den Code im Warenkorb bzw. an der Kasse ein. Der Gutschein ist 90 Tage gültig, " .
         "einmalig einlösbar und an diese E-Mail-Adresse gebunden.\n\n" .
         "Sie möchten den Newsletter nicht mehr erhalten? Hier abmelden:\n%s\n\n" .
@@ -136,24 +136,24 @@ function oeff_nl_send_coupon_email($email, $code, $token) {
 }
 
 /**
- * Create a single-use 5% welcome coupon bound to the subscriber's email.
+ * Create a single-use 10% welcome coupon bound to the subscriber's email.
  * Returns the coupon code, or '' if WooCommerce is unavailable.
  */
 function oeff_nl_create_welcome_coupon($email) {
     if (!class_exists('WC_Coupon')) {
         return '';
     }
-    $code = 'WILLKOMMEN5-' . strtoupper(wp_generate_password(6, false, false));
+    $code = 'WILLKOMMEN10-' . strtoupper(wp_generate_password(6, false, false));
     try {
         $coupon = new WC_Coupon();
         $coupon->set_code($code);
         $coupon->set_discount_type('percent');
-        $coupon->set_amount(5);
+        $coupon->set_amount(10);
         $coupon->set_individual_use(true);
         $coupon->set_usage_limit(1);
         $coupon->set_email_restrictions([strtolower($email)]);
         $coupon->set_date_expires(strtotime('+90 days'));
-        $coupon->set_description('Newsletter-Willkommensgutschein (5%)');
+        $coupon->set_description('Newsletter-Willkommensgutschein (10%)');
         $coupon->save();
     } catch (Exception $e) {
         return '';
@@ -251,7 +251,7 @@ function oeff_nl_confirm(WP_REST_Request $request) {
     // Idempotent: re-clicking returns the existing coupon instead of issuing a new one.
     if ($status === 'confirmed') {
         $code = get_post_meta($post_id, '_oeff_nl_coupon', true);
-        return new WP_REST_Response(['ok' => true, 'coupon' => $code ?: null, 'discount' => '5%'], 200);
+        return new WP_REST_Response(['ok' => true, 'coupon' => $code ?: null, 'discount' => '10%'], 200);
     }
 
     update_post_meta($post_id, '_oeff_nl_status', 'confirmed');
@@ -263,7 +263,7 @@ function oeff_nl_confirm(WP_REST_Request $request) {
         oeff_nl_send_coupon_email($email, $code, get_post_meta($post_id, '_oeff_nl_token', true));
     }
 
-    return new WP_REST_Response(['ok' => true, 'coupon' => $code ?: null, 'discount' => '5%'], 200);
+    return new WP_REST_Response(['ok' => true, 'coupon' => $code ?: null, 'discount' => '10%'], 200);
 }
 
 function oeff_nl_unsubscribe(WP_REST_Request $request) {

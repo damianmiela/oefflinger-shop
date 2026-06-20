@@ -1,6 +1,6 @@
 /**
  * Newsletter client for the headless WordPress API (oeff/v1/newsletter).
- * Double-opt-in: subscribe → confirmation email → confirm (issues 5% coupon).
+ * Double-opt-in: subscribe → confirmation email → confirm (issues 10% coupon).
  */
 
 const WP_URL = process.env.NEXT_PUBLIC_WP_URL || "http://localhost:4001";
@@ -44,7 +44,7 @@ export interface NewsletterConfirmResult {
 /** Confirm a subscription via the emailed token; returns the welcome coupon. */
 export async function apiNewsletterConfirm(token: string): Promise<NewsletterConfirmResult> {
   const data = await post<{ coupon: string | null; discount: string }>("/confirm", { token });
-  return { coupon: data.coupon ?? null, discount: data.discount ?? "5%" };
+  return { coupon: data.coupon ?? null, discount: data.discount ?? "10%" };
 }
 
 /** Unsubscribe via the emailed token. Resolves generically. */

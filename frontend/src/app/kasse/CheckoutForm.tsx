@@ -8,6 +8,7 @@ import { useAuth } from "@/context/AuthContext";
 import * as wooApi from "@/lib/woo/api";
 import { toUserMessage } from "@/lib/woo/api";
 import { getStoredToken, storeToken } from "@/lib/woo/cart-token";
+import { apiNewsletterSubscribe } from "@/lib/newsletter";
 import { formatCents } from "@/lib/format";
 import { PaymentMethodLogos } from "@/components/PaymentMethodLogos";
 import type { CheckoutAddress } from "@/types";
@@ -98,6 +99,7 @@ export function CheckoutForm() {
   const [note, setNote] = useState("");
   const [payment, setPayment] = useState<string>("");
   const [agb, setAgb] = useState(false);
+  const [newsletterOptIn, setNewsletterOptIn] = useState(false);
 
   const [ratesLoading, setRatesLoading] = useState(false);
   const [placing, setPlacing] = useState(false);
@@ -238,6 +240,15 @@ export function CheckoutForm() {
         },
         getStoredToken(),
       );
+
+      // Newsletter opt-in (best-effort, double opt-in) — must never block/break the order.
+      if (newsletterOptIn && email) {
+        try {
+          await apiNewsletterSubscribe({ email });
+        } catch {
+          /* ignore — the order must succeed regardless */
+        }
+      }
 
       const pr = data.payment_result;
       const externalRedirect =
@@ -660,6 +671,20 @@ export function CheckoutForm() {
                 Widerrufsbelehrung
               </Link>{" "}
               zur Kenntnis genommen und bin mit ihnen einverstanden.
+            </span>
+          </label>
+
+          <label className="mt-3 flex items-start gap-2.5 text-xs leading-relaxed text-gray-600">
+            <input
+              type="checkbox"
+              checked={newsletterOptIn}
+              onChange={(e) => setNewsletterOptIn(e.target.checked)}
+              className="text-primary focus:ring-primary/30 mt-0.5 h-4 w-4 rounded border-gray-300"
+            />
+            <span>
+              Ja, ich möchte den Öfflinger-Newsletter mit Neuigkeiten und Angeboten erhalten und
+              meinen 10%-Willkommensgutschein sichern. Die Anmeldung bestätige ich per E-Mail; eine
+              Abmeldung ist jederzeit möglich.
             </span>
           </label>
 

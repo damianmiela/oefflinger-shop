@@ -2,7 +2,7 @@
 
 /**
  * Newsletter double-opt-in confirmation page (P2-15c). Reads the token from the
- * emailed link, confirms the subscription, and shows the 5% welcome coupon.
+ * emailed link, confirms the subscription, and shows the 10% welcome coupon.
  */
 import { Suspense, useEffect, useRef, useState } from "react";
 import Link from "next/link";
@@ -60,7 +60,7 @@ function ConfirmContent() {
               <p className="text-sm text-gray-500">Ihr Willkommensgutschein</p>
               <p className="text-primary mt-2 text-2xl font-bold tracking-wide">{coupon}</p>
               <p className="mt-2 text-sm text-gray-600">
-                5% auf Ihre erste Bestellung · 90 Tage gültig · einmalig einlösbar. Den Code haben
+                10% auf Ihre erste Bestellung · 90 Tage gültig · einmalig einlösbar. Den Code haben
                 wir Ihnen auch per E-Mail gesendet.
               </p>
             </div>

@@ -2,7 +2,7 @@
 
 /**
  * Newsletter signup (P2-15c → §4.1). Double opt-in: posting only triggers a
- * confirmation email; the 5% coupon is issued after the user confirms.
+ * confirmation email; the 10% coupon is issued after the user confirms.
  * Designed for a dark/coloured background (footer + homepage band).
  */
 import { useState } from "react";
@@ -42,7 +42,7 @@ export function NewsletterSignup({ variant = "section" }: { variant?: "section" 
     return (
       <p role="status" className={compact ? "text-sm text-white/85" : "mx-auto max-w-xl text-white/90"}>
         Fast geschafft! Wir haben Ihnen eine E-Mail geschickt – bitte bestätigen Sie darin Ihre
-        Anmeldung. Danach erhalten Sie Ihren 5%-Gutschein.
+        Anmeldung. Danach erhalten Sie Ihren 10%-Gutschein.
       </p>
     );
   }
