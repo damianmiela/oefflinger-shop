@@ -15,7 +15,7 @@ import { CouponField } from "@/components/CouponField";
 import type { CheckoutAddress } from "@/types";
 
 const inputClass =
-  "w-full rounded-lg border border-gray-300 px-3 py-2.5 text-gray-900 placeholder:text-gray-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30";
+  "w-full min-w-0 rounded-lg border border-gray-300 px-3 py-2.5 text-gray-900 placeholder:text-gray-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30";
 const labelClass = "mb-1 block text-sm font-medium text-gray-700";
 const sectionClass = "rounded-2xl border border-gray-200 bg-white p-5 shadow-sm sm:p-6";
 
@@ -390,7 +390,7 @@ export function CheckoutForm() {
 
       <form onSubmit={onSubmit} className="grid items-start gap-8 lg:grid-cols-[1fr_24rem]">
         {/* ---------- left: steps ---------- */}
-        <div className="space-y-6">
+        <div className="min-w-0 space-y-6">
           <section className={sectionClass} aria-labelledby="kasse-kontakt">
             <h2 id="kasse-kontakt" className="text-lg font-semibold text-gray-900">
               Kontakt
@@ -478,17 +478,19 @@ export function CheckoutForm() {
                           : "border-gray-200 hover:border-gray-300"
                       }`}
                     >
-                      <span className="flex items-center gap-3">
+                      <span className="flex min-w-0 items-center gap-3">
                         <input
                           type="radio"
                           name="shipping_rate"
                           checked={rate.selected}
                           onChange={() => selectRate(pkg.package_id, rate.rate_id)}
-                          className="text-primary focus:ring-primary/30 h-4 w-4 border-gray-300"
+                          className="text-primary focus:ring-primary/30 h-4 w-4 shrink-0 border-gray-300"
                         />
-                        <span className="text-sm font-medium text-gray-900">{rate.name}</span>
+                        <span className="min-w-0 truncate text-sm font-medium text-gray-900">
+                          {rate.name}
+                        </span>
                       </span>
-                      <span className="text-sm font-semibold text-gray-900">
+                      <span className="shrink-0 text-sm font-semibold text-gray-900">
                         {Number(rate.price) + Number(rate.taxes ?? 0) === 0
                           ? "Kostenlos"
                           : formatCents(
@@ -527,12 +529,14 @@ export function CheckoutForm() {
                       name="payment_method"
                       checked={selected}
                       onChange={() => setPayment(id)}
-                      className="text-primary focus:ring-primary/30 mt-0.5 h-4 w-4 border-gray-300"
+                      className="text-primary focus:ring-primary/30 mt-0.5 h-4 w-4 shrink-0 border-gray-300"
                     />
-                    <span>
+                    <span className="min-w-0">
                       <span className="block text-sm font-medium text-gray-900">{title}</span>
                       {description && (
-                        <span className="mt-0.5 block text-xs text-gray-500">{description}</span>
+                        <span className="mt-0.5 block text-xs break-words text-gray-500">
+                          {description}
+                        </span>
                       )}
                     </span>
                   </label>
@@ -558,7 +562,7 @@ export function CheckoutForm() {
         </div>
 
         {/* ---------- right: coupon + summary ---------- */}
-        <div className="space-y-6 lg:sticky lg:top-24">
+        <div className="min-w-0 space-y-6 lg:sticky lg:top-24">
           <CouponField className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm sm:p-6" />
           <aside className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
           <h2 className="text-lg font-semibold text-gray-900">Bestellübersicht</h2>
@@ -624,7 +628,7 @@ export function CheckoutForm() {
               checked={agb}
               onChange={(e) => setAgb(e.target.checked)}
               required
-              className="text-primary focus:ring-primary/30 mt-0.5 h-4 w-4 rounded border-gray-300"
+              className="text-primary focus:ring-primary/30 mt-0.5 h-4 w-4 shrink-0 rounded border-gray-300"
             />
             <span>
               Ich habe die{" "}
@@ -645,7 +649,7 @@ export function CheckoutForm() {
                 type="checkbox"
                 checked={newsletterOptIn}
                 onChange={(e) => setNewsletterOptIn(e.target.checked)}
-                className="text-primary focus:ring-primary/30 mt-0.5 h-4 w-4 rounded border-gray-300"
+                className="text-primary focus:ring-primary/30 mt-0.5 h-4 w-4 shrink-0 rounded border-gray-300"
               />
               <span>
                 Ja, ich möchte den Öfflinger-Newsletter mit Neuigkeiten und Angeboten erhalten und
