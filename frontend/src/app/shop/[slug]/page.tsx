@@ -14,6 +14,9 @@ import Link from "next/link";
 import { formatBasePrice, volumeFromAttributes } from "@/lib/format";
 import { toMetaDescription, absoluteUrl } from "@/lib/seo";
 import { JsonLd } from "@/components/JsonLd";
+import { getProductReviews } from "@/lib/woo/reviews";
+import { ProductReviews } from "@/components/ProductReviews";
+import { StarRating } from "@/components/StarRating";
 import { getMetalByProductSlug } from "@/data/colloidal-metals";
 import type { Product } from "@/types";
 import type { Metadata } from "next";
@@ -83,6 +86,13 @@ export default async function ProductPage({ params }: Props) {
   );
 
   const metal = getMetalByProductSlug(product.slug);
+
+  const reviewAverage = parseFloat(product.average_rating || "0") || 0;
+  const reviewCount = product.review_count || 0;
+  const initialReviews =
+    reviewCount > 0
+      ? await getProductReviews(product.id, 1, 10).catch(() => ({ reviews: [], total: 0, totalPages: 0 }))
+      : { reviews: [], total: 0, totalPages: 0 };
   const canonicalUrl = absoluteUrl(`/shop/${product.slug}`);
   const ldDescription = toMetaDescription(
     product.short_description || product.description || "",
@@ -115,6 +125,17 @@ export default async function ProductPage({ params }: Props) {
             itemCondition: "https://schema.org/NewCondition",
             url: canonicalUrl,
             priceValidUntil,
+          },
+        }
+      : {}),
+    ...(reviewCount > 0
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: reviewAverage.toFixed(1),
+            reviewCount,
+            bestRating: 5,
+            worstRating: 1,
           },
         }
       : {}),
@@ -155,6 +176,11 @@ export default async function ProductPage({ params }: Props) {
               <h1 className="order-1 text-3xl font-bold tracking-tight text-gray-900 lg:order-none">
                 {product.name}
               </h1>
+              {reviewCount > 0 && (
+                <a href="#bewertungen" className="order-1 mt-2 inline-flex w-fit lg:order-none">
+                  <StarRating rating={reviewAverage} count={reviewCount} size="md" />
+                </a>
+              )}
               <p className="order-2 mt-3 lg:order-none">
                 <PriceDisplay
                   prices={product.prices}
@@ -274,6 +300,19 @@ export default async function ProductPage({ params }: Props) {
           </div>
         </AnimateOnScroll>
       )}
+
+      {/* Reviews (P1-13a) */}
+      <AnimateOnScroll variant="fade-up">
+        <section id="bewertungen" className="mt-12 scroll-mt-24 border-t border-gray-100 pt-10">
+          <ProductReviews
+            productId={product.id}
+            initialReviews={initialReviews.reviews}
+            initialTotal={initialReviews.total}
+            average={reviewAverage}
+            count={reviewCount}
+          />
+        </section>
+      </AnimateOnScroll>
 
       {/* Cross-link into the knowledge hub for this metal (P2-14h) */}
       {metal && (

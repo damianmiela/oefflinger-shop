@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { PriceDisplay } from "@/components/PriceDisplay";
+import { StarRating } from "@/components/StarRating";
 import { formatBasePrice, volumeFromAttributes } from "@/lib/format";
 import type { Product } from "@/types";
 
@@ -10,6 +11,8 @@ export function ProductCard({ product }: { product: Product }) {
     volumeFromAttributes(product.attributes),
     product.prices.currency_code,
   );
+  const reviewAverage = parseFloat(product.average_rating || "0") || 0;
+  const reviewCount = product.review_count || 0;
 
   return (
     <Link
@@ -35,6 +38,9 @@ export function ProductCard({ product }: { product: Product }) {
           {product.name}
         </h3>
         <div className="mt-auto pt-3 sm:pt-4">
+          {reviewCount > 0 && (
+            <StarRating rating={reviewAverage} count={reviewCount} size="sm" className="mb-2" />
+          )}
           <p>
             <PriceDisplay prices={product.prices} size="md" showTaxNote basePrice={basePrice} />
           </p>
