@@ -122,6 +122,26 @@ export default function DatenschutzPage() {
               DSGVO).
             </p>
           </section>
+
+          {/* P2-15c newsletter — legal draft, NON-VETTED (D6): lawyer review before launch */}
+          <section>
+            <h2 className="text-lg font-semibold text-gray-900">11. Newsletter</h2>
+            <p className="mt-2">
+              Für den Versand unseres Newsletters verwenden wir das Double-Opt-in-Verfahren: Nach
+              Ihrer Anmeldung senden wir Ihnen eine E-Mail mit einem Bestätigungslink. Erst nach
+              Ihrer Bestätigung nehmen wir Sie in den Verteiler auf. Verarbeitet werden Ihre
+              E-Mail-Adresse sowie Datum, Uhrzeit und IP-Adresse der An- und Abmeldung, um Ihre
+              Einwilligung nachweisen zu können. Rechtsgrundlage ist Ihre Einwilligung nach
+              Art. 6 Abs. 1 lit. a DSGVO.
+            </p>
+            <p className="mt-2">
+              Als Dankeschön für Ihre Anmeldung erhalten Sie nach der Bestätigung einen einmaligen
+              Rabattgutschein (5% auf Ihre erste Bestellung). Sie können Ihre Einwilligung jederzeit
+              mit Wirkung für die Zukunft widerrufen, zum Beispiel über den Abmeldelink in jeder
+              Newsletter-E-Mail (Art. 7 Abs. 3 DSGVO). Nach der Abmeldung entfernen wir Ihre Daten
+              aus dem Verteiler, soweit keine gesetzlichen Aufbewahrungspflichten entgegenstehen.
+            </p>
+          </section>
         </div>
       </AnimateOnScroll>
     </div>

@@ -5,6 +5,7 @@ import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { Header } from "@/components/Header";
+import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { PaymentMethodLogos } from "@/components/PaymentMethodLogos";
 import { JsonLd } from "@/components/JsonLd";
 import { SITE_URL, robotsMetadata, DEFAULT_OG_IMAGE, absoluteUrl } from "@/lib/seo";
@@ -81,6 +82,7 @@ const FOOTER_COLUMNS: { title: string; links: { href: string; label: string }[] 
     title: "Information",
     links: [
       { href: "/kontakt", label: "Kontakt" },
+      { href: "/faq", label: "FAQ" },
       { href: "/versand", label: "Versand & Zahlung" },
       { href: "/widerruf", label: "Widerrufsrecht" },
     ],
@@ -119,6 +121,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </main>
             <footer className="bg-primary-dark">
               <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+                <div className="mb-12 grid gap-6 border-b border-white/10 pb-12 lg:grid-cols-2 lg:items-center">
+                  <div>
+                    <p className="text-sm font-semibold tracking-wider text-white uppercase">
+                      Newsletter
+                    </p>
+                    <p className="mt-2 text-sm text-white/80">
+                      5% auf Ihre erste Bestellung – plus Neuigkeiten zu unseren kolloidalen
+                      Metallen aus der Eifel.
+                    </p>
+                  </div>
+                  <NewsletterSignup variant="footer" />
+                </div>
                 <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
                   {FOOTER_COLUMNS.map((column) => (
                     <nav key={column.title} aria-label={column.title}>

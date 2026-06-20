@@ -5,6 +5,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { AnimateChildren } from "@/components/AnimateChildren";
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 import { HeroParallax } from "@/components/HeroParallax";
+import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { COLLOIDAL_METALS, getMetalAccentColor } from "@/data/colloidal-metals";
 import type { Product } from "@/types";
 
@@ -463,6 +464,29 @@ export default async function HomePage() {
         </section>
         </AnimateOnScroll>
       )}
+
+      {/* Newsletter signup (P2-15c) */}
+      <AnimateOnScroll variant="fade-up">
+        <section className="bg-primary py-16 sm:py-20">
+          <div className={SECTION_CLASS}>
+            <div className="mx-auto max-w-2xl text-center">
+              <p className="text-sm font-medium tracking-widest text-white/80 uppercase">
+                Newsletter
+              </p>
+              <h2 className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                5% Willkommensgutschein sichern
+              </h2>
+              <p className="mx-auto mt-4 max-w-xl text-white/90">
+                Melden Sie sich für unseren Newsletter an und erhalten Sie 5% Rabatt auf Ihre erste
+                Bestellung – dazu Neuigkeiten zu unseren kolloidalen Metallen aus der Eifel.
+              </p>
+              <div className="mt-8">
+                <NewsletterSignup variant="section" />
+              </div>
+            </div>
+          </div>
+        </section>
+      </AnimateOnScroll>
     </>
   );
 }
