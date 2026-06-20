@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 import * as wooApi from "@/lib/woo/api";
@@ -11,6 +11,7 @@ import { getStoredToken, storeToken } from "@/lib/woo/cart-token";
 import { apiNewsletterSubscribe, apiNewsletterStatus } from "@/lib/newsletter";
 import { formatCents } from "@/lib/format";
 import { PaymentMethodLogos } from "@/components/PaymentMethodLogos";
+import { CouponField } from "@/components/CouponField";
 import type { CheckoutAddress } from "@/types";
 
 const inputClass =
@@ -87,7 +88,6 @@ function addressComplete(a: AddressFields): boolean {
 
 export function CheckoutForm() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const { cart, refreshCart } = useCart();
   const { user, loading: authLoading } = useAuth();
 
@@ -105,10 +105,8 @@ export function CheckoutForm() {
   const [ratesLoading, setRatesLoading] = useState(false);
   const [placing, setPlacing] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [couponError, setCouponError] = useState<string | null>(null);
 
   const prefilledRef = useRef(false);
-  const couponTriedRef = useRef(false);
   const lastSentRef = useRef("");
 
   /* Prefill from the logged-in account */
@@ -141,21 +139,6 @@ export function CheckoutForm() {
       cancelled = true;
     };
   }, [authLoading, user]);
-
-  /* Apply ?coupon= from the cart page once */
-  useEffect(() => {
-    const code = searchParams.get("coupon")?.trim();
-    if (!code || !cart || couponTriedRef.current) return;
-    if (cart.coupons?.some((c) => c.code.toLowerCase() === code.toLowerCase())) return;
-    couponTriedRef.current = true;
-    wooApi
-      .applyCoupon(code, getStoredToken())
-      .then(({ token }) => {
-        if (token) storeToken(token);
-        return refreshCart();
-      })
-      .catch((err) => setCouponError(toUserMessage(err)));
-  }, [searchParams, cart, refreshCart]);
 
   /* Send the address to WooCommerce once complete → shipping rates + taxes */
   const syncCustomer = useCallback(async () => {
@@ -200,16 +183,6 @@ export function CheckoutForm() {
       await refreshCart();
     } catch (err) {
       setError(toUserMessage(err));
-    }
-  }
-
-  async function removeCoupon(code: string) {
-    try {
-      const { token } = await wooApi.removeCoupon(code, getStoredToken());
-      if (token) storeToken(token);
-      await refreshCart();
-    } catch (err) {
-      setCouponError(toUserMessage(err));
     }
   }
 
@@ -584,8 +557,10 @@ export function CheckoutForm() {
           </section>
         </div>
 
-        {/* ---------- right: summary ---------- */}
-        <aside className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm sm:p-6 lg:sticky lg:top-24">
+        {/* ---------- right: coupon + summary ---------- */}
+        <div className="space-y-6 lg:sticky lg:top-24">
+          <CouponField className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm sm:p-6" />
+          <aside className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
           <h2 className="text-lg font-semibold text-gray-900">Bestellübersicht</h2>
 
           <ul className="mt-4 divide-y divide-gray-100">
@@ -603,29 +578,6 @@ export function CheckoutForm() {
               </li>
             ))}
           </ul>
-
-          {(cart.coupons?.length ?? 0) > 0 && (
-            <ul className="mt-2 space-y-1">
-              {cart.coupons!.map((coupon) => (
-                <li
-                  key={coupon.code}
-                  className="flex items-center justify-between rounded-lg bg-emerald-50 px-3 py-2 text-xs text-emerald-800"
-                >
-                  <span>
-                    Gutschein <span className="font-semibold uppercase">{coupon.code}</span>
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => removeCoupon(coupon.code)}
-                    className="font-medium underline hover:text-emerald-900"
-                  >
-                    Entfernen
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
-          {couponError && <p className="mt-2 text-xs text-red-600">{couponError}</p>}
 
           <dl className="mt-4 space-y-2 border-t border-gray-100 pt-4 text-sm">
             <div className="flex justify-between">
@@ -724,6 +676,7 @@ export function CheckoutForm() {
             </Link>
           </p>
         </aside>
+        </div>
       </form>
     </div>
   );

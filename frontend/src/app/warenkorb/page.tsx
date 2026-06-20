@@ -7,13 +7,13 @@ import { CartItem } from "@/components/CartItem";
 import { buildCheckoutUrl } from "@/lib/woo/checkout";
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 import { FreeShippingProgress } from "@/components/FreeShippingProgress";
+import { CouponField } from "@/components/CouponField";
 import { getProducts } from "@/lib/woo/api";
 import { formatCents, volumeFromAttributes } from "@/lib/format";
 import { estimateShippingCents } from "@/lib/shipping";
 
 export default function CartPage() {
   const { cart, loading, lastError, clearError } = useCart();
-  const [coupon, setCoupon] = useState("");
 
   /** Product id → package volume (ml), for the PAngV Grundpreis per line item */
   const [volumes, setVolumes] = useState<Record<number, number>>({});
@@ -70,10 +70,11 @@ export default function CartPage() {
   const subtotalCents =
     Number(cart.totals.total_items) + Number(cart.totals.total_items_tax ?? 0);
   const taxCents = Number(cart.totals.total_tax ?? cart.totals.total_items_tax ?? 0);
+  const discountCents = Number(cart.totals.total_discount ?? 0);
   const shippingCents = estimateShippingCents(subtotalCents);
-  const grandTotalCents = subtotalCents + shippingCents;
+  const grandTotalCents = subtotalCents - discountCents + shippingCents;
 
-  const checkoutHref = buildCheckoutUrl(cart.items, coupon.trim() || undefined);
+  const checkoutHref = buildCheckoutUrl(cart.items);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -107,26 +108,8 @@ export default function CartPage() {
         </div>
 
         <div className="mt-8 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-          {/* Coupon */}
-          <div className="w-full max-w-sm">
-            <label htmlFor="cart-coupon" className="mb-1 block text-sm font-medium text-gray-700">
-              Gutscheincode
-            </label>
-            <input
-              id="cart-coupon"
-              type="text"
-              value={coupon}
-              onChange={(e) => setCoupon(e.target.value)}
-              placeholder="z. B. WILLKOMMEN10"
-              autoComplete="off"
-              className="focus:border-primary focus:ring-primary/30 w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:outline-none"
-            />
-            {coupon.trim() && (
-              <p className="mt-1.5 text-xs text-gray-500">
-                Der Gutschein wird an der Kasse eingelöst und verrechnet.
-              </p>
-            )}
-          </div>
+          {/* Coupon — applied to the live cart, so it carries over to checkout */}
+          <CouponField className="w-full max-w-sm" />
 
           {/* Totals */}
           <div className="bg-surface-alt w-full rounded-xl p-6 lg:max-w-sm">
@@ -137,6 +120,12 @@ export default function CartPage() {
                   {formatCents(subtotalCents, currency)}
                 </dd>
               </div>
+              {discountCents > 0 && (
+                <div className="flex items-center justify-between text-emerald-700">
+                  <dt>Rabatt</dt>
+                  <dd className="font-medium">−{formatCents(discountCents, currency)}</dd>
+                </div>
+              )}
               <div className="flex items-center justify-between">
                 <dt className="text-gray-600">Versand (DHL)</dt>
                 <dd
