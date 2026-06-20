@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name: Frontend Lockdown (Oefflinger)
- * Description: WordPress only serves the embedded checkout and APIs. All other
- * frontend pages redirect to the headless Next.js frontend, where unknown
- * paths get a proper 404.
+ * Description: WordPress only serves the WooCommerce checkout/order pages and the
+ * REST APIs. All other frontend pages redirect to the headless Next.js frontend,
+ * where unknown paths get a proper 404.
  */
 
 defined('ABSPATH') || exit;
@@ -16,11 +16,8 @@ function oeff_lockdown_redirect() {
         return;
     }
 
-    // Checkout pages stay (the embedded checkout, incl. order confirmation)
+    // Checkout / order-received pages stay (payment-gateway returns, order confirmation)
     if (function_exists('is_checkout') && is_checkout()) {
-        return;
-    }
-    if (function_exists('oefflinger_should_allow_frame') && oefflinger_should_allow_frame()) {
         return;
     }
 

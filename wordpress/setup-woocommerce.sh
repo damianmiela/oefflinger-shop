@@ -8,8 +8,6 @@ cp /usr/src/wordpress/wp-content/mu-plugins/cors-api.php /var/www/html/wp-conten
 cp /usr/src/wordpress/wp-content/mu-plugins/stock-quantity-api.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
 cp /usr/src/wordpress/wp-content/mu-plugins/product-attributes-api.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
 cp /usr/src/wordpress/wp-content/mu-plugins/delivery-estimate-api.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
-cp /usr/src/wordpress/wp-content/mu-plugins/checkout-styles.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
-cp /usr/src/wordpress/wp-content/mu-plugins/checkout-embed.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
 cp /usr/src/wordpress/wp-content/mu-plugins/auth-api.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
 cp /usr/src/wordpress/wp-content/mu-plugins/security-api.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
 cp /usr/src/wordpress/wp-content/mu-plugins/lockdown.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
