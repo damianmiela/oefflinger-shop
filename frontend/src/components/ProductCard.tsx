@@ -42,7 +42,7 @@ export function ProductCard({ product }: { product: Product }) {
 
       <Link
         href={`/shop/${product.slug}`}
-        className="group/text flex min-h-0 flex-1 flex-col p-3 sm:p-6"
+        className="flex min-h-0 flex-1 flex-col p-3 sm:p-6"
       >
         <h3 className="group-hover:text-primary line-clamp-2 min-h-[2.5rem] text-sm font-semibold text-gray-900 transition sm:text-base">
           {product.name}
