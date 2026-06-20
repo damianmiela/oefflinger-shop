@@ -35,8 +35,8 @@ const FAQS: Faq[] = [
     link: { href: "/produkte", label: "Mehr über unsere 14 Metalle" },
   },
   {
-    q: "Was bedeutet die Angabe „ppm"?",
-    a: "„ppm" steht für „parts per million" (Teile pro Million) und beschreibt die Konzentration der Metallpartikel im Wasser. 10 ppm entsprechen rund 10 Milligramm Metall pro Liter. Die jeweilige Konzentration finden Sie in der Produktbeschreibung und auf dem Etikett.",
+    q: "Was bedeutet die Angabe ppm?",
+    a: "ppm steht für parts per million (Teile pro Million) und beschreibt die Konzentration der Metallpartikel im Wasser. 10 ppm entsprechen rund 10 Milligramm Metall pro Liter. Die jeweilige Konzentration finden Sie in der Produktbeschreibung und auf dem Etikett.",
   },
   {
     q: "Warum füllen Sie in Glasflaschen ab?",
