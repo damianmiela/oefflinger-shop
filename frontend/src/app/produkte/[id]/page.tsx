@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { getMetalById, COLLOIDAL_METALS, getMetalAccentColor } from "@/data/colloidal-metals";
+import { getMetalById, COLLOIDAL_METALS } from "@/data/colloidal-metals";
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 import { RememberMetal } from "@/components/RememberMetal";
 import { HealthDisclaimer } from "@/components/HealthDisclaimer";
@@ -93,26 +93,6 @@ export default async function MetalDetailPage({ params }: Props) {
             <div className="text-lg leading-relaxed whitespace-pre-line">
               {metal.longDescription ?? metal.description}
             </div>
-
-            {metal.uses && metal.uses.length > 0 && (
-              <section>
-                <h2 className="text-xl font-semibold text-gray-900">Mögliche Einsatzbereiche</h2>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {metal.uses.map((use) => (
-                    <span
-                      key={use}
-                      className="rounded-full px-4 py-2 text-sm font-medium"
-                      style={{
-                        backgroundColor: `${getMetalAccentColor(metal)}20`,
-                        color: getMetalAccentColor(metal),
-                      }}
-                    >
-                      {use}
-                    </span>
-                  ))}
-                </div>
-              </section>
-            )}
 
             <HealthDisclaimer />
           </div>
