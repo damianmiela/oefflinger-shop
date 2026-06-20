@@ -2,11 +2,11 @@
 
 /**
  * Small quick-add icon button pinned to the bottom-right of a product card's
- * thumbnail. Hover-reveal on desktop, always visible on touch; adds one unit and
- * shows the same confirmation toast as the product page. Rendered as a sibling of
- * the card links (never nested in an anchor), with pointer-events disabled while
- * hidden so it can't intercept clicks meant for the product link. Hidden when the
- * product isn't purchasable.
+ * thumbnail, with a hover/focus tooltip. Hover-reveal on desktop, always visible
+ * on touch; adds one unit and shows the same confirmation toast as the product
+ * page. Rendered as a sibling of the card links (never nested in an anchor), with
+ * pointer-events disabled while hidden so it can't intercept clicks meant for the
+ * product link. Hidden when the product isn't purchasable.
  *
  * NOTE: the disabled state uses a LOCAL `busy` flag, never the cart's shared
  * `loading` — otherwise clicking one card would disable every button at once.
@@ -54,23 +54,32 @@ export function QuickAddToCart({ product }: { product: Product }) {
 
   return (
     <>
-      <button
-        type="button"
-        onClick={handleAdd}
-        disabled={busy}
-        aria-label={`${product.name} in den Warenkorb legen`}
-        className="bg-primary/95 hover:bg-primary pointer-events-none absolute right-2 bottom-2 z-10 flex h-9 w-9 items-center justify-center rounded-full text-white opacity-0 shadow-md transition group-hover:pointer-events-auto group-hover:opacity-100 focus-visible:pointer-events-auto focus-visible:opacity-100 max-sm:pointer-events-auto max-sm:opacity-100"
-      >
-        {added ? (
-          <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-          </svg>
-        ) : (
-          <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 5v14M5 12h14" />
-          </svg>
-        )}
-      </button>
+      {/* Wrapper handles the hover-reveal + tooltip group; the button stays simple */}
+      <div className="group/qab pointer-events-none absolute right-2 bottom-2 z-10 opacity-0 transition group-hover:pointer-events-auto group-hover:opacity-100 focus-within:pointer-events-auto focus-within:opacity-100 max-sm:pointer-events-auto max-sm:opacity-100">
+        <button
+          type="button"
+          onClick={handleAdd}
+          disabled={busy}
+          aria-label={`${product.name} in den Warenkorb legen`}
+          className="bg-primary/95 hover:bg-primary flex h-9 w-9 items-center justify-center rounded-full text-white shadow-md transition"
+        >
+          {added ? (
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+            </svg>
+          ) : (
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 5v14M5 12h14" />
+            </svg>
+          )}
+        </button>
+        <span
+          aria-hidden
+          className="pointer-events-none absolute right-0 bottom-full mb-2 whitespace-nowrap rounded-md bg-gray-900 px-2 py-1 text-xs font-medium text-white opacity-0 shadow-sm transition group-hover/qab:opacity-100 group-focus-within/qab:opacity-100"
+        >
+          {added ? "Hinzugefügt" : "In den Warenkorb"}
+        </span>
+      </div>
 
       {showToast && (
         <div
