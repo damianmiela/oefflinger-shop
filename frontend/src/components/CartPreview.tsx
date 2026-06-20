@@ -7,6 +7,7 @@ import { slugFromPermalink } from "@/lib/woo/utils";
 import { buildCheckoutUrl } from "@/lib/woo/checkout";
 import { useCart } from "@/context/CartContext";
 import { formatCents } from "@/lib/format";
+import { FreeShippingProgress } from "@/components/FreeShippingProgress";
 import type { CartItemData } from "@/types";
 
 const CART_PULSE_DELAY_MS = 280;
@@ -99,6 +100,10 @@ export function CartPreview() {
     cart && Number(cart.totals.total_price) > 0
       ? formatCents(cart.totals.total_price, cart.totals.currency_code)
       : null;
+  /** Gross items subtotal (incl. VAT) — same basis the free-shipping threshold uses. */
+  const subtotalCents = cart
+    ? Number(cart.totals.total_items) + Number(cart.totals.total_items_tax ?? 0)
+    : 0;
 
   return (
     <div ref={containerRef} className="relative" onMouseEnter={show} onMouseLeave={hide}>
@@ -144,6 +149,13 @@ export function CartPreview() {
               {cart?.items.map((item) => (
                 <CartPreviewItem key={item.key} item={item} />
               ))}
+            </div>
+            <div className="border-t border-gray-100 px-4 py-3">
+              <FreeShippingProgress
+                subtotalCents={subtotalCents}
+                currency={cart!.totals.currency_code}
+                compact
+              />
             </div>
             <div className="border-t border-gray-100 px-4 py-3">
               <p className="mb-2 text-sm font-semibold text-gray-900">Gesamt: {totalPrice}</p>

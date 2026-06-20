@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { PriceDisplay } from "@/components/PriceDisplay";
 import { StarRating } from "@/components/StarRating";
+import { QuickAddToCart } from "@/components/QuickAddToCart";
 import { formatBasePrice, volumeFromAttributes } from "@/lib/format";
 import type { Product } from "@/types";
 
@@ -15,25 +16,34 @@ export function ProductCard({ product }: { product: Product }) {
   const reviewCount = product.review_count || 0;
 
   return (
-    <Link
-      href={`/shop/${product.slug}`}
-      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition hover:border-gray-200 hover:shadow-md"
-    >
-      <div className="bg-surface-alt aspect-[5/7] shrink-0 overflow-hidden">
-        {product.images[0] ? (
-          <Image
-            src={product.images[0].src}
-            alt={product.images[0].alt || product.name}
-            width={400}
-            height={560}
-            sizes="(min-width: 1280px) 240px, (min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-            className="h-full w-full object-contain transition duration-300 group-hover:scale-105"
-          />
-        ) : (
-          <div className="flex h-full items-center justify-center text-gray-400">Kein Bild</div>
-        )}
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition hover:border-gray-200 hover:shadow-md">
+      {/* Thumbnail + quick-add (button is a sibling of the link, never nested) */}
+      <div className="relative">
+        <Link
+          href={`/shop/${product.slug}`}
+          aria-label={product.name}
+          className="bg-surface-alt block aspect-[5/7] overflow-hidden"
+        >
+          {product.images[0] ? (
+            <Image
+              src={product.images[0].src}
+              alt={product.images[0].alt || product.name}
+              width={400}
+              height={560}
+              sizes="(min-width: 1280px) 240px, (min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+              className="h-full w-full object-contain transition duration-300 group-hover:scale-105"
+            />
+          ) : (
+            <div className="flex h-full items-center justify-center text-gray-400">Kein Bild</div>
+          )}
+        </Link>
+        <QuickAddToCart product={product} />
       </div>
-      <div className="flex min-h-0 flex-1 flex-col p-3 sm:p-6">
+
+      <Link
+        href={`/shop/${product.slug}`}
+        className="group/text flex min-h-0 flex-1 flex-col p-3 sm:p-6"
+      >
         <h3 className="group-hover:text-primary line-clamp-2 min-h-[2.5rem] text-sm font-semibold text-gray-900 transition sm:text-base">
           {product.name}
         </h3>
@@ -61,7 +71,7 @@ export function ProductCard({ product }: { product: Product }) {
             </div>
           )}
         </div>
-      </div>
-    </Link>
+      </Link>
+    </article>
   );
 }

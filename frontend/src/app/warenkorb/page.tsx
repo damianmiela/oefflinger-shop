@@ -6,9 +6,10 @@ import { useCart } from "@/context/CartContext";
 import { CartItem } from "@/components/CartItem";
 import { buildCheckoutUrl } from "@/lib/woo/checkout";
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
+import { FreeShippingProgress } from "@/components/FreeShippingProgress";
 import { getProducts } from "@/lib/woo/api";
 import { formatCents, volumeFromAttributes } from "@/lib/format";
-import { estimateShippingCents, missingForFreeShipping } from "@/lib/shipping";
+import { estimateShippingCents } from "@/lib/shipping";
 
 export default function CartPage() {
   const { cart, loading, lastError, clearError } = useCart();
@@ -71,7 +72,6 @@ export default function CartPage() {
   const taxCents = Number(cart.totals.total_tax ?? cart.totals.total_items_tax ?? 0);
   const shippingCents = estimateShippingCents(subtotalCents);
   const grandTotalCents = subtotalCents + shippingCents;
-  const missingCents = missingForFreeShipping(subtotalCents);
 
   const checkoutHref = buildCheckoutUrl(cart.items, coupon.trim() || undefined);
 
@@ -155,15 +155,11 @@ export default function CartPage() {
               )}
             </dl>
 
-            {missingCents > 0 && (
-              <p className="mt-3 rounded-lg bg-white px-3 py-2 text-xs text-gray-600">
-                Noch{" "}
-                <span className="font-semibold text-emerald-700">
-                  {formatCents(missingCents, currency)}
-                </span>{" "}
-                bis zum kostenlosen Versand
-              </p>
-            )}
+            <FreeShippingProgress
+              subtotalCents={subtotalCents}
+              currency={currency}
+              className="mt-3"
+            />
 
             <div className="mt-4 flex items-baseline justify-between border-t border-gray-200 pt-4">
               <span className="text-lg font-semibold text-gray-700">Gesamtsumme</span>
