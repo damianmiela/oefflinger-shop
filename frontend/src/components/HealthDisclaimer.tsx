@@ -2,7 +2,7 @@ interface HealthDisclaimerProps {
   className?: string;
 }
 
-/** Legal/health disclaimer shown at the bottom of product-related pages. */
+/** Neutral product note (no health claims) at the bottom of product-related pages. Single source of truth — edit the Hinweis text here. */
 export function HealthDisclaimer({ className = "" }: HealthDisclaimerProps) {
   return (
     <div
@@ -10,11 +10,10 @@ export function HealthDisclaimer({ className = "" }: HealthDisclaimerProps) {
     >
       <p className="font-medium">Hinweis</p>
       <p className="mt-1">
-        Die hier präsentierten Informationen dienen ausschließlich zu Bildungszwecken und
-        allgemeinen Informationen. Sie ersetzen keine professionelle medizinische Beratung, Diagnose
-        oder Behandlung. Vor der Einnahme von Nahrungsergänzungsmitteln oder Änderungen Ihrer
-        Gesundheitsroutine konsultieren Sie bitte einen qualifizierten Arzt oder
-        Gesundheitsexperten.
+        Unsere kolloidalen Metalle sind hochreine Erzeugnisse aus eigener Herstellung. Die
+        Produktangaben beschreiben ausschließlich Zusammensetzung, Reinheit, Konzentration (ppm)
+        und Herstellung. Es handelt sich nicht um ein Arzneimittel und nicht um ein
+        Nahrungsergänzungsmittel; zu gesundheitlichen Wirkungen treffen wir keine Aussagen.
       </p>
     </div>
   );
