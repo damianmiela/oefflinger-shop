@@ -4,7 +4,7 @@ FROM wordpress:latest
 COPY php-upload-limit.ini /usr/local/etc/php/conf.d/99-upload-limit.ini
 
 RUN mkdir -p /usr/src/wordpress/wp-content/mu-plugins /usr/src/wordpress/wp-content/themes
-COPY api/cors-api.php api/stock-quantity-api.php api/product-attributes-api.php api/delivery-estimate-api.php api/auth-api.php api/security-api.php api/contact-api.php api/newsletter-api.php api/lockdown.php /usr/src/wordpress/wp-content/mu-plugins/
+COPY api/cors-api.php api/stock-quantity-api.php api/product-attributes-api.php api/delivery-estimate-api.php api/auth-api.php api/security-api.php api/contact-api.php api/newsletter-api.php api/reviews-api.php api/lockdown.php /usr/src/wordpress/wp-content/mu-plugins/
 COPY theme/oefflinger-checkout /usr/src/wordpress/wp-content/themes/oefflinger-checkout
 
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \

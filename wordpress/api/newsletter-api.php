@@ -282,3 +282,33 @@ function oeff_nl_unsubscribe(WP_REST_Request $request) {
     update_post_meta($post_id, '_oeff_nl_status', 'unsubscribed');
     return new WP_REST_Response(['ok' => true], 200);
 }
+
+/**
+ * Subscription status for the LOGGED-IN user only. Takes NO email parameter and
+ * answers solely for the cookie-authenticated user's own account email, so it
+ * cannot be used to probe whether arbitrary addresses are on the list.
+ */
+add_action('rest_api_init', function () {
+    register_rest_route('oeff/v1', '/newsletter/status', [
+        'methods'             => 'GET',
+        'callback'            => 'oeff_nl_status',
+        'permission_callback' => '__return_true',
+    ]);
+});
+
+function oeff_nl_status(WP_REST_Request $request) {
+    if (!function_exists('oeff_auth_user_id')) {
+        return new WP_REST_Response(['subscribed' => false], 200);
+    }
+    $user_id = oeff_auth_user_id();
+    if (!$user_id) {
+        return new WP_REST_Response(['subscribed' => false], 200);
+    }
+    $user = get_userdata($user_id);
+    if (!$user) {
+        return new WP_REST_Response(['subscribed' => false], 200);
+    }
+    $post_id    = oeff_nl_find_by_email(strtolower($user->user_email));
+    $subscribed = $post_id && get_post_meta($post_id, '_oeff_nl_status', true) === 'confirmed';
+    return new WP_REST_Response(['subscribed' => (bool) $subscribed], 200);
+}

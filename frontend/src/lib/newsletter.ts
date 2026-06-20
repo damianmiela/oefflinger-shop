@@ -51,3 +51,18 @@ export async function apiNewsletterConfirm(token: string): Promise<NewsletterCon
 export async function apiNewsletterUnsubscribe(token: string): Promise<void> {
   await post("/unsubscribe", { token });
 }
+
+/**
+ * Whether the logged-in user (WP cookie) is already a confirmed subscriber.
+ * Answers only for the authenticated user's own email; resolves false otherwise.
+ */
+export async function apiNewsletterStatus(): Promise<boolean> {
+  try {
+    const res = await fetch(`${API_BASE}/status`, { credentials: "include" });
+    if (!res.ok) return false;
+    const data = (await res.json()) as { subscribed?: boolean };
+    return Boolean(data?.subscribed);
+  } catch {
+    return false;
+  }
+}

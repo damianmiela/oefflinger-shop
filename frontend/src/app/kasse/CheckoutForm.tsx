@@ -8,7 +8,7 @@ import { useAuth } from "@/context/AuthContext";
 import * as wooApi from "@/lib/woo/api";
 import { toUserMessage } from "@/lib/woo/api";
 import { getStoredToken, storeToken } from "@/lib/woo/cart-token";
-import { apiNewsletterSubscribe } from "@/lib/newsletter";
+import { apiNewsletterSubscribe, apiNewsletterStatus } from "@/lib/newsletter";
 import { formatCents } from "@/lib/format";
 import { PaymentMethodLogos } from "@/components/PaymentMethodLogos";
 import type { CheckoutAddress } from "@/types";
@@ -100,6 +100,7 @@ export function CheckoutForm() {
   const [payment, setPayment] = useState<string>("");
   const [agb, setAgb] = useState(false);
   const [newsletterOptIn, setNewsletterOptIn] = useState(false);
+  const [alreadySubscribed, setAlreadySubscribed] = useState(false);
 
   const [ratesLoading, setRatesLoading] = useState(false);
   const [placing, setPlacing] = useState(false);
@@ -127,6 +128,18 @@ export function CheckoutForm() {
       });
     }
     if (user.billing?.phone) setPhone(user.billing.phone);
+  }, [authLoading, user]);
+
+  /* Hide the newsletter opt-in if the logged-in user is already subscribed */
+  useEffect(() => {
+    if (authLoading || !user) return;
+    let cancelled = false;
+    apiNewsletterStatus().then((s) => {
+      if (!cancelled) setAlreadySubscribed(s);
+    });
+    return () => {
+      cancelled = true;
+    };
   }, [authLoading, user]);
 
   /* Apply ?coupon= from the cart page once */
@@ -242,7 +255,7 @@ export function CheckoutForm() {
       );
 
       // Newsletter opt-in (best-effort, double opt-in) — must never block/break the order.
-      if (newsletterOptIn && email) {
+      if (newsletterOptIn && email && !alreadySubscribed) {
         try {
           await apiNewsletterSubscribe({ email });
         } catch {
@@ -674,19 +687,21 @@ export function CheckoutForm() {
             </span>
           </label>
 
-          <label className="mt-3 flex items-start gap-2.5 text-xs leading-relaxed text-gray-600">
-            <input
-              type="checkbox"
-              checked={newsletterOptIn}
-              onChange={(e) => setNewsletterOptIn(e.target.checked)}
-              className="text-primary focus:ring-primary/30 mt-0.5 h-4 w-4 rounded border-gray-300"
-            />
-            <span>
-              Ja, ich möchte den Öfflinger-Newsletter mit Neuigkeiten und Angeboten erhalten und
-              meinen 10%-Willkommensgutschein sichern. Die Anmeldung bestätige ich per E-Mail; eine
-              Abmeldung ist jederzeit möglich.
-            </span>
-          </label>
+          {!alreadySubscribed && (
+            <label className="mt-3 flex items-start gap-2.5 text-xs leading-relaxed text-gray-600">
+              <input
+                type="checkbox"
+                checked={newsletterOptIn}
+                onChange={(e) => setNewsletterOptIn(e.target.checked)}
+                className="text-primary focus:ring-primary/30 mt-0.5 h-4 w-4 rounded border-gray-300"
+              />
+              <span>
+                Ja, ich möchte den Öfflinger-Newsletter mit Neuigkeiten und Angeboten erhalten und
+                meinen 10%-Willkommensgutschein sichern. Die Anmeldung bestätige ich per E-Mail;
+                eine Abmeldung ist jederzeit möglich. (optional)
+              </span>
+            </label>
+          )}
 
           {error && (
             <p className="mt-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700" role="alert">

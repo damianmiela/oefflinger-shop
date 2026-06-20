@@ -51,6 +51,9 @@ export interface Product {
   stock_quantity?: number | null;
   /** Product attributes (e.g. size, color) – shown when present */
   attributes?: ProductAttribute[];
+  /** Aggregate review data (WooCommerce Store API) */
+  average_rating?: string;
+  review_count?: number;
   /** Delivery estimate from mu-plugin (order by X for delivery on Y) */
   delivery_estimate?: {
     orderBy: string;
@@ -158,4 +161,16 @@ export interface WPPage {
   content: { rendered: string };
   slug: string;
   excerpt: { rendered: string };
+}
+
+/** A single product review from the WooCommerce Store API (/products/reviews). */
+export interface ProductReview {
+  id: number;
+  date_created: string;
+  formatted_date_created: string;
+  rating: number;
+  reviewer: string;
+  /** Sanitized HTML review content */
+  review: string;
+  verified: boolean;
 }
