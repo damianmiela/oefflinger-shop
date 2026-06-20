@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { StarRating } from "@/components/StarRating";
 import { Turnstile, turnstileEnabled } from "@/components/Turnstile";
 import { getProductReviews, submitReview } from "@/lib/woo/reviews";
@@ -35,6 +34,7 @@ export function ProductReviews({
   const [loadingMore, setLoadingMore] = useState(false);
 
   // Form state
+  const [showForm, setShowForm] = useState(false);
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const [submitting, setSubmitting] = useState(false);
@@ -71,9 +71,7 @@ export function ProductReviews({
         productId,
         rating,
         reviewer: String(form.get("reviewer") || ""),
-        reviewerEmail: String(form.get("reviewer_email") || ""),
         review: String(form.get("review") || ""),
-        consent: form.get("consent") === "on",
         turnstileToken: turnstileToken ?? undefined,
         website: String(form.get("website") || ""),
       });
@@ -127,10 +125,12 @@ export function ProductReviews({
                   <span className="font-normal text-gray-400"> · {r.formatted_date_created}</span>
                 )}
               </p>
-              <div
-                className="product-html-content mt-2 leading-relaxed text-gray-600 [&_p]:mb-2 [&_p:last-child]:mb-0"
-                dangerouslySetInnerHTML={{ __html: r.review }}
-              />
+              {r.review && r.review.replace(/<[^>]*>/g, "").trim() !== "" && (
+                <div
+                  className="product-html-content mt-2 leading-relaxed text-gray-600 [&_p]:mb-2 [&_p:last-child]:mb-0"
+                  dangerouslySetInnerHTML={{ __html: r.review }}
+                />
+              )}
             </li>
           ))}
         </ul>
@@ -147,14 +147,14 @@ export function ProductReviews({
         </button>
       )}
 
-      {/* Submit form */}
-      <div className="mt-10 border-t border-gray-100 pt-8">
+      {/* Submit – collapsed behind a button by default */}
+      <div className="mt-8 border-t border-gray-100 pt-6">
         {sent ? (
           <div className="rounded-2xl border border-green-200 bg-green-50 p-6" role="status">
             <h3 className="text-lg font-semibold text-green-900">Vielen Dank für Ihre Bewertung!</h3>
             <p className="mt-2 text-green-800">{sent}</p>
           </div>
-        ) : (
+        ) : showForm ? (
           <form
             onSubmit={onSubmit}
             aria-describedby={error ? "review-error" : undefined}
@@ -180,7 +180,7 @@ export function ProductReviews({
                       onMouseLeave={() => setHover(0)}
                       onFocus={() => setHover(n)}
                       onBlur={() => setHover(0)}
-                      className="rounded p-0.5 focus-visible:outline-2 focus-visible:outline-primary"
+                      className="focus-visible:outline-primary rounded p-0.5 focus-visible:outline-2"
                     >
                       <svg
                         viewBox="0 0 20 20"
@@ -196,46 +196,29 @@ export function ProductReviews({
               </div>
             </div>
 
-            <div className="mt-4 grid gap-4 sm:grid-cols-2">
-              <div>
-                <label htmlFor="review_name" className={labelClass}>
-                  Name
-                </label>
-                <input
-                  id="review_name"
-                  name="reviewer"
-                  type="text"
-                  required
-                  minLength={2}
-                  maxLength={100}
-                  autoComplete="name"
-                  className={inputClass}
-                />
-              </div>
-              <div>
-                <label htmlFor="review_email" className={labelClass}>
-                  E-Mail-Adresse
-                </label>
-                <input
-                  id="review_email"
-                  name="reviewer_email"
-                  type="email"
-                  required
-                  autoComplete="email"
-                  className={inputClass}
-                />
-              </div>
+            <div className="mt-4 sm:max-w-sm">
+              <label htmlFor="review_name" className={labelClass}>
+                Name
+              </label>
+              <input
+                id="review_name"
+                name="reviewer"
+                type="text"
+                required
+                minLength={2}
+                maxLength={100}
+                autoComplete="name"
+                className={inputClass}
+              />
             </div>
 
             <div className="mt-4">
               <label htmlFor="review_text" className={labelClass}>
-                Ihre Bewertung
+                Ihre Bewertung <span className="font-normal text-gray-400">(optional)</span>
               </label>
               <textarea
                 id="review_text"
                 name="review"
-                required
-                minLength={10}
                 maxLength={3000}
                 rows={5}
                 className={inputClass}
@@ -252,18 +235,6 @@ export function ProductReviews({
               className="absolute -left-[9999px] h-0 w-0 opacity-0"
             />
 
-            <label className="mt-4 flex items-start gap-2 text-sm text-gray-600">
-              <input type="checkbox" name="consent" required className="mt-1 shrink-0" />
-              <span>
-                Ich bin damit einverstanden, dass meine Bewertung mit meinem Namen veröffentlicht
-                wird. Meine E-Mail-Adresse wird nicht veröffentlicht. Näheres in der{" "}
-                <Link href="/datenschutz" className="text-primary hover:underline">
-                  Datenschutzerklärung
-                </Link>
-                .
-              </span>
-            </label>
-
             <div className="mt-4">
               <Turnstile onToken={setTurnstileToken} />
             </div>
@@ -278,18 +249,31 @@ export function ProductReviews({
               </p>
             )}
 
-            <button
-              type="submit"
-              disabled={submitting || (turnstileEnabled && !turnstileToken)}
-              className="bg-primary hover:bg-primary-light mt-6 rounded-lg px-6 py-3 font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {submitting ? "Wird gesendet…" : "Bewertung absenden"}
-            </button>
-
-            <p className="mt-3 text-xs text-gray-500">
-              Bewertungen werden vor der Veröffentlichung geprüft.
-            </p>
+            <div className="mt-6 flex items-center gap-3">
+              <button
+                type="submit"
+                disabled={submitting || (turnstileEnabled && !turnstileToken)}
+                className="bg-primary hover:bg-primary-light rounded-lg px-6 py-3 font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {submitting ? "Wird gesendet…" : "Bewertung absenden"}
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowForm(false)}
+                className="hover:text-gray-700 text-sm font-medium text-gray-500"
+              >
+                Abbrechen
+              </button>
+            </div>
           </form>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setShowForm(true)}
+            className="border-primary text-primary hover:bg-primary/5 rounded-lg border px-5 py-2.5 font-semibold transition"
+          >
+            Bewertung schreiben
+          </button>
         )}
       </div>
     </div>

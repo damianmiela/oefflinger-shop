@@ -53,9 +53,8 @@ export interface SubmitReviewInput {
   productId: number;
   rating: number;
   reviewer: string;
-  reviewerEmail: string;
-  review: string;
-  consent: boolean;
+  /** Optional review text (rating-only reviews allowed) */
+  review?: string;
   turnstileToken?: string;
   /** Honeypot — must stay empty */
   website?: string;
@@ -73,9 +72,7 @@ export async function submitReview(input: SubmitReviewInput): Promise<string> {
       product_id: input.productId,
       rating: input.rating,
       reviewer: input.reviewer,
-      reviewer_email: input.reviewerEmail,
-      review: input.review,
-      consent: input.consent,
+      review: input.review ?? "",
       turnstile_token: input.turnstileToken,
       website: input.website ?? "",
     }),

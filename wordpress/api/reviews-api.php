@@ -2,8 +2,8 @@
 /**
  * Product review submission endpoint for the headless frontend.
  * POST /wp-json/oeff/v1/reviews
- *   { product_id, rating (1-5), reviewer, reviewer_email, review,
- *     consent (bool), website (honeypot), turnstile_token }
+ *   { product_id, rating (1-5), reviewer, [reviewer_email optional], [review optional],
+ *     website (honeypot), turnstile_token }
  *
  * Creates a WooCommerce review (comment_type 'review') HELD FOR MODERATION
  * (comment_approved = 0) per decision D4 — the shop owner approves it in wp-admin.
@@ -57,7 +57,6 @@ function oeff_reviews_handle(WP_REST_Request $request) {
     $name       = sanitize_text_field((string) $request->get_param('reviewer'));
     $email      = sanitize_email((string) $request->get_param('reviewer_email'));
     $review     = sanitize_textarea_field((string) $request->get_param('review'));
-    $consent    = filter_var($request->get_param('consent'), FILTER_VALIDATE_BOOLEAN);
 
     // Validate the product exists and is a published product
     if ($product_id <= 0 || get_post_type($product_id) !== 'product' || get_post_status($product_id) !== 'publish') {
@@ -69,14 +68,13 @@ function oeff_reviews_handle(WP_REST_Request $request) {
     if (mb_strlen($name) < 2 || mb_strlen($name) > 100) {
         return oeff_reviews_error('invalid_name', 'Bitte geben Sie Ihren Namen an.', 400);
     }
-    if (!is_email($email)) {
+    // E-Mail is optional; validate only when provided.
+    if ($email !== '' && !is_email($email)) {
         return oeff_reviews_error('invalid_email', 'Bitte geben Sie eine gültige E-Mail-Adresse an.', 400);
     }
-    if (mb_strlen($review) < 10 || mb_strlen($review) > 3000) {
-        return oeff_reviews_error('invalid_review', 'Bitte geben Sie einen Bewertungstext mit mindestens 10 Zeichen ein.', 400);
-    }
-    if (!$consent) {
-        return oeff_reviews_error('consent_required', 'Bitte bestätigen Sie die Einverständniserklärung zur Veröffentlichung.', 400);
+    // Review text is optional (rating-only reviews allowed); cap length when present.
+    if (mb_strlen($review) > 3000) {
+        return oeff_reviews_error('invalid_review', 'Der Bewertungstext ist zu lang (max. 3000 Zeichen).', 400);
     }
 
     // Create the review as an unapproved comment of type 'review'.
