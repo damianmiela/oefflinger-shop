@@ -1,24 +1,19 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
+import { useState } from "react";
 import { useCart } from "@/context/CartContext";
 import type { Product } from "@/types";
-
-const TOAST_DURATION_MS = 4000;
 
 export function AddToCartButton({ product }: { product: Product }) {
   const { addItem, loading, lastError, clearError } = useCart();
   const [added, setAdded] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [showToast, setShowToast] = useState(false);
-  const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const maxFromLimits = product.quantity_limits?.maximum;
   const maxFromLowStock = product.low_stock_remaining;
   const maxFromStock = product.stock_quantity;
   const candidates = [maxFromLimits, maxFromLowStock, maxFromStock].filter(
-    (n): n is number => typeof n === "number" && n >= 0
+    (n): n is number => typeof n === "number" && n >= 0,
   );
   const effectiveMax = candidates.length > 0 ? Math.min(...candidates, 9999) : 9999;
 
@@ -26,23 +21,16 @@ export function AddToCartButton({ product }: { product: Product }) {
   const [quantityInput, setQuantityInput] = useState("1");
   const quantity = Math.min(Math.max(1, parseInt(quantityInput, 10) || 1), effectiveMax);
 
-  useEffect(() => {
-    return () => {
-      if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
-    };
-  }, []);
-
   const handleClick = async () => {
     clearError();
     setIsAnimating(true);
     setTimeout(() => setIsAnimating(false), 300);
     const ok = await addItem(product.id, quantity);
     if (ok) {
+      // The mini-cart drawer auto-opens on a successful add (CartContext) — that's
+      // the confirmation. We just flash the button label briefly.
       setAdded(true);
       setTimeout(() => setAdded(false), 2000);
-      setShowToast(true);
-      if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
-      toastTimeoutRef.current = setTimeout(() => setShowToast(false), TOAST_DURATION_MS);
     }
   };
 
@@ -95,43 +83,6 @@ export function AddToCartButton({ product }: { product: Product }) {
         <p className="w-full text-sm text-amber-700" role="alert">
           {lastError.message}
         </p>
-      )}
-
-      {showToast && (
-        <div
-          role="status"
-          className="fixed right-4 bottom-4 left-4 z-50 rounded-xl border border-gray-200 bg-white p-4 shadow-xl sm:left-auto sm:w-96"
-        >
-          <div className="flex items-start gap-3">
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green-100 text-green-700">
-              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-              </svg>
-            </span>
-            <div className="min-w-0 flex-1">
-              <p className="text-sm font-semibold text-gray-900">In den Warenkorb gelegt</p>
-              <p className="truncate text-sm text-gray-500">
-                {quantity} × {product.name}
-              </p>
-              <Link
-                href="/warenkorb"
-                className="bg-primary hover:bg-primary-light mt-3 inline-block rounded-lg px-4 py-2 text-sm font-semibold text-white transition"
-              >
-                Zum Warenkorb
-              </Link>
-            </div>
-            <button
-              type="button"
-              onClick={() => setShowToast(false)}
-              aria-label="Hinweis schließen"
-              className="text-gray-400 transition hover:text-gray-600"
-            >
-              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-        </div>
       )}
     </div>
   );

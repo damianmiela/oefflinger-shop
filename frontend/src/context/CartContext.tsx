@@ -40,6 +40,10 @@ interface CartContextValue {
   removeItem: (itemKey: string) => Promise<void>;
   updateItem: (itemKey: string, quantity: number) => Promise<void>;
   refreshCart: () => Promise<void>;
+  /** Mini-cart drawer open state */
+  isOpen: boolean;
+  openCart: () => void;
+  closeCart: () => void;
 }
 
 const CartContext = createContext<CartContextValue | undefined>(undefined);
@@ -51,6 +55,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(false);
   const [lastError, setLastError] = useState<CartError | null>(null);
   const [justAddedToCart, setJustAddedToCart] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const justAddedTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const { user, loading: authLoading } = useAuth();
@@ -58,6 +63,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const prevUserIdRef = useRef<number | null | undefined>(undefined);
 
   const clearError = useCallback(() => setLastError(null), []);
+  const openCart = useCallback(() => setIsOpen(true), []);
+  const closeCart = useCallback(() => setIsOpen(false), []);
 
   const triggerJustAdded = useCallback(() => {
     if (justAddedTimeoutRef.current) clearTimeout(justAddedTimeoutRef.current);
@@ -188,6 +195,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
           if (token) storeToken(token);
         }
         triggerJustAdded();
+        setIsOpen(true);
         return true;
       } catch (err) {
         setLastError({ message: toUserMessage(err) });
@@ -255,6 +263,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
         removeItem,
         updateItem,
         refreshCart,
+        isOpen,
+        openCart,
+        closeCart,
       }}
     >
       {children}
