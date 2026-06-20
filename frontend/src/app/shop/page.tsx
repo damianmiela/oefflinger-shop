@@ -109,7 +109,7 @@ export default async function ShopPage({ searchParams }: Props) {
       <AnimateOnScroll variant="fade-up">
         <p className="mb-8 max-w-3xl text-gray-600">
           Kolloidale Metalle aus eigener Herstellung in der Eifel: Bei Öfflinger kaufen Sie
-          kolloidales Silber, Gold, Zink, Magnesium, Eisen und weitere Spurenelemente –
+          kolloidales Silber, Gold, Zink, Magnesium, Eisen und weitere Metalle –
           sorgfältig in Oberöfflingen produziert und in Glasflaschen abgefüllt. Wählen Sie unten
           nach Metall, Größe und Konzentration.
         </p>
@@ -119,8 +119,8 @@ export default async function ShopPage({ searchParams }: Props) {
         <div className="border-primary/20 bg-primary/5 mb-8 flex flex-col gap-4 rounded-xl border px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-gray-700 sm:text-base">
             <span className="text-primary font-medium">Was sind kolloidale Metalle?</span> Erfahren
-            Sie mehr über Eisen, Gold, Silber, Zink und unsere weiteren Spurenelemente —
-            Herstellung, Eigenschaften und mögliche Einsatzbereiche.
+            Sie mehr über Eisen, Gold, Silber, Zink und unsere weiteren Metalle —
+            Herstellung, Eigenschaften und Wissenswertes.
           </p>
           <Link
             href="/produkte"

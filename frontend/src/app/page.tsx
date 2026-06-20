@@ -45,7 +45,7 @@ export default async function HomePage() {
               <span className="text-white/95">in der Eifel, Rheinland-Pfalz</span>
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/90">
-              Kolloidales Eisen, Gold, Silber, Zink und weitere Spurenelemente — hergestellt in
+              Kolloidales Eisen, Gold, Silber, Zink und weitere Metalle — hergestellt in
               Oberöfflingen, Rheinland-Pfalz.
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -102,7 +102,7 @@ export default async function HomePage() {
                 <p>
                   Öfflinger stellt kolloidale Metalle in eigener Produktion in Oberöfflingen
                   (Eifel, Rheinland-Pfalz) her. Wir bieten Eisen, Gold, Silber, Zink, Kupfer,
-                  Magnesium, Chrom, Kobalt und weitere Spurenelemente in kolloidaler Form.
+                  Magnesium, Chrom, Kobalt und weitere Metalle in kolloidaler Form.
                 </p>
               </div>
             </div>
@@ -119,8 +119,8 @@ export default async function HomePage() {
             Unsere 14 Metalle
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-center text-gray-600">
-            Wählen Sie ein Metall und erfahren Sie mehr über seine Eigenschaften und möglichen
-            Einsatzbereiche.
+            Wählen Sie ein Metall und erfahren Sie mehr über seine Eigenschaften und
+            Herstellung.
           </p>
           <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7">
             {COLLOIDAL_METALS.map((metal) => (
@@ -170,11 +170,12 @@ export default async function HomePage() {
       <section className="border-t border-gray-100 bg-surface-alt py-20 sm:py-28">
         <div className={SECTION_CLASS}>
           <h2 className="text-center text-3xl font-bold tracking-tight text-primary-dark sm:text-4xl">
-            Unsere Metalle und ihre Anwendungsbereiche
+            14 kolloidale Metalle aus eigener Herstellung
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-center text-gray-600">
-            Wir führen 14 kolloidale Metalle — von Eisen und Zink über Gold und Silber bis zu
-            Chrom, Kupfer und Magnesium. Jedes Metall wird mit möglichen Einsatzbereichen beschrieben.
+            Wir führen 14 kolloidale Metalle — von Eisen und Zink über Gold und Silber bis zu Chrom,
+            Kupfer und Magnesium. Jedes Produkt steht für hohe Reinheit, eine definierte
+            ppm-Konzentration und sorgfältige Herstellung in der Eifel.
           </p>
           <AnimateChildren className="mx-auto mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3" stagger={80}>
             <div className="flex gap-4 rounded-2xl bg-white p-6 shadow-sm">
@@ -184,15 +185,15 @@ export default async function HomePage() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                    d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900">Energie & Stoffwechsel</h3>
+                <h3 className="font-semibold text-gray-900">Höchste Reinheit</h3>
                 <p className="mt-1 text-gray-600">
-                  Eisen, Chrom, Vanadium, Magnesium und andere Metalle werden mit der Unterstützung
-                  von Energiestoffwechsel und Blutzuckerregulation in Verbindung gebracht.
+                  99,9 % reines Metall in destilliertem Wasser — ohne Zusätze, mit klar
+                  angegebener Konzentration in ppm.
                 </p>
               </div>
             </div>
@@ -203,15 +204,21 @@ export default async function HomePage() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                    d="M17.657 16.657 13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                   />
                 </svg>
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900">Immunsystem & Haut</h3>
+                <h3 className="font-semibold text-gray-900">Eigene Herstellung in der Eifel</h3>
                 <p className="mt-1 text-gray-600">
-                  Zink, Silber, Kupfer und Silizium werden mit der Unterstützung von Immunsystem,
-                  Hautgesundheit und antioxidativem Schutz in Verbindung gebracht.
+                  Wir stellen alle Kolloide selbst her — kontrolliert, in gleichbleibender
+                  Qualität und mit definierter ppm-Konzentration je Produkt.
                 </p>
               </div>
             </div>
@@ -222,15 +229,15 @@ export default async function HomePage() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                    d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"
                   />
                 </svg>
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900">Gehirn & Wohlbefinden</h3>
+                <h3 className="font-semibold text-gray-900">Lichtgeschützt abgefüllt</h3>
                 <p className="mt-1 text-gray-600">
-                  Gold, Kobalt, Magnesium und Zink werden mit Konzentration, Stimmung und
-                  geistiger Klarheit in Verbindung gebracht.
+                  Abfüllung in lichtgeschützte Glasflaschen (500 ml) — kühl und vor Licht
+                  geschützt lagern.
                 </p>
               </div>
             </div>
