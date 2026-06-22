@@ -318,6 +318,22 @@ export async function addToCart(
   });
 }
 
+/**
+ * Add a Set (oeff-sets plugin) to the cart via the Store API extensions
+ * endpoint. The plugin's update-callback adds the set's component products as
+ * grouped, tagged lines; the set discount is then applied server-side.
+ */
+export async function addSet(
+  setId: number,
+  cartToken?: string,
+): Promise<{ data: Cart; token?: string }> {
+  return cartApiFetch<Cart>("/cart/extensions", {
+    method: "POST",
+    token: cartToken,
+    body: JSON.stringify({ namespace: "oeff-sets", data: { action: "add_set", set_id: setId } }),
+  });
+}
+
 export async function removeFromCart(
   itemKey: string,
   cartToken?: string,

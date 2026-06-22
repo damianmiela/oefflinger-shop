@@ -85,6 +85,15 @@ export interface CartItemData {
     currency_code: string;
     currency_symbol: string;
   };
+  /** Store API extension data (oeff-sets plugin): set grouping + dissolved state. */
+  extensions?: {
+    oeff_sets?: {
+      is_set_member: boolean;
+      set_id: number;
+      instance: string;
+      dissolved: boolean;
+    };
+  };
 }
 
 export interface ShippingRate {

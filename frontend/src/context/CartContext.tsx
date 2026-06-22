@@ -37,6 +37,8 @@ interface CartContextValue {
   clearError: () => void;
   /** Resolves true when the item was added successfully */
   addItem: (productId: number, quantity?: number) => Promise<boolean>;
+  /** Add a Set (oeff-sets) — adds its components as a grouped, discounted unit */
+  addSet: (setId: number) => Promise<boolean>;
   removeItem: (itemKey: string) => Promise<void>;
   updateItem: (itemKey: string, quantity: number) => Promise<void>;
   refreshCart: () => Promise<void>;
@@ -208,6 +210,28 @@ export function CartProvider({ children }: { children: ReactNode }) {
     [cart?.items, refreshCart, triggerJustAdded],
   );
 
+  const addSet = useCallback(
+    async (setId: number) => {
+      setLoading(true);
+      setLastError(null);
+      try {
+        const { data, token } = await wooApi.addSet(setId, getStoredToken());
+        setCart(data);
+        if (token) storeToken(token);
+        triggerJustAdded();
+        setIsOpen(true);
+        return true;
+      } catch (err) {
+        setLastError({ message: toUserMessage(err) });
+        await refreshCart();
+        return false;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [refreshCart, triggerJustAdded],
+  );
+
   const removeItem = useCallback(
     async (itemKey: string) => {
       setLoading(true);
@@ -260,6 +284,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         justAddedToCart,
         clearError,
         addItem,
+        addSet,
         removeItem,
         updateItem,
         refreshCart,
