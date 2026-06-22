@@ -1,5 +1,8 @@
 <?php
 /**
+ * Plugin Name: Contact API (Oefflinger)
+ * Description: Contact form endpoint for the headless frontend (rate limit, honeypot, Turnstile).
+ *
  * Contact form endpoint for the headless frontend.
  * POST /wp-json/oeff/v1/contact  { name, email, message, website (honeypot), turnstile_token }
  * Mirrors the protections used by the auth API: rate limit, honeypot, Turnstile.

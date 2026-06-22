@@ -16,6 +16,15 @@ cp /usr/src/wordpress/wp-content/mu-plugins/reviews-api.php /var/www/html/wp-con
 cp /usr/src/wordpress/wp-content/mu-plugins/lockdown.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
 cp -r /usr/src/wordpress/wp-content/themes/oefflinger-checkout /var/www/html/wp-content/themes/ 2>/dev/null || true
 
+# Remove legacy iframe-checkout mu-plugins (superseded by the native Next.js checkout, P2-18c).
+# They linger in the persistent wp_data volume; deploys only copy files in, never delete them,
+# so we prune them here. Idempotent — a no-op once they're gone.
+for legacy in checkout-embed.php checkout-styles.php; do
+    if [ -f "/var/www/html/wp-content/mu-plugins/$legacy" ]; then
+        rm -f "/var/www/html/wp-content/mu-plugins/$legacy" && echo "[setup] Removed legacy mu-plugin: $legacy"
+    fi
+done
+
 echo "[setup] Waiting for WordPress files and database connection..."
 
 until $WP db check >/dev/null 2>&1; do

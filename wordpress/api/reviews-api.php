@@ -1,5 +1,8 @@
 <?php
 /**
+ * Plugin Name: Reviews API (Oefflinger)
+ * Description: Product review submission endpoint for the headless frontend (held for moderation, D4).
+ *
  * Product review submission endpoint for the headless frontend.
  * POST /wp-json/oeff/v1/reviews
  *   { product_id, rating (1-5), reviewer, [reviewer_email optional], [review optional],
