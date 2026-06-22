@@ -22,7 +22,7 @@ function oefflinger_theme_scripts() {
 }
 
 function oefflinger_frontend_url() {
-    return getenv('FRONTEND_URL') ?: 'http://91.98.112.186:4000';
+    return getenv('FRONTEND_URL') ?: 'http://localhost:4000';
 }
 
 function oefflinger_logo_url() {

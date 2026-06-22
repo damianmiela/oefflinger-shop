@@ -1,18 +1,20 @@
 import type { NextConfig } from "next";
 
+/**
+ * next/image loads WooCommerce media from the WordPress host. Derive that host
+ * from NEXT_PUBLIC_WP_URL so the oefflinger.de cutover (D5 / P0-7a) is
+ * config-only — no hardcoded IPs in code. Falls back to localhost for dev.
+ */
+const wpUrl = process.env.NEXT_PUBLIC_WP_URL ?? "http://localhost:4001";
+const wpHost = new URL(wpUrl);
+
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "http",
-        hostname: "localhost",
-        port: "4001",
-        pathname: "/wp-content/uploads/**",
-      },
-      {
-        protocol: "http",
-        hostname: "91.98.112.186",
-        port: "4001",
+        protocol: wpHost.protocol.replace(":", "") as "http" | "https",
+        hostname: wpHost.hostname,
+        ...(wpHost.port ? { port: wpHost.port } : {}),
         pathname: "/wp-content/uploads/**",
       },
       {

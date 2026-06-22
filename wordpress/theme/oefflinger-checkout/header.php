@@ -1,6 +1,6 @@
 <?php
 $is_checkout = function_exists('is_checkout') && is_checkout() && (!function_exists('is_wc_endpoint_url') || !is_wc_endpoint_url('order-received'));
-$frontend = function_exists('oefflinger_frontend_url') ? oefflinger_frontend_url() : 'http://91.98.112.186:4000';
+$frontend = function_exists('oefflinger_frontend_url') ? oefflinger_frontend_url() : 'http://localhost:4000';
 $logo = function_exists('oefflinger_logo_url') ? oefflinger_logo_url() : $frontend . '/logo/logo-transparent.png';
 ?>
 <!DOCTYPE html>

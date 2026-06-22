@@ -3,7 +3,7 @@ $is_checkout = function_exists('is_checkout') && is_checkout() && (!function_exi
 ?>
 </main>
 <?php if (!$is_checkout):
-$frontend = function_exists('oefflinger_frontend_url') ? oefflinger_frontend_url() : 'http://91.98.112.186:4000';
+$frontend = function_exists('oefflinger_frontend_url') ? oefflinger_frontend_url() : 'http://localhost:4000';
 ?>
 <footer class="oeff-footer" style="border-top: 1px solid #e5e7eb; background: #0f3d4a; padding: 3rem 1rem;">
     <div style="max-width: 80rem; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 1.5rem;">

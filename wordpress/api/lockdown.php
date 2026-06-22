@@ -21,7 +21,7 @@ function oeff_lockdown_redirect() {
         return;
     }
 
-    $frontend = rtrim(getenv('FRONTEND_URL') ?: 'http://91.98.112.186:4000', '/');
+    $frontend = rtrim(getenv('FRONTEND_URL') ?: 'http://localhost:4000', '/');
     $uri      = $_SERVER['REQUEST_URI'] ?? '/';
     $path     = parse_url($uri, PHP_URL_PATH) ?: '/';
     $query    = parse_url($uri, PHP_URL_QUERY);
@@ -52,7 +52,7 @@ add_filter('woocommerce_prevent_admin_access', function ($prevent) {
 });
 add_filter('login_redirect', function ($redirect, $requested, $user) {
     if ($user instanceof WP_User && !user_can($user, 'manage_woocommerce')) {
-        $frontend = rtrim(getenv('FRONTEND_URL') ?: 'http://91.98.112.186:4000', '/');
+        $frontend = rtrim(getenv('FRONTEND_URL') ?: 'http://localhost:4000', '/');
         return $frontend . '/konto';
     }
     return $redirect;
