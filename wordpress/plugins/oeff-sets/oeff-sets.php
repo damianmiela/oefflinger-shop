@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Öfflinger Sets
  * Description: Product sets / bundles for the headless Öfflinger shop. Sets are defined as recipes in wp-admin; the storefront adds their component products and the Store-API cart applies the set discount server-side (grouped line items). See _docs/bundles-design.md.
- * Version: 0.2.0
+ * Version: 0.3.0
  * Author: Öfflinger
  * Text Domain: oeff-sets
  *
@@ -15,10 +15,13 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('OEFF_SETS_VERSION', '0.2.0');
+define('OEFF_SETS_VERSION', '0.3.0');
 define('OEFF_SETS_CPT', 'oeff_set');
 define('OEFF_SETS_DIR', plugin_dir_path(__FILE__));
 define('OEFF_SETS_URL', plugin_dir_url(__FILE__));
+
+// REST feed for the headless storefront — registers in all contexts.
+require_once OEFF_SETS_DIR . 'includes/rest.php';
 
 // Admin builder (meta boxes, product search, save) — admin context only.
 if (is_admin()) {
