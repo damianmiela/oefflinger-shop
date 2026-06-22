@@ -199,15 +199,18 @@ function oeff_sets_compute_price($set_id, $sum) {
 /** Expose the set grouping + dissolved state on each Store-API cart item. */
 function oeff_sets_cart_item_data($cart_item) {
     if (empty($cart_item['oeff_set']['instance'])) {
-        return ['is_set_member' => false, 'set_id' => 0, 'instance' => '', 'dissolved' => false];
+        return ['is_set_member' => false, 'set_id' => 0, 'instance' => '', 'name' => '', 'slug' => '', 'dissolved' => false];
     }
     $inst   = $cart_item['oeff_set']['instance'];
+    $sid    = (int) ($cart_item['oeff_set']['id'] ?? 0);
     $status = isset($GLOBALS['oeff_sets_status'][$inst]) ? $GLOBALS['oeff_sets_status'][$inst] : 'applied';
 
     return [
         'is_set_member' => true,
-        'set_id'        => (int) ($cart_item['oeff_set']['id'] ?? 0),
+        'set_id'        => $sid,
         'instance'      => (string) $inst,
+        'name'          => $sid ? get_the_title($sid) : '',
+        'slug'          => $sid ? (string) get_post_field('post_name', $sid) : '',
         'dissolved'     => ('dissolved' === $status),
     ];
 }
@@ -227,6 +230,16 @@ function oeff_sets_cart_item_schema() {
         ],
         'instance' => [
             'description' => 'Groups the lines of one added set instance together.',
+            'type'        => 'string',
+            'readonly'    => true,
+        ],
+        'name' => [
+            'description' => 'Set name, for the cart group header.',
+            'type'        => 'string',
+            'readonly'    => true,
+        ],
+        'slug' => [
+            'description' => 'Set slug, links to /sets/{slug}.',
             'type'        => 'string',
             'readonly'    => true,
         ],

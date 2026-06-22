@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
-import { CartItem } from "@/components/CartItem";
+import { CartSetGroups } from "@/app/sets/_components/CartSetGroups";
 import { buildCheckoutUrl } from "@/lib/woo/checkout";
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 import { CartSummary } from "@/components/CartSummary";
@@ -14,7 +14,6 @@ import { volumeFromAttributes } from "@/lib/format";
 export default function CartPage() {
   const { cart, loading, lastError, clearError } = useCart();
 
-  /** Product id → package volume (ml), for the PAngV Grundpreis per line item */
   const [volumes, setVolumes] = useState<Record<number, number>>({});
 
   const hasItems = (cart?.items.length ?? 0) > 0;
@@ -91,17 +90,13 @@ export default function CartPage() {
       )}
 
       <AnimateOnScroll variant="fade-up">
-        <div className="divide-y divide-gray-200 rounded-xl border border-gray-200 bg-white">
-          {cart.items.map((item) => (
-            <CartItem key={item.key} item={item} volumeMl={volumes[item.id] ?? null} />
-          ))}
+        <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
+          <CartSetGroups items={cart.items} volumes={volumes} />
         </div>
 
         <div className="mt-8 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-          {/* Coupon — applied to the live cart, so it carries over to checkout */}
           <CouponField className="w-full max-w-sm" />
 
-          {/* Totals (shared with the mini-cart drawer) */}
           <div className="bg-surface-alt w-full rounded-xl p-6 lg:max-w-sm">
             <CartSummary />
           </div>

@@ -14,7 +14,7 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCart } from "@/context/CartContext";
-import { CartItem } from "@/components/CartItem";
+import { CartSetGroups } from "@/app/sets/_components/CartSetGroups";
 import { CartSummary } from "@/components/CartSummary";
 import { CouponField } from "@/components/CouponField";
 import { buildCheckoutUrl } from "@/lib/woo/checkout";
@@ -24,12 +24,10 @@ export function MiniCartDrawer() {
   const pathname = usePathname();
   const panelRef = useRef<HTMLDivElement>(null);
 
-  // Close whenever the route changes (e.g. after "Zur Kasse").
   useEffect(() => {
     closeCart();
   }, [pathname, closeCart]);
 
-  // Escape to close, lock background scroll, and move focus into the panel.
   useEffect(() => {
     if (!isOpen) return;
     const onKey = (e: KeyboardEvent) => {
@@ -54,7 +52,6 @@ export function MiniCartDrawer() {
       aria-hidden={!isOpen}
       className={`fixed inset-0 z-[60] ${isOpen ? "" : "pointer-events-none"}`}
     >
-      {/* Backdrop */}
       <div
         onClick={closeCart}
         aria-hidden
@@ -63,7 +60,6 @@ export function MiniCartDrawer() {
         }`}
       />
 
-      {/* Panel */}
       <div
         ref={panelRef}
         role="dialog"
@@ -74,7 +70,6 @@ export function MiniCartDrawer() {
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-200 px-5 py-4">
           <h2 className="text-lg font-semibold text-gray-900">
             Warenkorb {itemCount > 0 && <span className="font-normal text-gray-400">({itemCount})</span>}
@@ -93,19 +88,13 @@ export function MiniCartDrawer() {
 
         {hasItems ? (
           <>
-            {/* Scrollable items + coupon */}
             <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-              <div className="divide-y divide-gray-100">
-                {cart!.items.map((item) => (
-                  <CartItem key={item.key} item={item} />
-                ))}
-              </div>
+              <CartSetGroups items={cart!.items} />
               <div className="border-t border-gray-100 px-5 py-4">
                 <CouponField />
               </div>
             </div>
 
-            {/* Sticky footer: totals + checkout */}
             <div className="border-t border-gray-200 bg-white px-5 py-4">
               <CartSummary />
               <Link

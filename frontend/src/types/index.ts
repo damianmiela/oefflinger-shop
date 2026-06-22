@@ -91,6 +91,8 @@ export interface CartItemData {
       is_set_member: boolean;
       set_id: number;
       instance: string;
+      name: string;
+      slug: string;
       dissolved: boolean;
     };
   };
