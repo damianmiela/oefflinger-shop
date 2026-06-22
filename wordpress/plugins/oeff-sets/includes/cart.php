@@ -6,10 +6,11 @@
  * the set id + a unique instance, via the Store API's official update-callback
  * (runs inside the cart session — no fragile session handling).
  *
- *  - Fixed set:        adds the recipe; discount = the set price distributed
- *                      proportionally; changing/removing a line dissolves it.
+ *  - Fixed set:        adds the recipe; discount distributes the set price across
+ *                      lines (remainder on the last line → exact total); changing
+ *                      or removing a line dissolves it.
  *  - Configurable set: adds the customer's selection (validated to the set's
- *                      category); discount = the reached quantity tier.
+ *                      category + subcategories); discount = the reached qty tier.
  *
  * The discount is recomputed on every cart calculation. Each cart item carries
  * extensions.oeff_sets (grouping, type, applied %, dissolved) for the frontend.
@@ -24,8 +25,11 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-/** Register Store-API extensibility once WooCommerce is ready. */
-add_action('woocommerce_init', function () {
+/**
+ * Register Store-API extensibility. `woocommerce_blocks_loaded` is the canonical
+ * hook — by then the Store API + ExtendSchema are available.
+ */
+add_action('woocommerce_blocks_loaded', function () {
     if (function_exists('woocommerce_store_api_register_update_callback')) {
         woocommerce_store_api_register_update_callback([
             'namespace' => 'oeff-sets',
@@ -72,11 +76,14 @@ function oeff_sets_store_api_update($data) {
         if (!$cat_id || empty($selection)) {
             return;
         }
+        // Allowed = the category and its descendants (matches the REST options query).
+        $children      = get_term_children($cat_id, 'product_cat');
+        $allowed_terms = array_merge([$cat_id], is_array($children) ? $children : []);
         foreach ($selection as $row) {
             $pid = isset($row['id']) ? absint($row['id']) : 0;
             $qty = isset($row['qty']) ? max(1, absint($row['qty'])) : 0;
-            // Only products that actually belong to the set's category (no tampering).
-            if (!$pid || $qty < 1 || !has_term($cat_id, 'product_cat', $pid)) {
+            // Only products that belong to the set's category tree (no tampering).
+            if (!$pid || $qty < 1 || !has_term($allowed_terms, 'product_cat', $pid)) {
                 continue;
             }
             WC()->cart->add_to_cart($pid, $qty, 0, [], [
@@ -165,13 +172,25 @@ function oeff_sets_apply_discounts($cart) {
             continue;
         }
 
-        $set_price = oeff_sets_compute_price($set_id, $sum);
-        $factor    = $set_price / $sum;
-        foreach ($info['keys'] as $key) {
-            $orig = oeff_sets_original_price($cart->cart_contents[$key]);
-            $cart->cart_contents[$key]['data']->set_price($orig * $factor);
+        // Distribute the target set price across lines; the last line absorbs the
+        // rounding remainder so the set total is exact (no penny drift).
+        $target    = oeff_sets_compute_price($set_id, $sum);
+        $keys      = $info['keys'];
+        $lastIndex = count($keys) - 1;
+        $assigned  = 0.0;
+        foreach ($keys as $i => $key) {
+            $ci   = $cart->cart_contents[$key];
+            $qty  = max(1, (int) $ci['quantity']);
+            $orig = oeff_sets_original_price($ci);
+            if ($i === $lastIndex) {
+                $line_subtotal = round($target - $assigned, 2);
+            } else {
+                $line_subtotal = round(($orig * $qty / $sum) * $target, 2);
+                $assigned     += $line_subtotal;
+            }
+            $cart->cart_contents[$key]['data']->set_price($line_subtotal / $qty);
         }
-        $status[$inst] = ['status' => 'applied', 'type' => 'fixed', 'percent' => (int) round((1 - $factor) * 100)];
+        $status[$inst] = ['status' => 'applied', 'type' => 'fixed', 'percent' => (int) round((1 - $target / $sum) * 100)];
     }
 
     $GLOBALS['oeff_sets_status'] = $status;

@@ -28,9 +28,15 @@ add_action('add_meta_boxes', function () {
     add_meta_box('oeff_set_pricing', 'Set-Preis & Rabatt (fester Satz)', 'oeff_sets_render_pricing_box', OEFF_SETS_CPT, 'side', 'default');
 });
 
+/** Output the save nonce where it always renders (not inside a hideable meta box). */
+add_action('edit_form_after_title', function ($post) {
+    if ($post && OEFF_SETS_CPT === $post->post_type) {
+        wp_nonce_field('oeff_sets_save', 'oeff_sets_nonce');
+    }
+});
+
 /** Components meta box: search field + table of rows (rows injected by JS). */
 function oeff_sets_render_components_box($post) {
-    wp_nonce_field('oeff_sets_save', 'oeff_sets_nonce');
     ?>
     <div class="oeff-sets-builder">
         <p class="description">Produkt suchen und zum Set hinzufügen. Menge je Produkt einstellbar.</p>
