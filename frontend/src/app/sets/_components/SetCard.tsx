@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
-import { AddSetButton } from "@/components/AddSetButton";
+import { AddSetButton } from "./AddSetButton";
 import { formatCents } from "@/lib/format";
-import type { OeffSet } from "@/lib/sets";
+import type { OeffSet } from "../_lib/sets";
 
 /** Catalog card for a Set on the /sets listing. */
 export function SetCard({ set }: { set: OeffSet }) {

@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { getSets } from "@/lib/sets";
-import { SetCard } from "@/components/SetCard";
+import { getSets } from "./_lib/sets";
+import { SetCard } from "./_components/SetCard";
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 import { HealthDisclaimer } from "@/components/HealthDisclaimer";
 
