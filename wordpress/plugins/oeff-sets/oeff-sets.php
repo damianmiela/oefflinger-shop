@@ -1,0 +1,147 @@
+<?php
+/**
+ * Plugin Name: Öfflinger Sets
+ * Description: Product sets / bundles for the headless Öfflinger shop. Sets are defined as recipes in wp-admin; the storefront adds their component products and the Store-API cart applies the set discount server-side (grouped line items). See _docs/bundles-design.md.
+ * Version: 0.1.0
+ * Author: Öfflinger
+ * Text Domain: oeff-sets
+ *
+ * Phase 1 scaffold: registers the `oeff_set` custom post type (the recipe) + its
+ * meta, with Shop-Manager-and-Admin permissions. The builder UI, REST feed and
+ * cart logic follow in later phases (see the design doc).
+ */
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+define('OEFF_SETS_VERSION', '0.1.0');
+define('OEFF_SETS_CPT', 'oeff_set');
+
+/**
+ * The capability that gates Set management. Shop Managers and Admins both have
+ * `manage_woocommerce`, so mapping every Set capability to it lets shop staff
+ * build sets without full admin rights.
+ */
+function oeff_sets_capability() {
+    return 'manage_woocommerce';
+}
+
+/**
+ * Anyone who can manage the shop can read/write Set meta (REST + builder).
+ */
+function oeff_sets_meta_auth() {
+    return current_user_can(oeff_sets_capability());
+}
+
+/**
+ * Register the "Set" custom post type — the recipe. A Set is never itself a cart
+ * line (the storefront adds its component products and the cart applies the set
+ * discount server-side), so it is deliberately NOT a WooCommerce product.
+ */
+function oeff_sets_register_cpt() {
+    $cap = oeff_sets_capability();
+
+    $labels = [
+        'name'               => 'Sets',
+        'singular_name'      => 'Set',
+        'menu_name'          => 'Sets',
+        'add_new'            => 'Set hinzufügen',
+        'add_new_item'       => 'Neues Set',
+        'edit_item'          => 'Set bearbeiten',
+        'new_item'           => 'Neues Set',
+        'view_item'          => 'Set ansehen',
+        'search_items'       => 'Sets durchsuchen',
+        'all_items'          => 'Alle Sets',
+        'not_found'          => 'Keine Sets gefunden',
+        'not_found_in_trash' => 'Keine Sets im Papierkorb',
+    ];
+
+    register_post_type(OEFF_SETS_CPT, [
+        'labels'          => $labels,
+        'public'          => false,   // headless: no themed front-end for the CPT itself
+        'show_ui'         => true,    // but fully manageable in wp-admin
+        'show_in_menu'    => true,
+        'menu_icon'       => 'dashicons-screenoptions',
+        'menu_position'   => 56,      // just below WooCommerce
+        'supports'        => ['title', 'editor', 'thumbnail'],
+        'show_in_rest'    => true,
+        'map_meta_cap'    => true,
+        'capabilities'    => [
+            'edit_post'              => $cap,
+            'read_post'              => $cap,
+            'delete_post'            => $cap,
+            'edit_posts'             => $cap,
+            'edit_others_posts'      => $cap,
+            'delete_posts'           => $cap,
+            'delete_others_posts'    => $cap,
+            'publish_posts'          => $cap,
+            'read_private_posts'     => $cap,
+            'create_posts'           => $cap,
+        ],
+    ]);
+}
+add_action('init', 'oeff_sets_register_cpt');
+
+/**
+ * Register Set meta (recipe + pricing). Exposed in REST so the builder UI and the
+ * headless frontend can read/write them; writes gated to shop managers.
+ */
+function oeff_sets_register_meta() {
+    // Fixed-set recipe: array of { id: product ID, qty: quantity }.
+    register_post_meta(OEFF_SETS_CPT, '_oeff_set_components', [
+        'type'          => 'array',
+        'single'        => true,
+        'show_in_rest'  => [
+            'schema' => [
+                'type'  => 'array',
+                'items' => [
+                    'type'       => 'object',
+                    'properties' => [
+                        'id'  => ['type' => 'integer'],
+                        'qty' => ['type' => 'integer'],
+                    ],
+                ],
+            ],
+        ],
+        'auth_callback' => 'oeff_sets_meta_auth',
+    ]);
+
+    // Simple scalar meta.
+    $scalars = [
+        '_oeff_set_type'         => 'string', // fixed | configurable
+        '_oeff_set_status'       => 'string', // active | inactive
+        '_oeff_set_pricing_mode' => 'string', // fixed | percent | amount
+    ];
+    foreach ($scalars as $key => $type) {
+        register_post_meta(OEFF_SETS_CPT, $key, [
+            'type'          => $type,
+            'single'        => true,
+            'show_in_rest'  => true,
+            'auth_callback' => 'oeff_sets_meta_auth',
+        ]);
+    }
+
+    // Pricing value: price (amount), percent, or euro discount depending on mode.
+    register_post_meta(OEFF_SETS_CPT, '_oeff_set_pricing_value', [
+        'type'          => 'number',
+        'single'        => true,
+        'show_in_rest'  => true,
+        'auth_callback' => 'oeff_sets_meta_auth',
+    ]);
+}
+add_action('init', 'oeff_sets_register_meta');
+
+/**
+ * Activation: register the CPT, then flush rewrite rules so its routes resolve.
+ */
+function oeff_sets_activate() {
+    oeff_sets_register_cpt();
+    flush_rewrite_rules();
+}
+register_activation_hook(__FILE__, 'oeff_sets_activate');
+
+function oeff_sets_deactivate() {
+    flush_rewrite_rules();
+}
+register_deactivation_hook(__FILE__, 'oeff_sets_deactivate');

@@ -15,6 +15,7 @@ cp /usr/src/wordpress/wp-content/mu-plugins/newsletter-api.php /var/www/html/wp-
 cp /usr/src/wordpress/wp-content/mu-plugins/reviews-api.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
 cp /usr/src/wordpress/wp-content/mu-plugins/lockdown.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
 cp -r /usr/src/wordpress/wp-content/themes/oefflinger-checkout /var/www/html/wp-content/themes/ 2>/dev/null || true
+cp -r /usr/src/wordpress/wp-content/plugins/oeff-sets /var/www/html/wp-content/plugins/ 2>/dev/null || true
 
 # Remove legacy iframe-checkout mu-plugins (superseded by the native Next.js checkout, P2-18c).
 # They linger in the persistent wp_data volume; deploys only copy files in, never delete them,
@@ -71,5 +72,8 @@ $WP rewrite structure '/%postname%/' --hard 2>/dev/null || true
 
 echo "[setup] Activating Oefflinger Checkout theme..."
 $WP theme activate oefflinger-checkout 2>/dev/null || true
+
+echo "[setup] Activating Öfflinger Sets plugin..."
+$WP plugin activate oeff-sets 2>/dev/null || true
 
 echo "[setup] WooCommerce setup complete."
