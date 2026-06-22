@@ -93,6 +93,10 @@ export interface CartItemData {
       instance: string;
       name: string;
       slug: string;
+      /** "fixed" | "configurable" */
+      type: string;
+      /** Applied discount percent for this set instance */
+      percent: number;
       dissolved: boolean;
     };
   };

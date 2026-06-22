@@ -22,8 +22,10 @@ add_filter('use_block_editor_for_post_type', function ($use, $type) {
 
 /** Register the builder meta boxes on the Set editor. */
 add_action('add_meta_boxes', function () {
-    add_meta_box('oeff_set_components', 'Set-Inhalt', 'oeff_sets_render_components_box', OEFF_SETS_CPT, 'normal', 'high');
-    add_meta_box('oeff_set_pricing', 'Set-Preis & Rabatt', 'oeff_sets_render_pricing_box', OEFF_SETS_CPT, 'side', 'high');
+    add_meta_box('oeff_set_type', 'Set-Typ', 'oeff_sets_render_type_box', OEFF_SETS_CPT, 'side', 'high');
+    add_meta_box('oeff_set_components', 'Set-Inhalt (fester Satz)', 'oeff_sets_render_components_box', OEFF_SETS_CPT, 'normal', 'high');
+    add_meta_box('oeff_set_config', 'Konfigurierbar: Auswahl & Mengenrabatt', 'oeff_sets_render_config_box', OEFF_SETS_CPT, 'normal', 'default');
+    add_meta_box('oeff_set_pricing', 'Set-Preis & Rabatt (fester Satz)', 'oeff_sets_render_pricing_box', OEFF_SETS_CPT, 'side', 'default');
 });
 
 /** Components meta box: search field + table of rows (rows injected by JS). */
@@ -79,6 +81,58 @@ function oeff_sets_render_pricing_box($post) {
     <?php
 }
 
+/** Set-Typ meta box: fixed vs configurable (JS toggles which boxes show). */
+function oeff_sets_render_type_box($post) {
+    $type = get_post_meta($post->ID, '_oeff_set_type', true) ?: 'fixed';
+    ?>
+    <div class="oeff-set-typebox">
+        <p>
+            <label><input type="radio" name="oeff_set_type" value="fixed" <?php checked($type, 'fixed'); ?> /> <strong>Fester Satz</strong></label><br/>
+            <span class="description">Feste Produkte zum Set-Preis.</span>
+        </p>
+        <p>
+            <label><input type="radio" name="oeff_set_type" value="configurable" <?php checked($type, 'configurable'); ?> /> <strong>Konfigurierbar</strong></label><br/>
+            <span class="description">Kunde wählt aus einer Kategorie; Rabatt nach Menge.</span>
+        </p>
+    </div>
+    <?php
+}
+
+/** Configurable meta box: source category + quantity discount tiers. */
+function oeff_sets_render_config_box($post) {
+    $category = (int) get_post_meta($post->ID, '_oeff_set_category', true);
+    $cats     = function_exists('get_terms')
+        ? get_terms(['taxonomy' => 'product_cat', 'hide_empty' => false])
+        : [];
+    ?>
+    <div class="oeff-set-config">
+        <p>
+            <label for="oeff-set-category"><strong>Kategorie</strong> – Kunden wählen Produkte hieraus</label><br/>
+            <select id="oeff-set-category" name="oeff_set_category">
+                <option value="0">— Kategorie wählen —</option>
+                <?php if (!is_wp_error($cats)) : foreach ($cats as $cat) : ?>
+                    <option value="<?php echo (int) $cat->term_id; ?>" <?php selected($category, $cat->term_id); ?>>
+                        <?php echo esc_html($cat->name); ?> (<?php echo (int) $cat->count; ?>)
+                    </option>
+                <?php endforeach; endif; ?>
+            </select>
+        </p>
+        <p><strong>Mengenrabatt-Stufen</strong></p>
+        <table class="widefat oeff-set-tiers" id="oeff-set-tiers">
+            <thead>
+                <tr><th style="width:140px;">Ab Menge</th><th style="width:140px;">Rabatt (%)</th><th style="width:40px;"></th></tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+                <tr><td colspan="3" class="oeff-set-empty">Noch keine Stufen. Beispiel: ab 3 → 5 %, ab 5 → 10 %.</td></tr>
+            </tfoot>
+        </table>
+        <p><button type="button" class="button" id="oeff-set-add-tier">Stufe hinzufügen</button></p>
+        <p class="description">Es gilt die höchste erreichte Stufe. Unter der kleinsten Menge: kein Rabatt.</p>
+    </div>
+    <?php
+}
+
 /** Persist the builder fields when a Set is saved. */
 add_action('save_post_' . OEFF_SETS_CPT, 'oeff_sets_save', 10, 2);
 function oeff_sets_save($post_id, $post) {
@@ -120,8 +174,37 @@ function oeff_sets_save($post_id, $post) {
     }
     update_post_meta($post_id, '_oeff_set_pricing_value', $value);
 
-    // MVP only builds fixed sets; configurable comes in a later phase.
-    update_post_meta($post_id, '_oeff_set_type', 'fixed');
+    // Set type.
+    $type = isset($_POST['oeff_set_type']) ? sanitize_key($_POST['oeff_set_type']) : 'fixed';
+    if (!in_array($type, ['fixed', 'configurable'], true)) {
+        $type = 'fixed';
+    }
+    update_post_meta($post_id, '_oeff_set_type', $type);
+
+    // Configurable: source category + quantity discount tiers (sorted ascending).
+    $category = isset($_POST['oeff_set_category']) ? absint($_POST['oeff_set_category']) : 0;
+    update_post_meta($post_id, '_oeff_set_category', $category);
+
+    $tiers = [];
+    if (!empty($_POST['oeff_set_tiers']) && is_array($_POST['oeff_set_tiers'])) {
+        foreach (wp_unslash($_POST['oeff_set_tiers']) as $row) {
+            $min = isset($row['min_qty']) ? absint($row['min_qty']) : 0;
+            $pct = isset($row['percent']) ? (float) $row['percent'] : 0;
+            if ($pct < 0) {
+                $pct = 0;
+            }
+            if ($pct > 100) {
+                $pct = 100;
+            }
+            if ($min > 0 && $pct > 0) {
+                $tiers[] = ['min_qty' => $min, 'percent' => $pct];
+            }
+        }
+        usort($tiers, function ($a, $b) {
+            return $a['min_qty'] - $b['min_qty'];
+        });
+    }
+    update_post_meta($post_id, '_oeff_set_tiers', $tiers);
 }
 
 /** Enqueue the builder assets on the Set add/edit screen only. */
@@ -156,11 +239,16 @@ function oeff_sets_enqueue_admin($hook) {
         }
     }
 
+    $tiers = $post ? get_post_meta($post->ID, '_oeff_set_tiers', true) : [];
+    $tiers = is_array($tiers) ? array_values($tiers) : [];
+
     wp_localize_script('oeff-sets-admin', 'OeffSets', [
         'ajaxUrl'  => admin_url('admin-ajax.php'),
         'nonce'    => wp_create_nonce('oeff_sets_search'),
         'currency' => function_exists('get_woocommerce_currency_symbol') ? get_woocommerce_currency_symbol() : '€',
         'existing' => $existing,
+        'type'     => $post ? (get_post_meta($post->ID, '_oeff_set_type', true) ?: 'fixed') : 'fixed',
+        'tiers'    => $tiers,
     ]);
 }
 

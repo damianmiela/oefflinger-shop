@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getSet } from "../_lib/sets";
 import { AddSetButton } from "../_components/AddSetButton";
+import { SetConfigurator } from "../_components/SetConfigurator";
 import { HealthDisclaimer } from "@/components/HealthDisclaimer";
 import { formatCents } from "@/lib/format";
 import { toMetaDescription } from "@/lib/seo";
@@ -19,7 +20,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: "Set nicht gefunden", robots: { index: false, follow: false } };
   }
   const description = toMetaDescription(
-    set.description || `${set.name} – Set aus ${set.components.length} Produkten.`,
+    set.description ||
+      (set.type === "configurable"
+        ? `${set.name} – stellen Sie Ihr eigenes Set zusammen.`
+        : `${set.name} – Set aus ${set.components.length} Produkten.`),
   );
   return {
     title: set.name,
@@ -40,6 +44,7 @@ export default async function SetDetailPage({ params }: Props) {
   const set = await getSet(slug);
   if (!set) notFound();
   const cc = set.currency_code || "EUR";
+  const isConfigurable = set.type === "configurable";
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
@@ -69,29 +74,38 @@ export default async function SetDetailPage({ params }: Props) {
         <div className="min-w-0">
           <h1 className="text-3xl font-bold text-gray-900">{set.name}</h1>
 
-          <div className="mt-4 flex flex-wrap items-baseline gap-3">
-            <span className="text-primary text-3xl font-bold">{formatCents(set.set_price, cc)}</span>
-            {set.savings > 0 && (
-              <>
-                <span className="text-lg text-gray-400 line-through">
-                  {formatCents(set.components_sum, cc)}
-                </span>
-                <span className="bg-accent rounded-full px-2.5 py-1 text-sm font-semibold text-white">
-                  −{set.savings_percent}&nbsp;%
-                </span>
-              </>
-            )}
-          </div>
-          {set.savings > 0 && (
-            <p className="text-accent mt-1 font-medium">Sie sparen {formatCents(set.savings, cc)}</p>
-          )}
-          <p className="mt-1 text-sm text-gray-500">inkl. MwSt.</p>
-
-          <AddSetButton setId={set.id} available={set.available} className="mt-6 w-full sm:w-auto" />
-          {!set.available && (
-            <p className="mt-2 text-sm text-amber-700">
-              Eines der enthaltenen Produkte ist derzeit nicht verfügbar.
+          {isConfigurable ? (
+            <p className="mt-4 text-gray-600">
+              Stellen Sie Ihr Set selbst zusammen – wählen Sie unten Ihre Produkte. Je mehr Sie
+              wählen, desto höher der Mengenrabatt.
             </p>
+          ) : (
+            <>
+              <div className="mt-4 flex flex-wrap items-baseline gap-3">
+                <span className="text-primary text-3xl font-bold">{formatCents(set.set_price, cc)}</span>
+                {set.savings > 0 && (
+                  <>
+                    <span className="text-lg text-gray-400 line-through">
+                      {formatCents(set.components_sum, cc)}
+                    </span>
+                    <span className="bg-accent rounded-full px-2.5 py-1 text-sm font-semibold text-white">
+                      −{set.savings_percent}&nbsp;%
+                    </span>
+                  </>
+                )}
+              </div>
+              {set.savings > 0 && (
+                <p className="text-accent mt-1 font-medium">Sie sparen {formatCents(set.savings, cc)}</p>
+              )}
+              <p className="mt-1 text-sm text-gray-500">inkl. MwSt.</p>
+
+              <AddSetButton setId={set.id} available={set.available} className="mt-6 w-full sm:w-auto" />
+              {!set.available && (
+                <p className="mt-2 text-sm text-amber-700">
+                  Eines der enthaltenen Produkte ist derzeit nicht verfügbar.
+                </p>
+              )}
+            </>
           )}
 
           {set.description && (
@@ -103,39 +117,46 @@ export default async function SetDetailPage({ params }: Props) {
         </div>
       </div>
 
-      <section className="mt-10">
-        <h2 className="text-xl font-semibold text-gray-900">Enthaltene Produkte</h2>
-        <ul className="mt-4 divide-y divide-gray-200 rounded-2xl border border-gray-200 bg-white">
-          {set.components.map((c) => (
-            <li key={c.id} className="flex items-center gap-4 p-4">
-              <Link
-                href={`/shop/${c.slug}`}
-                className="bg-surface-alt block h-16 w-16 shrink-0 overflow-hidden rounded-lg"
-              >
-                {c.image ? (
-                  <Image
-                    src={c.image}
-                    alt={c.name}
-                    width={64}
-                    height={64}
-                    className="h-full w-full object-contain"
-                  />
-                ) : null}
-              </Link>
-              <div className="min-w-0 flex-1">
-                <Link href={`/shop/${c.slug}`} className="hover:text-primary font-medium text-gray-900">
-                  {c.name}
+      {isConfigurable ? (
+        <section className="mt-10">
+          <h2 className="text-xl font-semibold text-gray-900">Set zusammenstellen</h2>
+          <SetConfigurator set={set} />
+        </section>
+      ) : (
+        <section className="mt-10">
+          <h2 className="text-xl font-semibold text-gray-900">Enthaltene Produkte</h2>
+          <ul className="mt-4 divide-y divide-gray-200 rounded-2xl border border-gray-200 bg-white">
+            {set.components.map((c) => (
+              <li key={c.id} className="flex items-center gap-4 p-4">
+                <Link
+                  href={`/shop/${c.slug}`}
+                  className="bg-surface-alt block h-16 w-16 shrink-0 overflow-hidden rounded-lg"
+                >
+                  {c.image ? (
+                    <Image
+                      src={c.image}
+                      alt={c.name}
+                      width={64}
+                      height={64}
+                      className="h-full w-full object-contain"
+                    />
+                  ) : null}
                 </Link>
-                <p className="text-sm text-gray-500">
-                  Menge: {c.qty}
-                  {!c.in_stock && " · derzeit nicht verfügbar"}
-                </p>
-              </div>
-              <span className="shrink-0 text-sm text-gray-600">{formatCents(c.price * c.qty, cc)}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
+                <div className="min-w-0 flex-1">
+                  <Link href={`/shop/${c.slug}`} className="hover:text-primary font-medium text-gray-900">
+                    {c.name}
+                  </Link>
+                  <p className="text-sm text-gray-500">
+                    Menge: {c.qty}
+                    {!c.in_stock && " · derzeit nicht verfügbar"}
+                  </p>
+                </div>
+                <span className="shrink-0 text-sm text-gray-600">{formatCents(c.price * c.qty, cc)}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <HealthDisclaimer className="mt-12" />
     </div>

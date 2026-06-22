@@ -37,8 +37,8 @@ interface CartContextValue {
   clearError: () => void;
   /** Resolves true when the item was added successfully */
   addItem: (productId: number, quantity?: number) => Promise<boolean>;
-  /** Add a Set (oeff-sets) — adds its components as a grouped, discounted unit */
-  addSet: (setId: number) => Promise<boolean>;
+  /** Add a Set (oeff-sets). Pass a selection for configurable (build-your-own) sets. */
+  addSet: (setId: number, selection?: { id: number; qty: number }[]) => Promise<boolean>;
   removeItem: (itemKey: string) => Promise<void>;
   updateItem: (itemKey: string, quantity: number) => Promise<void>;
   refreshCart: () => Promise<void>;
@@ -211,11 +211,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
   );
 
   const addSet = useCallback(
-    async (setId: number) => {
+    async (setId: number, selection?: { id: number; qty: number }[]) => {
       setLoading(true);
       setLastError(null);
       try {
-        const { data, token } = await wooApi.addSet(setId, getStoredToken());
+        const { data, token } = await wooApi.addSet(setId, selection, getStoredToken());
         setCart(data);
         if (token) storeToken(token);
         triggerJustAdded();

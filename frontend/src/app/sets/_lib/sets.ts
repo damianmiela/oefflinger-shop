@@ -18,6 +18,28 @@ export interface OeffSetComponent {
   in_stock: boolean;
 }
 
+/** A pickable product in a configurable set (no fixed qty — the customer chooses). */
+export interface OeffSetOption {
+  id: number;
+  name: string;
+  slug: string;
+  /** Unit price in minor units (cents) */
+  price: number;
+  image: string | null;
+  in_stock: boolean;
+}
+
+export interface OeffSetTier {
+  min_qty: number;
+  percent: number;
+}
+
+export interface OeffSetCategory {
+  id: number;
+  name: string;
+  slug: string;
+}
+
 export interface OeffSet {
   id: number;
   slug: string;
@@ -38,6 +60,11 @@ export interface OeffSet {
   /** False if any component is out of stock / unpurchasable */
   available: boolean;
   currency_code: string;
+  /** Configurable sets only: source category, pickable products, discount tiers. */
+  category?: OeffSetCategory | null;
+  options?: OeffSetOption[];
+  tiers?: OeffSetTier[];
+  min_qty?: number;
 }
 
 /** wp-json base — internal Docker host on the server, public URL in the browser. */

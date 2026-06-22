@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Öfflinger Sets
  * Description: Product sets / bundles for the headless Öfflinger shop. Sets are defined as recipes in wp-admin; the storefront adds their component products and the Store-API cart applies the set discount server-side (grouped line items). See _docs/bundles-design.md.
- * Version: 0.4.0
+ * Version: 0.5.0
  * Author: Öfflinger
  * Text Domain: oeff-sets
  *
@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('OEFF_SETS_VERSION', '0.4.0');
+define('OEFF_SETS_VERSION', '0.5.0');
 define('OEFF_SETS_CPT', 'oeff_set');
 define('OEFF_SETS_DIR', plugin_dir_path(__FILE__));
 define('OEFF_SETS_URL', plugin_dir_url(__FILE__));
@@ -140,6 +140,31 @@ function oeff_sets_register_meta() {
         'type'          => 'number',
         'single'        => true,
         'show_in_rest'  => true,
+        'auth_callback' => 'oeff_sets_meta_auth',
+    ]);
+
+    // Configurable sets: source category (term ID) + quantity discount tiers.
+    register_post_meta(OEFF_SETS_CPT, '_oeff_set_category', [
+        'type'          => 'integer',
+        'single'        => true,
+        'show_in_rest'  => true,
+        'auth_callback' => 'oeff_sets_meta_auth',
+    ]);
+    register_post_meta(OEFF_SETS_CPT, '_oeff_set_tiers', [
+        'type'          => 'array',
+        'single'        => true,
+        'show_in_rest'  => [
+            'schema' => [
+                'type'  => 'array',
+                'items' => [
+                    'type'       => 'object',
+                    'properties' => [
+                        'min_qty' => ['type' => 'integer'],
+                        'percent' => ['type' => 'number'],
+                    ],
+                ],
+            ],
+        ],
         'auth_callback' => 'oeff_sets_meta_auth',
     ]);
 }

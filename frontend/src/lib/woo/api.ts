@@ -325,12 +325,15 @@ export async function addToCart(
  */
 export async function addSet(
   setId: number,
+  selection?: { id: number; qty: number }[],
   cartToken?: string,
 ): Promise<{ data: Cart; token?: string }> {
+  const data: Record<string, unknown> = { action: "add_set", set_id: setId };
+  if (selection && selection.length) data.selection = selection;
   return cartApiFetch<Cart>("/cart/extensions", {
     method: "POST",
     token: cartToken,
-    body: JSON.stringify({ namespace: "oeff-sets", data: { action: "add_set", set_id: setId } }),
+    body: JSON.stringify({ namespace: "oeff-sets", data }),
   });
 }
 

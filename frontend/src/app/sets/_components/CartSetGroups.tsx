@@ -18,6 +18,8 @@ type Block =
       instance: string;
       name: string;
       slug: string;
+      setType: string;
+      percent: number;
       dissolved: boolean;
       members: CartItemData[];
     };
@@ -42,6 +44,8 @@ export function CartSetGroups({
           instance: ext.instance,
           name: ext.name || "Set",
           slug: ext.slug || "",
+          setType: ext.type || "fixed",
+          percent: ext.percent || 0,
           dissolved: ext.dissolved,
           members: [item],
         });
@@ -82,7 +86,13 @@ export function CartSetGroups({
                   block.dissolved ? "text-amber-700" : "text-primary"
                 }`}
               >
-                {block.dissolved ? "Set-Rabatt entfernt" : "Set-Preis aktiv"}
+                {block.dissolved
+                  ? "Set-Rabatt entfernt"
+                  : block.setType === "configurable"
+                    ? block.percent > 0
+                      ? `Mengenrabatt −${Math.round(block.percent)} %`
+                      : "Kein Mengenrabatt"
+                    : "Set-Preis aktiv"}
               </span>
             </div>
             {block.dissolved && (

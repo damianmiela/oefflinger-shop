@@ -95,6 +95,10 @@ function oeff_sets_build_payload($post) {
     $value = (float) get_post_meta($post->ID, '_oeff_set_pricing_value', true);
     $type  = get_post_meta($post->ID, '_oeff_set_type', true) ?: 'fixed';
 
+    if ('configurable' === $type) {
+        return oeff_sets_build_configurable_payload($post);
+    }
+
     $components = [];
     $sum_cents  = 0;
     $available  = !empty($components_meta);
@@ -166,5 +170,86 @@ function oeff_sets_build_payload($post) {
         'savings_percent' => $savings_pct,
         'available'       => $available,
         'currency_code'   => function_exists('get_woocommerce_currency') ? get_woocommerce_currency() : 'EUR',
+    ];
+}
+
+/**
+ * Configurable ("build your own from a category") set payload: the eligible
+ * products from the source category + the quantity discount tiers. Final pricing
+ * is computed from the customer's selection (frontend live, cart server-side).
+ */
+function oeff_sets_build_configurable_payload($post) {
+    $cat_id = (int) get_post_meta($post->ID, '_oeff_set_category', true);
+
+    $tiers = get_post_meta($post->ID, '_oeff_set_tiers', true);
+    $tiers = is_array($tiers) ? array_values($tiers) : [];
+    $tiers = array_map(function ($t) {
+        return [
+            'min_qty' => isset($t['min_qty']) ? (int) $t['min_qty'] : 0,
+            'percent' => isset($t['percent']) ? (float) $t['percent'] : 0,
+        ];
+    }, $tiers);
+
+    $category = null;
+    $options  = [];
+
+    if ($cat_id && function_exists('wc_get_product')) {
+        $term = get_term($cat_id, 'product_cat');
+        if ($term && !is_wp_error($term)) {
+            $category = ['id' => $term->term_id, 'name' => $term->name, 'slug' => $term->slug];
+        }
+
+        $query = new WP_Query([
+            'post_type'      => 'product',
+            'post_status'    => 'publish',
+            'posts_per_page' => 100,
+            'no_found_rows'  => true,
+            'orderby'        => 'title',
+            'order'          => 'ASC',
+            'tax_query'      => [[
+                'taxonomy' => 'product_cat',
+                'field'    => 'term_id',
+                'terms'    => $cat_id,
+            ]],
+        ]);
+        foreach ($query->posts as $p) {
+            $product = wc_get_product($p->ID);
+            if (!$product || !$product->is_purchasable()) {
+                continue;
+            }
+            $image_id  = $product->get_image_id();
+            $options[] = [
+                'id'       => $product->get_id(),
+                'name'     => $product->get_name(),
+                'slug'     => $product->get_slug(),
+                'price'    => (int) round((float) wc_get_price_to_display($product) * 100),
+                'image'    => $image_id ? wp_get_attachment_image_url($image_id, 'woocommerce_thumbnail') : null,
+                'in_stock' => $product->is_in_stock() && $product->is_purchasable(),
+            ];
+        }
+        wp_reset_postdata();
+    }
+
+    $thumb_id = get_post_thumbnail_id($post->ID);
+
+    return [
+        'id'              => $post->ID,
+        'slug'            => $post->post_name,
+        'name'            => get_the_title($post->ID),
+        'description'     => wpautop($post->post_content),
+        'image'           => $thumb_id ? wp_get_attachment_image_url($thumb_id, 'large') : null,
+        'type'            => 'configurable',
+        'category'        => $category,
+        'options'         => $options,
+        'tiers'           => $tiers,
+        'min_qty'         => !empty($tiers) ? (int) $tiers[0]['min_qty'] : 0,
+        'available'       => count($options) > 0,
+        'currency_code'   => function_exists('get_woocommerce_currency') ? get_woocommerce_currency() : 'EUR',
+        // Present for schema parity with fixed sets (unused for configurable):
+        'components'      => [],
+        'components_sum'  => 0,
+        'set_price'       => 0,
+        'savings'         => 0,
+        'savings_percent' => 0,
     ];
 }
