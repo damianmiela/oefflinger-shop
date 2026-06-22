@@ -1,6 +1,13 @@
 #!/usr/bin/env node
 /**
- * Generates square favicons from the logo by adding white padding (letterboxing).
+ * Generates the PNG app icons from the square master favicon (scripts/fav.png, 128x128).
+ *   - src/app/icon.png        128x128  (native — browser favicon via Next.js)
+ *   - src/app/apple-icon.png  180x180  (Apple touch icon)
+ *
+ * favicon.ico (multi-size 16/32/48) is produced separately with ImageMagick,
+ * because sharp cannot write .ico:
+ *   convert scripts/fav.png -define icon:auto-resize=48,32,16 src/app/favicon.ico
+ *
  * Run: node scripts/generate-favicon.mjs
  */
 
@@ -11,35 +18,16 @@ import { dirname, join } from "path";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, "..");
 
-const input = join(root, "public", "logo", "logo-wb.png");
+// Square master favicon, kept next to this script so the build does not depend
+// on the design assets in /_resources.
+const input = join(__dirname, "fav.png");
 const outputIcon = join(root, "src", "app", "icon.png");
 const outputAppleIcon = join(root, "src", "app", "apple-icon.png");
 
 async function main() {
-  const image = sharp(input);
-  const { width, height } = await image.metadata();
-
-  const size = Math.max(width, height);
-  const top = Math.floor((size - height) / 2);
-  const bottom = size - height - top;
-  const left = Math.floor((size - width) / 2);
-  const right = size - width - left;
-
-  const square = await image
-    .extend({
-      top,
-      bottom,
-      left,
-      right,
-      background: { r: 255, g: 255, b: 255, alpha: 1 },
-    })
-    .png()
-    .toBuffer();
-
-  await sharp(square).toFile(outputIcon);
-  await sharp(square).toFile(outputAppleIcon);
-
-  console.log(`Favicons generated: ${size}x${size} (icon.png, apple-icon.png)`);
+  await sharp(input).resize(128, 128, { kernel: "lanczos3" }).png().toFile(outputIcon);
+  await sharp(input).resize(180, 180, { kernel: "lanczos3" }).png().toFile(outputAppleIcon);
+  console.log("Favicons generated from fav.png: icon.png (128), apple-icon.png (180)");
 }
 
 main().catch((err) => {
