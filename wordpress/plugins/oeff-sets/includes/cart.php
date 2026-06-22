@@ -38,7 +38,7 @@ add_action('woocommerce_blocks_loaded', function () {
     }
     if (function_exists('woocommerce_store_api_register_endpoint_data')) {
         woocommerce_store_api_register_endpoint_data([
-            'endpoint'        => 'cart_item',
+            'endpoint'        => 'cart-item',
             'namespace'       => 'oeff_sets',
             'data_callback'   => 'oeff_sets_cart_item_data',
             'schema_callback' => 'oeff_sets_cart_item_schema',
