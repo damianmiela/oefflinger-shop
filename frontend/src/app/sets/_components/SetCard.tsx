@@ -20,7 +20,7 @@ export function SetCard({ set }: { set: OeffSet }) {
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
         />
         {set.savings_percent > 0 && (
-          <span className="bg-accent absolute top-3 left-3 rounded-full px-2.5 py-1 text-xs font-semibold text-white shadow">
+          <span className="bg-accent absolute top-3 left-3 z-10 rounded-full px-2.5 py-1 text-xs font-semibold text-white shadow">
             −{set.savings_percent}&nbsp;%
           </span>
         )}
