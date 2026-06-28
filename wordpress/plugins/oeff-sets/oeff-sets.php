@@ -80,10 +80,14 @@ function oeff_sets_register_cpt() {
         'supports'        => ['title', 'editor', 'thumbnail'],
         'show_in_rest'    => true,
         'map_meta_cap'    => true,
+        // Map ONLY the plural caps to manage_woocommerce. Mapping the singular
+        // meta caps (edit_post/read_post/delete_post) with map_meta_cap=true makes
+        // WordPress register `manage_woocommerce` itself as a per-post meta cap,
+        // so every plain current_user_can('manage_woocommerce') (no post context)
+        // resolves to 'do_not_allow' — silently locking admins out of WooCommerce
+        // pages (coupons, PDF invoices, …). The plural caps alone gate the Sets
+        // screens. Fixed 2026-06-28.
         'capabilities'    => [
-            'edit_post'              => $cap,
-            'read_post'              => $cap,
-            'delete_post'            => $cap,
             'edit_posts'             => $cap,
             'edit_others_posts'      => $cap,
             'delete_posts'           => $cap,
