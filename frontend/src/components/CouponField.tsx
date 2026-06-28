@@ -8,12 +8,14 @@
  */
 import { useId, useState } from "react";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 import * as wooApi from "@/lib/woo/api";
 import { toUserMessage } from "@/lib/woo/api";
 import { getStoredToken, storeToken } from "@/lib/woo/cart-token";
 
 export function CouponField({ className = "" }: { className?: string }) {
   const { cart, refreshCart } = useCart();
+  const { user } = useAuth();
   const fieldId = useId();
   const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
@@ -28,8 +30,19 @@ export function CouponField({ className = "" }: { className?: string }) {
     setBusy(true);
     setError(null);
     try {
-      const { token } = await wooApi.applyCoupon(value, getStoredToken());
-      if (token) storeToken(token);
+      let token = getStoredToken();
+      // Email-restricted coupons (e.g. the newsletter welcome code) need an email
+      // on the guest Store-API cart to validate against. For logged-in customers,
+      // push their account email first so the restriction passes — here and at checkout.
+      if (user?.email) {
+        const res = await wooApi.updateCustomer({ billing_address: { email: user.email } }, token);
+        if (res.token) {
+          token = res.token;
+          storeToken(token);
+        }
+      }
+      const { token: appliedToken } = await wooApi.applyCoupon(value, token);
+      if (appliedToken) storeToken(appliedToken);
       await refreshCart();
       setCode("");
     } catch (err) {
