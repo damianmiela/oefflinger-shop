@@ -73,7 +73,10 @@ $WP option update WPLANG de_DE 2>/dev/null || true
 echo "[setup] Setting permalink structure..."
 $WP rewrite structure '/%postname%/' --hard 2>/dev/null || true
 
-echo "[setup] Branding WooCommerce emails (logo, colours, footer)..."
+echo "[setup] Branding WooCommerce emails (classic template, logo, colours, footer)..."
+# Use the classic email template (centred logo + coloured header bar) rather than
+# the new minimal "email improvements" style, so the brand colours show.
+$WP option update woocommerce_feature_email_improvements_enabled "no" 2>/dev/null || true
 $WP option update woocommerce_email_header_image "https://oefflinger.de/logo/logo-transparent.png" 2>/dev/null || true
 $WP option update woocommerce_email_base_color "#1e5f74" 2>/dev/null || true
 $WP option update woocommerce_email_background_color "#f0f4f6" 2>/dev/null || true

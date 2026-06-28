@@ -54,3 +54,13 @@ if (!function_exists('oeff_send_html_email')) {
         return (bool) wp_mail($to, $subject, $fallback, $headers);
     }
 }
+
+/**
+ * Brand tweaks applied to every WooCommerce email (order + custom): keep the
+ * header logo a sensible size. Added to the email CSS so WooCommerce inlines it
+ * into the <img>, so it holds up across clients (incl. Outlook).
+ */
+add_filter('woocommerce_email_styles', function ($css) {
+    $css .= "\n#template_header_image img { width:200px !important; max-width:200px !important; height:auto !important; }\n";
+    return $css;
+}, 20);
