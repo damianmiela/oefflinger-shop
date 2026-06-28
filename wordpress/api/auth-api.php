@@ -345,12 +345,13 @@ function oeff_auth_password_reset_request(WP_REST_Request $request) {
             $url = $frontend . '/konto/passwort-zuruecksetzen?login=' . rawurlencode($user->user_login) . '&key=' . rawurlencode($key);
             $name = $user->first_name ?: $user->display_name;
             $subject = 'Passwort zurücksetzen – Öfflinger';
-            $body = sprintf(
-                "Hallo %s,\n\nfür Ihr Konto bei Öfflinger wurde das Zurücksetzen des Passworts angefordert.\n\nKlicken Sie auf den folgenden Link, um ein neues Passwort zu vergeben:\n%s\n\nDer Link ist 24 Stunden gültig. Wenn Sie diese Anfrage nicht gestellt haben, können Sie diese E-Mail ignorieren – Ihr Passwort bleibt unverändert.\n\nIhr Öfflinger-Team",
-                $name,
-                $url
-            );
-            wp_mail($email, $subject, $body);
+            $content = '<p>Hallo ' . esc_html($name) . ',</p>'
+                . '<p>für Ihr Konto bei Öfflinger wurde das Zurücksetzen des Passworts angefordert. Klicken Sie auf die Schaltfläche, um ein neues Passwort zu vergeben:</p>'
+                . '<p style="text-align:center;margin:28px 0;"><a href="' . esc_url($url) . '" style="display:inline-block;padding:13px 28px;background:#1e5f74;color:#ffffff;text-decoration:none;border-radius:6px;font-weight:bold;">Neues Passwort vergeben</a></p>'
+                . '<p style="font-size:13px;color:#6b7280;">Falls die Schaltfläche nicht funktioniert, kopieren Sie diesen Link in Ihren Browser:<br>' . esc_html($url) . '</p>'
+                . '<p>Der Link ist 24 Stunden gültig. Wenn Sie diese Anfrage nicht gestellt haben, können Sie diese E-Mail ignorieren – Ihr Passwort bleibt unverändert.</p>'
+                . '<p>Ihr Öfflinger-Team</p>';
+            oeff_send_html_email($email, $subject, 'Passwort zurücksetzen', $content);
         }
     }
 
@@ -474,14 +475,14 @@ function oeff_auth_change_email(WP_REST_Request $request) {
     }
     // Notify the OLD address so a silent hijack is visible.
     $name = $user->first_name ?: $user->display_name;
-    wp_mail(
+    oeff_send_html_email(
         $old_email,
         'Ihre E-Mail-Adresse wurde geändert – Öfflinger',
-        sprintf(
-            "Hallo %s,\n\ndie E-Mail-Adresse Ihres Kontos bei Öfflinger wurde soeben auf %s geändert.\n\nWenn Sie diese Änderung nicht vorgenommen haben, wenden Sie sich bitte umgehend an info@example.com.\n\nIhr Öfflinger-Team",
-            $name,
-            $new_email
-        )
+        'E-Mail-Adresse geändert',
+        '<p>Hallo ' . esc_html($name) . ',</p>'
+        . '<p>die E-Mail-Adresse Ihres Kontos bei Öfflinger wurde soeben auf <strong>' . esc_html($new_email) . '</strong> geändert.</p>'
+        . '<p>Wenn Sie diese Änderung nicht vorgenommen haben, wenden Sie sich bitte umgehend an <a href="mailto:info@example.com">info@example.com</a>.</p>'
+        . '<p>Ihr Öfflinger-Team</p>'
     );
     return new WP_REST_Response(['user' => oeff_auth_user_payload($user_id)], 200);
 }

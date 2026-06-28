@@ -16,6 +16,7 @@ cp /usr/src/wordpress/wp-content/mu-plugins/reviews-api.php /var/www/html/wp-con
 cp /usr/src/wordpress/wp-content/mu-plugins/lockdown.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
 cp /usr/src/wordpress/wp-content/mu-plugins/proxy-ssl.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
 cp /usr/src/wordpress/wp-content/mu-plugins/smtp-api.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
+cp /usr/src/wordpress/wp-content/mu-plugins/email-template.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
 cp -r /usr/src/wordpress/wp-content/themes/oefflinger-checkout /var/www/html/wp-content/themes/ 2>/dev/null || true
 cp -r /usr/src/wordpress/wp-content/plugins/oeff-sets /var/www/html/wp-content/plugins/ 2>/dev/null || true
 
@@ -71,6 +72,14 @@ $WP option update WPLANG de_DE 2>/dev/null || true
 
 echo "[setup] Setting permalink structure..."
 $WP rewrite structure '/%postname%/' --hard 2>/dev/null || true
+
+echo "[setup] Branding WooCommerce emails (logo, colours, footer)..."
+$WP option update woocommerce_email_header_image "https://oefflinger.de/logo/logo-transparent.png" 2>/dev/null || true
+$WP option update woocommerce_email_base_color "#1e5f74" 2>/dev/null || true
+$WP option update woocommerce_email_background_color "#f0f4f6" 2>/dev/null || true
+$WP option update woocommerce_email_body_background_color "#ffffff" 2>/dev/null || true
+$WP option update woocommerce_email_text_color "#333333" 2>/dev/null || true
+$WP option update woocommerce_email_footer_text "Öfflinger – Kolloidale Metalle<br><a href=\"https://oefflinger.de/impressum\">Impressum</a> · <a href=\"https://oefflinger.de/datenschutz\">Datenschutz</a> · info@example.com" 2>/dev/null || true
 
 echo "[setup] Activating Oefflinger Checkout theme..."
 $WP theme activate oefflinger-checkout 2>/dev/null || true

@@ -71,10 +71,16 @@ function oeff_contact_handle(WP_REST_Request $request) {
 
     $to      = get_option('admin_email');
     $subject = sprintf('Kontaktanfrage über oefflinger.de von %s', $name);
-    $body    = sprintf("Name: %s\nE-Mail: %s\n\nNachricht:\n%s\n", $name, $email, $message);
+    $content = '<p><strong>Neue Kontaktanfrage über oefflinger.de</strong></p>'
+        . '<table cellpadding="0" cellspacing="0" style="margin:12px 0;"><tbody>'
+        . '<tr><td style="padding:2px 12px 2px 0;color:#6b7280;">Name:</td><td style="padding:2px 0;"><strong>' . esc_html($name) . '</strong></td></tr>'
+        . '<tr><td style="padding:2px 12px 2px 0;color:#6b7280;">E-Mail:</td><td style="padding:2px 0;"><a href="mailto:' . esc_attr($email) . '">' . esc_html($email) . '</a></td></tr>'
+        . '</tbody></table>'
+        . '<p style="color:#6b7280;margin-bottom:4px;">Nachricht:</p>'
+        . '<p style="background:#f0f4f6;border-radius:6px;padding:14px;">' . nl2br(esc_html($message)) . '</p>';
     $headers = ['Reply-To: ' . $name . ' <' . $email . '>'];
 
-    $sent = wp_mail($to, $subject, $body, $headers);
+    $sent = oeff_send_html_email($to, $subject, 'Kontaktanfrage', $content, $headers);
 
     if (!$sent) {
         return oeff_contact_error(

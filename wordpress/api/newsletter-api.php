@@ -108,31 +108,26 @@ function oeff_nl_find_by_token($token) {
 function oeff_nl_send_confirmation_email($email, $token) {
     $url     = oeff_nl_frontend_url() . '/newsletter/bestaetigen?token=' . rawurlencode($token);
     $subject = 'Bitte bestätigen Sie Ihre Newsletter-Anmeldung – Öfflinger';
-    $body    = sprintf(
-        "Hallo,\n\nvielen Dank für Ihr Interesse am Öfflinger-Newsletter.\n\n" .
-        "Bitte bestätigen Sie Ihre Anmeldung mit einem Klick auf den folgenden Link:\n%s\n\n" .
-        "Nach der Bestätigung erhalten Sie Ihren 10%%-Willkommensgutschein für Ihre erste Bestellung.\n\n" .
-        "Wenn Sie sich nicht angemeldet haben, ignorieren Sie diese E-Mail einfach – es werden dann keine Daten gespeichert oder E-Mails versendet.\n\n" .
-        "Ihr Öfflinger-Team",
-        $url
-    );
-    wp_mail($email, $subject, $body);
+    $content = '<p>Hallo,</p>'
+        . '<p>vielen Dank für Ihr Interesse am Öfflinger-Newsletter. Bitte bestätigen Sie Ihre Anmeldung:</p>'
+        . '<p style="text-align:center;margin:28px 0;"><a href="' . esc_url($url) . '" style="display:inline-block;padding:13px 28px;background:#1e5f74;color:#ffffff;text-decoration:none;border-radius:6px;font-weight:bold;">Anmeldung bestätigen</a></p>'
+        . '<p style="font-size:13px;color:#6b7280;">Falls die Schaltfläche nicht funktioniert, kopieren Sie diesen Link in Ihren Browser:<br>' . esc_html($url) . '</p>'
+        . '<p>Nach der Bestätigung erhalten Sie Ihren 10%-Willkommensgutschein für Ihre erste Bestellung.</p>'
+        . '<p>Wenn Sie sich nicht angemeldet haben, ignorieren Sie diese E-Mail einfach – es werden dann keine Daten gespeichert oder E-Mails versendet.</p>'
+        . '<p>Ihr Öfflinger-Team</p>';
+    oeff_send_html_email($email, $subject, 'Newsletter bestätigen', $content);
 }
 
 function oeff_nl_send_coupon_email($email, $code, $token) {
     $unsub   = oeff_nl_frontend_url() . '/newsletter/abmelden?token=' . rawurlencode($token);
     $subject = 'Ihr 10%-Willkommensgutschein – Öfflinger';
-    $body    = sprintf(
-        "Hallo,\n\nvielen Dank – Ihre Newsletter-Anmeldung ist bestätigt.\n\n" .
-        "Ihr persönlicher Willkommensgutschein über 10%% auf Ihre erste Bestellung:\n\n    %s\n\n" .
-        "Lösen Sie den Code im Warenkorb bzw. an der Kasse ein. Der Gutschein ist 90 Tage gültig, " .
-        "einmalig einlösbar und an diese E-Mail-Adresse gebunden.\n\n" .
-        "Sie möchten den Newsletter nicht mehr erhalten? Hier abmelden:\n%s\n\n" .
-        "Ihr Öfflinger-Team",
-        $code,
-        $unsub
-    );
-    wp_mail($email, $subject, $body);
+    $content = '<p>Hallo,</p>'
+        . '<p>vielen Dank – Ihre Newsletter-Anmeldung ist bestätigt. Hier ist Ihr Willkommensgutschein über <strong>10 %</strong> auf Ihre erste Bestellung:</p>'
+        . '<p style="text-align:center;margin:28px 0;"><span style="display:inline-block;padding:14px 28px;border:2px dashed #b8954a;border-radius:8px;font-size:20px;font-weight:bold;letter-spacing:2px;color:#1e5f74;background:#f0f4f6;">' . esc_html($code) . '</span></p>'
+        . '<p>Lösen Sie den Code im Warenkorb bzw. an der Kasse ein. Der Gutschein ist 90 Tage gültig, einmalig einlösbar und an diese E-Mail-Adresse gebunden.</p>'
+        . '<p style="font-size:13px;color:#6b7280;">Sie möchten den Newsletter nicht mehr erhalten? <a href="' . esc_url($unsub) . '">Hier abmelden</a>.</p>'
+        . '<p>Ihr Öfflinger-Team</p>';
+    oeff_send_html_email($email, $subject, 'Ihr 10%-Gutschein', $content);
 }
 
 /**
