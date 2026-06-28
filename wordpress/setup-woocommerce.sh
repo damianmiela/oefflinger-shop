@@ -15,6 +15,7 @@ cp /usr/src/wordpress/wp-content/mu-plugins/newsletter-api.php /var/www/html/wp-
 cp /usr/src/wordpress/wp-content/mu-plugins/reviews-api.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
 cp /usr/src/wordpress/wp-content/mu-plugins/lockdown.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
 cp /usr/src/wordpress/wp-content/mu-plugins/proxy-ssl.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
+cp /usr/src/wordpress/wp-content/mu-plugins/smtp-api.php /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
 cp -r /usr/src/wordpress/wp-content/themes/oefflinger-checkout /var/www/html/wp-content/themes/ 2>/dev/null || true
 cp -r /usr/src/wordpress/wp-content/plugins/oeff-sets /var/www/html/wp-content/plugins/ 2>/dev/null || true
 
