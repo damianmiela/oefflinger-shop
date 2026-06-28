@@ -31,8 +31,8 @@ function oeff_sets_cutout_url($attachment_id, $fallback_url) {
     }
 
     $cache_dir  = trailingslashit($uploads['basedir']) . 'oeff-sets';
-    $cache_file = $cache_dir . '/cutout-' . $attachment_id . '.png';
-    $cache_url  = trailingslashit($uploads['baseurl']) . 'oeff-sets/cutout-' . $attachment_id . '.png';
+    $cache_file = $cache_dir . '/cutout-v2-' . $attachment_id . '.png';
+    $cache_url  = trailingslashit($uploads['baseurl']) . 'oeff-sets/cutout-v2-' . $attachment_id . '.png';
 
     // Source: prefer the (uncropped) single-product size, else the original file.
     $src   = get_attached_file($attachment_id);
@@ -59,17 +59,18 @@ function oeff_sets_cutout_url($attachment_id, $fallback_url) {
     try {
         $im = new Imagick($src);
         $im->setImageFormat('png');
-        $im->setImageAlphaChannel(Imagick::ALPHACHANNEL_ACTIVATE);
 
-        $fuzz = 0.12 * Imagick::getQuantum(); // ~12% tolerance catches near-white
-        $w = $im->getImageWidth();
-        $h = $im->getImageHeight();
+        // Fuzz relative to THIS image's quantum range (reliable across IM builds).
+        $range = $im->getQuantumRange();
+        $q     = (is_array($range) && !empty($range['quantumRangeLong'])) ? $range['quantumRangeLong'] : 65535;
+        $fuzz  = 0.10 * $q; // ~10% tolerance to catch near-white / anti-aliased edges
 
-        // Flood-fill the white background from each corner. Interior white (the
-        // label) is not connected to a corner, so it is left intact.
-        foreach ([[0, 0], [$w - 1, 0], [0, $h - 1], [$w - 1, $h - 1]] as $corner) {
-            $im->floodFillPaintImage('transparent', $fuzz, 'white', (int) $corner[0], (int) $corner[1], false);
-        }
+        // Make near-white pixels transparent. This is a GLOBAL paint (not a flood
+        // fill), so it can never run away and consume the bottle — only white-ish
+        // pixels become transparent; the dark bottle stays opaque. The white label
+        // and glass highlights also go transparent, but they read as white against
+        // the white thumbnail background, so overlapping bottles composite cleanly.
+        $im->transparentPaintImage('white', 0.0, $fuzz, false);
 
         $im->writeImage($cache_file);
         $im->clear();
