@@ -1,48 +1,50 @@
 /**
- * Cart-Token storage (P1-11f): the active cart token plus per-user mappings,
- * so carts are user-bound instead of browser-bound.
+ * Cart-Token storage. The headless WooCommerce cart is identified only by a
+ * Cart-Token string, so we keep one ACTIVE token (used by every cart request)
+ * plus a per-identity "slot" — each viewer (the guest, or a specific logged-in
+ * user) gets their own parked cart. CartContext swaps the active token on every
+ * login / logout / account switch, so carts (and coupons) never leak between
+ * accounts.
  */
 
-const CART_TOKEN_KEY = "oefflinger_cart_token";
-const GUEST_STASH_KEY = "oefflinger_cart_token_guest_stash";
+const ACTIVE_KEY = "oefflinger_cart_token";
+const SLOT_PREFIX = "oefflinger_cart_slot_";
 
 const isBrowser = () => typeof window !== "undefined";
 
+/** A cart identity: "guest" or `user_<id>`. */
+export type CartIdentity = string;
+
+export function identityFor(userId: number | null | undefined): CartIdentity {
+  return userId != null ? `user_${userId}` : "guest";
+}
+
+/* ---- active token: what every cart API call uses ---- */
+
 export function getStoredToken(): string | undefined {
   if (!isBrowser()) return undefined;
-  return localStorage.getItem(CART_TOKEN_KEY) ?? undefined;
+  return localStorage.getItem(ACTIVE_KEY) ?? undefined;
 }
 
 export function storeToken(token: string): void {
-  if (isBrowser()) localStorage.setItem(CART_TOKEN_KEY, token);
+  if (isBrowser()) localStorage.setItem(ACTIVE_KEY, token);
 }
 
 export function clearToken(): void {
-  if (isBrowser()) localStorage.removeItem(CART_TOKEN_KEY);
+  if (isBrowser()) localStorage.removeItem(ACTIVE_KEY);
 }
 
-function userKey(userId: number): string {
-  return `${CART_TOKEN_KEY}_user_${userId}`;
-}
+/* ---- per-identity slots: each viewer's parked cart ---- */
 
-export function getUserToken(userId: number): string | undefined {
+export function getSlotToken(identity: CartIdentity): string | undefined {
   if (!isBrowser()) return undefined;
-  return localStorage.getItem(userKey(userId)) ?? undefined;
+  return localStorage.getItem(SLOT_PREFIX + identity) ?? undefined;
 }
 
-export function storeUserToken(userId: number, token: string): void {
-  if (isBrowser()) localStorage.setItem(userKey(userId), token);
+export function setSlotToken(identity: CartIdentity, token: string): void {
+  if (isBrowser()) localStorage.setItem(SLOT_PREFIX + identity, token);
 }
 
-export function getGuestStash(): string | undefined {
-  if (!isBrowser()) return undefined;
-  return localStorage.getItem(GUEST_STASH_KEY) ?? undefined;
-}
-
-export function setGuestStash(token: string): void {
-  if (isBrowser()) localStorage.setItem(GUEST_STASH_KEY, token);
-}
-
-export function clearGuestStash(): void {
-  if (isBrowser()) localStorage.removeItem(GUEST_STASH_KEY);
+export function clearSlotToken(identity: CartIdentity): void {
+  if (isBrowser()) localStorage.removeItem(SLOT_PREFIX + identity);
 }
