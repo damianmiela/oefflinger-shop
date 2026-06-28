@@ -20,8 +20,9 @@ define('OEFF_SETS_CPT', 'oeff_set');
 define('OEFF_SETS_DIR', plugin_dir_path(__FILE__));
 define('OEFF_SETS_URL', plugin_dir_url(__FILE__));
 
-// Product image cutouts (transparent thumbnails) — used by the REST feed.
+// Auto-composed set thumbnails (used by the REST feed) + their cleanup.
 require_once OEFF_SETS_DIR . 'includes/images.php';
+require_once OEFF_SETS_DIR . 'includes/cleanup.php';
 
 // REST feed for the headless storefront — registers in all contexts.
 require_once OEFF_SETS_DIR . 'includes/rest.php';

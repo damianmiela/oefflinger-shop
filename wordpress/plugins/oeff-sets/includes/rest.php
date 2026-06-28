@@ -132,7 +132,7 @@ function oeff_sets_build_payload($post) {
             'slug'     => $product->get_slug(),
             'qty'      => $qty,
             'price'    => $price_cents,
-            'image'    => $image_id ? oeff_sets_cutout_url($image_id, wp_get_attachment_image_url($image_id, 'woocommerce_single')) : null,
+            'image'    => $image_id ? wp_get_attachment_image_url($image_id, 'woocommerce_single') : null,
             'in_stock' => $in_stock,
         ];
     }
@@ -153,14 +153,19 @@ function oeff_sets_build_payload($post) {
     $savings_cents = max(0, $sum_cents - $set_cents);
     $savings_pct   = $sum_cents > 0 ? (int) round($savings_cents / $sum_cents * 100) : 0;
 
-    $thumb_id = get_post_thumbnail_id($post->ID);
+    $thumb_id  = get_post_thumbnail_id($post->ID);
+    $set_image = $thumb_id
+        ? wp_get_attachment_image_url($thumb_id, 'large')
+        : oeff_sets_composite_url($post->ID, array_map(function ($c) {
+            return isset($c['id']) ? (int) $c['id'] : 0;
+        }, $components_meta));
 
     return [
         'id'              => $post->ID,
         'slug'            => $post->post_name,
         'name'            => get_the_title($post->ID),
         'description'     => wpautop($post->post_content),
-        'image'           => $thumb_id ? wp_get_attachment_image_url($thumb_id, 'large') : null,
+        'image'           => $set_image,
         'type'            => $type,
         'pricing_mode'    => $mode,
         'components'      => $components,
@@ -223,7 +228,7 @@ function oeff_sets_build_configurable_payload($post) {
                 'name'     => $product->get_name(),
                 'slug'     => $product->get_slug(),
                 'price'    => (int) round((float) wc_get_price_to_display($product) * 100),
-                'image'    => $image_id ? oeff_sets_cutout_url($image_id, wp_get_attachment_image_url($image_id, 'woocommerce_single')) : null,
+                'image'    => $image_id ? wp_get_attachment_image_url($image_id, 'woocommerce_single') : null,
                 'in_stock' => $product->is_in_stock() && $product->is_purchasable(),
             ];
         }
