@@ -47,17 +47,14 @@ export function SetThumb({
   }
 
   return (
-    <div className="absolute inset-0 flex items-center justify-center gap-[3%] bg-white p-[9%] transition duration-300 group-hover:scale-105">
+    <div className="absolute inset-0 flex items-center justify-center bg-white px-[6%] transition duration-300 group-hover:scale-105">
       {imgs.map((src, i) => (
-        <div key={`${src}-${i}`} className="relative h-full flex-1">
-          <Image
-            src={src}
-            alt=""
-            fill
-            sizes={sizes}
-            priority={priority && i === 0}
-            className="object-contain"
-          />
+        <div
+          key={`${src}-${i}`}
+          className="relative h-[88%] flex-1"
+          style={{ marginLeft: i === 0 ? 0 : "-16%", zIndex: imgs.length - i }}
+        >
+          <Image src={src} alt="" fill sizes={sizes} priority={priority && i === 0} className="object-contain" />
         </div>
       ))}
     </div>
