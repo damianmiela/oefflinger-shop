@@ -7,6 +7,12 @@
  * lib/woo/api.ts `addSet()` and CartContext `addSet()`.
  */
 
+/** A product attribute shown per component (e.g. Größe, Konzentration). */
+export interface OeffSetAttribute {
+  label: string;
+  value: string;
+}
+
 export interface OeffSetComponent {
   id: number;
   name: string;
@@ -16,6 +22,8 @@ export interface OeffSetComponent {
   price: number;
   image: string | null;
   in_stock: boolean;
+  /** Visible product attributes (Größe, Konzentration, …) */
+  attributes?: OeffSetAttribute[];
 }
 
 /** A pickable product in a configurable set (no fixed qty — the customer chooses). */
@@ -27,6 +35,8 @@ export interface OeffSetOption {
   price: number;
   image: string | null;
   in_stock: boolean;
+  /** Visible product attributes (Größe, Konzentration, …) */
+  attributes?: OeffSetAttribute[];
 }
 
 export interface OeffSetTier {

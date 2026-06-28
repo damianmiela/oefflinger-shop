@@ -17,12 +17,14 @@ export async function SetsSection({
   subline = "Mehrere Metalle im Set – günstiger als einzeln.",
   className = "",
   contained = false,
+  excludeId,
 }: {
   limit?: number;
   heading?: string;
   subline?: string;
   className?: string;
   contained?: boolean;
+  excludeId?: number;
 }) {
   let sets;
   try {
@@ -32,7 +34,10 @@ export async function SetsSection({
   }
   if (!sets || sets.length === 0) return null;
 
-  const shown = sets.slice(0, limit);
+  const pool = excludeId ? sets.filter((s) => s.id !== excludeId) : sets;
+  if (pool.length === 0) return null;
+
+  const shown = pool.slice(0, limit);
 
   const inner = (
     <>

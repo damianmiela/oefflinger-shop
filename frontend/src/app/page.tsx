@@ -247,6 +247,12 @@ export default async function HomePage() {
       </section>
       </AnimateOnScroll>
 
+      {/* Sets row (reusable; renders nothing when there are no sets) */}
+      <SetsSection
+        className="border-t border-gray-100 bg-white py-20 sm:py-28"
+        contained
+      />
+
       {/* From Rheinland-Pfalz – local feel with image */}
       <AnimateOnScroll variant="fade-up">
       <section className="border-t border-gray-100 bg-white py-20 sm:py-28">
@@ -472,12 +478,6 @@ export default async function HomePage() {
         </section>
         </AnimateOnScroll>
       )}
-
-      {/* Sets row (reusable; renders nothing when there are no sets) */}
-      <SetsSection
-        className="border-t border-gray-100 bg-surface-alt py-20 sm:py-28"
-        contained
-      />
 
       {/* Newsletter signup (P2-15c) */}
       <AnimateOnScroll variant="fade-up">

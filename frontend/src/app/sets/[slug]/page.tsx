@@ -6,9 +6,13 @@ import { getSet } from "../_lib/sets";
 import { AddSetButton } from "../_components/AddSetButton";
 import { SetConfigurator } from "../_components/SetConfigurator";
 import { SetThumb } from "../_components/SetThumb";
+import { SetsSection } from "../_components/SetsSection";
 import { HealthDisclaimer } from "@/components/HealthDisclaimer";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { PaymentMethodLogos } from "@/components/PaymentMethodLogos";
+import { JsonLd } from "@/components/JsonLd";
 import { formatCents } from "@/lib/format";
-import { toMetaDescription } from "@/lib/seo";
+import { toMetaDescription, absoluteUrl } from "@/lib/seo";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -44,33 +48,89 @@ export default async function SetDetailPage({ params }: Props) {
   const { slug } = await params;
   const set = await getSet(slug);
   if (!set) notFound();
+
   const cc = set.currency_code || "EUR";
   const isConfigurable = set.type === "configurable";
+  const componentCount = set.components.length;
+
+  const canonicalUrl = absoluteUrl(`/sets/${set.slug}`);
+  const componentImages = set.components
+    .map((c) => c.image)
+    .filter((src): src is string => Boolean(src));
+  const ldImages = set.image ? [set.image] : componentImages;
+  const ldDescription = toMetaDescription(set.description || "", 300);
+
+  // Product JSON-LD only for fixed sets with a concrete price (parity with the PDP).
+  const productLd: Record<string, unknown> | null =
+    !isConfigurable && set.set_price > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name: set.name,
+          ...(ldDescription ? { description: ldDescription } : {}),
+          ...(ldImages.length ? { image: ldImages } : {}),
+          brand: { "@type": "Brand", name: "Öfflinger" },
+          offers: {
+            "@type": "Offer",
+            price: (set.set_price / 100).toFixed(2),
+            priceCurrency: cc,
+            availability: set.available
+              ? "https://schema.org/InStock"
+              : "https://schema.org/OutOfStock",
+            itemCondition: "https://schema.org/NewCondition",
+            url: canonicalUrl,
+          },
+        }
+      : null;
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Start", item: absoluteUrl("/") },
+      { "@type": "ListItem", position: 2, name: "Sets", item: absoluteUrl("/sets") },
+      { "@type": "ListItem", position: 3, name: set.name, item: canonicalUrl },
+    ],
+  };
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
-      <nav className="mb-6 text-sm text-gray-500">
-        <Link href="/sets" className="hover:text-primary">
-          Sets
-        </Link>{" "}
-        <span aria-hidden>/</span> <span className="text-gray-700">{set.name}</span>
-      </nav>
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
+      {productLd && <JsonLd data={productLd} />}
+      <JsonLd data={breadcrumbLd} />
 
-      <div className="grid items-start gap-8 lg:grid-cols-2">
+      <Breadcrumbs
+        className="mb-6"
+        items={[
+          { label: "Start", href: "/" },
+          { label: "Sets", href: "/sets" },
+          { label: set.name },
+        ]}
+      />
+
+      <div className="grid items-start gap-8 lg:grid-cols-[42%_1fr] lg:gap-12">
+        {/* Image */}
         <div className="bg-surface-alt relative aspect-[4/3] overflow-hidden rounded-2xl">
-          <SetThumb set={set} sizes="(min-width: 1024px) 40vw, 100vw" priority />
+          <SetThumb set={set} sizes="(min-width: 1024px) 42vw, 100vw" priority />
+          {!isConfigurable && set.savings_percent > 0 && (
+            <span className="bg-accent absolute top-4 left-4 rounded-full px-3 py-1 text-sm font-semibold text-white shadow-sm">
+              −{set.savings_percent}&nbsp;% im Set
+            </span>
+          )}
         </div>
 
+        {/* Details */}
         <div className="min-w-0">
-          <h1 className="text-3xl font-bold text-gray-900">{set.name}</h1>
+          <p className="text-primary text-sm font-medium tracking-widest uppercase">Set</p>
+          <h1 className="mt-1 text-3xl font-bold tracking-tight text-gray-900">{set.name}</h1>
 
           {isConfigurable ? (
-            <p className="mt-4 text-gray-600">
+            <p className="mt-4 leading-relaxed text-gray-600">
               Stellen Sie Ihr Set selbst zusammen – wählen Sie unten Ihre Produkte. Je mehr Sie
               wählen, desto höher der Mengenrabatt.
             </p>
           ) : (
             <>
+              {/* Price */}
               <div className="mt-4 flex flex-wrap items-baseline gap-3">
                 <span className="text-primary text-3xl font-bold">{formatCents(set.set_price, cc)}</span>
                 {set.savings > 0 && (
@@ -89,64 +149,185 @@ export default async function SetDetailPage({ params }: Props) {
               )}
               <p className="mt-1 text-sm text-gray-500">inkl. MwSt.</p>
 
-              <AddSetButton setId={set.id} available={set.available} className="mt-6 w-full sm:w-auto" />
-              {!set.available && (
-                <p className="mt-2 text-sm text-amber-700">
-                  Eines der enthaltenen Produkte ist derzeit nicht verfügbar.
+              {/* Set facts (mirrors the PDP attribute box) */}
+              <dl className="mt-5 flex flex-wrap overflow-hidden rounded-xl border border-gray-200 bg-white">
+                <div className="min-w-[7.5rem] flex-1 border-l border-gray-200 px-4 py-3 first:border-l-0">
+                  <dt className="text-xs font-medium tracking-wider text-gray-400 uppercase">
+                    Produkte im Set
+                  </dt>
+                  <dd className="mt-0.5 font-semibold text-gray-900">{componentCount}</dd>
+                </div>
+                {set.savings_percent > 0 && (
+                  <div className="min-w-[7.5rem] flex-1 border-l border-gray-200 px-4 py-3 first:border-l-0">
+                    <dt className="text-xs font-medium tracking-wider text-gray-400 uppercase">
+                      Ersparnis
+                    </dt>
+                    <dd className="mt-0.5 font-semibold text-gray-900">{set.savings_percent}&nbsp;%</dd>
+                  </div>
+                )}
+              </dl>
+
+              {/* Availability + shipping + CTA + payment */}
+              <div className="mt-6">
+                <p className="flex items-center gap-2 text-sm">
+                  <span
+                    className={`inline-block h-2.5 w-2.5 rounded-full ${set.available ? "bg-emerald-500" : "bg-amber-500"}`}
+                    aria-hidden
+                  />
+                  <span className={`font-medium ${set.available ? "text-emerald-700" : "text-amber-700"}`}>
+                    {set.available ? "Auf Lager – sofort versandfertig" : "Derzeit nicht vollständig verfügbar"}
+                  </span>
                 </p>
-              )}
+
+                <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-500">
+                  <svg
+                    className="h-4 w-4 shrink-0 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
+                    />
+                  </svg>
+                  <span>Versand 4,90 €</span>
+                  <span aria-hidden className="text-gray-300">
+                    ·
+                  </span>
+                  <span className="font-medium text-emerald-700">versandkostenfrei ab 100 €</span>
+                  <Link
+                    href="/versand"
+                    className="hover:text-primary text-gray-400 underline decoration-gray-300 underline-offset-2 transition"
+                  >
+                    Details
+                  </Link>
+                </p>
+
+                <AddSetButton setId={set.id} available={set.available} className="mt-5 w-full sm:w-auto" />
+                {!set.available && (
+                  <p className="mt-2 text-sm text-amber-700">
+                    Eines der enthaltenen Produkte ist derzeit nicht verfügbar.
+                  </p>
+                )}
+
+                <div className="mt-5">
+                  <p className="text-xs font-medium tracking-wider text-gray-400 uppercase">
+                    Sichere Bezahlung
+                  </p>
+                  <PaymentMethodLogos className="mt-2" />
+                </div>
+              </div>
             </>
           )}
 
           {set.description && (
             <div
-              className="mt-6 text-gray-600 [&_a]:text-primary [&_a]:underline [&_p]:mb-3"
+              className="mt-6 leading-relaxed text-gray-600 [&_a]:text-primary [&_a]:underline [&_p:last-child]:mb-0 [&_p]:mb-3"
               dangerouslySetInnerHTML={{ __html: set.description }}
             />
           )}
         </div>
       </div>
 
+      {/* Included products / configurator */}
       {isConfigurable ? (
-        <section className="mt-10">
-          <h2 className="text-xl font-semibold text-gray-900">Set zusammenstellen</h2>
+        <section className="mt-12 border-t border-gray-100 pt-10">
+          <h2 className="text-2xl font-bold text-gray-900">Set zusammenstellen</h2>
           <SetConfigurator set={set} />
         </section>
       ) : (
-        <section className="mt-10">
-          <h2 className="text-xl font-semibold text-gray-900">Enthaltene Produkte</h2>
-          <ul className="mt-4 divide-y divide-gray-200 rounded-2xl border border-gray-200 bg-white">
+        <section className="mt-12 border-t border-gray-100 pt-10">
+          <h2 className="text-2xl font-bold text-gray-900">Enthaltene Produkte</h2>
+          <p className="mt-1 text-gray-500">
+            {componentCount} {componentCount === 1 ? "Produkt" : "Produkte"} – im Set günstiger als
+            einzeln gekauft.
+          </p>
+          <ul className="mt-6 divide-y divide-gray-200 overflow-hidden rounded-2xl border border-gray-200 bg-white">
             {set.components.map((c) => (
               <li key={c.id} className="flex items-center gap-4 p-4">
                 <Link
                   href={`/shop/${c.slug}`}
-                  className="bg-surface-alt block h-16 w-16 shrink-0 overflow-hidden rounded-lg"
+                  className="bg-surface-alt block h-20 w-20 shrink-0 overflow-hidden rounded-lg"
                 >
                   {c.image ? (
                     <Image
                       src={c.image}
                       alt={c.name}
-                      width={64}
-                      height={64}
+                      width={80}
+                      height={80}
                       className="h-full w-full object-contain"
                     />
                   ) : null}
                 </Link>
                 <div className="min-w-0 flex-1">
-                  <Link href={`/shop/${c.slug}`} className="hover:text-primary font-medium text-gray-900">
+                  <Link
+                    href={`/shop/${c.slug}`}
+                    className="hover:text-primary font-medium text-gray-900"
+                  >
                     {c.name}
                   </Link>
-                  <p className="text-sm text-gray-500">
+                  {c.attributes && c.attributes.length > 0 && (
+                    <div className="mt-1.5 flex flex-wrap gap-1.5">
+                      {c.attributes.map((a) => (
+                        <span
+                          key={a.label}
+                          className="bg-surface-alt rounded-full px-2 py-0.5 text-xs text-gray-500"
+                        >
+                          {a.label}: <span className="font-medium text-gray-800">{a.value}</span>
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  <p className="mt-1.5 text-sm text-gray-500">
                     Menge: {c.qty}
                     {!c.in_stock && " · derzeit nicht verfügbar"}
                   </p>
                 </div>
-                <span className="shrink-0 text-sm text-gray-600">{formatCents(c.price * c.qty, cc)}</span>
+                <div className="shrink-0 text-right">
+                  <span className="text-sm font-medium text-gray-900">
+                    {formatCents(c.price * c.qty, cc)}
+                  </span>
+                  {c.qty > 1 && (
+                    <p className="text-xs text-gray-400">{formatCents(c.price, cc)} / Stück</p>
+                  )}
+                </div>
               </li>
             ))}
+
+            {/* Value summary */}
+            {set.savings > 0 && (
+              <li className="bg-surface-alt flex flex-col gap-1 p-4 text-sm">
+                <div className="flex items-center justify-between text-gray-500">
+                  <span>Einzeln zusammen</span>
+                  <span className="line-through">{formatCents(set.components_sum, cc)}</span>
+                </div>
+                <div className="flex items-center justify-between font-semibold text-gray-900">
+                  <span>Set-Preis</span>
+                  <span className="text-primary">{formatCents(set.set_price, cc)}</span>
+                </div>
+                <div className="text-accent flex items-center justify-between font-medium">
+                  <span>Ihre Ersparnis</span>
+                  <span>
+                    −{formatCents(set.savings, cc)} ({set.savings_percent}&nbsp;%)
+                  </span>
+                </div>
+              </li>
+            )}
           </ul>
         </section>
       )}
+
+      {/* Weitere Sets (cross-sell; renders nothing if this is the only set) */}
+      <SetsSection
+        heading="Weitere Sets"
+        subline="Diese Sets könnten Ihnen auch gefallen."
+        excludeId={set.id}
+        className="mt-16 border-t border-gray-100 pt-12"
+      />
 
       <HealthDisclaimer className="mt-12" />
     </div>

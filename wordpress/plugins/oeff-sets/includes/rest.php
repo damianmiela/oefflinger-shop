@@ -134,6 +134,7 @@ function oeff_sets_build_payload($post) {
             'price'    => $price_cents,
             'image'    => $image_id ? oeff_sets_cutout_url($image_id, wp_get_attachment_image_url($image_id, 'woocommerce_single')) : null,
             'in_stock' => $in_stock,
+            'attributes' => oeff_sets_product_attributes($product),
         ];
     }
 
@@ -225,6 +226,7 @@ function oeff_sets_build_configurable_payload($post) {
                 'price'    => (int) round((float) wc_get_price_to_display($product) * 100),
                 'image'    => $image_id ? oeff_sets_cutout_url($image_id, wp_get_attachment_image_url($image_id, 'woocommerce_single')) : null,
                 'in_stock' => $product->is_in_stock() && $product->is_purchasable(),
+                'attributes' => oeff_sets_product_attributes($product),
             ];
         }
         wp_reset_postdata();
@@ -252,4 +254,36 @@ function oeff_sets_build_configurable_payload($post) {
         'savings'         => 0,
         'savings_percent' => 0,
     ];
+}
+
+/**
+ * Visible product attributes (e.g. Größe, Konzentration) as label/value pairs,
+ * so the storefront can show them per set component — mirroring the single-product page.
+ */
+function oeff_sets_product_attributes($product) {
+    $out = [];
+    if (!$product || !method_exists($product, 'get_attributes')) {
+        return $out;
+    }
+    foreach ($product->get_attributes() as $attribute) {
+        if (!($attribute instanceof WC_Product_Attribute) || !$attribute->get_visible()) {
+            continue;
+        }
+        $name = $attribute->get_name();
+        if ($attribute->is_taxonomy()) {
+            $terms = wc_get_product_terms($product->get_id(), $name, ['fields' => 'names']);
+            $value = is_array($terms) ? implode(', ', $terms) : '';
+        } else {
+            $value = implode(', ', $attribute->get_options());
+        }
+        $value = trim((string) $value);
+        if ('' === $value) {
+            continue;
+        }
+        $out[] = [
+            'label' => wc_attribute_label($name),
+            'value' => $value,
+        ];
+    }
+    return $out;
 }
