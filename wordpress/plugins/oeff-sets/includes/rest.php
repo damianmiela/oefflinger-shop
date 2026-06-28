@@ -132,7 +132,7 @@ function oeff_sets_build_payload($post) {
             'slug'     => $product->get_slug(),
             'qty'      => $qty,
             'price'    => $price_cents,
-            'image'    => $image_id ? wp_get_attachment_image_url($image_id, 'woocommerce_single') : null,
+            'image'    => $image_id ? oeff_sets_cutout_url($image_id, wp_get_attachment_image_url($image_id, 'woocommerce_single')) : null,
             'in_stock' => $in_stock,
         ];
     }
@@ -223,7 +223,7 @@ function oeff_sets_build_configurable_payload($post) {
                 'name'     => $product->get_name(),
                 'slug'     => $product->get_slug(),
                 'price'    => (int) round((float) wc_get_price_to_display($product) * 100),
-                'image'    => $image_id ? wp_get_attachment_image_url($image_id, 'woocommerce_single') : null,
+                'image'    => $image_id ? oeff_sets_cutout_url($image_id, wp_get_attachment_image_url($image_id, 'woocommerce_single')) : null,
                 'in_stock' => $product->is_in_stock() && $product->is_purchasable(),
             ];
         }

@@ -36,7 +36,7 @@ export function SetThumb({
   const imgs = source
     .map((c) => c.image)
     .filter((src): src is string => Boolean(src))
-    .slice(0, 3);
+    .slice(0, 4);
 
   if (imgs.length === 0) {
     return (
@@ -60,7 +60,7 @@ export function SetThumb({
             fill
             sizes={sizes}
             priority={priority && i === 0}
-            className="object-contain mix-blend-multiply"
+            className="object-contain"
           />
         </div>
       ))}
