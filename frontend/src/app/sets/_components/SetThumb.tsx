@@ -52,7 +52,7 @@ export function SetThumb({
         <div
           key={`${src}-${i}`}
           className="relative h-[88%] flex-1"
-          style={{ marginLeft: i === 0 ? 0 : "-24%", zIndex: imgs.length - i }}
+          style={{ marginLeft: i === 0 ? 0 : "-12%", zIndex: imgs.length - i }}
         >
           <Image src={src} alt="" fill sizes={sizes} priority={priority && i === 0} className="object-contain" />
         </div>
