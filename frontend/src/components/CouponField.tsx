@@ -23,8 +23,7 @@ export function CouponField({ className = "" }: { className?: string }) {
 
   const applied = cart?.coupons ?? [];
 
-  async function onApply(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  async function applyCode() {
     const value = code.trim();
     if (!value || busy) return;
     setBusy(true);
@@ -72,24 +71,31 @@ export function CouponField({ className = "" }: { className?: string }) {
       <label htmlFor={fieldId} className="mb-1 block text-sm font-medium text-gray-700">
         Gutscheincode
       </label>
-      <form onSubmit={onApply} className="flex gap-2">
+      <div className="flex gap-2">
         <input
           id={fieldId}
           type="text"
           value={code}
           onChange={(e) => setCode(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              applyCode();
+            }
+          }}
           placeholder="z. B. WILLKOMMEN10"
           autoComplete="off"
           className="focus:border-primary focus:ring-primary/30 min-w-0 flex-1 rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:outline-none"
         />
         <button
-          type="submit"
+          type="button"
+          onClick={applyCode}
           disabled={busy || !code.trim()}
           className="bg-primary hover:bg-primary-light shrink-0 rounded-lg px-4 py-2.5 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-60"
         >
           {busy ? "…" : "Einlösen"}
         </button>
-      </form>
+      </div>
 
       {error && (
         <p className="mt-2 text-xs text-red-600" role="alert">
