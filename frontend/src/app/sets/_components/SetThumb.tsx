@@ -60,6 +60,7 @@ export function SetThumb({
             fill
             sizes={sizes}
             priority={priority && i === 0}
+            unoptimized
             className="object-contain"
           />
         </div>

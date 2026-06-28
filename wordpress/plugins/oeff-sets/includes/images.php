@@ -65,11 +65,9 @@ function oeff_sets_cutout_url($attachment_id, $fallback_url) {
         $q     = (is_array($range) && !empty($range['quantumRangeLong'])) ? $range['quantumRangeLong'] : 65535;
         $fuzz  = 0.10 * $q; // ~10% tolerance to catch near-white / anti-aliased edges
 
-        // Make near-white pixels transparent. This is a GLOBAL paint (not a flood
-        // fill), so it can never run away and consume the bottle — only white-ish
-        // pixels become transparent; the dark bottle stays opaque. The white label
-        // and glass highlights also go transparent, but they read as white against
-        // the white thumbnail background, so overlapping bottles composite cleanly.
+        // Make near-white pixels transparent (global paint — never runs away into
+        // the dark bottle). The label/highlights also go transparent but read as
+        // white on the white thumbnail background.
         $im->transparentPaintImage('white', 0.0, $fuzz, false);
 
         $im->writeImage($cache_file);
