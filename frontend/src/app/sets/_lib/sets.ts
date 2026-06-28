@@ -76,7 +76,7 @@ function getWpApiBase(): string {
   return process.env.NEXT_PUBLIC_WP_API_URL || fallback;
 }
 
-const SETS_REVALIDATE = 300;
+const SETS_REVALIDATE = 60;
 
 /** All active sets. Server fetches are ISR-cached + tagged ("sets"). */
 export async function getSets(): Promise<OeffSet[]> {
