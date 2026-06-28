@@ -76,7 +76,7 @@ function oeff_sets_register_cpt() {
         'show_ui'         => true,    // but fully manageable in wp-admin
         'show_in_menu'    => true,
         'menu_icon'       => 'dashicons-screenoptions',
-        'menu_position'   => 56,      // just below WooCommerce
+        'menu_position'   => 58.5,    // own slot below the WooCommerce zone (avoid menu_position collisions)
         'supports'        => ['title', 'editor', 'thumbnail'],
         'show_in_rest'    => true,
         'map_meta_cap'    => true,
