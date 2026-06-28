@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { getFeaturedProducts } from "@/lib/woo/api";
 import { ProductCard } from "@/components/ProductCard";
+import { SetsSection } from "@/app/sets/_components/SetsSection";
 import { AnimateChildren } from "@/components/AnimateChildren";
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 import { HeroParallax } from "@/components/HeroParallax";
@@ -471,6 +472,12 @@ export default async function HomePage() {
         </section>
         </AnimateOnScroll>
       )}
+
+      {/* Sets row (reusable; renders nothing when there are no sets) */}
+      <SetsSection
+        className="border-t border-gray-100 bg-surface-alt py-20 sm:py-28"
+        contained
+      />
 
       {/* Newsletter signup (P2-15c) */}
       <AnimateOnScroll variant="fade-up">

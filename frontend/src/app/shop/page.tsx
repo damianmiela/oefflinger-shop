@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getProducts } from "@/lib/woo/api";
 import { ProductCard } from "@/components/ProductCard";
+import { SetsSection } from "@/app/sets/_components/SetsSection";
 import { ShopPagination } from "@/components/ShopPagination";
 import { AnimateChildren } from "@/components/AnimateChildren";
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
@@ -103,36 +104,24 @@ export default async function ShopPage({ searchParams }: Props) {
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <AnimateOnScroll variant="fade-up">
-        <h1 className="mb-6 text-3xl font-bold text-gray-900">Alle Produkte</h1>
-      </AnimateOnScroll>
-
-      <AnimateOnScroll variant="fade-up">
-        <p className="mb-8 max-w-3xl text-gray-600">
-          Kolloidale Metalle aus eigener Herstellung in der Eifel: Bei Öfflinger kaufen Sie
-          kolloidales Silber, Gold, Zink, Magnesium, Eisen und weitere Metalle –
-          sorgfältig in Oberöfflingen produziert und in Glasflaschen abgefüllt. Wählen Sie unten
-          nach Metall, Größe und Konzentration.
-        </p>
-      </AnimateOnScroll>
-
-      <AnimateOnScroll variant="fade-up">
-        <div className="border-primary/20 bg-primary/5 mb-8 flex flex-col gap-4 rounded-xl border px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-sm text-gray-700 sm:text-base">
-            <span className="text-primary font-medium">Was sind kolloidale Metalle?</span> Erfahren
-            Sie mehr über Eisen, Gold, Silber, Zink und unsere weiteren Metalle —
-            Herstellung, Eigenschaften und Wissenswertes.
-          </p>
+        <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl">Shop</h1>
+        <p className="mt-3 max-w-2xl text-gray-600">
+          Kolloidale Metalle aus eigener Herstellung in der Eifel – kolloidales Silber, Gold,
+          Zink, Magnesium, Eisen und mehr, in Glasflaschen abgefüllt.{" "}
           <Link
             href="/produkte"
-            className="bg-primary hover:bg-primary-light shrink-0 rounded-lg px-4 py-2 text-sm font-medium text-white transition"
+            className="text-primary font-medium whitespace-nowrap hover:underline"
           >
             Mehr erfahren →
           </Link>
-        </div>
+        </p>
       </AnimateOnScroll>
+
+      <SetsSection className="mt-12" />
 
       {!loadFailed && all.length > 0 && (
         <AnimateOnScroll variant="fade-up">
+          <h2 className="mt-12 mb-6 text-2xl font-bold text-gray-900">Einzelprodukte</h2>
           <div className="mb-8 space-y-3">
             {q && (
               <p className="text-gray-600">
