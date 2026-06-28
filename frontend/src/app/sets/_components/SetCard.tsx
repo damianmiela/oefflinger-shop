@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
 import { AddSetButton } from "./AddSetButton";
+import { SetThumb } from "./SetThumb";
 import { formatCents } from "@/lib/format";
 import type { OeffSet } from "../_lib/sets";
 
@@ -15,18 +15,10 @@ export function SetCard({ set }: { set: OeffSet }) {
         aria-label={set.name}
         className="bg-surface-alt relative block aspect-[4/3] overflow-hidden"
       >
-        {set.image ? (
-          <Image
-            src={set.image}
-            alt={set.name}
-            width={600}
-            height={450}
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
-          />
-        ) : (
-          <div className="flex h-full items-center justify-center text-gray-400">Kein Bild</div>
-        )}
+        <SetThumb
+          set={set}
+          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+        />
         {set.savings_percent > 0 && (
           <span className="bg-accent absolute top-3 left-3 rounded-full px-2.5 py-1 text-xs font-semibold text-white shadow">
             −{set.savings_percent}&nbsp;%

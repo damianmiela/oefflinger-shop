@@ -12,6 +12,7 @@ import { apiNewsletterSubscribe, apiNewsletterStatus } from "@/lib/newsletter";
 import { formatCents } from "@/lib/format";
 import { PaymentMethodLogos } from "@/components/PaymentMethodLogos";
 import { CouponField } from "@/components/CouponField";
+import { CartSetGroups } from "@/app/sets/_components/CartSetGroups";
 import type { CheckoutAddress } from "@/types";
 
 const inputClass =
@@ -567,21 +568,10 @@ export function CheckoutForm() {
           <aside className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
           <h2 className="text-lg font-semibold text-gray-900">Bestellübersicht</h2>
 
-          <ul className="mt-4 divide-y divide-gray-100">
-            {cart.items.map((item) => (
-              <li key={item.key} className="flex items-baseline justify-between gap-3 py-2 text-sm">
-                <span className="min-w-0 flex-1 truncate text-gray-700">
-                  {item.quantity} × {item.name}
-                </span>
-                <span className="font-medium text-gray-900">
-                  {formatCents(
-                    Number(item.totals.line_total) + Number(item.totals.line_total_tax ?? 0),
-                    currency,
-                  )}
-                </span>
-              </li>
-            ))}
-          </ul>
+          {/* Same grouped + editable rendering as the cart (set blocks, qty +/-, remove). */}
+          <div className="mt-4 overflow-hidden rounded-xl border border-gray-200">
+            <CartSetGroups items={cart.items} />
+          </div>
 
           <dl className="mt-4 space-y-2 border-t border-gray-100 pt-4 text-sm">
             <div className="flex justify-between">

@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { getSet } from "../_lib/sets";
 import { AddSetButton } from "../_components/AddSetButton";
 import { SetConfigurator } from "../_components/SetConfigurator";
+import { SetThumb } from "../_components/SetThumb";
 import { HealthDisclaimer } from "@/components/HealthDisclaimer";
 import { formatCents } from "@/lib/format";
 import { toMetaDescription } from "@/lib/seo";
@@ -56,19 +57,8 @@ export default async function SetDetailPage({ params }: Props) {
       </nav>
 
       <div className="grid items-start gap-8 lg:grid-cols-2">
-        <div className="bg-surface-alt overflow-hidden rounded-2xl">
-          {set.image ? (
-            <Image
-              src={set.image}
-              alt={set.name}
-              width={800}
-              height={600}
-              className="h-full w-full object-cover"
-              priority
-            />
-          ) : (
-            <div className="flex aspect-[4/3] items-center justify-center text-gray-400">Kein Bild</div>
-          )}
+        <div className="bg-surface-alt relative aspect-[4/3] overflow-hidden rounded-2xl">
+          <SetThumb set={set} sizes="(min-width: 1024px) 40vw, 100vw" priority />
         </div>
 
         <div className="min-w-0">
