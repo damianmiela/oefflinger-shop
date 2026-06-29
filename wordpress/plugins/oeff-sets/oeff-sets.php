@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Öfflinger Sets
- * Description: Product sets / bundles + shop-wide Mengenrabatt for the headless Öfflinger shop. Sets are fixed recipes defined in wp-admin (the storefront adds their component products and the Store-API cart applies the set discount server-side). The Mengenrabatt (Sets → Mengenrabatt) is a separate global volume discount applied live in the cart. See _docs/bundles-design.md.
+ * Description: Product sets / bundles + shop-wide Mengenrabatt for the headless Öfflinger shop. Sets are fixed recipes defined in wp-admin (the storefront adds their component products and the Store-API cart applies the set discount server-side). The Mengenrabatt (Sets → Mengenrabatt) is a separate global volume discount applied live in the cart. See _docs/features/bundles-design.md.
  * Version: 0.6.0
  * Author: Öfflinger
  * Text Domain: oeff-sets

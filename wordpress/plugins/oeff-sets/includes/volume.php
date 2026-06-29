@@ -308,15 +308,22 @@ function oeff_volume_apply_discount($cart) {
         }
     }
 
-    if ($percent > 0 && (empty($coupon_codes) || $volume_saving > $coupon_saving)) {
-        // Volume discount wins → reduce each loose line; neutralise any coupons.
-        $factor = 1 - $percent / 100;
-        foreach ($eligible as $key => $orig) {
-            $cart->cart_contents[$key]['data']->set_price($orig * $factor);
-        }
-        $state['applied']  = true;
-        $state['winner']   = 'volume';
-        $state['savings']  = (int) round($gross_sum * $percent / 100 * 100);
+    $volume_wins = $percent > 0 && (empty($coupon_codes) || $volume_saving > $coupon_saving);
+
+    // Always (re)set the eligible line prices on every calculation: apply the tier
+    // factor when the volume discount wins, otherwise reset to the original price.
+    // Without the explicit reset, a discount from a previous higher-quantity
+    // calculation would stick when the cart later drops below the first tier
+    // (e.g. going from 2 → 1 bottle would keep the 2-bottle price).
+    $factor = $volume_wins ? (1 - $percent / 100) : 1.0;
+    foreach ($eligible as $key => $orig) {
+        $cart->cart_contents[$key]['data']->set_price($orig * $factor);
+    }
+
+    if ($volume_wins) {
+        $state['applied'] = true;
+        $state['winner']  = 'volume';
+        $state['savings'] = (int) round($gross_sum * $percent / 100 * 100);
         if (!empty($coupon_codes)) {
             $GLOBALS['oeff_volume_suppress_coupons'] = true;
             $state['suppressed_coupons'] = array_values($coupon_codes);

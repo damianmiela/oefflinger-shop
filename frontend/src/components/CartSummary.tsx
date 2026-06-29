@@ -18,6 +18,9 @@ export function CartSummary({ className = "" }: { className?: string }) {
 
   const currency = cart.totals.currency_code;
   const subtotalCents = Number(cart.totals.total_items) + Number(cart.totals.total_items_tax ?? 0);
+  const volume = cart.extensions?.oeff_volume;
+  const volumeSavings = volume?.applied ? volume.savings || 0 : 0;
+  const itemsOriginal = subtotalCents + volumeSavings;
   const taxCents = Number(cart.totals.total_tax ?? cart.totals.total_items_tax ?? 0);
   const discountCents = Number(cart.totals.total_discount ?? 0);
   const shippingCents = estimateShippingCents(subtotalCents);
@@ -28,8 +31,14 @@ export function CartSummary({ className = "" }: { className?: string }) {
       <dl className="space-y-2.5 text-sm">
         <div className="flex items-center justify-between">
           <dt className="text-gray-600">Zwischensumme</dt>
-          <dd className="font-medium text-gray-900">{formatCents(subtotalCents, currency)}</dd>
+          <dd className="font-medium text-gray-900">{formatCents(itemsOriginal, currency)}</dd>
         </div>
+        {volumeSavings > 0 && (
+          <div className="flex items-center justify-between text-emerald-700">
+            <dt>Mengenrabatt{volume?.percent ? ` (−${Math.round(volume.percent)} %)` : ""}</dt>
+            <dd className="font-medium">−{formatCents(volumeSavings, currency)}</dd>
+          </div>
+        )}
         {discountCents > 0 && (
           <div className="flex items-center justify-between text-emerald-700">
             <dt>Rabatt</dt>

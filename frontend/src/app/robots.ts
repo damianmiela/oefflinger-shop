@@ -16,7 +16,7 @@ const DISALLOW_FUNCTIONAL = [
  * Pre-launch (INDEXING_ENABLED=false) the whole site is disallowed so the
  * temporary host never gets indexed. At the oefflinger.de cutover, set
  * NEXT_PUBLIC_ALLOW_INDEXING=true to allow crawling and publish the sitemap.
- * See _docs/LAUNCH-SEO-UNBLOCK.md.
+ * See _docs/launch/LAUNCH-SEO-UNBLOCK.md.
  */
 export default function robots(): MetadataRoute.Robots {
   if (!INDEXING_ENABLED) {

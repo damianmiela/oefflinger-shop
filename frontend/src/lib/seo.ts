@@ -7,7 +7,7 @@
  * INDEXING_ENABLED  – search-engine indexing is OFF until launch so the
  *                     temporary IP host never gets indexed. Flip
  *                     NEXT_PUBLIC_ALLOW_INDEXING=true at the oefflinger.de
- *                     cutover. See _docs/LAUNCH-SEO-UNBLOCK.md.
+ *                     cutover. See _docs/launch/LAUNCH-SEO-UNBLOCK.md.
  */
 
 const FALLBACK_SITE_URL = "https://oefflinger.de";

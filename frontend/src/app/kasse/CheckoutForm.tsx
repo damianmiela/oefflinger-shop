@@ -10,8 +10,10 @@ import { toUserMessage } from "@/lib/woo/api";
 import { getStoredToken, storeToken } from "@/lib/woo/cart-token";
 import { apiNewsletterSubscribe, apiNewsletterStatus } from "@/lib/newsletter";
 import { formatCents } from "@/lib/format";
+import { estimateShippingCents } from "@/lib/shipping";
 import { PaymentMethodLogos } from "@/components/PaymentMethodLogos";
 import { CouponField } from "@/components/CouponField";
+import { VolumeDiscountBar } from "@/components/VolumeDiscountBar";
 import { CartSetGroups } from "@/app/sets/_components/CartSetGroups";
 import type { CheckoutAddress } from "@/types";
 
@@ -291,6 +293,18 @@ export function CheckoutForm() {
   const discount = Number(cart.totals.total_discount ?? 0);
   const tax = Number(cart.totals.total_tax ?? 0);
   const hasRates = rates.length > 0;
+
+  // Mengenrabatt (volume discount) + cart-consistent shipping/total. Until a real
+  // shipping rate is known (address + rates), show the same local DHL estimate as
+  // the cart instead of "—"; once resolved, the real Store-API total takes over.
+  const volume = cart.extensions?.oeff_volume;
+  const volumeSavings = volume?.applied ? volume.savings || 0 : 0;
+  const itemsOriginal = subtotal + volumeSavings;
+  const shippingResolved = addressComplete(shipping) && hasRates;
+  const displayShipping = shippingResolved ? shippingTotal : estimateShippingCents(subtotal);
+  const grandTotal = shippingResolved
+    ? Number(cart.totals.total_price)
+    : subtotal - discount + estimateShippingCents(subtotal);
 
   const addressFields = (
     values: AddressFields,
@@ -573,11 +587,19 @@ export function CheckoutForm() {
             <CartSetGroups items={cart.items} />
           </div>
 
+          <VolumeDiscountBar className="mt-4" />
+
           <dl className="mt-4 space-y-2 border-t border-gray-100 pt-4 text-sm">
             <div className="flex justify-between">
               <dt className="text-gray-600">Zwischensumme</dt>
-              <dd className="font-medium text-gray-900">{formatCents(subtotal, currency)}</dd>
+              <dd className="font-medium text-gray-900">{formatCents(itemsOriginal, currency)}</dd>
             </div>
+            {volumeSavings > 0 && (
+              <div className="flex justify-between text-emerald-700">
+                <dt>Mengenrabatt{volume?.percent ? ` (−${Math.round(volume.percent)} %)` : ""}</dt>
+                <dd className="font-medium">−{formatCents(volumeSavings, currency)}</dd>
+              </div>
+            )}
             {discount > 0 && (
               <div className="flex justify-between text-emerald-700">
                 <dt>Rabatt</dt>
@@ -585,13 +607,15 @@ export function CheckoutForm() {
               </div>
             )}
             <div className="flex justify-between">
-              <dt className="text-gray-600">Versand</dt>
-              <dd className="font-medium text-gray-900">
-                {!addressComplete(shipping)
-                  ? "—"
-                  : shippingTotal === 0
-                    ? "Kostenlos"
-                    : formatCents(shippingTotal, currency)}
+              <dt className="text-gray-600">Versand{shippingResolved ? "" : " (geschätzt)"}</dt>
+              <dd
+                className={
+                  displayShipping === 0
+                    ? "font-medium text-emerald-700"
+                    : "font-medium text-gray-900"
+                }
+              >
+                {displayShipping === 0 ? "Kostenlos" : formatCents(displayShipping, currency)}
               </dd>
             </div>
             {tax > 0 && (
@@ -606,7 +630,7 @@ export function CheckoutForm() {
             <span className="text-base font-semibold text-gray-800">Gesamtsumme</span>
             <span className="text-right">
               <span className="text-primary block text-2xl font-bold">
-                {formatCents(Number(cart.totals.total_price), currency)}
+                {formatCents(grandTotal, currency)}
               </span>
               <span className="mt-0.5 block text-xs text-gray-400">inkl. MwSt.</span>
             </span>

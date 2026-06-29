@@ -44,7 +44,8 @@ export function CartItem({ item, volumeMl = null }: CartItemProps) {
   );
 
   return (
-    <div className="flex flex-wrap items-center gap-x-4 gap-y-3 p-4 sm:flex-nowrap">
+    <div className="@container">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-3 p-3 @lg:flex-nowrap @lg:p-4">
       {href ? (
         <Link href={href} className="shrink-0 transition hover:opacity-80">
           {image}
@@ -113,6 +114,7 @@ export function CartItem({ item, volumeMl = null }: CartItemProps) {
           />
         </svg>
       </button>
+      </div>
     </div>
   );
 }
