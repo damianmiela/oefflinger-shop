@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: Öfflinger Sets
- * Description: Product sets / bundles for the headless Öfflinger shop. Sets are defined as recipes in wp-admin; the storefront adds their component products and the Store-API cart applies the set discount server-side (grouped line items). See _docs/bundles-design.md.
- * Version: 0.5.0
+ * Description: Product sets / bundles + shop-wide Mengenrabatt for the headless Öfflinger shop. Sets are fixed recipes defined in wp-admin (the storefront adds their component products and the Store-API cart applies the set discount server-side). The Mengenrabatt (Sets → Mengenrabatt) is a separate global volume discount applied live in the cart. See _docs/bundles-design.md.
+ * Version: 0.6.0
  * Author: Öfflinger
  * Text Domain: oeff-sets
  *
@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('OEFF_SETS_VERSION', '0.5.0');
+define('OEFF_SETS_VERSION', '0.6.0');
 define('OEFF_SETS_CPT', 'oeff_set');
 define('OEFF_SETS_DIR', plugin_dir_path(__FILE__));
 define('OEFF_SETS_URL', plugin_dir_url(__FILE__));
@@ -28,6 +28,9 @@ require_once OEFF_SETS_DIR . 'includes/rest.php';
 
 // Cart integration (grouped set add + server-side discount) — all contexts.
 require_once OEFF_SETS_DIR . 'includes/cart.php';
+
+// Shop-wide Mengenrabatt (volume discount): admin screen + cart engine + REST.
+require_once OEFF_SETS_DIR . 'includes/volume.php';
 
 // Admin builder (meta boxes, product search, save) — admin context only.
 if (is_admin()) {
@@ -129,8 +132,6 @@ function oeff_sets_register_meta() {
 
     // Simple scalar meta.
     $scalars = [
-        '_oeff_set_type'         => 'string', // fixed | configurable
-        '_oeff_set_status'       => 'string', // active | inactive
         '_oeff_set_pricing_mode' => 'string', // fixed | percent | amount
     ];
     foreach ($scalars as $key => $type) {
@@ -150,30 +151,6 @@ function oeff_sets_register_meta() {
         'auth_callback' => 'oeff_sets_meta_auth',
     ]);
 
-    // Configurable sets: source category (term ID) + quantity discount tiers.
-    register_post_meta(OEFF_SETS_CPT, '_oeff_set_category', [
-        'type'          => 'integer',
-        'single'        => true,
-        'show_in_rest'  => true,
-        'auth_callback' => 'oeff_sets_meta_auth',
-    ]);
-    register_post_meta(OEFF_SETS_CPT, '_oeff_set_tiers', [
-        'type'          => 'array',
-        'single'        => true,
-        'show_in_rest'  => [
-            'schema' => [
-                'type'  => 'array',
-                'items' => [
-                    'type'       => 'object',
-                    'properties' => [
-                        'min_qty' => ['type' => 'integer'],
-                        'percent' => ['type' => 'number'],
-                    ],
-                ],
-            ],
-        ],
-        'auth_callback' => 'oeff_sets_meta_auth',
-    ]);
 }
 add_action('init', 'oeff_sets_register_meta');
 

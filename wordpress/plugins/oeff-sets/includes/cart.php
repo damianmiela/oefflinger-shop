@@ -6,19 +6,16 @@
  * the set id + a unique instance, via the Store API's official update-callback
  * (runs inside the cart session — no fragile session handling).
  *
- *  - Fixed set:        adds the recipe; discount distributes the set price across
- *                      lines (remainder on the last line → exact total); changing
- *                      or removing a line dissolves it.
- *  - Configurable set: adds the customer's selection (validated to the set's
- *                      category + subcategories); discount = the reached qty tier.
- *
- * The discount is recomputed on every cart calculation. Each cart item carries
- * extensions.oeff_sets (grouping, type, applied %, dissolved) for the frontend.
+ * The discount distributes the set price across the lines (remainder on the last
+ * line → exact total); changing or removing a line dissolves it. Recomputed on
+ * every cart calculation. Each cart item carries extensions.oeff_sets (grouping,
+ * applied %, dissolved) for the frontend.
  *
  * Frontend usage: POST /wc/store/v1/cart/extensions
- *   fixed:        { namespace:"oeff-sets", data:{ action:"add_set", set_id } }
- *   configurable: { namespace:"oeff-sets", data:{ action:"add_set", set_id,
- *                   selection:[{ id, qty }] } }
+ *   { namespace:"oeff-sets", data:{ action:"add_set", set_id } }
+ *
+ * The shop-wide Mengenrabatt is a separate, independent feature — see
+ * includes/volume.php.
  */
 
 if (!defined('ABSPATH')) {
@@ -70,30 +67,7 @@ function oeff_sets_store_api_update($data) {
 
     $instance = uniqid('set_', true);
 
-    if ('configurable' === oeff_sets_get_set_type($set_id)) {
-        $cat_id    = oeff_sets_get_category($set_id);
-        $selection = isset($data['selection']) && is_array($data['selection']) ? $data['selection'] : [];
-        if (!$cat_id || empty($selection)) {
-            return;
-        }
-        // Allowed = the category and its descendants (matches the REST options query).
-        $children      = get_term_children($cat_id, 'product_cat');
-        $allowed_terms = array_merge([$cat_id], is_array($children) ? $children : []);
-        foreach ($selection as $row) {
-            $pid = isset($row['id']) ? absint($row['id']) : 0;
-            $qty = isset($row['qty']) ? max(1, absint($row['qty'])) : 0;
-            // Only products that belong to the set's category tree (no tampering).
-            if (!$pid || $qty < 1 || !has_term($allowed_terms, 'product_cat', $pid)) {
-                continue;
-            }
-            WC()->cart->add_to_cart($pid, $qty, 0, [], [
-                'oeff_set' => ['id' => $set_id, 'instance' => $instance],
-            ]);
-        }
-        return;
-    }
-
-    // Fixed set: add the recipe.
+    // Add the set's recipe as grouped, tagged lines.
     $recipe = oeff_sets_get_recipe($set_id);
     if (empty($recipe)) {
         return;
@@ -106,9 +80,10 @@ function oeff_sets_store_api_update($data) {
 }
 
 /**
- * Apply (or withhold) the set discount on every cart calculation. Groups tagged
- * items by instance and, per set type, reduces each line's price so the cart
- * total reflects the set price / quantity discount (VAT stays correct per line).
+ * Apply (or withhold) the fixed-set discount on every cart calculation. Groups
+ * tagged items by instance and distributes the set price across the lines so the
+ * cart total reflects it (VAT stays correct per line). A changed or removed line
+ * dissolves the set, dropping its discount.
  *
  * @param WC_Cart $cart
  */
@@ -139,33 +114,15 @@ function oeff_sets_apply_discounts($cart) {
 
     foreach ($instances as $inst => $info) {
         $set_id = $info['set_id'];
-        $type   = oeff_sets_get_set_type($set_id);
 
-        // Components sum (original prices) + total quantity.
-        $sum       = 0.0;
-        $total_qty = 0;
+        // Components sum at original (catalog) prices.
+        $sum = 0.0;
         foreach ($info['keys'] as $key) {
-            $ci         = $cart->cart_contents[$key];
-            $sum       += oeff_sets_original_price($ci) * (int) $ci['quantity'];
-            $total_qty += (int) $ci['quantity'];
+            $ci   = $cart->cart_contents[$key];
+            $sum += oeff_sets_original_price($ci) * (int) $ci['quantity'];
         }
 
-        if ('configurable' === $type) {
-            $percent = $sum > 0 ? oeff_sets_tier_percent(oeff_sets_get_tiers($set_id), $total_qty) : 0;
-            if ($percent > 0) {
-                $factor = 1 - $percent / 100;
-                foreach ($info['keys'] as $key) {
-                    $orig = oeff_sets_original_price($cart->cart_contents[$key]);
-                    $cart->cart_contents[$key]['data']->set_price($orig * $factor);
-                }
-                $status[$inst] = ['status' => 'applied', 'type' => 'configurable', 'percent' => $percent];
-            } else {
-                $status[$inst] = ['status' => 'none', 'type' => 'configurable', 'percent' => 0];
-            }
-            continue;
-        }
-
-        // Fixed set: exact recipe match required, else dissolve.
+        // Exact recipe match required, else the set dissolves.
         $recipe = oeff_sets_get_recipe($set_id);
         if (empty($recipe) || !oeff_sets_counts_match($info['counts'], $recipe) || $sum <= 0) {
             $status[$inst] = ['status' => 'dissolved', 'type' => 'fixed', 'percent' => 0];
@@ -203,16 +160,6 @@ function oeff_sets_original_price($cart_item) {
     return $product ? (float) $product->get_price() : 0.0;
 }
 
-/** Set type: 'configurable' or 'fixed'. */
-function oeff_sets_get_set_type($set_id) {
-    return get_post_meta($set_id, '_oeff_set_type', true) === 'configurable' ? 'configurable' : 'fixed';
-}
-
-/** Source category (term ID) for a configurable set. */
-function oeff_sets_get_category($set_id) {
-    return (int) get_post_meta($set_id, '_oeff_set_category', true);
-}
-
 /** Recipe for a fixed set: [ product_id => quantity ]. */
 function oeff_sets_get_recipe($set_id) {
     $meta   = get_post_meta($set_id, '_oeff_set_components', true);
@@ -227,36 +174,6 @@ function oeff_sets_get_recipe($set_id) {
         }
     }
     return $recipe;
-}
-
-/** Normalized, ascending discount tiers for a configurable set. */
-function oeff_sets_get_tiers($set_id) {
-    $tiers = get_post_meta($set_id, '_oeff_set_tiers', true);
-    $out   = [];
-    if (is_array($tiers)) {
-        foreach ($tiers as $t) {
-            $min = isset($t['min_qty']) ? (int) $t['min_qty'] : 0;
-            $pct = isset($t['percent']) ? (float) $t['percent'] : 0;
-            if ($min > 0 && $pct > 0) {
-                $out[] = ['min_qty' => $min, 'percent' => $pct];
-            }
-        }
-        usort($out, function ($a, $b) {
-            return $a['min_qty'] - $b['min_qty'];
-        });
-    }
-    return $out;
-}
-
-/** Highest tier percent reached by $total_qty (tiers ascending); 0 if none. */
-function oeff_sets_tier_percent($tiers, $total_qty) {
-    $percent = 0.0;
-    foreach ($tiers as $t) {
-        if ($total_qty >= $t['min_qty']) {
-            $percent = (float) $t['percent'];
-        }
-    }
-    return $percent;
 }
 
 /** True if cart counts [pid=>qty] exactly equal the recipe [pid=>qty]. */

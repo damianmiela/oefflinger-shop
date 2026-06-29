@@ -144,75 +144,6 @@
       .catch(function () { results.hidden = true; });
   }
 
-  // ---- configurable: type toggle + quantity discount tiers ----
-  var tierBody, tierFootRow, tierSeq = 0, tiers = [];
-
-  function box(id) { return document.getElementById(id); }
-
-  function applyTypeVisibility(type) {
-    var isConf = type === "configurable";
-    [box("oeff_set_components"), box("oeff_set_pricing")].forEach(function (b) {
-      if (b) b.style.display = isConf ? "none" : "";
-    });
-    var confBox = box("oeff_set_config");
-    if (confBox) confBox.style.display = isConf ? "" : "none";
-  }
-
-  function renderTiers() {
-    if (!tierBody) return;
-    tierBody.innerHTML = "";
-    tiers.forEach(function (t) {
-      var tr = document.createElement("tr");
-
-      var tdMin = document.createElement("td");
-      var min = document.createElement("input");
-      min.type = "number"; min.min = "1"; min.className = "small-text";
-      min.value = t.min_qty; min.name = "oeff_set_tiers[" + t.key + "][min_qty]";
-      tdMin.appendChild(min); tr.appendChild(tdMin);
-
-      var tdPct = document.createElement("td");
-      var pct = document.createElement("input");
-      pct.type = "number"; pct.min = "0"; pct.max = "100"; pct.step = "0.1"; pct.className = "small-text";
-      pct.value = t.percent; pct.name = "oeff_set_tiers[" + t.key + "][percent]";
-      tdPct.appendChild(pct); tr.appendChild(tdPct);
-
-      var tdRm = document.createElement("td");
-      var rm = document.createElement("button");
-      rm.type = "button"; rm.className = "button-link oeff-set-remove";
-      rm.setAttribute("aria-label", "Entfernen"); rm.textContent = "✕";
-      rm.addEventListener("click", function () {
-        tiers = tiers.filter(function (x) { return x.key !== t.key; });
-        renderTiers();
-      });
-      tdRm.appendChild(rm); tr.appendChild(tdRm);
-
-      tierBody.appendChild(tr);
-    });
-    if (tierFootRow) tierFootRow.style.display = tiers.length ? "none" : "";
-  }
-
-  function addTier(t) {
-    tiers.push({ key: ++tierSeq, min_qty: (t && t.min_qty) || 1, percent: (t && t.percent) || 0 });
-    renderTiers();
-  }
-
-  function initConfigurable() {
-    tierBody = document.querySelector("#oeff-set-tiers tbody");
-    tierFootRow = document.querySelector("#oeff-set-tiers tfoot tr");
-    (cfg.tiers || []).forEach(addTier);
-    renderTiers();
-
-    var addBtn = document.getElementById("oeff-set-add-tier");
-    if (addBtn) addBtn.addEventListener("click", function () { addTier(); });
-
-    var radios = document.querySelectorAll('input[name="oeff_set_type"]');
-    Array.prototype.forEach.call(radios, function (el) {
-      el.addEventListener("change", function () { applyTypeVisibility(el.value); });
-    });
-    var checked = document.querySelector('input[name="oeff_set_type"]:checked');
-    applyTypeVisibility(checked ? checked.value : (cfg.type || "fixed"));
-  }
-
   function init() {
     tbody = document.querySelector("#oeff-set-rows tbody");
     tfootRow = document.querySelector("#oeff-set-rows tfoot tr");
@@ -234,7 +165,6 @@
 
     initSearch();
     recalc();
-    initConfigurable();
   }
 
   if (document.readyState === "loading") {

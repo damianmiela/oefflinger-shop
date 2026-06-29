@@ -93,9 +93,9 @@ export interface CartItemData {
       instance: string;
       name: string;
       slug: string;
-      /** "fixed" | "configurable" */
+      /** Always "fixed" (sets are fixed recipes). */
       type: string;
-      /** Applied discount percent for this set instance */
+      /** Effective discount percent for this set instance */
       percent: number;
       dissolved: boolean;
     };
@@ -132,6 +132,24 @@ export interface Cart {
   coupons?: CartCoupon[];
   /** Enabled payment gateway ids (provided by newer Store API versions) */
   payment_methods?: string[];
+  /** Cart-level Store API extension data (oeff-sets plugin: shop-wide Mengenrabatt). */
+  extensions?: {
+    oeff_volume?: {
+      enabled: boolean;
+      applied: boolean;
+      percent: number;
+      qty: number;
+      /** Gross savings in minor units (cents) */
+      savings: number;
+      /** Bottle count for the next tier (0 = top tier reached) */
+      next_min_qty: number;
+      /** Percent of the next tier (0 = none) */
+      next_percent: number;
+      winner: "volume" | "coupon" | "none";
+      suppressed_coupons: string[];
+      tiers: { min_qty: number; percent: number }[];
+    };
+  };
   totals: {
     total_items: string;
     /** Tax on items (minor units) */

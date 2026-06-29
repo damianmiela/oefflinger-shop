@@ -30,10 +30,8 @@ export function SetThumb({
     );
   }
 
-  // No uploaded image: compose from the set's product photos (fixed sets use
-  // their components; configurable sets fall back to the category's options).
-  const source = set.components.length ? set.components : (set.options ?? []);
-  const imgs = source
+  // No uploaded image: compose from the set's component product photos.
+  const imgs = set.components
     .map((c) => c.image)
     .filter((src): src is string => Boolean(src))
     .slice(0, 4);

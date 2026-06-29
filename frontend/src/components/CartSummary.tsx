@@ -10,6 +10,7 @@ import { useCart } from "@/context/CartContext";
 import { formatCents } from "@/lib/format";
 import { estimateShippingCents } from "@/lib/shipping";
 import { FreeShippingProgress } from "@/components/FreeShippingProgress";
+import { VolumeDiscountBar } from "@/components/VolumeDiscountBar";
 
 export function CartSummary({ className = "" }: { className?: string }) {
   const { cart } = useCart();
@@ -54,6 +55,7 @@ export function CartSummary({ className = "" }: { className?: string }) {
       </dl>
 
       <FreeShippingProgress subtotalCents={subtotalCents} currency={currency} className="mt-3" />
+      <VolumeDiscountBar className="mt-3" />
 
       <div className="mt-4 flex items-baseline justify-between border-t border-gray-200 pt-4">
         <span className="text-lg font-semibold text-gray-700">Gesamtsumme</span>

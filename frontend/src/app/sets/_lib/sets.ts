@@ -26,30 +26,6 @@ export interface OeffSetComponent {
   attributes?: OeffSetAttribute[];
 }
 
-/** A pickable product in a configurable set (no fixed qty — the customer chooses). */
-export interface OeffSetOption {
-  id: number;
-  name: string;
-  slug: string;
-  /** Unit price in minor units (cents) */
-  price: number;
-  image: string | null;
-  in_stock: boolean;
-  /** Visible product attributes (Größe, Konzentration, …) */
-  attributes?: OeffSetAttribute[];
-}
-
-export interface OeffSetTier {
-  min_qty: number;
-  percent: number;
-}
-
-export interface OeffSetCategory {
-  id: number;
-  name: string;
-  slug: string;
-}
-
 export interface OeffSet {
   id: number;
   slug: string;
@@ -57,7 +33,6 @@ export interface OeffSet {
   /** Rendered HTML description */
   description: string;
   image: string | null;
-  type: "fixed" | "configurable";
   pricing_mode: "fixed" | "percent" | "amount";
   components: OeffSetComponent[];
   /** Sum of the components at their normal price (cents) */
@@ -70,11 +45,6 @@ export interface OeffSet {
   /** False if any component is out of stock / unpurchasable */
   available: boolean;
   currency_code: string;
-  /** Configurable sets only: source category, pickable products, discount tiers. */
-  category?: OeffSetCategory | null;
-  options?: OeffSetOption[];
-  tiers?: OeffSetTier[];
-  min_qty?: number;
 }
 
 /** wp-json base — internal Docker host on the server, public URL in the browser. */
