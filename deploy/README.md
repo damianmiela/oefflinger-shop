@@ -14,11 +14,12 @@ The post-receive hook builds and restarts containers automatically.
 2. On the server, edit `/srv/oefflinger/.env` and set strong passwords.
 3. Redeploy: `git push deploy master`
 
-## URLs
+## Ports
 
-- Frontend: http://91.98.112.186:4000
-- WordPress: http://91.98.112.186:4001
-- Admin: http://91.98.112.186:4001/wp-admin
+- Storefront: port 4000
+- WordPress: port 4001 (admin under `/wp-admin`)
+
+In production a reverse proxy (Nginx Proxy Manager) serves both over HTTPS on their own addresses.
 
 ## Custom domain / HTTPS
 

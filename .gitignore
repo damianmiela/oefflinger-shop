@@ -16,6 +16,7 @@ _resources/
 node_modules/
 frontend/node_modules/
 frontend/.next/
+*.tsbuildinfo
 
 # WordPress uploads & plugins (managed by Docker)
 wordpress/wp-content/

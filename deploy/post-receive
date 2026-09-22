@@ -13,7 +13,7 @@ while read -r oldrev newrev refname; do
     if [ ! -f "$DEPLOY_DIR/.env" ]; then
       if [ -f "$DEPLOY_DIR/.env.example" ]; then
         cp "$DEPLOY_DIR/.env.example" "$DEPLOY_DIR/.env"
-        echo "WARNING: Created .env from .env.example. Set strong passwords and redeploy!"
+        echo "WARNING: Created .env from .env.example. Set strong passwords and your addresses, then redeploy!"
       else
         echo "ERROR: .env not found. Create it from .env.example with strong passwords."
         exit 1
@@ -33,6 +33,6 @@ while read -r oldrev newrev refname; do
     docker image prune -f || true
     docker builder prune -f || true
 
-    echo "Deploy complete. Frontend: http://91.98.112.186:4000 | WordPress: http://91.98.112.186:4001"
+    echo "Deploy complete. Storefront on port 4000, WordPress on port 4001."
   fi
 done
