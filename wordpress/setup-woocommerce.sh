@@ -31,7 +31,9 @@ done
 
 echo "[setup] Waiting for WordPress files and database connection..."
 
-until $WP db check >/dev/null 2>&1; do
+# A plain PHP connection check: `wp db check` needs the mysqlcheck program, which the
+# WordPress image does not include, so on a fresh install it never succeeded.
+until [ -f /var/www/html/wp-config.php ] && php -r 'mysqli_report(MYSQLI_REPORT_OFF); exit(@mysqli_connect(getenv("WORDPRESS_DB_HOST"), getenv("WORDPRESS_DB_USER"), getenv("WORDPRESS_DB_PASSWORD"), getenv("WORDPRESS_DB_NAME")) ? 0 : 1);' >/dev/null 2>&1; do
     sleep 3
 done
 
