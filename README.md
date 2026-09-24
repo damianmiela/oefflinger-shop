@@ -24,8 +24,8 @@ point of launch, but the owner never gave the go-ahead, so it never opened (see
 - **Cart and a native checkout** on the WooCommerce Store API, for guests or customer
   accounts, with coupons and a shipping estimate.
 - **Customer accounts:** registration, login, order history and saved addresses.
-  Registration, contact, newsletter and reviews are protected by Cloudflare Turnstile
-  bot checks.
+  Registration, contact, newsletter and reviews are rate-limited per visitor, and
+  Cloudflare Turnstile bot checks switch on once its keys are set.
 - **Content:** contact form, newsletter sign-up, product reviews, FAQ, shipping
   information and the German legal pages.
 - **SEO:** server-rendered pages, sitemap, robots rules, canonical URLs, Open Graph
