@@ -79,6 +79,14 @@ http://localhost:4001/wp-admin (user `admin`, password `WP_ADMIN_PASSWORD` from
 `.env`). On the first start the shop loads a demo catalog from `wordpress/seed/`:
 the 14 products of the real shop with their photos, prices and shop settings.
 
+The unit tests cover the price, shipping and filter logic. They use Node's built-in
+test runner (Node.js 22.18 or newer) and need no extra packages:
+
+```bash
+cd frontend
+npm test
+```
+
 ## Status
 
 The shop is feature-complete up to launch, but it never opened because the owner
