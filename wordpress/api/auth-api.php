@@ -481,7 +481,7 @@ function oeff_auth_change_email(WP_REST_Request $request) {
         'E-Mail-Adresse geändert',
         '<p>Hallo ' . esc_html($name) . ',</p>'
         . '<p>die E-Mail-Adresse Ihres Kontos bei Öfflinger wurde soeben auf <strong>' . esc_html($new_email) . '</strong> geändert.</p>'
-        . '<p>Wenn Sie diese Änderung nicht vorgenommen haben, wenden Sie sich bitte umgehend an <a href="mailto:info@example.com">info@example.com</a>.</p>'
+        . '<p>Wenn Sie diese Änderung nicht vorgenommen haben, wenden Sie sich bitte umgehend über das Kontaktformular auf unserer Website an uns.</p>'
         . '<p>Ihr Öfflinger-Team</p>'
     );
     return new WP_REST_Response(['user' => oeff_auth_user_payload($user_id)], 200);
@@ -550,7 +550,7 @@ function oeff_auth_delete_account(WP_REST_Request $request) {
     }
     $deleted = wp_delete_user($user_id, $reassign);
     if (!$deleted) {
-        return oeff_auth_error('delete_failed', 'Das Konto konnte nicht gelöscht werden. Bitte kontaktieren Sie uns unter info@example.com.', 500);
+        return oeff_auth_error('delete_failed', 'Das Konto konnte nicht gelöscht werden. Bitte kontaktieren Sie uns über das Kontaktformular.', 500);
     }
 
     // 3. End this browser's session.

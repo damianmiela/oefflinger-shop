@@ -10,7 +10,7 @@
  *   SMTP_HOST       SMTP server host (poste.io container name or mail hostname)
  *   SMTP_PORT       587 (STARTTLS) | 465 (SMTPS) | 25            (default 587)
  *   SMTP_SECURE     tls | ssl | '' (none)                        (default tls)
- *   SMTP_USER       mailbox login (e.g. info@example.com); enables auth
+ *   SMTP_USER       mailbox login (e.g. shop@example.com); enables auth
  *   SMTP_PASS       mailbox password
  *   SMTP_FROM       From address forced on all mail               (e.g. info@…)
  *   SMTP_FROM_NAME  From display name                             (e.g. Öfflinger)

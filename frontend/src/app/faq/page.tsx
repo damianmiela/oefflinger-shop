@@ -67,7 +67,7 @@ const FAQS: Faq[] = [
   },
   {
     q: "Wie erreiche ich den Kundenservice?",
-    a: "Sie erreichen uns per E-Mail unter info@example.com und telefonisch unter +49 1234 567890. Gern können Sie auch unser Kontaktformular nutzen.",
+    a: "Am einfachsten über unser Kontaktformular. Wir melden uns in der Regel innerhalb von 1–2 Werktagen.",
     link: { href: "/kontakt", label: "Zum Kontaktformular" },
   },
 ];

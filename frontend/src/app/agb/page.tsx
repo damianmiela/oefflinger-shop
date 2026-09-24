@@ -17,7 +17,7 @@ export default function AGBPage() {
             <h2 className="text-lg font-semibold text-gray-900">§ 1 Geltungsbereich</h2>
             <p className="mt-2">
               Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für alle Verträge, die über den
-              Online-Shop von Öfflinger, Musterstraße 1, 12345 Oberöfflingen, geschlossen werden.
+              Online-Shop von Öfflinger geschlossen werden.
               Abweichende Bedingungen des Kunden werden nicht anerkannt, sofern wir nicht
               ausdrücklich ihrer Geltung schriftlich zugestimmt haben.
             </p>
@@ -26,8 +26,8 @@ export default function AGBPage() {
           <section>
             <h2 className="text-lg font-semibold text-gray-900">§ 2 Vertragspartner</h2>
             <p className="mt-2">
-              Der Kaufvertrag kommt zustande mit Öfflinger, Musterstraße 1, 12345 Oberöfflingen,
-              Rheinland-Pfalz, Deutschland. Kontakt: info@example.com, Telefon: 0049 123456789.
+              Der Kaufvertrag kommt zustande mit Öfflinger, Oberöfflingen, Rheinland-Pfalz,
+              Deutschland. Kontakt: über unser Kontaktformular.
             </p>
           </section>
 
@@ -76,8 +76,8 @@ export default function AGBPage() {
               Widerrufsfrist beträgt 14 Tage ab dem Tag, an dem Sie oder ein von Ihnen benannter
               Dritter die Waren in Besitz genommen haben. Zur Wahrung der Widerrufsfrist reicht es
               aus, dass Sie die Mitteilung über die Ausübung des Widerrufsrechts vor Ablauf der
-              Widerrufsfrist absenden. Der Widerruf ist zu richten an: Öfflinger, Musterstraße 1,
-              12345 Oberöfflingen, E-Mail: info@example.com.
+              Widerrufsfrist absenden. Der Widerruf ist zu richten an: Öfflinger,
+              Oberöfflingen (Kontakt über unser Kontaktformular).
             </p>
           </section>
 

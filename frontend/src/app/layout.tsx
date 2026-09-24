@@ -27,19 +27,10 @@ const BUSINESS_LD = {
   url: SITE_URL,
   image: absoluteUrl(DEFAULT_OG_IMAGE),
   logo: absoluteUrl("/logo/logo-transparent.png"),
-  email: "info@example.com",
-  telephone: "+49 1234 567890",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Musterstraße 1",
-    postalCode: "12345",
     addressLocality: "Oberöfflingen",
     addressCountry: "DE",
-  },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: 50.0000000,
-    longitude: 6.0000000,
   },
   areaServed: "DE",
 };
@@ -116,6 +107,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <JsonLd data={BUSINESS_LD} />
         <AuthProvider>
           <CartProvider>
+            <div className="bg-primary-dark px-4 py-2 text-center text-xs text-white/90 sm:text-sm">
+              Portfolio-Demo: Hier kann nichts gekauft werden. Öfflinger ist ein echtes Geschäft,
+              Texte und Fotos mit Genehmigung des Inhabers.{" "}
+              <Link href="/impressum" className="underline hover:text-white">
+                Impressum
+              </Link>
+            </div>
             <Header />
             <main id="main" tabIndex={-1} className="min-h-screen scroll-mt-24 focus:outline-none">
               {children}
@@ -148,18 +146,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                       <p>
                         Öfflinger
                         <br />
-                        Musterstraße 1
-                        <br />
-                        12345 Oberöfflingen
+                        Oberöfflingen, Eifel
                       </p>
                       <p>
-                        <a href="mailto:info@example.com" className={FOOTER_LINK_CLASS}>
-                          info@example.com
-                        </a>
-                        <br />
-                        <a href="tel:+491234567890" className={FOOTER_LINK_CLASS}>
-                          +49 1234 567890
-                        </a>
+                        <Link href="/kontakt" className={FOOTER_LINK_CLASS}>
+                          Kontaktformular
+                        </Link>
                       </p>
                     </address>
                   </div>

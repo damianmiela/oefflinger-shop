@@ -70,8 +70,8 @@ function oeff_contact_handle(WP_REST_Request $request) {
     }
 
     $to      = get_option('admin_email');
-    $subject = sprintf('Kontaktanfrage über oefflinger.de von %s', $name);
-    $content = '<p><strong>Neue Kontaktanfrage über oefflinger.de</strong></p>'
+    $subject = sprintf('Kontaktanfrage über den Öfflinger-Shop von %s', $name);
+    $content = '<p><strong>Neue Kontaktanfrage über den Öfflinger-Shop</strong></p>'
         . '<table cellpadding="0" cellspacing="0" style="margin:12px 0;"><tbody>'
         . '<tr><td style="padding:2px 12px 2px 0;color:#6b7280;">Name:</td><td style="padding:2px 0;"><strong>' . esc_html($name) . '</strong></td></tr>'
         . '<tr><td style="padding:2px 12px 2px 0;color:#6b7280;">E-Mail:</td><td style="padding:2px 0;"><a href="mailto:' . esc_attr($email) . '">' . esc_html($email) . '</a></td></tr>'
@@ -85,7 +85,7 @@ function oeff_contact_handle(WP_REST_Request $request) {
     if (!$sent) {
         return oeff_contact_error(
             'send_failed',
-            'Ihre Nachricht konnte nicht gesendet werden. Bitte schreiben Sie uns direkt an info@example.com.',
+            'Ihre Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es später noch einmal.',
             500
         );
     }

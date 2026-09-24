@@ -1,7 +1,7 @@
 name: oefflinger
 
 # NOTE: this is the PRODUCTION compose file, so the ${VAR:-default} fallbacks
-# below are the real production URLs (cms.oefflinger.de / oefflinger.de). The
+# below are the real production URLs (cms-oefflinger.dendigital.de / oefflinger.dendigital.de). The
 # server .env still overrides them when Compose loads it, but because Compose
 # only auto-loads .env from the compose file's own folder (not the repo root)
 # when invoked with `-f docker/...`, the defaults must be correct on their own —
@@ -32,9 +32,9 @@ services:
     env_file: ../.env
     environment:
       WORDPRESS_DB_HOST: mysql
-      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-https://oefflinger.de,https://www.oefflinger.de}
-      WP_URL: ${WP_URL:-https://cms.oefflinger.de}
-      FRONTEND_URL: ${FRONTEND_URL:-https://oefflinger.de}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-https://oefflinger.dendigital.de}
+      WP_URL: ${WP_URL:-https://cms-oefflinger.dendigital.de}
+      FRONTEND_URL: ${FRONTEND_URL:-https://oefflinger.dendigital.de}
       TURNSTILE_SECRET_KEY: ${TURNSTILE_SECRET_KEY:-}
     volumes:
       - wp_data:/var/www/html
@@ -46,12 +46,12 @@ services:
       context: ../frontend
       dockerfile: Dockerfile.prod
       args:
-        - NEXT_PUBLIC_WC_STORE_API=${NEXT_PUBLIC_WC_STORE_API:-https://cms.oefflinger.de/wp-json/wc/store/v1}
-        - NEXT_PUBLIC_WP_API_URL=${NEXT_PUBLIC_WP_API_URL:-https://cms.oefflinger.de/wp-json}
-        - NEXT_PUBLIC_WP_URL=${NEXT_PUBLIC_WP_URL:-https://cms.oefflinger.de}
+        - NEXT_PUBLIC_WC_STORE_API=${NEXT_PUBLIC_WC_STORE_API:-https://cms-oefflinger.dendigital.de/wp-json/wc/store/v1}
+        - NEXT_PUBLIC_WP_API_URL=${NEXT_PUBLIC_WP_API_URL:-https://cms-oefflinger.dendigital.de/wp-json}
+        - NEXT_PUBLIC_WP_URL=${NEXT_PUBLIC_WP_URL:-https://cms-oefflinger.dendigital.de}
         - NEXT_PUBLIC_TURNSTILE_SITE_KEY=${NEXT_PUBLIC_TURNSTILE_SITE_KEY:-}
-        - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL:-https://oefflinger.de}
-        - NEXT_PUBLIC_ALLOW_INDEXING=${NEXT_PUBLIC_ALLOW_INDEXING:-true}
+        - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL:-https://oefflinger.dendigital.de}
+        - NEXT_PUBLIC_ALLOW_INDEXING=${NEXT_PUBLIC_ALLOW_INDEXING:-false}
     restart: unless-stopped
     depends_on:
       - wordpress
@@ -60,11 +60,11 @@ services:
       - "4000:3000"
     environment:
       - NODE_ENV=production
-      - NEXT_PUBLIC_WP_API_URL=${NEXT_PUBLIC_WP_API_URL:-https://cms.oefflinger.de/wp-json}
-      - NEXT_PUBLIC_WP_URL=${NEXT_PUBLIC_WP_URL:-https://cms.oefflinger.de}
-      - NEXT_PUBLIC_WC_STORE_API=${NEXT_PUBLIC_WC_STORE_API:-https://cms.oefflinger.de/wp-json/wc/store/v1}
-      - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL:-https://oefflinger.de}
-      - NEXT_PUBLIC_ALLOW_INDEXING=${NEXT_PUBLIC_ALLOW_INDEXING:-true}
+      - NEXT_PUBLIC_WP_API_URL=${NEXT_PUBLIC_WP_API_URL:-https://cms-oefflinger.dendigital.de/wp-json}
+      - NEXT_PUBLIC_WP_URL=${NEXT_PUBLIC_WP_URL:-https://cms-oefflinger.dendigital.de}
+      - NEXT_PUBLIC_WC_STORE_API=${NEXT_PUBLIC_WC_STORE_API:-https://cms-oefflinger.dendigital.de/wp-json/wc/store/v1}
+      - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL:-https://oefflinger.dendigital.de}
+      - NEXT_PUBLIC_ALLOW_INDEXING=${NEXT_PUBLIC_ALLOW_INDEXING:-false}
       - WP_INTERNAL_URL=http://wordpress/wp-json
       - WC_INTERNAL_STORE_URL=http://wordpress/wp-json/wc/store/v1
 

@@ -29,10 +29,10 @@ export default function Error({
       </h1>
       <p className="mt-4 max-w-md text-lg text-gray-600">
         Beim Laden dieser Seite ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut – wenn das
-        Problem weiterhin besteht, erreichen Sie uns unter{" "}
-        <a href="mailto:info@example.com" className="text-primary hover:underline">
-          info@example.com
-        </a>
+        Problem weiterhin besteht, schreiben Sie uns über das{" "}
+        <Link href="/kontakt" className="text-primary hover:underline">
+          Kontaktformular
+        </Link>
         .
       </p>
       <div className="mt-8 flex flex-wrap justify-center gap-3">

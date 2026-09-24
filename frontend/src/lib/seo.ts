@@ -4,15 +4,13 @@
  * SITE_URL          – public base URL of THIS storefront. Env-driven per D5
  *                     (no hardcoded domains in app code); falls back to the
  *                     canonical production domain.
- * INDEXING_ENABLED  – search-engine indexing is OFF until launch so the
- *                     temporary IP host never gets indexed. Flip
- *                     NEXT_PUBLIC_ALLOW_INDEXING=true at the oefflinger.de
- *                     cutover. See _docs/launch/LAUNCH-SEO-UNBLOCK.md.
+ * INDEXING_ENABLED  – search-engine indexing stays OFF unless
+ *                     NEXT_PUBLIC_ALLOW_INDEXING=true; the portfolio demo keeps it off.
  */
 
-const FALLBACK_SITE_URL = "https://oefflinger.de";
+const FALLBACK_SITE_URL = "https://oefflinger.dendigital.de";
 
-/** Public base URL without a trailing slash, e.g. "https://oefflinger.de". */
+/** Public base URL without a trailing slash, e.g. "https://oefflinger.dendigital.de". */
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || FALLBACK_SITE_URL).replace(/\/+$/, "");
 
 /** Whether crawlers may index the site. Off unless explicitly enabled at launch. */

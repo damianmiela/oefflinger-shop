@@ -11,9 +11,6 @@ $frontend = function_exists('oefflinger_frontend_url') ? oefflinger_frontend_url
             <p style="font-size: 0.875rem; color: rgba(255,255,255,0.8); margin: 0;">
                 &copy; <?php echo date('Y'); ?> Öfflinger
             </p>
-            <p style="font-size: 0.875rem; color: rgba(255,255,255,0.7); margin: 0.25rem 0 0;">
-                Musterstraße 1, 12345 Oberöfflingen, Deutschland
-            </p>
         </div>
         <nav style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem;">
             <a href="<?php echo esc_url($frontend . '/impressum'); ?>" style="font-size: 0.875rem; font-weight: 500; color: rgba(255,255,255,0.8); text-decoration: none;">Impressum</a>

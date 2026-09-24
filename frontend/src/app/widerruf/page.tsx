@@ -34,13 +34,9 @@ export default function WiderrufPage() {
             <p className="mt-2">
               Öfflinger
               <br />
-              Musterstraße 1
+              Oberöfflingen, Deutschland
               <br />
-              12345 Oberöfflingen, Deutschland
-              <br />
-              E-Mail: info@example.com
-              <br />
-              Telefon: +49 1234 567890
+              Kontakt: über unser Kontaktformular
             </p>
             <p className="mt-2">
               mittels einer eindeutigen Erklärung (z.&nbsp;B. ein mit der Post versandter Brief
@@ -111,9 +107,7 @@ export default function WiderrufPage() {
             </p>
             <div className="mt-4 rounded-xl border border-gray-200 bg-white p-6 text-sm leading-relaxed">
               <p>
-                An: Öfflinger, Musterstraße 1, 12345 Oberöfflingen, Deutschland
-                <br />
-                E-Mail: info@example.com
+                An: Öfflinger, Oberöfflingen, Deutschland
               </p>
               <p className="mt-4">
                 Hiermit widerrufe(n) ich/wir (*) den von mir/uns (*) abgeschlossenen Vertrag über

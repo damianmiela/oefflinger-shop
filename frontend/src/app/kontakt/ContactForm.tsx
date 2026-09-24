@@ -49,7 +49,7 @@ export function ContactForm() {
       setError(
         err instanceof Error && err.message
           ? err.message
-          : "Ihre Nachricht konnte nicht gesendet werden. Bitte schreiben Sie uns an info@example.com.",
+          : "Ihre Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es später noch einmal.",
       );
     } finally {
       setSubmitting(false);

@@ -16,20 +16,12 @@ export default function DatenschutzPage() {
           <section>
             <h2 className="text-lg font-semibold text-gray-900">1. Verantwortlicher</h2>
             <p className="mt-2">
-              Öfflinger
-              <br />
-              Musterstraße 1
-              <br />
-              12345 Oberöfflingen
-              <br />
-              Rheinland-Pfalz, Deutschland
-              <br />
-              E-Mail:{" "}
-              <a href="mailto:info@example.com" className="text-primary hover:text-primary-light">
-                info@example.com
+              Diese Website ist eine Portfolio-Demo von DEN Digital; Bestellungen sind nicht möglich.
+              Verantwortlich ist DEN Digital. Name, Anschrift und Kontaktdaten stehen im{" "}
+              <a href="https://dendigital.de/impressum" className="text-primary hover:text-primary-light">
+                Impressum von DEN Digital
               </a>
-              <br />
-              Telefon: 0049 123456789
+              .
             </p>
           </section>
 
@@ -40,7 +32,8 @@ export default function DatenschutzPage() {
               Browser automatisch Informationen an den Server unserer Website gesendet. Diese
               Informationen werden temporär in einem sogenannten Logfile gespeichert. Erfasst werden
               u. a. IP-Adresse, Datum und Uhrzeit des Zugriffs, Name und URL der abgerufenen Datei,
-              übertragene Datenmenge sowie der verwendete Browser.
+              übertragene Datenmenge sowie der verwendete Browser. Die Website wird bei der Hetzner
+              Online GmbH in Deutschland gehostet.
             </p>
           </section>
 
@@ -79,12 +72,13 @@ export default function DatenschutzPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-gray-900">7. Shop und WooCommerce</h2>
+            <h2 className="text-lg font-semibold text-gray-900">7. Kundenkonto</h2>
             <p className="mt-2">
-              Bei Bestellungen über unseren Shop werden die für die Vertragsabwicklung erforderlichen
-              Daten (Name, Adresse, E-Mail, Zahlungsdaten) verarbeitet. Die Verarbeitung erfolgt auf
-              Grundlage von Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung). Die Daten werden nach
-              Ablauf der gesetzlichen Aufbewahrungsfristen gelöscht.
+              In dieser Demo können Sie ein Kundenkonto anlegen. Dafür verarbeiten wir Ihren Namen,
+              Ihre E-Mail-Adresse, Ihr Passwort (nur verschlüsselt gespeichert) und Angaben, die Sie
+              selbst im Konto hinterlegen, um das Konto bereitzustellen (Art. 6 Abs. 1 lit. b DSGVO).
+              Bestellungen und Zahlungen sind nicht möglich. Sie können Ihr Konto jederzeit selbst
+              löschen.
             </p>
           </section>
 
@@ -140,6 +134,17 @@ export default function DatenschutzPage() {
               mit Wirkung für die Zukunft widerrufen, zum Beispiel über den Abmeldelink in jeder
               Newsletter-E-Mail (Art. 7 Abs. 3 DSGVO). Nach der Abmeldung entfernen wir Ihre Daten
               aus dem Verteiler, soweit keine gesetzlichen Aufbewahrungspflichten entgegenstehen.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold text-gray-900">12. E-Mail-Versand</h2>
+            <p className="mt-2">
+              E-Mails dieser Website (z.&nbsp;B. Kontobestätigung, neues Passwort,
+              Newsletter-Bestätigung und Kontaktanfragen) versenden wir über Brevo (Sendinblue SAS,
+              Paris, Frankreich) als Auftragsverarbeiter. Dabei werden die Empfängeradresse und der
+              Inhalt der E-Mail an Brevo übermittelt. Rechtsgrundlage ist der Zweck der jeweiligen
+              E-Mail (Art. 6 Abs. 1 lit. a, b oder f DSGVO).
             </p>
           </section>
         </div>

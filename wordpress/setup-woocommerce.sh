@@ -49,7 +49,7 @@ if ! $WP core is-installed 2>/dev/null; then
         --title="Öfflinger" \
         --admin_user="${WP_ADMIN_USER:-admin}" \
         --admin_password="${WP_ADMIN_PASSWORD:-admin}" \
-        --admin_email="${WP_ADMIN_EMAIL:-admin@oefflinger.de}" \
+        --admin_email="${WP_ADMIN_EMAIL:-admin@example.com}" \
         --skip-email
 fi
 
@@ -79,12 +79,12 @@ echo "[setup] Branding WooCommerce emails (classic template, logo, colours, foot
 # Use the classic email template (centred logo + coloured header bar) rather than
 # the new minimal "email improvements" style, so the brand colours show.
 $WP option update woocommerce_feature_email_improvements_enabled "no" 2>/dev/null || true
-$WP option update woocommerce_email_header_image "https://oefflinger.de/logo/logo-transparent.png" 2>/dev/null || true
+$WP option update woocommerce_email_header_image "${FRONTEND_URL:-https://oefflinger.dendigital.de}/logo/logo-transparent.png" 2>/dev/null || true
 $WP option update woocommerce_email_base_color "#1e5f74" 2>/dev/null || true
 $WP option update woocommerce_email_background_color "#f0f4f6" 2>/dev/null || true
 $WP option update woocommerce_email_body_background_color "#ffffff" 2>/dev/null || true
 $WP option update woocommerce_email_text_color "#333333" 2>/dev/null || true
-$WP option update woocommerce_email_footer_text "Öfflinger – Kolloidale Metalle<br><a href=\"https://oefflinger.de/impressum\">Impressum</a> · <a href=\"https://oefflinger.de/datenschutz\">Datenschutz</a> · info@example.com" 2>/dev/null || true
+$WP option update woocommerce_email_footer_text "Öfflinger – Kolloidale Metalle<br><a href=\"${FRONTEND_URL:-https://oefflinger.dendigital.de}/impressum\">Impressum</a> · <a href=\"${FRONTEND_URL:-https://oefflinger.dendigital.de}/datenschutz\">Datenschutz</a>" 2>/dev/null || true
 
 echo "[setup] Activating Oefflinger Checkout theme..."
 $WP theme activate oefflinger-checkout 2>/dev/null || true

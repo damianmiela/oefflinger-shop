@@ -5,7 +5,7 @@ import { ContactForm } from "./ContactForm";
 export const metadata = {
   title: "Kontakt",
   description:
-    "Kontaktieren Sie Öfflinger: per Formular, E-Mail oder Telefon. Wir helfen bei Fragen zu Produkten, Bestellungen und Versand gerne weiter.",
+    "Kontaktieren Sie Öfflinger über das Kontaktformular. Wir helfen bei Fragen zu Produkten, Bestellungen und Versand gerne weiter.",
   alternates: { canonical: "/kontakt" },
 };
 
@@ -26,30 +26,16 @@ export default function KontaktPage() {
             <h2 className="text-xl font-semibold text-gray-900">So erreichen Sie uns</h2>
             <dl className="mt-6 space-y-5 text-gray-600">
               <div>
-                <dt className="text-sm font-medium text-gray-500">Adresse</dt>
+                <dt className="text-sm font-medium text-gray-500">Standort</dt>
                 <dd className="mt-1">
                   Öfflinger
                   <br />
-                  Musterstraße 1
-                  <br />
-                  12345 Oberöfflingen, Deutschland
+                  Oberöfflingen (Eifel), Deutschland
                 </dd>
               </div>
               <div>
-                <dt className="text-sm font-medium text-gray-500">E-Mail</dt>
-                <dd className="mt-1">
-                  <a href="mailto:info@example.com" className="text-primary hover:underline">
-                    info@example.com
-                  </a>
-                </dd>
-              </div>
-              <div>
-                <dt className="text-sm font-medium text-gray-500">Telefon</dt>
-                <dd className="mt-1">
-                  <a href="tel:+491234567890" className="text-primary hover:underline">
-                    +49 1234 567890
-                  </a>
-                </dd>
+                <dt className="text-sm font-medium text-gray-500">Kontakt</dt>
+                <dd className="mt-1">Über das Formular auf dieser Seite</dd>
               </div>
             </dl>
             <p className="mt-6 border-t border-gray-100 pt-4 text-sm text-gray-500">
