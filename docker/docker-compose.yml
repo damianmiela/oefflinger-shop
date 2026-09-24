@@ -27,6 +27,7 @@ services:
       WORDPRESS_DB_HOST: mysql
     volumes:
       - wp_data:/var/www/html
+      - ../wordpress/seed:/seed:ro # demo catalog, loaded into a fresh shop (local only)
     ports:
       - "4001:80"
 

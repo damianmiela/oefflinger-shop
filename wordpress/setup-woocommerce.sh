@@ -92,4 +92,10 @@ $WP theme activate oefflinger-checkout 2>/dev/null || true
 echo "[setup] Activating Öfflinger Sets plugin..."
 $WP plugin activate oeff-sets 2>/dev/null || true
 
+if [ -f /seed/catalog.json ] && [ "$($WP post list --post_type=product --post_status=any --format=count 2>/dev/null)" = "0" ]; then
+    echo "[setup] Loading the demo catalog (products, photos, shop settings)..."
+    $WP eval-file /seed/import-catalog.php
+    chown -R www-data:www-data /var/www/html/wp-content/uploads
+fi
+
 echo "[setup] WooCommerce setup complete."

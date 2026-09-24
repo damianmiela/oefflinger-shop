@@ -10,6 +10,9 @@ const wpHost = new URL(wpUrl);
 
 const nextConfig: NextConfig = {
   images: {
+    // In local Docker the browser reaches WordPress on localhost:4001 but the Next.js
+    // server inside its container can't, so the dev server skips the image optimizer.
+    unoptimized: process.env.NODE_ENV === "development",
     remotePatterns: [
       {
         protocol: wpHost.protocol.replace(":", "") as "http" | "https",

@@ -76,7 +76,8 @@ docker compose -f docker/docker-compose.yml up --build
 
 The storefront is then at http://localhost:4000 and the WordPress admin at
 http://localhost:4001/wp-admin (user `admin`, password `WP_ADMIN_PASSWORD` from
-`.env`). The shop starts empty: add a few products in the WordPress admin.
+`.env`). On the first start the shop loads a demo catalog from `wordpress/seed/`:
+the 14 products of the real shop with their photos, prices and shop settings.
 
 ## Status
 

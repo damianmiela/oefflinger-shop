@@ -1,0 +1,1096 @@
+{
+    "settings": {
+        "woocommerce_currency": "EUR",
+        "woocommerce_default_country": "DE:DE-RP",
+        "woocommerce_currency_pos": "right_space",
+        "woocommerce_price_decimal_sep": ",",
+        "woocommerce_price_thousand_sep": ".",
+        "woocommerce_price_num_decimals": "2",
+        "woocommerce_prices_include_tax": "no",
+        "woocommerce_calc_taxes": "yes",
+        "woocommerce_tax_display_shop": "excl",
+        "woocommerce_tax_display_cart": "excl",
+        "woocommerce_weight_unit": "kg",
+        "woocommerce_dimension_unit": "cm",
+        "woocommerce_manage_stock": "yes",
+        "oeff_volume_discount": {
+            "enabled": true,
+            "tiers": [
+                {
+                    "min_qty": 2,
+                    "percent": 3
+                },
+                {
+                    "min_qty": 3,
+                    "percent": 5
+                },
+                {
+                    "min_qty": 4,
+                    "percent": 7
+                },
+                {
+                    "min_qty": 5,
+                    "percent": 10
+                }
+            ]
+        },
+        "oefflinger_delivery_enabled": "1",
+        "oefflinger_delivery_cutoff_hour": "12",
+        "oefflinger_delivery_default_days": "2",
+        "oefflinger_delivery_timezone": "Europe/Berlin"
+    },
+    "attributes": [
+        {
+            "slug": "grose",
+            "name": "Größe",
+            "type": "select",
+            "order_by": "menu_order",
+            "has_archives": false,
+            "terms": [
+                {
+                    "slug": "500ml",
+                    "name": "500ml",
+                    "description": "",
+                    "order": 0
+                }
+            ]
+        },
+        {
+            "slug": "konzentration",
+            "name": "Konzentration",
+            "type": "select",
+            "order_by": "menu_order",
+            "has_archives": false,
+            "terms": [
+                {
+                    "slug": "100ppm",
+                    "name": "100ppm",
+                    "description": "",
+                    "order": 0
+                },
+                {
+                    "slug": "10ppm",
+                    "name": "10ppm",
+                    "description": "",
+                    "order": 0
+                },
+                {
+                    "slug": "25ppm",
+                    "name": "25ppm",
+                    "description": "",
+                    "order": 0
+                },
+                {
+                    "slug": "5ppm",
+                    "name": "5ppm",
+                    "description": "",
+                    "order": 0
+                }
+            ]
+        }
+    ],
+    "categories": [
+        {
+            "slug": "uncategorized",
+            "name": "Uncategorized",
+            "description": "",
+            "parent": null,
+            "image": null
+        }
+    ],
+    "images": [
+        {
+            "file": "2026/03/chrom.jpg",
+            "title": "chrom",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/chrom.webp",
+            "title": "chrom",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/chrom-1.webp",
+            "title": "chrom",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/eisen.jpg",
+            "title": "eisen",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/eisen.webp",
+            "title": "eisen",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/eisen-1.webp",
+            "title": "eisen",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/gold.jpg",
+            "title": "gold",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/gold.webp",
+            "title": "gold",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/gold-1.webp",
+            "title": "gold",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/kobalt.jpg",
+            "title": "kobalt",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/kobalt.webp",
+            "title": "kobalt",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/kobalt_ai.webp",
+            "title": "kobalt_ai",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/kupfer.jpg",
+            "title": "kupfer",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/kupfer.webp",
+            "title": "kupfer",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/kupfer_ai.webp",
+            "title": "kupfer_ai",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/magnesium.jpg",
+            "title": "magnesium",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/magnesium.webp",
+            "title": "magnesium",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/magnesium_ai.webp",
+            "title": "magnesium_ai",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/malybdan.jpg",
+            "title": "malybdan",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/molybdan.webp",
+            "title": "molybdan",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/molybdan_ai.webp",
+            "title": "molybdan_ai",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/nickel.jpg",
+            "title": "nickel",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/nickel.webp",
+            "title": "nickel",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/nickel_ai.webp",
+            "title": "nickel_ai",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/silber.jpg",
+            "title": "silber",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/silber_ai.webp",
+            "title": "silber_ai",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/silber.webp",
+            "title": "silber",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/silizium.jpg",
+            "title": "silizium",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/silizium.webp",
+            "title": "silizium",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/silizium_ai.webp",
+            "title": "silizium_ai",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/tantal.jpg",
+            "title": "tantal",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/tantal.webp",
+            "title": "tantal",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/tantal_ai.webp",
+            "title": "tantal_ai",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/vanadium.jpg",
+            "title": "vanadium",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/vanadium.webp",
+            "title": "vanadium",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/vanadium_ai.webp",
+            "title": "vanadium_ai",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/zink.jpg",
+            "title": "zink",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/zink.webp",
+            "title": "zink",
+            "alt": "",
+            "caption": ""
+        },
+        {
+            "file": "2026/03/zink_ai.webp",
+            "title": "zink_ai",
+            "alt": "",
+            "caption": ""
+        }
+    ],
+    "files": [],
+    "products": [
+        {
+            "name": "Kolloidales Chrom",
+            "slug": "kolloidales-chrom",
+            "description": "<!-- ▼▼▼ BESCHREIBUNG → Hauptfeld \"Beschreibung\" ▼▼▼ -->\r\n<p>Chrom ist ein silbrig glänzendes, sehr hartes Übergangsmetall. Bekannt ist es vor allem aus der Oberflächenveredelung (Verchromung) und als Bestandteil von rostfreiem Edelstahl.</p>\r\n<p>Als Kolloid liegen feinste Chrompartikel gleichmäßig in destilliertem Wasser verteilt vor. Die Angabe „ppm\" (parts per million) beschreibt die Konzentration: 25 ppm entsprechen rund 25 Milligramm Chrom pro Liter.</p>\r\n<p>Wir stellen unser kolloidales Chrom in eigener Herstellung in der Eifel her und füllen es in lichtgeschützte Glasflaschen ab. Bewahren Sie es kühl, trocken und vor Licht geschützt auf.</p>\r\n<ul>\r\n<li><strong>Reinheit:</strong> 99,9 % Chrom</li>\r\n<li><strong>Basis:</strong> destilliertes Wasser</li>\r\n<li><strong>Konzentration:</strong> 25 ppm (≈ 25 mg/l)</li>\r\n<li><strong>Füllmenge:</strong> 500 ml</li>\r\n<li><strong>Flasche:</strong> lichtgeschützte Glasflasche</li>\r\n<li><strong>Herstellung:</strong> eigene Herstellung in der Eifel</li>\r\n</ul>\r\n<!-- ▲▲▲ Ende Beschreibung ▲▲▲ -->",
+            "short_description": "<!-- ▼▼▼ KURZBESCHREIBUNG → Feld \"Produkt-Kurzbeschreibung\" ▼▼▼ -->\r\n<p><strong>Kolloidales Chrom</strong> von Öfflinger – hochreines Chrom (99,9 %) in destilliertem Wasser, Konzentration <strong>25 ppm</strong> (≈ 25 mg/l). In eigener Herstellung in der Eifel gefertigt und in eine lichtgeschützte 500-ml-Glasflasche abgefüllt.</p>\r\n<!-- ▲▲▲ Ende Kurzbeschreibung ▲▲▲ -->",
+            "sku": "",
+            "regular_price": "65.33",
+            "sale_price": "49",
+            "tax_status": "taxable",
+            "tax_class": "",
+            "manage_stock": false,
+            "stock_quantity": null,
+            "stock_status": "instock",
+            "backorders": "no",
+            "sold_individually": false,
+            "weight": "",
+            "catalog_visibility": "visible",
+            "featured": false,
+            "menu_order": 0,
+            "reviews_allowed": true,
+            "virtual": false,
+            "shipping_days": "",
+            "categories": [
+                "uncategorized"
+            ],
+            "tags": [],
+            "attributes": [
+                {
+                    "name": "pa_grose",
+                    "taxonomy": true,
+                    "options": [
+                        "500ml"
+                    ],
+                    "position": 0,
+                    "visible": true,
+                    "variation": false
+                },
+                {
+                    "name": "pa_konzentration",
+                    "taxonomy": true,
+                    "options": [
+                        "25ppm"
+                    ],
+                    "position": 1,
+                    "visible": true,
+                    "variation": false
+                }
+            ],
+            "image": "2026/03/chrom.jpg",
+            "gallery": [
+                "2026/03/chrom.webp",
+                "2026/03/chrom-1.webp"
+            ]
+        },
+        {
+            "name": "Kolloidales Eisen",
+            "slug": "kolloidales-eisen",
+            "description": "<!-- ▼▼▼ BESCHREIBUNG → Hauptfeld \"Beschreibung\" ▼▼▼ -->\r\n<p>Eisen ist eines der am häufigsten genutzten Gebrauchsmetalle der Welt und die Grundlage von Stahl. Nach Masse ist es das häufigste Element der Erde.</p>\r\n<p>Als Kolloid liegen feinste Eisenpartikel gleichmäßig in destilliertem Wasser verteilt vor. Die Angabe „ppm\" (parts per million) beschreibt die Konzentration: 10 ppm entsprechen rund 10 Milligramm Eisen pro Liter.</p>\r\n<p>Wir stellen unser kolloidales Eisen in eigener Herstellung in der Eifel her und füllen es in lichtgeschützte Glasflaschen ab. Bewahren Sie es kühl, trocken und vor Licht geschützt auf.</p>\r\n<ul>\r\n<li><strong>Reinheit:</strong> 99,9 % Eisen</li>\r\n<li><strong>Basis:</strong> destilliertes Wasser</li>\r\n<li><strong>Konzentration:</strong> 10 ppm (≈ 10 mg/l)</li>\r\n<li><strong>Füllmenge:</strong> 500 ml</li>\r\n<li><strong>Flasche:</strong> lichtgeschützte Glasflasche</li>\r\n<li><strong>Herstellung:</strong> eigene Herstellung in der Eifel</li>\r\n</ul>\r\n<!-- ▲▲▲ Ende Beschreibung ▲▲▲ -->",
+            "short_description": "<!-- ▼▼▼ KURZBESCHREIBUNG → Feld \"Produkt-Kurzbeschreibung\" ▼▼▼ -->\r\n<p><strong>Kolloidales Eisen</strong> von Öfflinger – hochreines Eisen (99,9 %) in destilliertem Wasser, Konzentration <strong>10 ppm</strong> (≈ 10 mg/l). In eigener Herstellung in der Eifel gefertigt und in eine lichtgeschützte 500-ml-Glasflasche abgefüllt.</p>\r\n<!-- ▲▲▲ Ende Kurzbeschreibung ▲▲▲ -->",
+            "sku": "",
+            "regular_price": "58",
+            "sale_price": "43.5",
+            "tax_status": "taxable",
+            "tax_class": "",
+            "manage_stock": false,
+            "stock_quantity": null,
+            "stock_status": "instock",
+            "backorders": "no",
+            "sold_individually": false,
+            "weight": "",
+            "catalog_visibility": "visible",
+            "featured": false,
+            "menu_order": 0,
+            "reviews_allowed": true,
+            "virtual": false,
+            "shipping_days": "",
+            "categories": [
+                "uncategorized"
+            ],
+            "tags": [],
+            "attributes": [
+                {
+                    "name": "pa_grose",
+                    "taxonomy": true,
+                    "options": [
+                        "500ml"
+                    ],
+                    "position": 0,
+                    "visible": true,
+                    "variation": false
+                },
+                {
+                    "name": "pa_konzentration",
+                    "taxonomy": true,
+                    "options": [
+                        "10ppm"
+                    ],
+                    "position": 1,
+                    "visible": true,
+                    "variation": false
+                }
+            ],
+            "image": "2026/03/eisen.jpg",
+            "gallery": [
+                "2026/03/eisen.webp",
+                "2026/03/eisen-1.webp"
+            ]
+        },
+        {
+            "name": "Kolloidales Gold",
+            "slug": "kolloidales-gold",
+            "description": "<!-- ▼▼▼ BESCHREIBUNG → Hauptfeld \"Beschreibung\" ▼▼▼ -->\r\n<p>Gold ist seit der Antike das wohl bekannteste Edelmetall – geschätzt für seine Beständigkeit, seinen Glanz und seine Verwendung als Wertanlage und Schmuck. Chemisch ist Gold ausgesprochen reaktionsträge.</p>\r\n<p>Als Kolloid sind feinste Goldpartikel gleichmäßig in destilliertem Wasser verteilt. Die Angabe „ppm\" (parts per million) beschreibt die Konzentration: 10 ppm entsprechen rund 10 Milligramm Gold pro Liter. Die typische Färbung kolloidaler Goldlösungen entsteht durch die Streuung des Lichts an den feinen Partikeln.</p>\r\n<p>Wir stellen unser kolloidales Gold in eigener Herstellung in der Eifel her und füllen es in lichtgeschützte Glasflaschen ab. Bewahren Sie es kühl, trocken und vor Licht geschützt auf.</p>\r\n<ul>\r\n<li><strong>Reinheit:</strong> 99,9 % Gold</li>\r\n<li><strong>Basis:</strong> destilliertes Wasser</li>\r\n<li><strong>Konzentration:</strong> 10 ppm (≈ 10 mg/l)</li>\r\n<li><strong>Füllmenge:</strong> 500 ml</li>\r\n<li><strong>Flasche:</strong> lichtgeschützte Glasflasche</li>\r\n<li><strong>Herstellung:</strong> eigene Herstellung in der Eifel</li>\r\n</ul>\r\n<!-- ▲▲▲ Ende Beschreibung ▲▲▲ -->",
+            "short_description": "<!-- ▼▼▼ KURZBESCHREIBUNG → Feld \"Produkt-Kurzbeschreibung\" ▼▼▼ -->\r\n<p><strong>Kolloidales Gold</strong> von Öfflinger – hochreines Gold (99,9 %) in destilliertem Wasser, Konzentration <strong>10 ppm</strong> (≈ 10 mg/l). In eigener Herstellung in der Eifel gefertigt und in eine lichtgeschützte 500-ml-Glasflasche abgefüllt.</p>\r\n<!-- ▲▲▲ Ende Kurzbeschreibung ▲▲▲ -->",
+            "sku": "",
+            "regular_price": "65.33",
+            "sale_price": "49",
+            "tax_status": "taxable",
+            "tax_class": "",
+            "manage_stock": false,
+            "stock_quantity": null,
+            "stock_status": "instock",
+            "backorders": "no",
+            "sold_individually": false,
+            "weight": "",
+            "catalog_visibility": "visible",
+            "featured": false,
+            "menu_order": 0,
+            "reviews_allowed": true,
+            "virtual": false,
+            "shipping_days": "",
+            "categories": [
+                "uncategorized"
+            ],
+            "tags": [],
+            "attributes": [
+                {
+                    "name": "pa_grose",
+                    "taxonomy": true,
+                    "options": [
+                        "500ml"
+                    ],
+                    "position": 0,
+                    "visible": true,
+                    "variation": false
+                },
+                {
+                    "name": "pa_konzentration",
+                    "taxonomy": true,
+                    "options": [
+                        "10ppm"
+                    ],
+                    "position": 1,
+                    "visible": true,
+                    "variation": false
+                }
+            ],
+            "image": "2026/03/gold.jpg",
+            "gallery": [
+                "2026/03/gold.webp",
+                "2026/03/gold-1.webp"
+            ]
+        },
+        {
+            "name": "Kolloidales Kobalt",
+            "slug": "kolloidales-kobalt",
+            "description": "<!-- ▼▼▼ BESCHREIBUNG → Hauptfeld \"Beschreibung\" ▼▼▼ -->\r\n<p>Kobalt ist ein silbrig glänzendes Übergangsmetall. Historisch ist es vor allem als Farbpigment bekannt – das tiefe „Kobaltblau\" in Glas und Keramik.</p>\r\n<p>Als Kolloid liegen feinste Kobaltpartikel gleichmäßig in destilliertem Wasser verteilt vor. Die Angabe „ppm\" (parts per million) beschreibt die Konzentration: 5 ppm entsprechen rund 5 Milligramm Kobalt pro Liter.</p>\r\n<p>Wir stellen unser kolloidales Kobalt in eigener Herstellung in der Eifel her und füllen es in lichtgeschützte Glasflaschen ab. Bewahren Sie es kühl, trocken und vor Licht geschützt auf.</p>\r\n<ul>\r\n<li><strong>Reinheit:</strong> 99,9 % Kobalt</li>\r\n<li><strong>Basis:</strong> destilliertes Wasser</li>\r\n<li><strong>Konzentration:</strong> 5 ppm (≈ 5 mg/l)</li>\r\n<li><strong>Füllmenge:</strong> 500 ml</li>\r\n<li><strong>Flasche:</strong> lichtgeschützte Glasflasche</li>\r\n<li><strong>Herstellung:</strong> eigene Herstellung in der Eifel</li>\r\n</ul>\r\n<!-- ▲▲▲ Ende Beschreibung ▲▲▲ -->",
+            "short_description": "<!-- ▼▼▼ KURZBESCHREIBUNG → Feld \"Produkt-Kurzbeschreibung\" ▼▼▼ -->\r\n<p><strong>Kolloidales Kobalt</strong> von Öfflinger – hochreines Kobalt (99,9 %) in destilliertem Wasser, Konzentration <strong>5 ppm</strong> (≈ 5 mg/l). In eigener Herstellung in der Eifel gefertigt und in eine lichtgeschützte 500-ml-Glasflasche abgefüllt.</p>\r\n<!-- ▲▲▲ Ende Kurzbeschreibung ▲▲▲ -->",
+            "sku": "",
+            "regular_price": "65.33",
+            "sale_price": "49",
+            "tax_status": "taxable",
+            "tax_class": "",
+            "manage_stock": false,
+            "stock_quantity": null,
+            "stock_status": "instock",
+            "backorders": "no",
+            "sold_individually": false,
+            "weight": "",
+            "catalog_visibility": "visible",
+            "featured": false,
+            "menu_order": 0,
+            "reviews_allowed": true,
+            "virtual": false,
+            "shipping_days": "",
+            "categories": [
+                "uncategorized"
+            ],
+            "tags": [],
+            "attributes": [
+                {
+                    "name": "pa_grose",
+                    "taxonomy": true,
+                    "options": [
+                        "500ml"
+                    ],
+                    "position": 0,
+                    "visible": true,
+                    "variation": false
+                },
+                {
+                    "name": "pa_konzentration",
+                    "taxonomy": true,
+                    "options": [
+                        "5ppm"
+                    ],
+                    "position": 1,
+                    "visible": true,
+                    "variation": false
+                }
+            ],
+            "image": "2026/03/kobalt.jpg",
+            "gallery": [
+                "2026/03/kobalt.webp",
+                "2026/03/kobalt_ai.webp"
+            ]
+        },
+        {
+            "name": "Kolloidales Kupfer",
+            "slug": "kolloidales-kupfer",
+            "description": "<!-- ▼▼▼ BESCHREIBUNG → Hauptfeld \"Beschreibung\" ▼▼▼ -->\r\n<p>Kupfer ist ein rötlich glänzendes Metall mit sehr guter elektrischer Leitfähigkeit und zählt zu den ältesten vom Menschen genutzten Metallen. Es ist Bestandteil bekannter Legierungen wie Bronze und Messing.</p>\r\n<p>Als Kolloid liegen feinste Kupferpartikel gleichmäßig in destilliertem Wasser verteilt vor. Die Angabe „ppm\" (parts per million) beschreibt die Konzentration: 10 ppm entsprechen rund 10 Milligramm Kupfer pro Liter.</p>\r\n<p>Wir stellen unser kolloidales Kupfer in eigener Herstellung in der Eifel her und füllen es in lichtgeschützte Glasflaschen ab. Bewahren Sie es kühl, trocken und vor Licht geschützt auf.</p>\r\n<ul>\r\n<li><strong>Reinheit:</strong> 99,9 % Kupfer</li>\r\n<li><strong>Basis:</strong> destilliertes Wasser</li>\r\n<li><strong>Konzentration:</strong> 10 ppm (≈ 10 mg/l)</li>\r\n<li><strong>Füllmenge:</strong> 500 ml</li>\r\n<li><strong>Flasche:</strong> lichtgeschützte Glasflasche</li>\r\n<li><strong>Herstellung:</strong> eigene Herstellung in der Eifel</li>\r\n</ul>\r\n<!-- ▲▲▲ Ende Beschreibung ▲▲▲ -->",
+            "short_description": "<!-- ▼▼▼ KURZBESCHREIBUNG → Feld \"Produkt-Kurzbeschreibung\" ▼▼▼ -->\r\n<p><strong>Kolloidales Kupfer</strong> von Öfflinger – hochreines Kupfer (99,9 %) in destilliertem Wasser, Konzentration <strong>10 ppm</strong> (≈ 10 mg/l). In eigener Herstellung in der Eifel gefertigt und in eine lichtgeschützte 500-ml-Glasflasche abgefüllt.</p>\r\n<!-- ▲▲▲ Ende Kurzbeschreibung ▲▲▲ -->",
+            "sku": "",
+            "regular_price": "60.67",
+            "sale_price": "45.5",
+            "tax_status": "taxable",
+            "tax_class": "",
+            "manage_stock": false,
+            "stock_quantity": null,
+            "stock_status": "instock",
+            "backorders": "no",
+            "sold_individually": false,
+            "weight": "",
+            "catalog_visibility": "visible",
+            "featured": false,
+            "menu_order": 0,
+            "reviews_allowed": true,
+            "virtual": false,
+            "shipping_days": "",
+            "categories": [
+                "uncategorized"
+            ],
+            "tags": [],
+            "attributes": [
+                {
+                    "name": "pa_grose",
+                    "taxonomy": true,
+                    "options": [
+                        "500ml"
+                    ],
+                    "position": 0,
+                    "visible": true,
+                    "variation": false
+                },
+                {
+                    "name": "pa_konzentration",
+                    "taxonomy": true,
+                    "options": [
+                        "10ppm"
+                    ],
+                    "position": 1,
+                    "visible": true,
+                    "variation": false
+                }
+            ],
+            "image": "2026/03/kupfer.jpg",
+            "gallery": [
+                "2026/03/kupfer.webp",
+                "2026/03/kupfer_ai.webp"
+            ]
+        },
+        {
+            "name": "Kolloidales Magnesium",
+            "slug": "kolloidales-magnesium",
+            "description": "<!-- ▼▼▼ BESCHREIBUNG → Hauptfeld \"Beschreibung\" ▼▼▼ -->\r\n<p>Magnesium ist ein silbrig-weißes Leichtmetall. Wegen seiner geringen Dichte wird es vor allem im Leichtbau – etwa im Fahrzeug- und Flugzeugbau – sowie in Legierungen eingesetzt.</p>\r\n<p>Als Kolloid liegen feinste Magnesiumpartikel gleichmäßig in destilliertem Wasser verteilt vor. Die Angabe „ppm\" (parts per million) beschreibt die Konzentration: 100 ppm entsprechen rund 100 Milligramm Magnesium pro Liter.</p>\r\n<p>Wir stellen unser kolloidales Magnesium in eigener Herstellung in der Eifel her und füllen es in lichtgeschützte Glasflaschen ab. Bewahren Sie es kühl, trocken und vor Licht geschützt auf.</p>\r\n<ul>\r\n<li><strong>Reinheit:</strong> 99,9 % Magnesium</li>\r\n<li><strong>Basis:</strong> destilliertes Wasser</li>\r\n<li><strong>Konzentration:</strong> 100 ppm (≈ 100 mg/l)</li>\r\n<li><strong>Füllmenge:</strong> 500 ml</li>\r\n<li><strong>Flasche:</strong> lichtgeschützte Glasflasche</li>\r\n<li><strong>Herstellung:</strong> eigene Herstellung in der Eifel</li>\r\n</ul>\r\n<!-- ▲▲▲ Ende Beschreibung ▲▲▲ -->",
+            "short_description": "<!-- ▼▼▼ KURZBESCHREIBUNG → Feld \"Produkt-Kurzbeschreibung\" ▼▼▼ -->\r\n<p><strong>Kolloidales Magnesium</strong> von Öfflinger – hochreines Magnesium (99,9 %) in destilliertem Wasser, Konzentration <strong>100 ppm</strong> (≈ 100 mg/l). In eigener Herstellung in der Eifel gefertigt und in eine lichtgeschützte 500-ml-Glasflasche abgefüllt.</p>\r\n<!-- ▲▲▲ Ende Kurzbeschreibung ▲▲▲ -->",
+            "sku": "",
+            "regular_price": "56.67",
+            "sale_price": "42.5",
+            "tax_status": "taxable",
+            "tax_class": "",
+            "manage_stock": false,
+            "stock_quantity": null,
+            "stock_status": "instock",
+            "backorders": "no",
+            "sold_individually": false,
+            "weight": "",
+            "catalog_visibility": "visible",
+            "featured": false,
+            "menu_order": 0,
+            "reviews_allowed": true,
+            "virtual": false,
+            "shipping_days": "",
+            "categories": [
+                "uncategorized"
+            ],
+            "tags": [],
+            "attributes": [
+                {
+                    "name": "pa_grose",
+                    "taxonomy": true,
+                    "options": [
+                        "500ml"
+                    ],
+                    "position": 0,
+                    "visible": true,
+                    "variation": false
+                },
+                {
+                    "name": "pa_konzentration",
+                    "taxonomy": true,
+                    "options": [
+                        "100ppm"
+                    ],
+                    "position": 1,
+                    "visible": true,
+                    "variation": false
+                }
+            ],
+            "image": "2026/03/magnesium.jpg",
+            "gallery": [
+                "2026/03/magnesium.webp",
+                "2026/03/magnesium_ai.webp"
+            ]
+        },
+        {
+            "name": "Kolloidales Molybdän",
+            "slug": "kolloidales-molybdan",
+            "description": "<!-- ▼▼▼ BESCHREIBUNG → Hauptfeld \"Beschreibung\" ▼▼▼ -->\r\n<p>Molybdän ist ein hochschmelzendes, silbrig-graues Übergangsmetall. Es wird vor allem zur Härtung und Veredelung von Stählen sowie in Hochtemperaturanwendungen verwendet.</p>\r\n<p>Als Kolloid liegen feinste Molybdänpartikel gleichmäßig in destilliertem Wasser verteilt vor. Die Angabe „ppm\" (parts per million) beschreibt die Konzentration: 10 ppm entsprechen rund 10 Milligramm Molybdän pro Liter.</p>\r\n<p>Wir stellen unser kolloidales Molybdän in eigener Herstellung in der Eifel her und füllen es in lichtgeschützte Glasflaschen ab. Bewahren Sie es kühl, trocken und vor Licht geschützt auf.</p>\r\n<ul>\r\n<li><strong>Reinheit:</strong> 99,9 % Molybdän</li>\r\n<li><strong>Basis:</strong> destilliertes Wasser</li>\r\n<li><strong>Konzentration:</strong> 10 ppm (≈ 10 mg/l)</li>\r\n<li><strong>Füllmenge:</strong> 500 ml</li>\r\n<li><strong>Flasche:</strong> lichtgeschützte Glasflasche</li>\r\n<li><strong>Herstellung:</strong> eigene Herstellung in der Eifel</li>\r\n</ul>\r\n<!-- ▲▲▲ Ende Beschreibung ▲▲▲ -->",
+            "short_description": "<!-- ▼▼▼ KURZBESCHREIBUNG → Feld \"Produkt-Kurzbeschreibung\" ▼▼▼ -->\r\n<p><strong>Kolloidales Molybdän</strong> von Öfflinger – hochreines Molybdän (99,9 %) in destilliertem Wasser, Konzentration <strong>10 ppm</strong> (≈ 10 mg/l). In eigener Herstellung in der Eifel gefertigt und in eine lichtgeschützte 500-ml-Glasflasche abgefüllt.</p>\r\n<!-- ▲▲▲ Ende Kurzbeschreibung ▲▲▲ -->",
+            "sku": "",
+            "regular_price": "62",
+            "sale_price": "46.5",
+            "tax_status": "taxable",
+            "tax_class": "",
+            "manage_stock": false,
+            "stock_quantity": null,
+            "stock_status": "instock",
+            "backorders": "no",
+            "sold_individually": false,
+            "weight": "",
+            "catalog_visibility": "visible",
+            "featured": false,
+            "menu_order": 0,
+            "reviews_allowed": true,
+            "virtual": false,
+            "shipping_days": "",
+            "categories": [
+                "uncategorized"
+            ],
+            "tags": [],
+            "attributes": [
+                {
+                    "name": "pa_grose",
+                    "taxonomy": true,
+                    "options": [
+                        "500ml"
+                    ],
+                    "position": 0,
+                    "visible": true,
+                    "variation": false
+                },
+                {
+                    "name": "pa_konzentration",
+                    "taxonomy": true,
+                    "options": [
+                        "10ppm"
+                    ],
+                    "position": 1,
+                    "visible": true,
+                    "variation": false
+                }
+            ],
+            "image": "2026/03/malybdan.jpg",
+            "gallery": [
+                "2026/03/molybdan.webp",
+                "2026/03/molybdan_ai.webp"
+            ]
+        },
+        {
+            "name": "Kolloidales Nickel",
+            "slug": "kolloidales-nickel",
+            "description": "<!-- ▼▼▼ BESCHREIBUNG → Hauptfeld \"Beschreibung\" ▼▼▼ -->\r\n<p>Nickel ist ein silbrig glänzendes, gut polierbares Übergangsmetall. Bekannt ist es aus Münzlegierungen und aus rostfreiem Edelstahl.</p>\r\n<p>Als Kolloid liegen feinste Nickelpartikel gleichmäßig in destilliertem Wasser verteilt vor. Die Angabe „ppm\" (parts per million) beschreibt die Konzentration: 10 ppm entsprechen rund 10 Milligramm Nickel pro Liter.</p>\r\n<p>Wir stellen unser kolloidales Nickel in eigener Herstellung in der Eifel her und füllen es in lichtgeschützte Glasflaschen ab. Bewahren Sie es kühl, trocken und vor Licht geschützt auf.</p>\r\n<ul>\r\n<li><strong>Reinheit:</strong> 99,9 % Nickel</li>\r\n<li><strong>Basis:</strong> destilliertes Wasser</li>\r\n<li><strong>Konzentration:</strong> 10 ppm (≈ 10 mg/l)</li>\r\n<li><strong>Füllmenge:</strong> 500 ml</li>\r\n<li><strong>Flasche:</strong> lichtgeschützte Glasflasche</li>\r\n<li><strong>Herstellung:</strong> eigene Herstellung in der Eifel</li>\r\n</ul>\r\n<!-- ▲▲▲ Ende Beschreibung ▲▲▲ -->",
+            "short_description": "<!-- ▼▼▼ KURZBESCHREIBUNG → Feld \"Produkt-Kurzbeschreibung\" ▼▼▼ -->\r\n<p><strong>Kolloidales Nickel</strong> von Öfflinger – hochreines Nickel (99,9 %) in destilliertem Wasser, Konzentration <strong>10 ppm</strong> (≈ 10 mg/l). In eigener Herstellung in der Eifel gefertigt und in eine lichtgeschützte 500-ml-Glasflasche abgefüllt.</p>\r\n<!-- ▲▲▲ Ende Kurzbeschreibung ▲▲▲ -->",
+            "sku": "",
+            "regular_price": "60.67",
+            "sale_price": "45.5",
+            "tax_status": "taxable",
+            "tax_class": "",
+            "manage_stock": false,
+            "stock_quantity": null,
+            "stock_status": "instock",
+            "backorders": "no",
+            "sold_individually": false,
+            "weight": "",
+            "catalog_visibility": "visible",
+            "featured": false,
+            "menu_order": 0,
+            "reviews_allowed": true,
+            "virtual": false,
+            "shipping_days": "",
+            "categories": [
+                "uncategorized"
+            ],
+            "tags": [],
+            "attributes": [
+                {
+                    "name": "pa_grose",
+                    "taxonomy": true,
+                    "options": [
+                        "500ml"
+                    ],
+                    "position": 0,
+                    "visible": true,
+                    "variation": false
+                },
+                {
+                    "name": "pa_konzentration",
+                    "taxonomy": true,
+                    "options": [
+                        "10ppm"
+                    ],
+                    "position": 1,
+                    "visible": true,
+                    "variation": false
+                }
+            ],
+            "image": "2026/03/nickel.jpg",
+            "gallery": [
+                "2026/03/nickel.webp",
+                "2026/03/nickel_ai.webp"
+            ]
+        },
+        {
+            "name": "Kolloidales Silber",
+            "slug": "kolloidales-silber",
+            "description": "<!-- ▼▼▼ BESCHREIBUNG → Hauptfeld \"Beschreibung\" ▼▼▼ -->\r\n<p>Silber ist ein Edelmetall, das der Mensch seit Jahrtausenden nutzt – als Werkstoff, Zahlungsmittel und für Schmuck. Unter allen Metallen besitzt Silber die höchste elektrische und thermische Leitfähigkeit.</p>\r\n<p>Als Kolloid liegen feinste Silberpartikel gleichmäßig in destilliertem Wasser verteilt vor. Die Angabe „ppm\" (parts per million) beschreibt die Konzentration: 25 ppm entsprechen rund 25 Milligramm Silber pro Liter.</p>\r\n<p>Wir stellen unser kolloidales Silber in eigener Herstellung in der Eifel her und füllen es in lichtgeschützte Glasflaschen ab. Bewahren Sie es kühl, trocken und vor Licht geschützt auf.</p>\r\n<ul>\r\n<li><strong>Reinheit:</strong> 99,9 % Silber</li>\r\n<li><strong>Basis:</strong> destilliertes Wasser</li>\r\n<li><strong>Konzentration:</strong> 25 ppm (≈ 25 mg/l)</li>\r\n<li><strong>Füllmenge:</strong> 500 ml</li>\r\n<li><strong>Flasche:</strong> lichtgeschützte Glasflasche</li>\r\n<li><strong>Herstellung:</strong> eigene Herstellung in der Eifel</li>\r\n</ul>\r\n<!-- ▲▲▲ Ende Beschreibung ▲▲▲ -->",
+            "short_description": "<!-- ▼▼▼ KURZBESCHREIBUNG → Feld \"Produkt-Kurzbeschreibung\" ▼▼▼ -->\r\n<p><strong>Kolloidales Silber</strong> von Öfflinger – hochreines Silber (99,9 %) in destilliertem Wasser, Konzentration <strong>25 ppm</strong> (≈ 25 mg/l). In eigener Herstellung in der Eifel gefertigt und in eine lichtgeschützte 500-ml-Glasflasche abgefüllt.</p>\r\n<!-- ▲▲▲ Ende Kurzbeschreibung ▲▲▲ -->",
+            "sku": "",
+            "regular_price": "52.67",
+            "sale_price": "39.5",
+            "tax_status": "taxable",
+            "tax_class": "",
+            "manage_stock": false,
+            "stock_quantity": null,
+            "stock_status": "instock",
+            "backorders": "no",
+            "sold_individually": false,
+            "weight": "",
+            "catalog_visibility": "visible",
+            "featured": false,
+            "menu_order": 0,
+            "reviews_allowed": true,
+            "virtual": false,
+            "shipping_days": "",
+            "categories": [
+                "uncategorized"
+            ],
+            "tags": [],
+            "attributes": [
+                {
+                    "name": "pa_grose",
+                    "taxonomy": true,
+                    "options": [
+                        "500ml"
+                    ],
+                    "position": 0,
+                    "visible": true,
+                    "variation": false
+                },
+                {
+                    "name": "pa_konzentration",
+                    "taxonomy": true,
+                    "options": [
+                        "25ppm"
+                    ],
+                    "position": 1,
+                    "visible": true,
+                    "variation": false
+                }
+            ],
+            "image": "2026/03/silber.jpg",
+            "gallery": [
+                "2026/03/silber_ai.webp",
+                "2026/03/silber.webp"
+            ]
+        },
+        {
+            "name": "Kolloidales Silizium",
+            "slug": "kolloidales-silizium",
+            "description": "<!-- ▼▼▼ BESCHREIBUNG → Hauptfeld \"Beschreibung\" ▼▼▼ -->\r\n<p>Silizium ist ein Halbmetall und nach Sauerstoff das zweithäufigste Element der Erdkruste. Es bildet die Grundlage von Glas und Quarz sowie der modernen Halbleiter- und Elektronikindustrie.</p>\r\n<p>Als Kolloid liegen feinste Siliziumpartikel gleichmäßig in destilliertem Wasser verteilt vor. Die Angabe „ppm\" (parts per million) beschreibt die Konzentration: 10 ppm entsprechen rund 10 Milligramm Silizium pro Liter.</p>\r\n<p>Wir stellen unser kolloidales Silizium in eigener Herstellung in der Eifel her und füllen es in lichtgeschützte Glasflaschen ab. Bewahren Sie es kühl, trocken und vor Licht geschützt auf.</p>\r\n<ul>\r\n<li><strong>Reinheit:</strong> 99,9 % Silizium</li>\r\n<li><strong>Basis:</strong> destilliertes Wasser</li>\r\n<li><strong>Konzentration:</strong> 10 ppm (≈ 10 mg/l)</li>\r\n<li><strong>Füllmenge:</strong> 500 ml</li>\r\n<li><strong>Flasche:</strong> lichtgeschützte Glasflasche</li>\r\n<li><strong>Herstellung:</strong> eigene Herstellung in der Eifel</li>\r\n</ul>\r\n<!-- ▲▲▲ Ende Beschreibung ▲▲▲ -->",
+            "short_description": "<!-- ▼▼▼ KURZBESCHREIBUNG → Feld \"Produkt-Kurzbeschreibung\" ▼▼▼ -->\r\n<p><strong>Kolloidales Silizium</strong> von Öfflinger – hochreines Silizium (99,9 %) in destilliertem Wasser, Konzentration <strong>10 ppm</strong> (≈ 10 mg/l). In eigener Herstellung in der Eifel gefertigt und in eine lichtgeschützte 500-ml-Glasflasche abgefüllt.</p>\r\n<!-- ▲▲▲ Ende Kurzbeschreibung ▲▲▲ -->",
+            "sku": "",
+            "regular_price": "62",
+            "sale_price": "46.5",
+            "tax_status": "taxable",
+            "tax_class": "",
+            "manage_stock": false,
+            "stock_quantity": null,
+            "stock_status": "instock",
+            "backorders": "no",
+            "sold_individually": false,
+            "weight": "",
+            "catalog_visibility": "visible",
+            "featured": false,
+            "menu_order": 0,
+            "reviews_allowed": true,
+            "virtual": false,
+            "shipping_days": "",
+            "categories": [
+                "uncategorized"
+            ],
+            "tags": [],
+            "attributes": [
+                {
+                    "name": "pa_grose",
+                    "taxonomy": true,
+                    "options": [
+                        "500ml"
+                    ],
+                    "position": 0,
+                    "visible": true,
+                    "variation": false
+                },
+                {
+                    "name": "pa_konzentration",
+                    "taxonomy": true,
+                    "options": [
+                        "10ppm"
+                    ],
+                    "position": 1,
+                    "visible": true,
+                    "variation": false
+                }
+            ],
+            "image": "2026/03/silizium.jpg",
+            "gallery": [
+                "2026/03/silizium.webp",
+                "2026/03/silizium_ai.webp"
+            ]
+        },
+        {
+            "name": "Kolloidales Tantal",
+            "slug": "kolloidales-tantal",
+            "description": "<!-- ▼▼▼ BESCHREIBUNG → Hauptfeld \"Beschreibung\" ▼▼▼ -->\r\n<p>Tantal ist ein seltenes, ausgesprochen korrosionsbeständiges Übergangsmetall mit sehr hohem Schmelzpunkt. Eingesetzt wird es vor allem in der Elektronik, etwa in Kondensatoren.</p>\r\n<p>Als Kolloid liegen feinste Tantalpartikel gleichmäßig in destilliertem Wasser verteilt vor. Die Angabe „ppm\" (parts per million) beschreibt die Konzentration: 5 ppm entsprechen rund 5 Milligramm Tantal pro Liter.</p>\r\n<p>Wir stellen unser kolloidales Tantal in eigener Herstellung in der Eifel her und füllen es in lichtgeschützte Glasflaschen ab. Bewahren Sie es kühl, trocken und vor Licht geschützt auf.</p>\r\n<ul>\r\n<li><strong>Reinheit:</strong> 99,9 % Tantal</li>\r\n<li><strong>Basis:</strong> destilliertes Wasser</li>\r\n<li><strong>Konzentration:</strong> 5 ppm (≈ 5 mg/l)</li>\r\n<li><strong>Füllmenge:</strong> 500 ml</li>\r\n<li><strong>Flasche:</strong> lichtgeschützte Glasflasche</li>\r\n<li><strong>Herstellung:</strong> eigene Herstellung in der Eifel</li>\r\n</ul>\r\n<!-- ▲▲▲ Ende Beschreibung ▲▲▲ -->",
+            "short_description": "<!-- ▼▼▼ KURZBESCHREIBUNG → Feld \"Produkt-Kurzbeschreibung\" ▼▼▼ -->\r\n<p><strong>Kolloidales Tantal</strong> von Öfflinger – hochreines Tantal (99,9 %) in destilliertem Wasser, Konzentration <strong>5 ppm</strong> (≈ 5 mg/l). In eigener Herstellung in der Eifel gefertigt und in eine lichtgeschützte 500-ml-Glasflasche abgefüllt.</p>\r\n<!-- ▲▲▲ Ende Kurzbeschreibung ▲▲▲ -->",
+            "sku": "",
+            "regular_price": "65.33",
+            "sale_price": "49",
+            "tax_status": "taxable",
+            "tax_class": "",
+            "manage_stock": false,
+            "stock_quantity": null,
+            "stock_status": "instock",
+            "backorders": "no",
+            "sold_individually": false,
+            "weight": "",
+            "catalog_visibility": "visible",
+            "featured": false,
+            "menu_order": 0,
+            "reviews_allowed": true,
+            "virtual": false,
+            "shipping_days": "",
+            "categories": [
+                "uncategorized"
+            ],
+            "tags": [],
+            "attributes": [
+                {
+                    "name": "pa_grose",
+                    "taxonomy": true,
+                    "options": [
+                        "500ml"
+                    ],
+                    "position": 0,
+                    "visible": true,
+                    "variation": false
+                },
+                {
+                    "name": "pa_konzentration",
+                    "taxonomy": true,
+                    "options": [
+                        "5ppm"
+                    ],
+                    "position": 1,
+                    "visible": true,
+                    "variation": false
+                }
+            ],
+            "image": "2026/03/tantal.jpg",
+            "gallery": [
+                "2026/03/tantal.webp",
+                "2026/03/tantal_ai.webp"
+            ]
+        },
+        {
+            "name": "Kolloidales Vanadium",
+            "slug": "kolloidales-vanadium",
+            "description": "<!-- ▼▼▼ BESCHREIBUNG → Hauptfeld \"Beschreibung\" ▼▼▼ -->\r\n<p>Vanadium ist ein silbrig-graues Übergangsmetall. Es wird überwiegend zur Veredelung von Stahl – etwa für Werkzeug- und Federstähle – verwendet und ist für seine farbenfrohen Verbindungen bekannt.</p>\r\n<p>Als Kolloid liegen feinste Vanadiumpartikel gleichmäßig in destilliertem Wasser verteilt vor. Die Angabe „ppm\" (parts per million) beschreibt die Konzentration: 10 ppm entsprechen rund 10 Milligramm Vanadium pro Liter.</p>\r\n<p>Wir stellen unser kolloidales Vanadium in eigener Herstellung in der Eifel her und füllen es in lichtgeschützte Glasflaschen ab. Bewahren Sie es kühl, trocken und vor Licht geschützt auf.</p>\r\n<ul>\r\n<li><strong>Reinheit:</strong> 99,9 % Vanadium</li>\r\n<li><strong>Basis:</strong> destilliertes Wasser</li>\r\n<li><strong>Konzentration:</strong> 10 ppm (≈ 10 mg/l)</li>\r\n<li><strong>Füllmenge:</strong> 500 ml</li>\r\n<li><strong>Flasche:</strong> lichtgeschützte Glasflasche</li>\r\n<li><strong>Herstellung:</strong> eigene Herstellung in der Eifel</li>\r\n</ul>\r\n<!-- ▲▲▲ Ende Beschreibung ▲▲▲ -->",
+            "short_description": "<!-- ▼▼▼ KURZBESCHREIBUNG → Feld \"Produkt-Kurzbeschreibung\" ▼▼▼ -->\r\n<p><strong>Kolloidales Vanadium</strong> von Öfflinger – hochreines Vanadium (99,9 %) in destilliertem Wasser, Konzentration <strong>10 ppm</strong> (≈ 10 mg/l). In eigener Herstellung in der Eifel gefertigt und in eine lichtgeschützte 500-ml-Glasflasche abgefüllt.</p>\r\n<!-- ▲▲▲ Ende Kurzbeschreibung ▲▲▲ -->",
+            "sku": "",
+            "regular_price": "58",
+            "sale_price": "43.5",
+            "tax_status": "taxable",
+            "tax_class": "",
+            "manage_stock": false,
+            "stock_quantity": null,
+            "stock_status": "instock",
+            "backorders": "no",
+            "sold_individually": false,
+            "weight": "",
+            "catalog_visibility": "visible",
+            "featured": false,
+            "menu_order": 0,
+            "reviews_allowed": true,
+            "virtual": false,
+            "shipping_days": "",
+            "categories": [
+                "uncategorized"
+            ],
+            "tags": [],
+            "attributes": [
+                {
+                    "name": "pa_grose",
+                    "taxonomy": true,
+                    "options": [
+                        "500ml"
+                    ],
+                    "position": 0,
+                    "visible": true,
+                    "variation": false
+                },
+                {
+                    "name": "pa_konzentration",
+                    "taxonomy": true,
+                    "options": [
+                        "10ppm"
+                    ],
+                    "position": 1,
+                    "visible": true,
+                    "variation": false
+                }
+            ],
+            "image": "2026/03/vanadium.jpg",
+            "gallery": [
+                "2026/03/vanadium.webp",
+                "2026/03/vanadium_ai.webp"
+            ]
+        },
+        {
+            "name": "Kolloidales Zink",
+            "slug": "kolloidales-zink",
+            "description": "<!-- ▼▼▼ BESCHREIBUNG → Hauptfeld \"Beschreibung\" ▼▼▼ -->\r\n<p>Zink ist ein bläulich-weißes Übergangsmetall und eines der wichtigsten Gebrauchsmetalle – bekannt aus dem Korrosionsschutz (Verzinken) und aus Legierungen wie Messing.</p>\r\n<p>Als Kolloid liegen feinste Zinkpartikel gleichmäßig in destilliertem Wasser verteilt vor. Die Angabe „ppm\" (parts per million) beschreibt die Konzentration: 10 ppm entsprechen rund 10 Milligramm Zink pro Liter.</p>\r\n<p>Wir stellen unser kolloidales Zink in eigener Herstellung in der Eifel her und füllen es in lichtgeschützte Glasflaschen ab. Bewahren Sie es kühl, trocken und vor Licht geschützt auf.</p>\r\n<ul>\r\n<li><strong>Reinheit:</strong> 99,9 % Zink</li>\r\n<li><strong>Basis:</strong> destilliertes Wasser</li>\r\n<li><strong>Konzentration:</strong> 10 ppm (≈ 10 mg/l)</li>\r\n<li><strong>Füllmenge:</strong> 500 ml</li>\r\n<li><strong>Flasche:</strong> lichtgeschützte Glasflasche</li>\r\n<li><strong>Herstellung:</strong> eigene Herstellung in der Eifel</li>\r\n</ul>\r\n<!-- ▲▲▲ Ende Beschreibung ▲▲▲ -->",
+            "short_description": "<!-- ▼▼▼ KURZBESCHREIBUNG → Feld \"Produkt-Kurzbeschreibung\" ▼▼▼ -->\r\n<p><strong>Kolloidales Zink</strong> von Öfflinger – hochreines Zink (99,9 %) in destilliertem Wasser, Konzentration <strong>10 ppm</strong> (≈ 10 mg/l). In eigener Herstellung in der Eifel gefertigt und in eine lichtgeschützte 500-ml-Glasflasche abgefüllt.</p>\r\n<!-- ▲▲▲ Ende Kurzbeschreibung ▲▲▲ -->",
+            "sku": "",
+            "regular_price": "58",
+            "sale_price": "43.5",
+            "tax_status": "taxable",
+            "tax_class": "",
+            "manage_stock": false,
+            "stock_quantity": null,
+            "stock_status": "instock",
+            "backorders": "no",
+            "sold_individually": false,
+            "weight": "",
+            "catalog_visibility": "visible",
+            "featured": false,
+            "menu_order": 0,
+            "reviews_allowed": true,
+            "virtual": false,
+            "shipping_days": "",
+            "categories": [
+                "uncategorized"
+            ],
+            "tags": [],
+            "attributes": [
+                {
+                    "name": "pa_grose",
+                    "taxonomy": true,
+                    "options": [
+                        "500ml"
+                    ],
+                    "position": 0,
+                    "visible": true,
+                    "variation": false
+                },
+                {
+                    "name": "pa_konzentration",
+                    "taxonomy": true,
+                    "options": [
+                        "10ppm"
+                    ],
+                    "position": 1,
+                    "visible": true,
+                    "variation": false
+                }
+            ],
+            "image": "2026/03/zink.jpg",
+            "gallery": [
+                "2026/03/zink.webp",
+                "2026/03/zink_ai.webp"
+            ]
+        },
+        {
+            "name": "Kolloidales Zinn",
+            "slug": "kolloidales-zinn",
+            "description": "<!-- ▼▼▼ BESCHREIBUNG → Hauptfeld \"Beschreibung\" ▼▼▼ -->\r\n<p>Zinn ist ein weiches, silbrig glänzendes Metall mit langer Geschichte – in der Bronzezeit Bestandteil der Bronze, später bekannt aus Zinngeschirr und als Lötmetall.</p>\r\n<p>Als Kolloid liegen feinste Zinnpartikel gleichmäßig in destilliertem Wasser verteilt vor. Die Angabe „ppm\" (parts per million) beschreibt die Konzentration: 10 ppm entsprechen rund 10 Milligramm Zinn pro Liter.</p>\r\n<p>Wir stellen unser kolloidales Zinn in eigener Herstellung in der Eifel her und füllen es in lichtgeschützte Glasflaschen ab. Bewahren Sie es kühl, trocken und vor Licht geschützt auf.</p>\r\n<ul>\r\n<li><strong>Reinheit:</strong> 99,9 % Zinn</li>\r\n<li><strong>Basis:</strong> destilliertes Wasser</li>\r\n<li><strong>Konzentration:</strong> 10 ppm (≈ 10 mg/l)</li>\r\n<li><strong>Füllmenge:</strong> 500 ml</li>\r\n<li><strong>Flasche:</strong> lichtgeschützte Glasflasche</li>\r\n<li><strong>Herstellung:</strong> eigene Herstellung in der Eifel</li>\r\n</ul>\r\n<!-- ▲▲▲ Ende Beschreibung ▲▲▲ -->",
+            "short_description": "<!-- ▼▼▼ KURZBESCHREIBUNG → Feld \"Produkt-Kurzbeschreibung\" ▼▼▼ -->\r\n<p><strong>Kolloidales Zinn</strong> von Öfflinger – hochreines Zinn (99,9 %) in destilliertem Wasser, Konzentration <strong>10 ppm</strong> (≈ 10 mg/l). In eigener Herstellung in der Eifel gefertigt und in eine lichtgeschützte 500-ml-Glasflasche abgefüllt.</p>\r\n<!-- ▲▲▲ Ende Kurzbeschreibung ▲▲▲ -->",
+            "sku": "",
+            "regular_price": "64",
+            "sale_price": "48",
+            "tax_status": "taxable",
+            "tax_class": "",
+            "manage_stock": false,
+            "stock_quantity": null,
+            "stock_status": "instock",
+            "backorders": "no",
+            "sold_individually": false,
+            "weight": "",
+            "catalog_visibility": "visible",
+            "featured": false,
+            "menu_order": 0,
+            "reviews_allowed": true,
+            "virtual": false,
+            "shipping_days": "",
+            "categories": [
+                "uncategorized"
+            ],
+            "tags": [],
+            "attributes": [
+                {
+                    "name": "pa_grose",
+                    "taxonomy": true,
+                    "options": [
+                        "500ml"
+                    ],
+                    "position": 0,
+                    "visible": true,
+                    "variation": false
+                },
+                {
+                    "name": "pa_konzentration",
+                    "taxonomy": true,
+                    "options": [
+                        "10ppm"
+                    ],
+                    "position": 1,
+                    "visible": true,
+                    "variation": false
+                }
+            ],
+            "image": "2026/03/zink.jpg",
+            "gallery": [
+                "2026/03/zink.webp",
+                "2026/03/zink_ai.webp"
+            ]
+        }
+    ]
+}
