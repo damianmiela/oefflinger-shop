@@ -7,15 +7,19 @@
 
 defined('ABSPATH') || exit;
 
-/** Best-effort client IP (works behind the reverse proxy). */
+/**
+ * The visitor's IP for rate limits, Turnstile and the review/newsletter records.
+ *
+ * Only X-Real-IP is trusted: Nginx Proxy Manager overwrites it with the address of
+ * the real connection ($remote_addr), so a client cannot fake it. X-Forwarded-For
+ * is not trusted (NPM appends to it, so its first entry is whatever the client
+ * sent), and neither is CF-Connecting-IP (the site is not behind Cloudflare).
+ * WordPress's port is closed to the internet, so every outside request comes
+ * through NPM. Without the header (local Docker, internal calls) REMOTE_ADDR is used.
+ */
 function oeff_client_ip() {
-    foreach (['HTTP_CF_CONNECTING_IP', 'HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR'] as $key) {
-        if (!empty($_SERVER[$key])) {
-            $ip = explode(',', $_SERVER[$key])[0];
-            return trim($ip);
-        }
-    }
-    return '0.0.0.0';
+    $ip = trim((string) ($_SERVER['HTTP_X_REAL_IP'] ?? $_SERVER['REMOTE_ADDR'] ?? ''));
+    return filter_var($ip, FILTER_VALIDATE_IP) ? $ip : '0.0.0.0';
 }
 
 /**
